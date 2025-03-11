@@ -1,0 +1,1 @@
+{"version":3,"file":"films.js","sourceRoot":"","sources":["../../src/routes/films.ts"],"names":[],"mappings":";;;;AAAA,sDAA8B;AAC9B,iEAA8C;AAE9C,MAAM,MAAM,GAAG,iBAAO,CAAC,MAAM,EAAE,CAAC;AAGhC,MAAM,CAAC,GAAG,CAAC,MAAM,EAAE,eAAU,CAAC,OAAO,CAAC,CAAC;AACvC,MAAM,CAAC,GAAG,CAAC,SAAS,EAAE,eAAU,CAAC,WAAW,CAAC,CAAC;AAE9C,iBAAS,MAAM,CAAC"}

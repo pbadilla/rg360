@@ -3,5 +3,5 @@
   "/(productDetails)/product-description-list/[id]/page": "app/(productDetails)/product-description-list/[id]/page.js",
   "/(products)/shop-default-grid/page": "app/(products)/shop-default-grid/page.js",
   "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/(products)/shop-collection/page": "app/(products)/shop-collection/page.js"
 }

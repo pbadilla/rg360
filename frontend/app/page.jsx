@@ -12,8 +12,8 @@ import ShopGram from "@/components/common/ShopGram";
 import Testimonials from "@/components/common/Testimonials";
 
 export const metadata = {
-  title: "Home || Modave - Multipurpose React Nextjs eCommerce Template",
-  description: "Modave - Multipurpose React Nextjs eCommerce Template",
+  title: "rollergrind360 - Tienda de patines",
+  description: "Ecommerce",
 };
 
 export default function HomePage() {

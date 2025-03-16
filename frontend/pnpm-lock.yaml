@@ -8,6 +8,9 @@ dependencies:
   '@emailjs/browser':
     specifier: ^4.4.1
     version: 4.4.1
+  '@tanstack/react-query':
+    specifier: ^5.68.0
+    version: 5.68.0(react@19.0.0)
   axios:
     specifier: ^1.7.9
     version: 1.8.3
@@ -468,6 +471,19 @@ packages:
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
     dependencies:
       tslib: 2.8.1
+    dev: false
+
+  /@tanstack/query-core@5.68.0:
+    resolution: {integrity: sha512-r8rFYYo8/sY/LNaOqX84h12w7EQev4abFXDWy4UoDVUJzJ5d9Fbmb8ayTi7ScG+V0ap44SF3vNs/45mkzDGyGw==}
+    dev: false
+
+  /@tanstack/react-query@5.68.0(react@19.0.0):
+    resolution: {integrity: sha512-mMOdGDKlwTP/WV72QqSNf4PAMeoBp/DqBHQ222wBfb51Looi8QUqnCnb9O98ZgvNISmy6fzxRGBJdZ+9IBvX2Q==}
+    peerDependencies:
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-core': 5.68.0
+      react: 19.0.0
     dev: false
 
   /asynckit@0.4.0:

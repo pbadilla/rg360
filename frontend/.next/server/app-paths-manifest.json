@@ -1,0 +1,7 @@
+{
+  "/(productDetails)/product-grid-1/[id]/page": "app/(productDetails)/product-grid-1/[id]/page.js",
+  "/(productDetails)/product-description-list/[id]/page": "app/(productDetails)/product-description-list/[id]/page.js",
+  "/(products)/shop-default-grid/page": "app/(products)/shop-default-grid/page.js",
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js"
+}

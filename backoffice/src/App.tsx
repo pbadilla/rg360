@@ -6,9 +6,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ThemeProvider } from "@/hooks/use-theme";
+
 import Index from "@/pages/Index";
+
+import AbandonedCarts from '@/pages/AbandonedCarts'
 import NotFound from "@/pages/NotFound";
+import Orders from "@/pages/Orders";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
+import Promotions from "@/pages/Promotions";
+import Users from "@/pages/Users";
 
 const queryClient = new QueryClient();
 
@@ -25,13 +31,13 @@ const App = () => (
               {/* Products Routes */}
               <Route path="/products/*" element={<ProductsListWrapper />} />              
               {/* Orders Routes */}
-              <Route path="/orders/*" element={<NotFound />} />             
+              <Route path="/orders" element={<Orders />} />             
               {/* Users Routes */}
-              <Route path="/users/*" element={<NotFound />} />              
+              <Route path="/users" element={<Users />} />              
               {/* Promotions Routes */}
-              <Route path="/promotions/*" element={<NotFound />} />              
+              <Route path="/promotions" element={<Promotions />} />              
               {/* Abandoned Carts Routes */}
-              <Route path="/abandoned-carts/*" element={<NotFound />} />              
+              <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />              
               {/* Logistics Routes */}
               <Route path="/logistics/*" element={<NotFound />} />              
               {/* Transports Routes */}

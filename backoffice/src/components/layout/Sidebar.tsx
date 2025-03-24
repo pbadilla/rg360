@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Link } from 'react-router-dom';
 
 // Type definitions
 interface MenuItem {
@@ -136,23 +137,25 @@ const MenuItem: React.FC<{
         "mb-1": hasSubmenu && isSubMenuOpen,
       })}
     >
-      <div
-        onClick={handleClick}
-        className={cn(
-          "flex items-center px-3 py-2 rounded-md cursor-pointer menu-item",
-          "transition-all duration-200 ease-in-out",
-          "hover:bg-sidebar-accent",
-          {
-            "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90": isActive,
-            "bg-sidebar-accent/50": childActive && !isActive,
-            "justify-center": collapsed && level === 1,
-            "pl-5": level > 1,
-            "pl-4": level === 1 && !collapsed,
-          }
-        )}
-        aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
-        role={hasSubmenu ? 'button' : undefined}
-      >
+      {item.link ? (
+        <Link
+          to={item.link}
+          onClick={handleClick}
+          className={cn(
+            "flex items-center px-3 py-2 rounded-md cursor-pointer menu-item",
+            "transition-all duration-200 ease-in-out",
+            "hover:bg-sidebar-accent",
+            {
+              "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90": isActive,
+              "bg-sidebar-accent/50": childActive && !isActive,
+              "justify-center": collapsed && level === 1,
+              "pl-5": level > 1,
+              "pl-4": level === 1 && !collapsed,
+            }
+          )}
+          aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
+          role={hasSubmenu ? 'button' : undefined}
+        >
         {item.icon && (
           <span className={cn("text-sidebar-foreground", {
             "text-sidebar-primary-foreground": isActive,
@@ -173,8 +176,54 @@ const MenuItem: React.FC<{
             {isSubMenuOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
           </span>
         )}
-      </div>
-      
+        </Link>
+      ) : (
+        <div
+          onClick={handleClick}
+          className={cn( /* ...same classes */ )}
+          aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
+          role={hasSubmenu ? 'button' : undefined}
+        >
+                  {item.icon && (
+          <span className={cn("text-sidebar-foreground", {
+            "text-sidebar-primary-foreground": isActive,
+            "mr-3": !collapsed || level > 1,
+          })}>
+            {item.icon}
+          </span>
+        )}
+        
+        {(!collapsed || level > 1) && (
+          <span className="flex-1 truncate text-sm font-medium">
+            {item.label}
+          </span>
+        )}
+        
+        {hasSubmenu && !collapsed && (
+          <span className="text-sidebar-foreground">
+            {isSubMenuOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          </span>
+        )}
+        </div>
+      )}
+      {/* <div
+        onClick={handleClick}
+        className={cn(
+          "flex items-center px-3 py-2 rounded-md cursor-pointer menu-item",
+          "transition-all duration-200 ease-in-out",
+          "hover:bg-sidebar-accent",
+          {
+            "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90": isActive,
+            "bg-sidebar-accent/50": childActive && !isActive,
+            "justify-center": collapsed && level === 1,
+            "pl-5": level > 1,
+            "pl-4": level === 1 && !collapsed,
+          }
+        )}
+        aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
+        role={hasSubmenu ? 'button' : undefined}
+      ></div> */}
+
       {hasSubmenu && (
         <AnimatePresence>
           {(isSubMenuOpen || (collapsed && level === 1)) && (

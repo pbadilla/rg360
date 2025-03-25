@@ -11,12 +11,14 @@ import Index from "@/pages/Index";
 
 import AbandonedCarts from '@/pages/AbandonedCarts';
 import Dropshipping from "@/pages/Dropshipping";
+import Logistics from "@/pages/Logistics";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
+import Payments from "@/pages/Payments";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
 import Promotions from "@/pages/Promotions";
+import Transports from "@/pages/Transports";
 import Users from "@/pages/Users";
-
 
 const queryClient = new QueryClient();
 
@@ -41,18 +43,17 @@ const App = () => (
               {/* Abandoned Carts Routes */}
               <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />              
               {/* Logistics Routes */}
-              <Route path="/logistics/*" element={<NotFound />} />              
+              <Route path="/logistics/*" element={<Logistics />} />              
               {/* Transports Routes */}
-              <Route path="/transports/*" element={<NotFound />} />             
+              <Route path="/transports/*" element={<Transports />} />             
               {/* Payments Routes */}
-              <Route path="/payments/*" element={<NotFound />} />             
+              <Route path="/payments/*" element={<Payments />} />             
               {/* Dropshipping Routes */}
               <Route path="/dropshipping/*" element={<Dropshipping />} />       
               {/* Bulk Actions Routes */}
               <Route path="/bulk-actions/*" element={<NotFound />} />             
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
-              
             </Routes>
           </MainLayout>
         </BrowserRouter>

@@ -9,12 +9,14 @@ import { ThemeProvider } from "@/hooks/use-theme";
 
 import Index from "@/pages/Index";
 
-import AbandonedCarts from '@/pages/AbandonedCarts'
+import AbandonedCarts from '@/pages/AbandonedCarts';
+import Dropshipping from "@/pages/Dropshipping";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
 import Promotions from "@/pages/Promotions";
 import Users from "@/pages/Users";
+
 
 const queryClient = new QueryClient();
 
@@ -45,7 +47,7 @@ const App = () => (
               {/* Payments Routes */}
               <Route path="/payments/*" element={<NotFound />} />             
               {/* Dropshipping Routes */}
-              <Route path="/dropshipping/*" element={<NotFound />} />       
+              <Route path="/dropshipping/*" element={<Dropshipping />} />       
               {/* Bulk Actions Routes */}
               <Route path="/bulk-actions/*" element={<NotFound />} />             
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

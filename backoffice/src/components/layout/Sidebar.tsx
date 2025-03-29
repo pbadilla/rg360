@@ -184,7 +184,7 @@ const MenuItem: React.FC<{
           aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
           role={hasSubmenu ? 'button' : undefined}
         >
-                  {item.icon && (
+        {item.icon && (
           <span className={cn("text-sidebar-foreground", {
             "text-sidebar-primary-foreground": isActive,
             "mr-3": !collapsed || level > 1,
@@ -224,7 +224,7 @@ const MenuItem: React.FC<{
         role={hasSubmenu ? 'button' : undefined}
       ></div> */}
 
-      {hasSubmenu && (
+      {/* {hasSubmenu && (
         <AnimatePresence>
           {(isSubMenuOpen || (collapsed && level === 1)) && (
             <SubMenu
@@ -238,6 +238,57 @@ const MenuItem: React.FC<{
             />
           )}
         </AnimatePresence>
+      )} */}
+      {hasSubmenu && (
+        <>
+          {!collapsed ? (
+            // Normal Inline Submenu
+            <AnimatePresence>
+              {isSubMenuOpen && (
+                <SubMenu
+                  items={item.submenu || []}
+                  isOpen={true}
+                  level={level}
+                  parentId={item.id}
+                  activeItem={activeItem}
+                  onItemClick={onItemClick}
+                  collapsed={collapsed}
+                />
+              )}
+            </AnimatePresence>
+          ) : (
+            // Floating Submenu when collapsed
+            <div 
+                className="relative"
+                onMouseEnter={() => setIsSubMenuOpen(true)}
+                onMouseLeave={() => setIsSubMenuOpen(false)}
+              >
+                {isSubMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 5 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-full top-0 ml-2 w-56 bg-sidebar-primary rounded-lg shadow-lg border border-sidebar-border z-[100] overflow-visible"
+                  >
+                    <ul className="py-2">
+                      {item.submenu.map((subItem) => (
+                        <li key={subItem.id}>
+                          <Link
+                            to={subItem.link || "#"}
+                            className="block px-4 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
+                            onClick={() => onItemClick(subItem.id)}
+                          >
+                            {subItem.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </div>
+          )}
+        </>
       )}
     </motion.li>
   );

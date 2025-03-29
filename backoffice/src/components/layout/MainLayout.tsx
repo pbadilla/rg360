@@ -242,9 +242,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <div className={cn(
         "flex-1 transition-all duration-300 ease-in-out",
         {
-          "ml-72": !sidebarCollapsed && !isMobile,
+          "ml-61": !sidebarCollapsed && !isMobile,
           "ml-[72px]": sidebarCollapsed && !isMobile,
-          "ml-0": isMobile,
+          "ml-2": isMobile,
         }
       )}>
         <Header collapsed={sidebarCollapsed} />

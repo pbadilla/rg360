@@ -118,7 +118,6 @@ export function PromotionTable() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Promotions</h1>
         <button
           onClick={handleAddPromotion}
           className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"

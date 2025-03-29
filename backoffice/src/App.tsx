@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import Index from "@/pages/Index";
 
 import AbandonedCarts from '@/pages/AbandonedCarts';
+import BulkActions from "@/pages/BulkActions";
 import Dropshipping from "@/pages/Dropshipping";
 import Logistics from "@/pages/Logistics";
 import NotFound from "@/pages/NotFound";
@@ -51,7 +52,7 @@ const App = () => (
               {/* Dropshipping Routes */}
               <Route path="/dropshipping/*" element={<Dropshipping />} />       
               {/* Bulk Actions Routes */}
-              <Route path="/bulk-actions/*" element={<NotFound />} />             
+              <Route path="/bulk-actions/*" element={<BulkActions />} />             
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

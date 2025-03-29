@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useProducts } from '@/context/ProductContext';
 import ProductCard from './ProductCard';
@@ -47,31 +46,31 @@ const ProductList: React.FC = () => {
   return (
     <>
     <div className="py-6 px-4 sm:px-6 bg-primary/5 border-b">
-    <div className="flex flex-col space-y-5">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <h1 className="text-3xl font-semibold tracking-tight">Products</h1>
-          <Button onClick={handleOpenAddDialog} className="group">
-            <Plus className="h-5 w-5 mr-2 transition-transform group-hover:scale-110" />
-            Add Product
-          </Button>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <ProductSearch 
-            searchTerm={searchTerm} 
-            onSearch={handleSearchChange} 
-            className="sm:max-w-md flex-grow"
-          />
+      <div className="flex flex-col space-y-5">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <h1 className="text-3xl font-semibold tracking-tight">Products</h1>
+            <Button onClick={handleOpenAddDialog} className="group">
+              <Plus className="h-5 w-5 mr-2 transition-transform group-hover:scale-110" />
+              Add Product
+            </Button>
+          </div>
           
-          <div className="flex items-center gap-4">
-            <ViewToggle viewMode={viewMode} onViewChange={handleViewChange} />
-            <SortSelector 
-              sortConfig={sortConfig} 
-              onSortChange={handleSortChange} 
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <ProductSearch 
+              searchTerm={searchTerm} 
+              onSearch={handleSearchChange} 
+              className="sm:max-w-md flex-grow"
             />
+            
+            <div className="flex items-center gap-4">
+              <ViewToggle viewMode={viewMode} onViewChange={handleViewChange} />
+              <SortSelector 
+                sortConfig={sortConfig} 
+                onSortChange={handleSortChange} 
+              />
+            </div>
           </div>
         </div>
-      </div>
     </div>
     <div className="w-full mx-auto px-4 sm:px-6 space-y-8 py-8">
       {loading ? (

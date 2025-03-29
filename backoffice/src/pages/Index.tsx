@@ -35,12 +35,8 @@ const Index = () => {
         className="text-center mb-12 mt-8"
       >
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-          Welcome to Horizon
+          Rollergrind360 dashboard
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          Explore the sidebar to navigate through the application. This minimalist design 
-          is inspired by principles of simplicity and intuitive user experience.
-        </p>
       </motion.div>
 
       <motion.div

@@ -107,7 +107,11 @@ export default {
 				'scale-in': 'scale-in 0.2s ease-out',
 				'slide-in-left': 'slide-in-left 0.3s ease-out',
 				'slide-out-left': 'slide-out-left 0.3s ease-out'
-			}
+			},
+			spacing: {
+				'61': '15rem', 
+        '62': '15.5rem', // Define ml-62 equivalent to 62px (if using rem: 62/4 = 15.5rem)
+      },
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

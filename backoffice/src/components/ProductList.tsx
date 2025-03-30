@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
 import { useProducts } from '@/context/ProductContext';
 import ProductCard from './ProductCard';
 import ProductTable from './ProductTable';

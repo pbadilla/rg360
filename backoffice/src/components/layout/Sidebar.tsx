@@ -124,7 +124,9 @@ const MenuItem: React.FC<{
     if (hasSubmenu) {
       setIsSubMenuOpen(!isSubMenuOpen);
     }
-    onItemClick(item.id);
+    console.log('Item', item);
+    console.log(`Clicked on ${item.link}`);
+    onItemClick(item.link);
   };
   
   return (
@@ -206,39 +208,7 @@ const MenuItem: React.FC<{
         )}
         </div>
       )}
-      {/* <div
-        onClick={handleClick}
-        className={cn(
-          "flex items-center px-3 py-2 rounded-md cursor-pointer menu-item",
-          "transition-all duration-200 ease-in-out",
-          "hover:bg-sidebar-accent",
-          {
-            "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90": isActive,
-            "bg-sidebar-accent/50": childActive && !isActive,
-            "justify-center": collapsed && level === 1,
-            "pl-5": level > 1,
-            "pl-4": level === 1 && !collapsed,
-          }
-        )}
-        aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
-        role={hasSubmenu ? 'button' : undefined}
-      ></div> */}
 
-      {/* {hasSubmenu && (
-        <AnimatePresence>
-          {(isSubMenuOpen || (collapsed && level === 1)) && (
-            <SubMenu
-              items={item.submenu || []}
-              isOpen={true}
-              level={level}
-              parentId={item.id}
-              activeItem={activeItem}
-              onItemClick={onItemClick}
-              collapsed={collapsed && level === 1}
-            />
-          )}
-        </AnimatePresence>
-      )} */}
       {hasSubmenu && (
         <>
           {!collapsed ? (

@@ -13,12 +13,15 @@ import AbandonedCarts from '@/pages/AbandonedCarts';
 import BulkActions from "@/pages/BulkActions";
 import Dropshipping from "@/pages/Dropshipping";
 import Logistics from "@/pages/Logistics";
+import MicroBulkActions from "@/pages/MicroBulkActions";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
 import Payments from "@/pages/Payments";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
 import Promotions from "@/pages/Promotions";
+import RollerbladeBulkActions from "@/pages/RollerbladeBulkActions";
 import Transports from "@/pages/Transports";
+import UniverskateBulkActions from "@/pages/UniverskateBulkActions";
 import Users from "@/pages/Users";
 
 const queryClient = new QueryClient();
@@ -38,7 +41,8 @@ const App = () => (
               {/* Orders Routes */}
               <Route path="/orders" element={<Orders />} />             
               {/* Users Routes */}
-              <Route path="/users" element={<Users />} />              
+              <Route path="/users" element={<Users />} />
+              <Route path="/users/all" element={<Users />} />          
               {/* Promotions Routes */}
               <Route path="/promotions" element={<Promotions />} />              
               {/* Abandoned Carts Routes */}
@@ -52,7 +56,10 @@ const App = () => (
               {/* Dropshipping Routes */}
               <Route path="/dropshipping/*" element={<Dropshipping />} />       
               {/* Bulk Actions Routes */}
-              <Route path="/bulk-actions/*" element={<BulkActions />} />             
+              <Route path="/bulk-actions" element={<BulkActions />} />
+              <Route path="/bulk-actions/universkate" element={<UniverskateBulkActions />} /> 
+              <Route path="/bulk-actions/rollerblade" element={<RollerbladeBulkActions />} /> 
+              <Route path="/bulk-actions/micro" element={<MicroBulkActions />} />         
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -198,19 +198,19 @@ const menuItems = [
     link: '/bulk-actions',
     submenu: [
       {
-        id: 'import',
-        label: 'Import',
-        link: '/bulk-actions/import',
+        id: 'universkate',
+        label: 'Universkate',
+        link: '/bulk-actions/universkate',
       },
       {
-        id: 'export',
-        label: 'Export',
-        link: '/bulk-actions/export',
+        id: 'rollerblade',
+        label: 'Rollerblade',
+        link: '/bulk-actions/rollerblade',
       },
       {
-        id: 'update',
-        label: 'Batch Update',
-        link: '/bulk-actions/update',
+        id: 'micro',
+        label: 'Micro',
+        link: '/bulk-actions/micro',
       },
     ],
   },

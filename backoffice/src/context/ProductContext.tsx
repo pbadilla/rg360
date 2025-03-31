@@ -2,12 +2,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Product, SortConfig, SortKey, SortOrder, ViewMode } from '@/types/product';
-import { products as initialProducts } from '@/data/products';
+// import { products as initialProducts } from '@/data/products';
 import { searchProducts, sortProducts } from '@/utils/productUtils';
 import { toast } from 'sonner';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { useStoreCSVData } from '@/store/storeCSVData';
+// import { useQueryClient } from '@tanstack/react-query';
+// import { useStoreCSVData } from '@/store/storeCSVData';
+import { useStoreProducts } from '@/store/storeProducts';
 
 interface ProductContextType {
   products: Product[];
@@ -33,9 +34,6 @@ const defaultSortConfig: SortConfig = {
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-
-  const { mutate } = useStoreCSVData();  // Use your custom mutation hook to store CSV data
-  const queryClient = useQueryClient();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>();
@@ -75,22 +73,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const newProducts = prevProducts.map(product => 
         product.id === updatedProduct.id ? updatedProduct : product
       );
-      toast.success('Product updated successfully');
       return newProducts;
     });
   };
 
-  const addProduct = (product: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...product,
-      id: Date.now().toString(), // Simple ID generation
-    };
-    
-    setProducts(prevProducts => {
-      const newProducts = [...prevProducts, newProduct];
-      toast.success('Product added successfully');
-      return newProducts;
-    });
+  const addProduct = (product: Product) => {
+    setProducts(prevProducts => [...prevProducts, product]);
   };
 
   const importCSVData = (data: Product[]) => {
@@ -99,7 +87,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       headers: Object.keys(data[0] || {}),
       rows: data.map(product => Object.values(product)),
     };
-    mutate({ parsedData: csvData, title: 'Imported Products' }); // Assuming this stores the data using your custom hook
+    // mutate({ parsedData: csvData, title: 'Imported Products' });
     toast.success('CSV data imported successfully');
   };
 
@@ -118,6 +106,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     addProduct,
     importCSVData,
   };
+
+  const { mutate } = useStoreProducts();
+
+  useEffect(() => {
+    mutate({ data: products, title: 'ProductsStore' });
+  }, [products, mutate]);
 
   return (
     <ProductContext.Provider value={value}>

@@ -1,6 +1,8 @@
-
 export interface Product {
   id: string;
+  reference: string;
+  ean13: number;
+  brand: string;
   name: string;
   description: string;
   price: number;

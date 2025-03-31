@@ -124,8 +124,8 @@ const MenuItem: React.FC<{
     if (hasSubmenu) {
       setIsSubMenuOpen(!isSubMenuOpen);
     }
-    console.log('Item', item);
-    console.log(`Clicked on ${item.link}`);
+    // console.log('Item', item);
+    // console.log(`Clicked on ${item.link}`);
     onItemClick(item.link);
   };
   

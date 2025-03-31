@@ -6,12 +6,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CSVData } from '@/utils/csvUtils';
+import { useProducts } from '@/context/ProductContext';
+import { Product } from '@/types/product';
 
 import FileUpload from './FileUpload';
 import DataTable from './DataTable';
 import ExportButton from './ExportButton';
 
 import { AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface CSVImportExportProps {
   title: string;
@@ -22,12 +25,77 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
   const [csvData, setCsvData] = useState<CSVData>({ headers: [], rows: [] });
   const [activeTab, setActiveTab] = useState('import');
   const { mutate } = useStoreCSVData();
+  const { addProduct } = useProducts();
+
+  const handleCSVImport = (csvData: { headers: string[]; rows: string[][] }) => {
+    const { headers, rows } = csvData;
+
+    console.log("Entra?", rows)
+    console.log("Entra headers?", headers)
+
+    const headerMap: Record<string, keyof Product> = {
+      "Id": "id",
+      "Reference": "reference",
+      "Ean": "ean13",
+      "Marque": "brand",
+      "Nom": "name",
+      "Prix": "price",
+      "Brand": "category",
+      "Image": "image",
+      "Stock": "stock",
+    };
+    
+    rows.forEach(row => {    
+      const product = headers.reduce<Partial<Record<keyof Product, any>>>((obj, header, index) => {
+        const mappedKey = headerMap[header];
+    
+        if (mappedKey) {
+          let value: unknown = row[index];    
+
+          if (mappedKey === "price" || mappedKey === "stock" || mappedKey === "ean13") {
+            value = parseFloat(row[index]) || 0;
+          }
+    
+          obj[mappedKey] = value;
+        }
+    
+        return obj;
+      }, {});
+
+      if (product.name && product.price) {
+        addProduct({
+          id: String(product.ean13),
+          reference: product.reference || '',
+          ean13: product.ean13 as number || 0,
+          brand: product.brand || 'Unknown', 
+          name: product.name,
+          description: product.description || '', 
+          price: product.price as number || 0, 
+          category: product.category || 'Uncategorized', 
+          image: product.image || '', 
+          stock: product.stock as number || 0, 
+        });
+      }
+    });   
+
+  };
   
   const handleFileLoaded = (data: CSVData) => {
+    // Parse CSV data
+    const parsedCSVData = {
+      headers: data.headers,
+      rows: data.rows.map(row => row.map(cell => cell.trim())),
+    };
     setCsvData(data);
-    console.log("data"  , data);
-    // addData to react-query
+    // console.log("data", data);
+    // Store data using React Query
     mutate({ parsedData: data, title: store });
+    toast.success('Products saved correctly!!');
+
+    // Process CSV rows and add products
+    handleCSVImport(parsedCSVData);
+
+    // Switch tab to show data
     setActiveTab('data');
   };
 

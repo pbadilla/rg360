@@ -9,9 +9,10 @@ import { CSVData } from '@/utils/csvUtils';
 import { useProducts } from '@/context/ProductContext';
 import { Product } from '@/types/product';
 
-import FileUpload from './FileUpload';
-import DataTable from './DataTable';
-import ExportButton from './ExportButton';
+import DataTable from '@/components/DataTable';
+import ExportButton from '@/components/ExportButton';
+import FTPImport from '@/components/FTPImport';
+import FileUpload from '@/components/FileUpload';
 
 import { AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -76,8 +77,7 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
           stock: product.stock as number || 0, 
         });
       }
-    });   
-
+    });
   };
   
   const handleFileLoaded = (data: CSVData) => {
@@ -87,9 +87,48 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
       rows: data.rows.map(row => row.map(cell => cell.trim())),
     };
     setCsvData(data);
-    // console.log("data", data);
+
     // Store data using React Query
     mutate({ parsedData: data, title: store });
+
+    // Change to save the data into the mongoDB DDBB
+    // first mapped and transform and then save it
+    // this what I have in the mongoDB atlas DDBB 
+    // {"_id":{"$oid":"67d08c5ae001af851f635932"},
+    // "name":"Wireless Keyboard",
+    // "description":"Ergonomic wireless keyboard with backlight.",
+    // "price":{"$numberDouble":"59.99"},
+    // "category":{"$oid":"67d08c5ae001af851f635933"},
+    // "vendorId":{"$oid":"67d08c5ae001af851f635931"},
+    // "stock":{"$numberInt":"100"},
+    // "images":["keyboard1.jpg"],
+    // "SKU":"LOGI1234",
+    // "rating":{"$numberDouble":"4.7"},
+    // "createdAt":{"$date":{"$numberLong":"1741720666722"}},
+    // "updatedAt":{"$date":{"$numberLong":"1741720666722"}}}
+
+    // [
+    //   "Reference": "CKIT-FR-VI-5-8",
+    //   "Ean" "4891844449027",
+    //   "Prix" "25.000000",
+    //   "Stock""0",
+    //   "Nom": "SEBA FR CUSTOM KIT 38-42 VIOLET",
+    //   "Image": "https://www.universkate.com/46-large_default/seba-fr-custom-kit.jpg",
+    //   "Marque": "SEBA",
+    //   "Refmere" "CKIT-FR",
+    //   "category": "" <- from mapping,
+    // ]
+
+    // vendors [
+    //   {"_id":{"$oid":"67d08c5ae001af851f635931"},
+    //   "name":"Tech Store Inc.",
+    //   "owner":{"$oid":"67d08c5ae001af851f635930"},
+    //   "email":"vendor@example.com",
+    //   "status":"active",
+    //   "createdAt":{"$date":{"$numberLong":"1741720666672"}},
+    //   "updatedAt":{"$date":{"$numberLong":"1741720666672"}}}
+    // ]
+
     toast.success('Products saved correctly!!');
 
     // Process CSV rows and add products
@@ -112,12 +151,17 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
       
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="import">Import</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="automatic_import">Automatic Import</TabsTrigger>
+            <TabsTrigger value="manual_import">Manual Import</TabsTrigger>
             <TabsTrigger value="data" disabled={!hasData}>Data View</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="import" className="pt-4">
+          <TabsContent value="automatic_import" className="pt-4">
+            <FTPImport />
+          </TabsContent>
+
+          <TabsContent value="manual_import" className="pt-4">
             <FileUpload onFileLoaded={handleFileLoaded} />
           </TabsContent>
           

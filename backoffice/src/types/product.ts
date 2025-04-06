@@ -1,13 +1,16 @@
+type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
+
 export interface Product {
   id: string;
-  reference: string;
-  ean13: number;
   brand: string;
-  name: string;
-  description: string;
-  price: number;
   category: string;
+  description: string;
+  ean13: number;
   image: string;
+  name: string;
+  price: number;
+  reference: string;
+  sizes: Sizes[]
   stock: number;
 }
 

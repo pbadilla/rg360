@@ -35,10 +35,14 @@ export const sortProducts = (products: Product[], sortConfig: SortConfig): Produ
   });
 };
 
-export const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-US', {
+export const formatPrice = (
+  price: number,
+  locale: string = 'en-US',
+  currency: string = 'USD'
+): string => {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: 'USD',
+    currency,
   }).format(price);
 };
 

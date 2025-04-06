@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { Product } from '@/types/product';
 import { formatPrice } from '@/utils/productUtils';
 import { Pen, Trash2 } from 'lucide-react';
+
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,9 +15,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { ColorBadge } from '@/components/ui/color-badge';
+import { OfferBadge } from '@/components/ui/offer-badge';
+
 import ProductEditDialog from './ProductEditDialog';
 import ProductDeleteDialog from './ProductDeleteDialog';
+
 import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
@@ -46,6 +51,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
   const handleConfirmDelete = () => {
     onDelete(product.id);
   };
+
+  const mockAvailableColors = ["red", "blue", "black", "white"];
+
+  function ProductColors() {
+    const [selectedColor, setSelectedColor] = useState("red");
+  
+    return (
+      <div className="flex gap-2">
+        {mockAvailableColors.map((color) => (
+          <ColorBadge
+            key={color}
+            color={color}
+            selected={color === selectedColor}
+            onClick={() => setSelectedColor(color)}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -82,11 +106,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
         
         <CardHeader className="pb-3">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
-          <CardDescription className="flex justify-between items-center">
-            <span className="font-medium text-lg text-foreground">{formatPrice(product.price)}</span>
-            <Badge variant="outline" className="ml-2">
-              Stock: {product.stock}
-            </Badge>
+          <CardDescription className="space-y-1">
+            <div className="flex flex-wrap justify-between items-center gap-2">
+              <span className="font-medium text-lg text-foreground">
+                {formatPrice(product.price, 'es-ES', 'EUR')}
+              </span>
+              <Badge variant="outline">
+                Sizes: {product.sizes}
+              </Badge>
+              <Badge variant="outline">
+                Stock: {product.stock}
+              </Badge>
+            </div>
+            <div className="flex flex-wrap justify-between items-center gap-2">
+              {ProductColors()}
+              <OfferBadge type="limited">Only 3 left!</OfferBadge>
+            </div>
           </CardDescription>
         </CardHeader>
         

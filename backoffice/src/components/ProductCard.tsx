@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
+
 import { Product } from '@/types/product';
 import { formatPrice } from '@/utils/productUtils';
 import { Pen, Trash2 } from 'lucide-react';
@@ -75,11 +77,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
     <>
       <Card 
         className={cn(
-          "overflow-hidden border card-transition",
+          "overflow-hidden border card-transition cursor-pointer",
           isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={() => handleEdit()}
       >
         <div className="relative">
           <AspectRatio ratio={4/3} className="bg-muted">
@@ -102,6 +105,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
           >
             {product.category}
           </Badge>
+          <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
+            <QRCodeSVG
+              value={product.id} // or product.name, or a URL, etc.
+              size={48}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              level="M"
+              includeMargin={false}
+            />
+          </div>
         </div>
         
         <CardHeader className="pb-3">

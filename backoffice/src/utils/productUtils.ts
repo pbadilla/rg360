@@ -325,3 +325,28 @@ export const extractColorAndSizes = (products: []) => {
   setProductsForCombinations(productsList.productsToExport);
   setListName(productsList.products);
 }
+
+const enhanceProducts = async (products: []) => {
+  const productList: any[] = [];
+
+  for (const item of products) {
+    if (item.stock === 0) continue;
+
+    const originReference = normalizeReference(item?.Refmere);
+    const productWithRef = { ...item, refmere: originReference };
+
+    // 👇 Generate description
+    const description = await generateDescription(productWithRef);
+    productWithRef.description = description;
+
+    // 👇 Patch the product back to the API
+    await patchProduct(productWithRef.id, description);
+
+    productList.push(productWithRef);
+  }
+
+  const productsList = sizesAndColorOfProducts(productList);
+  setProducts(productsList.productsList);
+  setProductsForCombinations(productsList.productsToExport);
+  setListName(productsList.products);
+};

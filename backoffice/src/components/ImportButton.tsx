@@ -14,6 +14,7 @@ const ImportButton: React.FC<ImportButtonProps> = ({ onImportComplete }) => {
   const [progress, setProgress] = useState(0);
 
   const simulateImport = () => {
+    // launch API import of FTP
     setIsImporting(true);
     setProgress(0);
 

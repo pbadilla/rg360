@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({ collapsed }) => {
     <header className={cn(
       "h-16 fixed right-0 top-0 z-10 border-b border-border bg-background/95 backdrop-blur-sm",
       {
-        "left-72": !collapsed,
+        "left-60": !collapsed,
         "left-[72px]": collapsed,
       }
     )}>

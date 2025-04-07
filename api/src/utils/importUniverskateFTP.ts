@@ -1,15 +1,23 @@
-const express = require('express');
-const fs = require('fs');
-const axios = require('axios');
-const nodemailer = require('nodemailer');
-const csv = require('csv-parser');
-const basicAuth = require('basic-auth-header');
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
+import express, { Request, Response } from 'express';
+import fs from 'fs';
+import axios from 'axios';
+import nodemailer from 'nodemailer';
+import csv from 'csv-parser';
+import 'basic-auth-header';
+
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 const app = express();
 app.use(express.json());
 
 const PORT = 3000;
+
+// ESM workaround for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Swagger config
 const swaggerSpec = swaggerJsdoc({
@@ -21,7 +29,7 @@ const swaggerSpec = swaggerJsdoc({
       description: 'API to import and process a CSV file',
     },
   },
-  apis: ['./index.js'], // Point to this file for annotations
+  apis: [path.join(__dirname, 'index.ts')],
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -46,7 +54,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *       200:
  *         description: Email sent
  */
-app.post('/email', async (req, res) => {
+app.post('/email', async (req: Request, res: Response) => {
   const { subject, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -65,7 +73,7 @@ app.post('/email', async (req, res) => {
       text: message,
     });
     res.send('Email sent successfully!');
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send('Failed to send email: ' + err.message);
   }
 });
@@ -79,9 +87,9 @@ app.post('/email', async (req, res) => {
  *       200:
  *         description: File processed
  */
-app.get('/download', async (req, res) => {
+app.get('/download', async (req: Request, res: Response) => {
   const url = 'https://csvshops.universkate.com/UniverskateStock.csv';
-  const path = './universkate.csv';
+  const filePath = path.join(__dirname, 'universkate.csv');
   const auth = basicAuth('csvuniverskate', 'ZeF1@TENbu');
 
   try {
@@ -90,47 +98,43 @@ app.get('/download', async (req, res) => {
       headers: { Authorization: auth },
     });
 
-    const writer = fs.createWriteStream(path);
+    const writer = fs.createWriteStream(filePath);
     response.data.pipe(writer);
 
     writer.on('finish', () => {
-      removeFirstRow(path);
-      importFile(path);
+      removeFirstRow(filePath);
+      importFile(filePath);
       res.send('File downloaded and processed.');
     });
 
     writer.on('error', () => {
       res.status(500).send('Error writing file.');
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send('Download failed: ' + err.message);
   }
 });
 
-function removeFirstRow(filePath) {
+function removeFirstRow(filePath: string): void {
   const data = fs.readFileSync(filePath, 'utf8').split('\n');
-  data.shift(); // Remove the first line
+  data.shift(); // Remove header
   fs.writeFileSync(filePath, data.join('\n'));
 }
 
-function importFile(filePath) {
+function importFile(filePath: string): void {
   if (!fs.existsSync(filePath)) {
     console.log('File not found');
     return;
   }
 
-  const results = [];
-  let headers = [];
-
   let rowCount = 0;
+
   fs.createReadStream(filePath)
     .pipe(csv({ separator: ';' }))
-    .on('data', (row) => {
+    .on('data', (row: Record<string, string>) => {
       rowCount++;
-      if (rowCount === 1) {
-        headers = Object.keys(row);
-      } else {
-        procesarProducto(row);
+      if (rowCount > 1) {
+        producProcessing(row);
       }
     })
     .on('end', () => {
@@ -138,7 +142,7 @@ function importFile(filePath) {
     });
 }
 
-function procesarProducto(row) {
+function producProcessing(row: Record<string, string>): void {
   const csvreference = `US-${row["Reference"]}`;
   const csvean = row["Ean"];
   const csvprix = row["Prix"];
@@ -147,7 +151,7 @@ function procesarProducto(row) {
   const csvmarque = row["Marque"];
   const csvrefmere = row["Refmere"];
 
-  // Simulated database/product logic
+  // Simulated logic
   console.log(`Processing product ${csvreference} - stock: ${csvstock}`);
 }
 

@@ -3,11 +3,11 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import mongoose from 'mongoose';
 
-import logging from './config/logging';
-import config from './config/config';
+import logging from '@/config/logging';
+import config from '@/config/config';
 
-import filmsRoutes from './routes/films';
-import productRoutes from './routes/products';
+import filmsRoutes from '@/routes/films';
+import productRoutes from '@/routes/products';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -53,7 +53,7 @@ router.use((req, res, next) => {
 router.use('/api/films', filmsRoutes);
 
 // Use the product routes
-router.use('/api', productRoutes);
+router.use('/api/products', productRoutes);
 
 /** Error handling */
 router.use((_req, res, _next) => {

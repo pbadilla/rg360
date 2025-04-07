@@ -1,10 +1,13 @@
 import http from 'http';
 import bodyParser from 'body-parser';
 import express from 'express';
+import mongoose from 'mongoose';
+
 import logging from './config/logging';
 import config from './config/config';
+
 import filmsRoutes from './routes/films';
-import mongoose from 'mongoose';
+import productRoutes from './routes/products';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -29,8 +32,6 @@ router.use((req, res, next) => {
     next();
 });
 
-// ...
-
 /** Parse the body of the request */
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -50,6 +51,9 @@ router.use((req, res, next) => {
 
 /** Routes go here */
 router.use('/api/films', filmsRoutes);
+
+// Use the product routes
+router.use('/api', productRoutes);
 
 /** Error handling */
 router.use((_req, res, _next) => {

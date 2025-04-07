@@ -1,3 +1,6 @@
+import { Document } from 'mongoose';
+
+// Define the types for the nested structures
 export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 type Status = 'active' | 'inactive' | 'discontinued';
 
@@ -19,23 +22,25 @@ interface Tag {
   color: string;
   type: 'offer' | 'category' | 'brand';
 }
+
 interface Category {
   name: string;
   color: string;
 }
+
 interface Variation {
   color: string;
   sizes: SizeVariation[];
 }
 
-type ProductImage = {
+interface ProductImage {
   url: string;
   alt?: string;
   type?: 'image' | 'video';
-};
+}
 
-export interface Product {
-  id: string;
+// Now, the interface for Product
+export default interface IProduct extends Document {
   SKU?: string;
   brand?: string;
   category?: Category;
@@ -51,7 +56,6 @@ export interface Product {
   tags: Tag[];
   variations: Variation[];
   vendorId: string;
-
-  UpdateData: string | Date;
-  createdAt: string | Date;
+  UpdateData: Date | string;
+  createdAt: Date | string;
 }

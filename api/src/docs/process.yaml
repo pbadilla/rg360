@@ -1,0 +1,28 @@
+paths:
+  /process:
+    post:
+      summary: Process a CSV row and insert into MongoDB
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Reference:
+                  type: string
+                Ean:
+                  type: string
+                Prix:
+                  type: string
+                Stock:
+                  type: string
+                Image:
+                  type: string
+                Marque:
+                  type: string
+                Refmere:
+                  type: string
+      responses:
+        200:
+          description: Row processed and inserted

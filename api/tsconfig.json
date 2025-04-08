@@ -12,6 +12,8 @@
       "@/config/*": ["src/config/*"],
       "@/constants/*": ["src/constants/*"],
       "@/controllers/*": ["src/controllers/*"],
+      "@/db/*": ["src/db/*"],
+      "@/docs/*": ["src/docs/*"],
       "@/helpers/*": ["src/helpers/*"],
       "@/interfaces/*": ["src/interfaces/*"],
       "@/middlewares/*": ["src/middlewares/*"],

@@ -1,0 +1,7 @@
+paths:
+  /download:
+    get:
+      summary: Download CSV from Universkate and process it
+      responses:
+        200:
+          description: File processed

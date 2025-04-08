@@ -1,0 +1,18 @@
+paths:
+  /email:
+    post:
+      summary: Send email notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                message:
+                  type: string
+      responses:
+        200:
+          description: Email sent

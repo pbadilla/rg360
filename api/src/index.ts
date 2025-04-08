@@ -1,6 +1,7 @@
 import http from 'http';
 import bodyParser from 'body-parser';
 import express from 'express';
+import dotenv from "dotenv";
 import mongoose from 'mongoose';
 
 import logging from '@/config/logging';
@@ -11,6 +12,8 @@ import productRoutes from '@/routes/products';
 
 const NAMESPACE = 'Server';
 const router = express();
+
+dotenv.config();
 
 /** Connect to Mongo */
 mongoose

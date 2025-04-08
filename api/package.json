@@ -21,6 +21,7 @@
     "mongodb": "^6.14.2",
     "mongoose": "^7.5.2",
     "nodemailer": "^6.10.0",
+    "openai": "^4.92.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tsconfig-paths": "^4.2.0"

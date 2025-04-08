@@ -4,11 +4,13 @@ import axios from 'axios';
 import nodemailer from 'nodemailer';
 import csv from 'csv-parser';
 import 'basic-auth-header';
+import { getDb } from '@/db/mongoClient'; 
 
 import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { extractColor, extractCSizes } from '@/utils/transforms';
+import { swaggerSpec } from '@/docs/swagger';
 
 const app = express();
 app.use(express.json());
@@ -19,41 +21,8 @@ const PORT = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Swagger config
-const swaggerSpec = swaggerJsdoc({
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'CSV Import API',
-      version: '1.0.0',
-      description: 'API to import and process a CSV file',
-    },
-  },
-  apis: [path.join(__dirname, 'index.ts')],
-});
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-/**
- * @swagger
- * /email:
- *   post:
- *     summary: Send email notification
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               subject:
- *                 type: string
- *               message:
- *                 type: string
- *     responses:
- *       200:
- *         description: Email sent
- */
 app.post('/email', async (req: Request, res: Response) => {
   const { subject, message } = req.body;
 
@@ -78,15 +47,6 @@ app.post('/email', async (req: Request, res: Response) => {
   }
 });
 
-/**
- * @swagger
- * /download:
- *   get:
- *     summary: Download CSV from Universkate and process it
- *     responses:
- *       200:
- *         description: File processed
- */
 app.get('/download', async (req: Request, res: Response) => {
   const url = 'https://csvshops.universkate.com/UniverskateStock.csv';
   const filePath = path.join(__dirname, 'universkate.csv');
@@ -121,28 +81,26 @@ function removeFirstRow(filePath: string): void {
   fs.writeFileSync(filePath, data.join('\n'));
 }
 
-function importFile(filePath: string): void {
+async function importFile(filePath: string): Promise<void> {
   if (!fs.existsSync(filePath)) {
     console.log('File not found');
     return;
   }
 
   let rowCount = 0;
+  const stream = fs.createReadStream(filePath).pipe(csv({ separator: ';' }));
 
-  fs.createReadStream(filePath)
-    .pipe(csv({ separator: ';' }))
-    .on('data', (row: Record<string, string>) => {
-      rowCount++;
-      if (rowCount > 1) {
-        producProcessing(row);
-      }
-    })
-    .on('end', () => {
-      console.log('CSV file successfully processed');
-    });
+  for await (const row of stream) {
+    rowCount++;
+    if (rowCount > 1) {
+      await productProcessing(row); // Await to ensure sequential inserts
+    }
+  }
+
+  console.log('CSV file successfully processed');
 }
 
-function producProcessing(row: Record<string, string>): void {
+async function productProcessing(row: Record<string, string>): Promise<void> {
   const csvreference = `US-${row["Reference"]}`;
   const csvean = row["Ean"];
   const csvprix = row["Prix"];
@@ -150,9 +108,29 @@ function producProcessing(row: Record<string, string>): void {
   const csvimage = row["Image"];
   const csvmarque = row["Marque"];
   const csvrefmere = row["Refmere"];
+  const csvcolors = extractColor(row["Reference"]);
+  const csvsizes = extractCSizes(row["Reference"]);
 
-  // Simulated logic
-  console.log(`Processing product ${csvreference} - stock: ${csvstock}`);
+  const productDoc = {
+    reference: csvreference,
+    ean: csvean,
+    price: csvprix,
+    stock: csvstock,
+    image: csvimage,
+    brand: csvmarque,
+    parentReference: csvrefmere,
+    colors: csvcolors,
+    sizes: csvsizes,
+    createdAt: new Date(),
+  };
+
+  try {
+    const db = await getDb();
+    await db.collection('products').insertOne(productDoc);
+    console.log(`Inserted ${csvreference} into MongoDB`);
+  } catch (err) {
+    console.error(`MongoDB insert error for ${csvreference}:`, err);
+  }
 }
 
 app.listen(PORT, () => {

@@ -84,7 +84,6 @@ export const ProductProperties = {
     size: null,
 };
 
-
 export const changeColor = (originColor: string) => {
   switch (originColor) {
     case 'BK':

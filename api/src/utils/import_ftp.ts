@@ -91,7 +91,7 @@ function getFileCSVUniverskate(){
     return true;
 }
 
-function ProcesarProducto($row){
+function processProduct($row){
    $csvreference = "US-".$row["Reference"];
    $csvean = $row["Ean"];
    $csvprix = $row["Prix"];
@@ -138,7 +138,7 @@ function importFile($file_path) {
                         }
 
                         try {
-                            ProcesarProducto($fila);
+                            processProduct($fila);
                         } catch (Throwable $t) {
                             echo "Error procesando fila $i: " . $t->getMessage();
                         }
@@ -365,7 +365,7 @@ function getIdByReference($reference)
     }
 
 
-function ProcesarProducto($fila){
+function processProduct($fila){
     
     $idProductAttribute = getIdByReference($fila["Código Completo (SKU)"]);
     $sku = $fila["Código Completo (SKU)"];
@@ -404,7 +404,7 @@ function importFile($file_path) {
                             $fila[$cabecera[$c]] = $data[$c];
                         }
 
-                        ProcesarProducto($fila);
+                        processProduct($fila);
 
                         
 

@@ -1,28 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const { sendEmail } = require('../controllers/emailController');
+import { Router, Request, Response } from 'express';
+import sendEmail from '@/controllers/email';
 
-/**
- * @swagger
- * /email:
- *   post:
- *     summary: Send email notification
- *     tags: [Email]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               subject:
- *                 type: string
- *               message:
- *                 type: string
- *     responses:
- *       200:
- *         description: Email sent
- */
-router.post('/', sendEmail);
+const router = Router();
 
-module.exports = router;
+router.post('/email', async (req: Request, res: Response) => {
+  try {
+    await sendEmail(req, res);
+  } catch (error: any) {
+    console.error("Error sending email:", error.message);
+    res.status(500).json({ error: "Failed to send email" });
+  }
+});
+
+export default router;

@@ -1,6 +1,7 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+import { Request, Response } from 'express';
 
-const sendEmail = async (req, res) => {
+const sendEmail = async (req: Request, res: Response): Promise<void> => {
   const { subject, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -19,9 +20,9 @@ const sendEmail = async (req, res) => {
       text: message,
     });
     res.send('Email sent successfully!');
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send('Failed to send email: ' + err.message);
   }
 };
 
-module.exports = { sendEmail };
+export { sendEmail };

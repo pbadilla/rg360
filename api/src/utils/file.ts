@@ -1,28 +1,45 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const { procesarProducto } = require('./productUtils');
+import fs from 'fs';
+import csv from 'csv-parser';
+import { processProduct } from '@/utils/product';
 
-function removeFirstRow(filePath) {
+// Define the ProductRow interface
+interface ProductRow {
+  Reference: string;
+  Stock: number;
+  // Add other necessary fields here
+}
+
+// Function to remove the first row from a CSV file
+export function removeFirstRow(filePath: string): void {
   const data = fs.readFileSync(filePath, 'utf8').split('\n');
   data.shift();
   fs.writeFileSync(filePath, data.join('\n'));
 }
 
-function importFile(filePath) {
+// Function to import and process a CSV file
+export function importFile(filePath: string): void {
   if (!fs.existsSync(filePath)) return;
 
   let rowCount = 0;
+
+  interface CsvRow {
+    [key: string]: string;
+  }
+
   fs.createReadStream(filePath)
     .pipe(csv({ separator: ';' }))
-    .on('data', (row) => {
+    .on('data', (row: CsvRow) => {
       rowCount++;
       if (rowCount > 1) {
-        procesarProducto(row);
+        const productRow: ProductRow = {
+          Reference: row['Reference'] || '',
+          Stock: parseInt(row['Stock'] || '0', 10),
+          // Add other necessary mappings here
+        };
+        processProduct(productRow);
       }
     })
     .on('end', () => {
       console.log('CSV file successfully processed');
     });
 }
-
-module.exports = { removeFirstRow, importFile };

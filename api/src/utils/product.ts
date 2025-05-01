@@ -10,4 +10,3 @@ export function processProduct(row: ProductRow) {
   // Add logic for DB or file update if needed
 }
 
-module.exports = { processProduct };

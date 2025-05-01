@@ -1,10 +1,10 @@
 import axios from 'axios';
 import fs from 'fs';
 import basicAuth from 'basic-auth-header';
-import { removeFirstRow, importFile } from '@/utils/file';
+import { removeFirstRow, importCSVUniverskate } from '@/utils/importCSVUniverskate';
 import { Request, Response } from 'express';
 
-const downloadAndProcessCSV = async (req: Request, res: Response): Promise<void> => {
+const importerUniverskate = async (req: Request, res: Response): Promise<void> => {
   const url = 'https://csvshops.universkate.com/UniverskateStock.csv';
   const path = './universkate.csv';
   const auth = basicAuth('csvuniverskate', 'ZeF1@TENbu');
@@ -20,7 +20,7 @@ const downloadAndProcessCSV = async (req: Request, res: Response): Promise<void>
 
     writer.on('finish', () => {
       removeFirstRow(path);
-      importFile(path);
+      importCSVUniverskate(path);
       res.send('File downloaded and processed.');
     });
 
@@ -32,4 +32,4 @@ const downloadAndProcessCSV = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export { downloadAndProcessCSV };
+export { importerUniverskate };

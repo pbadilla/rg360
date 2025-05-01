@@ -1,13 +1,12 @@
-import { Configuration, OpenAIApi } from "openai";
+import { OpenAI } from "openai";
 import { Product } from "@/types/product";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 export async function generateDescription(product: Product): Promise<string> {
   const prompt = `
@@ -23,12 +22,12 @@ Write a compelling product description using the following details:
 Make it natural, persuasive, and ready for an e-commerce product page.
 `;
 
-  const response = await openai.createChatCompletion({
+  const response = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [{ role: "user", content: prompt }],
     temperature: 0.7,
     max_tokens: 200,
   });
 
-  return response.data.choices[0].message?.content?.trim() ?? "";
+  return response.choices[0]?.message?.content?.trim() ?? "";
 }

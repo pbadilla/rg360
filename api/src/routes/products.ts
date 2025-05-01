@@ -1,12 +1,35 @@
 import { Router, Request, Response } from 'express';
-import productController from '@/controllers/product';
-import { generateDescription } from "@/services/aiDescription";
-import { Product } from "@/types/product";
+import mongoose from 'mongoose';
+
+import {
+  addProduct,
+  getAllProducts,
+  getProductById,
+  deleteAllProducts,
+  deleteProductById
+} from '@/controllers/products';
+
+import { generateDescription } from '@/services/aiDescription';
+import { Product } from '@/types/product';
 
 const router = Router();
 
+/** Middleware to check DB connection */
+router.use((req, res, next) => {
+  const readyState = mongoose.connection.readyState;
+  console.log('Mongoose readyState:', readyState);
 
-router.post("/product", async (req: Request, res: Response) => {
+  if (readyState !== 1) {
+    return res.status(503).json({
+      message: 'Service Unavailable. Database not connected.'
+    });
+  }
+
+  next();
+});
+
+/** Route to generate AI description */
+router.post('/product', async (req: Request, res: Response) => {
   try {
     const product: Product = {
       ...req.body,
@@ -14,27 +37,18 @@ router.post("/product", async (req: Request, res: Response) => {
     };
 
     const description = await generateDescription(product);
-
     res.json({ ...product, description });
   } catch (error: any) {
-    console.error("Error generating description:", error.message);
-    res.status(500).json({ error: "Failed to generate product description" });
+    console.error('Error generating description:', error.message);
+    res.status(500).json({ error: 'Failed to generate product description' });
   }
 });
 
-// Route to add a new product
-router.post('/products', productController.addProduct);
-
-// Route to get all products
-router.get('/products', productController.getAllProducts);
-
-// Route to get a product by ID
-router.get('/products/:productId', productController.getProductById);
-
-// Route to delete all products
-router.delete('/products', productController.deleteAllProducts);
-
-// Route to delete a product by ID
-router.delete('/products/:productId', productController.deleteProductById);
+/** CRUD Product Routes */
+router.post('/', addProduct);
+router.get('/', getAllProducts);
+router.get('/:productId', getProductById);
+router.delete('/', deleteAllProducts);
+router.delete('/:productId', deleteProductById);
 
 export default router;

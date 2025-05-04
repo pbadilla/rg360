@@ -9,6 +9,7 @@ import config from '@/config/config';
 
 import productRoutes from '@/routes/products';
 import importerUniverskate from '@/routes/importerUniverskate';
+import importerRollerblade from '@/routes/importerRollerblade';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from '@/config/swagger';
@@ -63,7 +64,8 @@ const startServer = async () => {
 
     // Routes
     app.use('/products', productRoutes);
-    app.use('/importerUniverskate', importerUniverskate); 
+    app.use('/importerUniverskate', importerUniverskate);
+    app.use('/importerRollerblade', importerRollerblade); 
 
     // Error handling for unmatched routes
     app.use((_req, res, _next) => {

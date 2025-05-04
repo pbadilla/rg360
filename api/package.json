@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^1.8.4",
     "basic-auth-header": "^1.0.1",
+    "basic-ftp": "^5.0.5",
     "csv-parser": "^3.2.0",
     "express": "^4.18.2",
     "mongodb": "^6.14.2",

@@ -39,7 +39,6 @@ const ProductImageSchema = new Schema({
 }, { _id: false });
 
 export interface ProductDocument extends Document {
-  SKU?: string;
   brand?: string;
   category?: {
     name: string;
@@ -65,24 +64,26 @@ export interface ProductDocument extends Document {
   createdAt: Date | string;
 }
 
-const ProductSchema = new Schema<ProductDocument>({
-  SKU: String,
+const ProductSchema = new Schema({
   brand: String,
-  category: CategorySchema,
+  category: { type: Schema.Types.Mixed }, // if CategorySchema is not defined
+  colors: { type: [String], default: [] },
+  createdAt: { type: Date, default: Date.now },
   description: String,
   ean13: { type: String, required: true },
-  images: { type: [ProductImageSchema], default: [] },
+  images: { type: [String], default: [] }, // Assuming images are just URLs
   name: { type: String, required: true },
+  parentReference: { type: String },
   price: PriceSchema,
-  rating: { type: Number, required: true },
+  rating: { type: Number, default: 0, required: true },
   reference: { type: String, required: true },
+  retailPrice: PriceSchema,
+  sizes: { type: [String], default: [] },
   status: { type: String, enum: ['active', 'inactive', 'discontinued'], required: true },
-  stock: Number,
-  tags: { type: [TagSchema], default: [] },
-  variations: { type: [VariationSchema], default: [] },
-  vendorId: { type: String, required: true },
-  UpdateData: { type: Date, default: Date.now },
-  createdAt: { type: Date, default: Date.now },
+  stock: { type: Number, default: 0 },
+  tags: { type: [Schema.Types.Mixed], default: [] },
+  variations: { type: [Schema.Types.Mixed], default: [] },
+  updateData: { type: Date, default: Date.now },
 });
 
 export const ProductModel = mongoose.model<ProductDocument>('products', ProductSchema);

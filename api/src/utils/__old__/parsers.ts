@@ -388,7 +388,13 @@ export function extractCSizes(reference:string) {
   }
 }
 
+const colorCodes = new Set([
+  'BK', 'BL', 'WH', 'R', 'RED', 'GY', 'BLK', 'GW', 'YE', 'PK',
+  'GR', 'RD', 'VI', 'NA', 'PU', 'OR', 'CO', 'YL', 'DA', 'SL'
+]);
+
 export function extractColor(reference:string) {
+  extractColor
   const colorTemp = reference.split('-');
   if(colorTemp.length === 3) {
     const first = colorTemp[colorTemp.length - 3]

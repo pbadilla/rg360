@@ -11,6 +11,9 @@ dependencies:
   basic-auth-header:
     specifier: ^1.0.1
     version: 1.0.1
+  basic-ftp:
+    specifier: ^5.0.5
+    version: 5.0.5
   csv-parser:
     specifier: ^3.2.0
     version: 3.2.0
@@ -589,6 +592,11 @@ packages:
 
   /basic-auth-header@1.0.1:
     resolution: {integrity: sha512-ZY7Z3LsRKgeh6W5wYbddbVqLvIgPSSy4Y5IU1rGrviv2FS4GvMxe+YF97gcbCOA/Y6dFMSVX2eLZIjN5PiNoug==}
+    dev: false
+
+  /basic-ftp@5.0.5:
+    resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
+    engines: {node: '>=10.0.0'}
     dev: false
 
   /binary-extensions@2.3.0:

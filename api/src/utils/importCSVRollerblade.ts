@@ -1,14 +1,7 @@
 import fs from 'fs';
 import csv from 'csv-parser';
 
-import { productsUniverskateProcessing } from '@/utils/productsUniverskate';
-
-// Define the ProductRow interface
-interface ProductRow {
-  Reference: string;
-  Stock: number;
-  // Add other necessary fields here
-}
+import { productsRollerbladeProcessing } from '@/utils/productsRollerblade';
 
 // Function to remove the first row from a CSV file
 export function removeFirstRow(filePath: string): void {
@@ -18,15 +11,11 @@ export function removeFirstRow(filePath: string): void {
 }
 
 // Function to import and process a CSV file
-export function importCSVUniverskate(filePath: string): void {
+export function importCSVRollerblade(filePath: string): void {
   debugger;
   if (!fs.existsSync(filePath)) return;
 
   let rowCount = 0;
-
-  interface CsvRow {
-    [key: string]: string;
-  }
 
   fs.createReadStream(filePath)
   .pipe(csv({ separator: ';' }))
@@ -34,13 +23,13 @@ export function importCSVUniverskate(filePath: string): void {
     rowCount++;
     if (rowCount > 1) {
       try {
-        await productsUniverskateProcessing(row);
+        await productsRollerbladeProcessing(row);
       } catch (err) {
         console.error('Processing error:', err);
       }
     }
   })
   .on('end', () => {
-    console.log('UniverSkate CSV file successfully processed');
+    console.log('Rollerblade CSV file successfully processed');
   });
 }

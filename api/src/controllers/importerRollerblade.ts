@@ -31,8 +31,7 @@ const importerRollerblade = async (req: Request, res: Response): Promise<void> =
 
     await client.close();
 
-    // Process the downloaded file
-    // removeFirstRow(path);
+    // Process the downloaded file 
     importCSVRollerblade(path);
     res.send('File downloaded and processed.');
   } catch (err: any) {

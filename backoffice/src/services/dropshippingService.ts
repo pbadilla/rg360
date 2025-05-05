@@ -1,6 +1,36 @@
 
 import { Order } from '@/components/OrderTable';
+import axios from 'axios';
 
+const isLocal = process.env.NODE_ENV === 'development'; // or use a custom env var
+
+const apiClient = axios.create({
+  baseURL: isLocal
+    ? process.env.URL_API_LOCAL
+    : process.env.URL_API_PROD,
+  responseType: 'blob',
+});
+const headers = {
+  'Content-Type': 'application/json',
+};
+
+const getHeaders = () => {
+  return {
+    ...headers,
+    // Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+}; 
+export const getDropshippingOrders = async (): Promise<Order[]> => {
+  try {
+    const response = await apiClient.get('/importerRollerblade', {
+      headers: getHeaders(),
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching dropshipping orders:', error);
+    throw error;
+  }
+};
 // Mock data for orders
 export const getMockDropshipping = (): Order[] => {
   return [

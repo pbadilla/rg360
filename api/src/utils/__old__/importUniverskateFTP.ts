@@ -137,3 +137,33 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`Swagger docs at http://localhost:${PORT}/api-docs`);
 });
+
+// import fs from 'fs';
+// import csv from 'csv-parser';
+// import { productsRollerbladeProcessing } from '@/utils/productsRollerblade';
+
+// export function importCSVRollerblade(filePath: string): void {
+//   if (!fs.existsSync(filePath)) return;
+
+//   let rowCount = 0;
+
+//   fs.createReadStream(filePath)
+//     .pipe(csv({
+//       separator: ';',
+//       mapHeaders: ({ header }) =>
+//         header.replace(/\u00A0/g, ' ').trim() // Replace non-breaking spaces and trim
+//     }))
+//     .on('data', async (row: Record<string, string>) => {
+//       rowCount++;
+//       if (rowCount > 1) {
+//         try {
+//           await productsRollerbladeProcessing(row);
+//         } catch (err) {
+//           console.error('Processing error:', err);
+//         }
+//       }
+//     })
+//     .on('end', () => {
+//       console.log('Rollerblade CSV file successfully processed');
+//     });
+// }

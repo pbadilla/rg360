@@ -3,7 +3,6 @@ import { extractColor, extractCSizes } from '@/utils/parserUniverskate';
 
 export async function productsUniverskateProcessing(row: Record<string, string>): Promise<void> {
 
-  // console.log("Row >>", row);
 
   const rawReference = row['PRODUCT REF'];
   const csvReference = `US-${rawReference}`;

@@ -1,0 +1,2 @@
+// /promotions
+// - promotionsController.ts

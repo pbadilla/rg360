@@ -8,6 +8,7 @@ import logging from '@/config/logging';
 import config from '@/config/config';
 
 import productRoutes from '@/routes/products';
+import inventoryRoutes from '@/routes/inventory';
 import importerUniverskate from '@/routes/importerUniverskate';
 import importerRollerblade from '@/routes/importerRollerblade';
 
@@ -64,6 +65,7 @@ const startServer = async () => {
 
     // Routes
     app.use('/products', productRoutes);
+    app.use('/inventory', inventoryRoutes); // Assuming you want to use the same routes for inventory
     app.use('/importerUniverskate', importerUniverskate);
     app.use('/importerRollerblade', importerRollerblade); 
 

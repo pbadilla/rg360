@@ -11,7 +11,7 @@
     - inventoryController.ts
   /notifications
     - emailController.ts
-    - smsController.ts
+    - SMSController.ts
   /orders
     - ordersController.ts
   /passwords

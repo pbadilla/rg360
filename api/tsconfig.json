@@ -16,7 +16,7 @@
       "@/docs/*": ["src/docs/*"],
       "@/helpers/*": ["src/helpers/*"],
       "@/interfaces/*": ["src/interfaces/*"],
-      "@/middlewares/*": ["src/middlewares/*"],
+      "@/middleware/*": ["src/middleware/*"],
       "@/migrations/*": ["src/migrations/*"],
       "@/models/*": ["src/models/*"],
       "@/routes/*": ["src/routes/*"],

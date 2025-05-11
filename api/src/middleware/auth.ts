@@ -1,22 +1,27 @@
-// middleware/auth.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-interface AuthRequest extends Request {
+const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret'; // You should use a secure value in .env
+
+// Extend the Request type to include `user`
+export interface AuthenticatedRequest extends Request {
   user?: any;
 }
 
-export const authenticateJWT = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(' ')[1];
+export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
 
-  if (!token) return res.status(401).json({ message: 'Access token missing' });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authorization token missing or invalid' });
+  }
+
+  const token = authHeader.split(' ')[1];
 
   try {
-    const secret = process.env.JWT_SECRET || 'dev-secret';
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(403).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message: 'Invalid or expired token' });
   }
 };

@@ -7,8 +7,11 @@ import mongoose from 'mongoose';
 import logging from '@/config/logging';
 import config from '@/config/config';
 
-import productRoutes from '@/routes/products';
 import inventoryRoutes from '@/routes/inventory';
+import paymentRoutes from '@/routes/paymentsRoutes';
+import productRoutes from '@/routes/products';
+import wishlistRoutes from '@/routes/wishListRoutes';
+
 import importerUniverskate from '@/routes/importerUniverskate';
 import importerRollerblade from '@/routes/importerRollerblade';
 
@@ -64,8 +67,11 @@ const startServer = async () => {
     });
 
     // Routes
+    app.use('/inventory', inventoryRoutes);
+    app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
-    app.use('/inventory', inventoryRoutes); // Assuming you want to use the same routes for inventory
+    app.use('/wishlist', wishlistRoutes);
+
     app.use('/importerUniverskate', importerUniverskate);
     app.use('/importerRollerblade', importerRollerblade); 
 

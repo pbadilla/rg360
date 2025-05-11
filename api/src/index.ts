@@ -7,9 +7,14 @@ import mongoose from 'mongoose';
 import logging from '@/config/logging';
 import config from '@/config/config';
 
-import inventoryRoutes from '@/routes/inventory';
+import inventoryRoutes from '@/routes/inventoryRoutes';
+import notificationsRoutes from '@/routes/notificationsRoutes';
+import ordersRoutes from '@/routes/ordersRoutes';
 import paymentRoutes from '@/routes/paymentsRoutes';
-import productRoutes from '@/routes/products';
+import productRoutes from '@/routes/productsRoutes';
+import shippingRoutes from '@/routes/shippingRoutes';
+import usersRoutes from '@/routes/usersRoutes';
+import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
 
 import importerUniverskate from '@/routes/importerUniverskate';
@@ -68,8 +73,13 @@ const startServer = async () => {
 
     // Routes
     app.use('/inventory', inventoryRoutes);
+    app.use('/notifications', notificationsRoutes);
+    app.use('/orders', ordersRoutes);
     app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
+    app.use('/shipping', shippingRoutes);
+    app.use('/users', usersRoutes)
+    app.use('vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);
 
     app.use('/importerUniverskate', importerUniverskate);

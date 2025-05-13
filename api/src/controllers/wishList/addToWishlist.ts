@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { WishlistModel } from '@/models/wishList';
+import { WishlistModel } from '@/models/whishList';
 import mongoose from 'mongoose';
 
 const addToWishlist = async (req: Request, res: Response) => {

@@ -1,7 +1,7 @@
-export { default as sendOrderConfirmationSMS } from './SMS/sendOrderConfirmationSMS';
-export { default as sendOrderShippedSMS } from './SMS/sendOrderShippedSMS';
-export { default as sendPasswordResetSMS } from './SMS/sendPasswordResetSMS';
-export { default as sendPromotionalSMS } from './SMS/sendPromotionalSMS';
+// export { default as sendOrderConfirmationSMS } from './SMS/sendOrderConfirmationSMS';
+// export { default as sendOrderShippedSMS } from './SMS/sendOrderShippedSMS';
+// export { default as sendPasswordResetSMS } from './SMS/sendPasswordResetSMS';
+// export { default as sendPromotionalSMS } from './SMS/sendPromotionalSMS';
 // export { default as sendOrderDeliveredSMS } from './sendOrderDeliveredSMS';
 // export { default as sendOrderCancelledSMS } from './sendOrderCancelledSMS';
 // export { default as sendAccountVerificationSMS } from './sendAccountVerificationSMS';

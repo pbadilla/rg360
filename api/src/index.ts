@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import logging from '@/config/logging';
 import config from '@/config/config';
 
+import authRoutes from '@/routes/authRoutes';
 import inventoryRoutes from '@/routes/inventoryRoutes';
 import notificationsRoutes from '@/routes/notificationsRoutes';
 import ordersRoutes from '@/routes/ordersRoutes';
@@ -72,6 +73,7 @@ const startServer = async () => {
     });
 
     // Routes
+    app.use('/auth', authRoutes);
     app.use('/inventory', inventoryRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);

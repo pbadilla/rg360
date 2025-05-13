@@ -2,11 +2,11 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 import {
   addUser, getAllUsers, getUserById,
-  updateUser, deleteUserById, loginUser,
+  updateUsers, deleteUserById, loginUser,
 } from '@/controllers/users';
 import { requestPasswordReset, resetPassword } from '@/controllers/passwords';
 
-import { authenticateJWT, requireAdmin } from '@/middleware/auth';
+import { authMiddleware } from '@/middleware/auth';
 
 
 const router = Router();
@@ -21,10 +21,10 @@ router.use((req, res, next) => {
 
 /** Users Routes */
 router.post('/users', addUser);
-router.get('/users', authenticateJWT, requireAdmin, getAllUsers);
-router.get('/users/:userId', authenticateJWT, getUserById);
-router.put('/users/:userId', authenticateJWT, updateUser);
-router.delete('/users/:userId', authenticateJWT, requireAdmin, deleteUserById);
+router.get('/users', authMiddleware, getAllUsers);
+router.get('/users/:userId', authMiddleware, getUserById);
+router.put('/users/:userId', authMiddleware, updateUsers);
+router.delete('/users/:userId', authMiddleware, deleteUserById);
 
 /** Login and PWD Routes */
 router.post('/auth/login', loginUser);
@@ -32,6 +32,3 @@ router.post('/auth/request-password-reset', requestPasswordReset);
 router.post('/auth/reset-password', resetPassword);
 
 export default router;
-
-
-

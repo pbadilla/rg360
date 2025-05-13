@@ -2,14 +2,15 @@
 import { Order } from '@/components/OrderTable';
 import axios from 'axios';
 
-const isLocal = process.env.NODE_ENV === 'development'; // or use a custom env var
+const isLocal = import.meta.env.MODE === 'development';
 
 const apiClient = axios.create({
   baseURL: isLocal
-    ? process.env.URL_API_LOCAL
-    : process.env.URL_API_PROD,
+    ? import.meta.env.VITE_API_LOCAL
+    : import.meta.env.VITE_API_PROD,
   responseType: 'blob',
 });
+
 const headers = {
   'Content-Type': 'application/json',
 };

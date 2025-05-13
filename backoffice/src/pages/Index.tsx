@@ -89,21 +89,6 @@ const Index = () => {
           </motion.div>
         ))}
       </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-        className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-8 text-center mb-12"
-      >
-        <h2 className="text-2xl font-semibold mb-4">Ready to get started?</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          Explore the sidebar navigation to discover all the features available in this application.
-        </p>
-        <Button className="font-medium">
-          Explore Features
-        </Button>
-      </motion.div>
     </div>
   );
 };

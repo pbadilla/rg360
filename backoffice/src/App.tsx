@@ -10,6 +10,7 @@ import Index from "@/pages/Index";
 import AbandonedCarts from "@/pages/AbandonedCarts";
 import BulkActions from "@/pages/BulkActions";
 import Dropshipping from "@/pages/Dropshipping";
+import Inventory from "@/pages/Inventary";
 import Login from "@/pages/Login";
 import Logistics from "@/pages/Logistics";
 import MicroBulkActions from "@/pages/MicroBulkActions";
@@ -51,7 +52,9 @@ const App = () => (
               <Route path="/index" element={<Index />} />
               {/* Index Routes */}              
               {/* Products Routes */}
-              <Route path="/products/*" element={<ProductsListWrapper />} />              
+              <Route path="/products/*" element={<ProductsListWrapper />} />
+              {/* Inventory Routes */}
+              <Route path="/products/inventory/*" element={<Inventory />} />               
               {/* Orders Routes */}
               <Route path="/orders" element={<Orders />} />             
               {/* Users Routes */}
@@ -68,7 +71,7 @@ const App = () => (
               {/* Payments Routes */}
               <Route path="/payments/*" element={<Payments />} />             
               {/* Dropshipping Routes */}
-              <Route path="/dropshipping/*" element={<Dropshipping />} />       
+              <Route path="/dropshipping/*" element={<Dropshipping />} />    
               {/* Bulk Actions Routes */}
               <Route path="/bulk-actions" element={<BulkActions />} />
               <Route path="/bulk-actions/universkate" element={<UniverskateBulkActions />} /> 

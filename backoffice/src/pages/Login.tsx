@@ -20,6 +20,23 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
+    console.log("ENV:", import.meta.env.VITE_ENV);
+    
+    // Local login bypass for development
+    if (import.meta.env.VITE_ENV === "local"){
+      if (email && password) {
+        console.log("Logging in locally, bypassing API...");
+        localStorage.setItem("token", "fake-local-token");
+        navigate("/index");
+        return;
+      } else {
+        console.warn("Email and password required even for local bypass.");
+        return;
+      }
+    }
+  
+    // Regular login flow
     try {
       const response = await api.post("/auth/login", {
         email,
@@ -33,6 +50,7 @@ const Login = () => {
       console.error("Login failed:", err.response?.data || err.message);
     }
   };
+  
 
   return (
     <AuthLayout>

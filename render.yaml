@@ -1,0 +1,33 @@
+services:
+  - name: api
+    type: web
+    runtime: node # or use "docker" / "python" / etc depending on your stack
+    repo: https://github.com/pbadilla/rg360/
+    branch: main
+    rootDir: api
+    buildCommand: pnpm install
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000 # Render assigns its own, this is just for dev fallback
+    autoDeploy: true
+
+  - name: frontend
+    type: web
+    repo: https://github.com/pbadilla/rg360/
+    branch: main
+    rootDir: frontend
+    buildCommand: pnpm install && pnpm run build
+    staticPublishPath: build
+    autoDeploy: true
+
+  - name: backoffice
+    type: web
+    repo: https://github.com/pbadilla/rg360/
+    branch: main
+    rootDir: backoffice
+    buildCommand: pnpm install && pnpm run build
+    staticPublishPath: build
+    autoDeploy: true

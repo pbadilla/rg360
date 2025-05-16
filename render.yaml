@@ -1,7 +1,7 @@
 services:
   - name: api
     type: web
-    runtime: node # or use "docker" / "python" / etc depending on your stack
+    runtime: node
     repo: https://github.com/pbadilla/rg360/
     branch: main
     rootDir: api
@@ -11,11 +11,11 @@ services:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000 # Render assigns its own, this is just for dev fallback
+        value: 10000
     autoDeploy: true
 
   - name: frontend
-    type: web
+    type: static
     repo: https://github.com/pbadilla/rg360/
     branch: main
     rootDir: frontend
@@ -24,7 +24,7 @@ services:
     autoDeploy: true
 
   - name: backoffice
-    type: web
+    type: static
     repo: https://github.com/pbadilla/rg360/
     branch: main
     rootDir: backoffice

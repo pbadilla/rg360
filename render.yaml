@@ -13,21 +13,3 @@ services:
       - key: PORT
         value: 10000
     autoDeploy: true
-
-  - name: frontend
-    type: static
-    repo: https://github.com/pbadilla/rg360/
-    branch: main
-    rootDir: frontend
-    buildCommand: pnpm install && pnpm run build
-    staticPublishPath: build
-    autoDeploy: true
-
-  - name: backoffice
-    type: static
-    repo: https://github.com/pbadilla/rg360/
-    branch: main
-    rootDir: backoffice
-    buildCommand: pnpm install && pnpm run build
-    staticPublishPath: build
-    autoDeploy: true

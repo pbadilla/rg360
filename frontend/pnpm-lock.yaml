@@ -8,18 +8,12 @@ dependencies:
   '@emailjs/browser':
     specifier: ^4.4.1
     version: 4.4.1
-  '@tanstack/react-query':
-    specifier: ^5.68.0
-    version: 5.68.0(react@19.0.0)
   axios:
     specifier: ^1.7.9
     version: 1.8.3
   bootstrap:
     specifier: ^5.3.2
     version: 5.3.3(@popperjs/core@2.11.8)
-  csv-parser:
-    specifier: ^3.2.0
-    version: 3.2.0
   drift-zoom:
     specifier: ^1.5.1
     version: 1.5.1
@@ -473,19 +467,6 @@ packages:
       tslib: 2.8.1
     dev: false
 
-  /@tanstack/query-core@5.68.0:
-    resolution: {integrity: sha512-r8rFYYo8/sY/LNaOqX84h12w7EQev4abFXDWy4UoDVUJzJ5d9Fbmb8ayTi7ScG+V0ap44SF3vNs/45mkzDGyGw==}
-    dev: false
-
-  /@tanstack/react-query@5.68.0(react@19.0.0):
-    resolution: {integrity: sha512-mMOdGDKlwTP/WV72QqSNf4PAMeoBp/DqBHQ222wBfb51Looi8QUqnCnb9O98ZgvNISmy6fzxRGBJdZ+9IBvX2Q==}
-    peerDependencies:
-      react: ^18 || ^19
-    dependencies:
-      '@tanstack/query-core': 5.68.0
-      react: 19.0.0
-    dev: false
-
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
     dev: false
@@ -596,12 +577,6 @@ packages:
   /core-js@3.41.0:
     resolution: {integrity: sha512-SJ4/EHwS36QMJd6h/Rg+GyR4A5xE0FSI3eZ+iBVpfqf1x0eTSg1smWLHrA+2jQThZSh97fmSgFSU8B61nxosxA==}
     requiresBuild: true
-    dev: false
-
-  /csv-parser@3.2.0:
-    resolution: {integrity: sha512-fgKbp+AJbn1h2dcAHKIdKNSSjfp43BZZykXsCjzALjKy80VXQNHPFJ6T9Afwdzoj24aMkq8GwDS7KGcDPpejrA==}
-    engines: {node: '>= 10'}
-    hasBin: true
     dev: false
 
   /delayed-stream@1.0.0:

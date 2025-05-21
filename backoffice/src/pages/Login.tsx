@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import api from "@/services/axiosConfig";
 
@@ -20,37 +21,41 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
+    // Check if email and password are provided
     console.log("ENV:", import.meta.env.VITE_ENV);
-    
-    // Local login bypass for development
-    if (import.meta.env.VITE_ENV === "local"){
-      if (email && password) {
-        console.log("Logging in locally, bypassing API...");
+
+    const STATIC_EMAIL = import.meta.env.VITE_STATIC_EMAIL;
+    const STATIC_PASSWORD = import.meta.env.VITE_STATIC_PASS;
+
+    if (import.meta.env.VITE_ENV === "local") {
+      if (email === STATIC_EMAIL && password === STATIC_PASSWORD) {
+        toast.success("Logged in locally (dev bypass)");
         localStorage.setItem("token", "fake-local-token");
         navigate("/index");
         return;
       } else {
-        console.warn("Email and password required even for local bypass.");
+        toast.warning("Invalid credentials for local login");
         return;
       }
     }
-  
+
     // Regular login flow
     try {
       const response = await api.post("/auth/login", {
         email,
         password,
       });
-  
+
       const { token } = response.data;
       localStorage.setItem("token", token);
+      toast.success("Successfully logged in");
       navigate("/index");
     } catch (err: any) {
-      console.error("Login failed:", err.response?.data || err.message);
+      const message = err.response?.data?.message || "Login failed";
+      toast.error(message);
     }
   };
-  
 
   return (
     <AuthLayout>
@@ -65,7 +70,9 @@ const Login = () => {
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
-          <Label>Email <span className="text-red-500">*</span></Label>
+          <Label>
+            Email <span className="text-red-500">*</span>
+          </Label>
           <Input
             type="email"
             placeholder="info@example.com"
@@ -75,7 +82,9 @@ const Login = () => {
         </div>
 
         <div>
-          <Label>Password <span className="text-red-500">*</span></Label>
+          <Label>
+            Password <span className="text-red-500">*</span>
+          </Label>
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -94,7 +103,10 @@ const Login = () => {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Checkbox checked={isChecked} onCheckedChange={setIsChecked} />
+            <Checkbox
+              checked={isChecked}
+              onCheckedChange={(checked) => setIsChecked(checked === true)}
+            />
             <span className="text-sm text-gray-600 dark:text-gray-400">
               Keep me logged in
             </span>

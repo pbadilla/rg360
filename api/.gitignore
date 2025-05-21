@@ -1,9 +1,10 @@
-# Ignorar archivos compilados y directorios generados
+# Ignorar carpetas de compilación y distribución
 /dist/
+/build/
 /out/
 /node_modules/
 
-# Ignorar archivos de configuración específicos
+# Ignorar archivos de configuración de entorno
 .env
 .env.local
 

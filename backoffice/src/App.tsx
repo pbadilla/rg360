@@ -6,20 +6,26 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ThemeProvider } from "@/hooks/use-theme";
 
-import Index from "@/pages/Index";
 import AbandonedCarts from "@/pages/AbandonedCarts";
 import BulkActions from "@/pages/BulkActions";
+import Dashboard from "@/pages/Stocks/dashboard";
 import Dropshipping from "@/pages/Dropshipping";
+import EditProduct from "@/pages/Stocks/edit-product";
+import Index from "@/pages/Index";
 import Inventory from "@/pages/Inventary";
 import Login from "@/pages/Login";
 import Logistics from "@/pages/Logistics";
 import MicroBulkActions from "@/pages/MicroBulkActions";
+import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
 import Payments from "@/pages/Payments";
+import ProductDetail from "@/pages/Stocks/product-detail";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
+import ProductsPage from "@/pages/Stocks/products-page";
 import Promotions from "@/pages/Promotions";
 import RollerbladeBulkActions from "@/pages/RollerbladeBulkActions";
+import Stocks from "@/pages/Stocks/Stocks";
 import Transports from "@/pages/Transports";
 import UniverskateBulkActions from "@/pages/UniverskateBulkActions";
 import Users from "@/pages/Users";
@@ -48,35 +54,60 @@ const App = () => (
             />
 
             {/* Routes WITH MainLayout */}
-            <Route element={<ProtectedRoute><MainLayout><Outlet /></MainLayout></ProtectedRoute>}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <MainLayout>
+                    <Outlet />
+                  </MainLayout>
+                </ProtectedRoute>
+              }
+            >
               <Route path="/index" element={<Index />} />
-              {/* Index Routes */}              
+              {/* Index Routes */}
               {/* Products Routes */}
               <Route path="/products/*" element={<ProductsListWrapper />} />
               {/* Inventory Routes */}
-              <Route path="/products/inventory/*" element={<Inventory />} />               
+              <Route path="/products/inventory/*" element={<Inventory />} />
+              {/* Stocks Routes */}
+              <Route path="/stocks/dashboard" element={<Dashboard />} />
+              <Route path="/stocks" element={<Stocks />} />
+              <Route path="/stocks/products" element={<ProductsPage />} />
+              <Route path="/stocks/new" element={<NewProduct />} />
+              <Route path="/stocks/:id" element={<ProductDetail />} />
+              <Route path="/stocks/:id/edit" element={<EditProduct />} />
+
               {/* Orders Routes */}
-              <Route path="/orders" element={<Orders />} />             
+              <Route path="/orders" element={<Orders />} />
               {/* Users Routes */}
               <Route path="/users" element={<Users />} />
-              <Route path="/users/all" element={<Users />} />          
+              <Route path="/users/all" element={<Users />} />
               {/* Promotions Routes */}
-              <Route path="/promotions" element={<Promotions />} />              
+              <Route path="/promotions" element={<Promotions />} />
               {/* Abandoned Carts Routes */}
-              <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />              
+              <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />
               {/* Logistics Routes */}
-              <Route path="/logistics/*" element={<Logistics />} />              
+              <Route path="/logistics/*" element={<Logistics />} />
               {/* Transports Routes */}
-              <Route path="/transports/*" element={<Transports />} />             
+              <Route path="/transports/*" element={<Transports />} />
               {/* Payments Routes */}
-              <Route path="/payments/*" element={<Payments />} />             
+              <Route path="/payments/*" element={<Payments />} />
               {/* Dropshipping Routes */}
-              <Route path="/dropshipping/*" element={<Dropshipping />} />    
+              <Route path="/dropshipping/*" element={<Dropshipping />} />
               {/* Bulk Actions Routes */}
               <Route path="/bulk-actions" element={<BulkActions />} />
-              <Route path="/bulk-actions/universkate" element={<UniverskateBulkActions />} /> 
-              <Route path="/bulk-actions/rollerblade" element={<RollerbladeBulkActions />} /> 
-              <Route path="/bulk-actions/micro" element={<MicroBulkActions />} />         
+              <Route
+                path="/bulk-actions/universkate"
+                element={<UniverskateBulkActions />}
+              />
+              <Route
+                path="/bulk-actions/rollerblade"
+                element={<RollerbladeBulkActions />}
+              />
+              <Route
+                path="/bulk-actions/micro"
+                element={<MicroBulkActions />}
+              />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

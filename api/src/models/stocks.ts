@@ -1,29 +1,38 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface InventoryDocument extends Document {
+interface StockDocument extends Document {
   productId: mongoose.Types.ObjectId;
-  variationId?: string;
-  size?: string;
-  stock: number;
-  own_stock?: boolean;
+  category?: string;
+  createdAt: Date;
+  description?: string;
   location?: string;
+  metadata?: Record<string, any>;
+  own_stock?: boolean;
   qrCodeData: string;
   qrCodeImageUrl?: string;
+  size?: string;
+  stock: number;
   updatedAt: Date;
-  createdAt: Date;
+  variantName?: string;
+  variationId?: string;
 }
 
-const InventorySchema = new Schema<InventoryDocument>({
+
+const StockSchema = new Schema<StockDocument>({
   productId: { type: Schema.Types.ObjectId, ref: 'products', required: true },
-  variationId: { type: String },
-  size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] },
-  stock: { type: Number, required: true },
-  own_stock: { type: Boolean, default: false },
-  location: { type: String },
-  qrCodeData: { type: String, required: true }, // what the QR code encodes
-  qrCodeImageUrl: { type: String }, 
-  updatedAt: { type: Date, default: Date.now },
+  category: { type: String },
   createdAt: { type: Date, default: Date.now },
+  description: { type: String },
+  location: { type: String },
+  metadata: { type: Schema.Types.Mixed },
+  own_stock: { type: Boolean, default: false },
+  qrCodeData: { type: String, required: true },
+  qrCodeImageUrl: { type: String },
+  size: { type: String },
+  stock: { type: Number, required: true },
+  updatedAt: { type: Date, default: Date.now },
+  variantName: { type: String },
+  variationId: { type: String },
 });
 
-export const InventoryModel = mongoose.model<InventoryDocument>('inventory', InventorySchema);
+export const StockModel = mongoose.model<StockDocument>('stocks', StockSchema);

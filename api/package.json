@@ -24,6 +24,7 @@
     "mongoose": "^7.5.2",
     "nodemailer": "^6.10.0",
     "openai": "^4.92.1",
+    "qrcode": "^1.5.4",
     "redsys-easy": "^5.2.11",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

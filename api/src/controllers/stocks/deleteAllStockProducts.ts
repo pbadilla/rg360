@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { InventoryModel } from '@/models/inventory';
 
-const deleteAllInventoryProducts = async (_req: Request, res: Response) => {
+const deleteAllStockProductById = async (_req: Request, res: Response) => {
   try {
     await InventoryModel.deleteMany({});
     res.status(200).json({ message: 'All inventory items deleted' });
@@ -10,4 +10,4 @@ const deleteAllInventoryProducts = async (_req: Request, res: Response) => {
   }
 };
 
-export default deleteAllInventoryProducts;
+export default deleteAllStockProductById;

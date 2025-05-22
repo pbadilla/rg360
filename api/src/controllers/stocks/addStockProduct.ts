@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import QRCode from 'qrcode';
 import { InventoryModel } from '@/models/inventory';
 
-const addInventoryProduct = async (req: Request, res: Response) => {
+const addStockProduct = async (req: Request, res: Response) => {
   try {
     const { productId, variationId, size, stock, own_stock, location } = req.body;
 
@@ -35,4 +35,4 @@ const addInventoryProduct = async (req: Request, res: Response) => {
   }
 };
 
-export default addInventoryProduct;
+export default addStockProduct;

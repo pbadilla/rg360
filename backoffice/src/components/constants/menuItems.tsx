@@ -31,9 +31,14 @@ export const menuItems = [
     link: "/stocks",
     submenu: [
       {
-        id: "allProductsInStock",
-        label: "All Products in Stock",
-        link: "/stock/all",
+        id: "dashboardStocks",
+        label: "Dashboard",
+        link: "/stocks/dashboard",
+      },
+      {
+        id: "productsStocks",
+        label: "Products",
+        link: "/stocks/products",
       },
     ],
   },

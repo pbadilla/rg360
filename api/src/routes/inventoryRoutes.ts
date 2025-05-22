@@ -2,11 +2,11 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 
 import { 
-  getAllInventoryProducts,
-  getInventoryProductById,
-  deleteAllInventoryProducts,
-  deleteInventoryProductById,
-  addInventoryProduct
+  getAllStocksProducts,
+  getStockProductById,
+  deleteAllStockProductById,
+  deleteStockProductById,
+  addStockProduct
 } from '@/controllers/inventory';
 
 const router = Router();
@@ -21,10 +21,10 @@ router.use((req, res, next) => {
 
 /** Inventory Routes */
 /** CRUD Routes */
-router.post('/', addInventoryProduct);
-router.get('/', getAllInventoryProducts);
-router.get('/:inventoryId', getInventoryProductById);
-router.delete('/', deleteAllInventoryProducts);
-router.delete('/:inventoryId', deleteInventoryProductById);
+router.post('/', addStockProduct);
+router.get('/', getAllStocksProducts);
+router.get('/:inventoryId', getStockProductById);
+router.delete('/', deleteAllStockProductById);
+router.delete('/:inventoryId', deleteStockProductById);
 
 export default router;

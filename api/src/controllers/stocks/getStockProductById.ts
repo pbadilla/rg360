@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { InventoryModel } from '@/models/inventory';
 
-const getInventoryProductById = async (req: Request, res: Response) => {
+const getStockProductById = async (req: Request, res: Response) => {
   try {
     const item = await InventoryModel.findById(req.params.inventoryId);
     if (!item) return res.status(404).json({ message: 'Inventory item not found' });
@@ -11,4 +11,4 @@ const getInventoryProductById = async (req: Request, res: Response) => {
   }
 };
 
-export default getInventoryProductById;
+export default getStockProductById;

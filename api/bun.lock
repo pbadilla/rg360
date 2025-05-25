@@ -9,6 +9,7 @@
         "axios": "^1.8.4",
         "basic-auth-header": "^1.0.1",
         "basic-ftp": "^5.0.5",
+        "bcrypt": "^6.0.0",
         "csv-parser": "^3.2.0",
         "express": "^4.18.2",
         "jsonwebtoken": "^9.0.2",
@@ -230,6 +231,8 @@
     "basic-auth-header": ["basic-auth-header@1.0.1", "", {}, "sha512-ZY7Z3LsRKgeh6W5wYbddbVqLvIgPSSy4Y5IU1rGrviv2FS4GvMxe+YF97gcbCOA/Y6dFMSVX2eLZIjN5PiNoug=="],
 
     "basic-ftp": ["basic-ftp@5.0.5", "", {}, "sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg=="],
+
+    "bcrypt": ["bcrypt@6.0.0", "", { "dependencies": { "node-addon-api": "^8.3.0", "node-gyp-build": "^4.8.4" } }, "sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg=="],
 
     "binary-extensions": ["binary-extensions@2.2.0", "", {}, "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="],
 
@@ -545,9 +548,13 @@
 
     "nock": ["nock@14.0.4", "", { "dependencies": { "@mswjs/interceptors": "^0.38.5", "json-stringify-safe": "^5.0.1", "propagate": "^2.0.0" } }, "sha512-86fh+gIKH8H02+y0/HKAOZZXn6OwgzXvl6JYwfjvKkoKxUWz54wIIDU/+w24xzMvk/R8pNVXOrvTubyl+Ml6cg=="],
 
+    "node-addon-api": ["node-addon-api@8.3.1", "", {}, "sha512-lytcDEdxKjGJPTLEfW4mYMigRezMlyJY8W4wxJK8zE533Jlb8L8dRuObJFWg2P+AuOIxoCgKF+2Oq4d4Zd0OUA=="],
+
     "node-domexception": ["node-domexception@1.0.0", "", {}, "sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ=="],
 
     "node-fetch": ["node-fetch@2.7.0", "", { "dependencies": { "whatwg-url": "^5.0.0" }, "peerDependencies": { "encoding": "^0.1.0" }, "optionalPeers": ["encoding"] }, "sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A=="],
+
+    "node-gyp-build": ["node-gyp-build@4.8.4", "", { "bin": { "node-gyp-build": "bin.js", "node-gyp-build-optional": "optional.js", "node-gyp-build-test": "build-test.js" } }, "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ=="],
 
     "nodemailer": ["nodemailer@7.0.3", "", {}, "sha512-Ajq6Sz1x7cIK3pN6KesGTah+1gnwMnx5gKl3piQlQQE/PwyJ4Mbc8is2psWYxK3RJTVeqsDaCv8ZzXLCDHMTZw=="],
 

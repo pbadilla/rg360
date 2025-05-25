@@ -18,7 +18,7 @@ router.use((req, res, next) => {
   next();
 });
 
-/** Inventory Routes */
+/** stock Routes */
 /** CRUD Routes */
 router.post('/', addStockProduct);
 router.get('/', getAllStocksProducts);

@@ -19,12 +19,12 @@ router.use((req, res, next) => {
   next();
 });
 
-/** Inventory Routes */
+/** stock Routes */
 /** CRUD Routes */
 router.post('/', addOrder);
 router.get('/', getAllOrders);
-router.get('/:inventoryId', getOrderById);
+router.get('/:stockId', getOrderById);
 router.delete('/', deleteAllOrders);
-router.delete('/:inventoryId', deleteOrderById);
+router.delete('/:stockId', deleteOrderById);
 
 export default router;

@@ -2,12 +2,12 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 
 import { 
+  addStockProduct,
+  deleteAllStockProducts,
+  deleteStockProductById,
   getAllStocksProducts,
   getStockProductById,
-  deleteAllStockProductById,
-  deleteStockProductById,
-  addStockProduct
-} from '@/controllers/inventory';
+} from '@/controllers/stocks';
 
 const router = Router();
 
@@ -19,12 +19,12 @@ router.use((req, res, next) => {
   next();
 });
 
-/** Inventory Routes */
+/** stock Routes */
 /** CRUD Routes */
 router.post('/', addStockProduct);
 router.get('/', getAllStocksProducts);
-router.get('/:inventoryId', getStockProductById);
-router.delete('/', deleteAllStockProductById);
-router.delete('/:inventoryId', deleteStockProductById);
+router.get('/:stockId', getStockProductById);
+router.delete('/', deleteAllStockProducts);
+router.delete('/:stockId', deleteStockProductById);
 
 export default router;

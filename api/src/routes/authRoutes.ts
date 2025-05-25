@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 const router = Router();
 
 const FAKE_EMAIL = "rollergrind360@gmail.com";
-const FAKE_PASSWORD = "pwd123";
+const FAKE_PASSWORD = "test1234";
 
-router.post("/login", (req, res) => {
+router.post("/", (req, res) => {
   const { email, password } = req.body;
 
   if (email === FAKE_EMAIL && password === FAKE_PASSWORD) {

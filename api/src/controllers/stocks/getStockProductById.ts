@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { InventoryModel } from '@/models/inventory';
+import { StockModel } from '@/models/stocks';
 
 const getStockProductById = async (req: Request, res: Response) => {
   try {
-    const item = await InventoryModel.findById(req.params.inventoryId);
-    if (!item) return res.status(404).json({ message: 'Inventory item not found' });
-    res.status(200).json({ inventory: item });
+    const item = await StockModel.findById(req.params.stockId);
+    if (!item) return res.status(404).json({ message: 'stock item not found' });
+    res.status(200).json({ stock: item });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

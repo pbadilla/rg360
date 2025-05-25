@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { InventoryModel } from '@/models/inventory';
+import { StockModel } from '@/models/stocks';
 
 const deleteAllStockProductById = async (_req: Request, res: Response) => {
   try {
-    await InventoryModel.deleteMany({});
-    res.status(200).json({ message: 'All inventory items deleted' });
+    await StockModel.deleteMany({});
+    res.status(200).json({ message: 'All stock items deleted' });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { InventoryModel } from '@/models/inventory';
+import { StockModel } from '@/models/stocks';
 
 const getAllStocksProducts = async (_req: Request, res: Response) => {
   try {
-    const items = await InventoryModel.find();
-    res.status(200).json({ inventory: items });
+    const items = await StockModel.find();
+    res.status(200).json({ stock: items });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

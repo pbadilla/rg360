@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import apiClient from './axiosConfig';
+import apiClient from '../config/axiosConfig';
 
 interface CsvEntry {
   [key: string]: string;

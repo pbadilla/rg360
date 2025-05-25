@@ -1,17 +1,21 @@
 import { Request, Response } from 'express';
 import { REDSYS_CONFIG } from '@/config/redsys';
-import Redsys from 'redsys-easy';
-import crypto from 'crypto';
+import { createRedsysAPI } from 'redsys-easy'; // ✅ Only import this
 
 const redsysPayment = async (req: Request, res: Response) => {
   const { orderId, amount, userId } = req.body;
 
-  // Format amount in cents
   const formattedAmount = (amount * 100).toFixed(0);
+    
+  const redsys = createRedsysAPI({
+    secretKey: REDSYS_CONFIG.secretKey,
+    urls: {
+      live: REDSYS_CONFIG.urls.live,
+      test: REDSYS_CONFIG.urls.test
+    }
+  });
 
-  const redsys = new Redsys(REDSYS_CONFIG.secretKey);
-
-  const orderNumber = `ORD${Date.now()}`; // Unique order ID
+  const orderNumber = `ORD${Date.now()}`;
   const merchantParams = {
     DS_MERCHANT_AMOUNT: formattedAmount,
     DS_MERCHANT_ORDER: orderNumber,
@@ -26,12 +30,18 @@ const redsysPayment = async (req: Request, res: Response) => {
     DS_MERCHANT_TITULAR: 'Customer Name',
   };
 
-  const merchantParamsBase64 = redsys.createMerchantParameters(merchantParams);
-  const signature = redsys.createMerchantSignature(merchantParams.DS_MERCHANT_ORDER, merchantParamsBase64);
+  const merchantParamsBase64 = redsys.signMerchantParameters(merchantParams);
+  const signature = redsys.signMerchantParameters(merchantParams.DS_MERCHANT_ORDER, merchantParamsBase64);
+
+  // The target form URL depends on the environment
+  const formUrl =
+    REDSYS_CONFIG.environment === 'live'
+      ? 'https://sis.redsys.es/sis/realizarPago'
+      : 'https://sis-t.redsys.es:25443/sis/realizarPago';
 
   res.json({
     redsysForm: {
-      url: redsys.getEnvironment(REDSYS_CONFIG.environment),
+      url: formUrl,
       params: {
         Ds_SignatureVersion: 'HMAC_SHA256_V1',
         Ds_MerchantParameters: merchantParamsBase64,

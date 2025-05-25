@@ -13,7 +13,7 @@ const getOrderById = async (req: Request, res: Response, _next: NextFunction) =>
             return res.status(404).json({ message: 'Order not found.' });
         }
 
-        console.log('Order found:', order.name || order._id);
+        console.log('Order found:', order._id);
         return res.status(200).json({ order });
     } catch (error: any) {
         console.error('Error fetching order by ID:', error);

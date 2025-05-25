@@ -1,4 +1,3 @@
-// controllers/resetPassword.ts
 import { Request, Response } from 'express';
 import { PasswordResetTokenModel } from '@/models/passwordResetToken';
 import { UserModel } from '@/models/user';

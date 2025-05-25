@@ -40,7 +40,7 @@ function transformOrder(data: any): Order {
   };
 }
 
-function transformInventory(data: any): Inventory {
+function transformstock(data: any): stock {
   return {
     id: data._id?.$oid || '',
     productId: data.productId?.$oid || '',
@@ -82,4 +82,4 @@ function transformVendor(data: any): Vendor {
 }
 
 
-export { transformUser , transformOrder, transformPayment, transformInventory, transformVendor, omitFields };
+export { transformUser , transformOrder, transformPayment, transformstock, transformVendor, omitFields };

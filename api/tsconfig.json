@@ -4,8 +4,9 @@
     "target": "ES2020",                                  /* Use a modern JS target for async/await, etc. */
 
     /* Modules */
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "ES6",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
     "baseUrl": "./",
     "paths": {
       "@/assets/*": ["src/assets/*"],
@@ -27,6 +28,7 @@
       "@/utils/*": ["src/utils/*"],
       "@/validators/*": ["src/validators/*"],
     },
+    "preserveSymlinks": true,
 
     /* Emit */
     "sourceMap": true,
@@ -48,5 +50,9 @@
 
     /* Completeness */
     "skipLibCheck": true
+  },
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
   }
 }

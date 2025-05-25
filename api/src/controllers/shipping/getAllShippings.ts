@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ShippingModel } from '@/models/shipping';
 
-const getAllShippings = async (req: Request, res: Response) => {
+const getAllShippings = async (res: Response) => {
   try {
     const shippings = await ShippingModel.find();
     res.status(200).json(shippings);

@@ -8,7 +8,7 @@ import logging from '@/config/logging';
 import config from '@/config/config';
 
 import authRoutes from '@/routes/authRoutes';
-import inventoryRoutes from '@/routes/inventoryRoutes';
+import stockRoutes from '@/routes/stockRoutes';
 import notificationsRoutes from '@/routes/notificationsRoutes';
 import ordersRoutes from '@/routes/ordersRoutes';
 import paymentRoutes from '@/routes/paymentsRoutes';
@@ -73,15 +73,15 @@ const startServer = async () => {
     });
 
     // Routes
-    app.use('/auth', authRoutes);
-    app.use('/inventory', inventoryRoutes);
+    app.use('/login', authRoutes);
+    app.use('/stock', stockRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);
     app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
     app.use('/shipping', shippingRoutes);
     app.use('/users', usersRoutes)
-    app.use('vendors', vendorsRoutes);
+    app.use('/vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);
 
     app.use('/importerUniverskate', importerUniverskate);

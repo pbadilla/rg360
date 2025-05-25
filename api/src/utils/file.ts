@@ -1,4 +1,4 @@
-import fs from 'fs';
+
 import csv from 'csv-parser';
 import { processProduct } from '@/utils/product';
 

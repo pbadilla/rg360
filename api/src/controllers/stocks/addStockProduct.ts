@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import QRCode from 'qrcode';
-import { StockModel } from '@/models/stocks';
+import { StockModel} from '@/models/stocks';
 
 const addStockProduct = async (req: Request, res: Response) => {
   try {

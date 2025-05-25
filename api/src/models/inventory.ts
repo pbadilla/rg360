@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface InventoryDocument extends Document {
+interface stockDocument extends Document {
   productId: mongoose.Types.ObjectId;
   variationId?: string;
   size?: string;
@@ -13,7 +13,7 @@ interface InventoryDocument extends Document {
   createdAt: Date;
 }
 
-const InventorySchema = new Schema<InventoryDocument>({
+const stockSchema = new Schema<stockDocument>({
   productId: { type: Schema.Types.ObjectId, ref: 'products', required: true },
   variationId: { type: String },
   size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] },
@@ -26,4 +26,4 @@ const InventorySchema = new Schema<InventoryDocument>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export const InventoryModel = mongoose.model<InventoryDocument>('inventory', InventorySchema);
+export const stockModel = mongoose.model<stockDocument>('stock', stockSchema);

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import api from "@/config/axiosConfig";
+import api from "../config/axiosConfig";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -22,25 +22,6 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if email and password are provided
-    // console.log("ENV:", import.meta.env.VITE_ENV);
-
-    // const STATIC_EMAIL = import.meta.env.VITE_STATIC_EMAIL;
-    // const STATIC_PASSWORD = import.meta.env.VITE_STATIC_PASS;
-
-    // if (import.meta.env.VITE_ENV === "local") {
-    //   if (email === STATIC_EMAIL && password === STATIC_PASSWORD) {
-    //     toast.success("Logged in locally (dev bypass)");
-    //     localStorage.setItem("token", "fake-local-token");
-    //     navigate("/index");
-    //     return;
-    //   } else {
-    //     toast.warning("Invalid credentials for local login");
-    //     return;
-    //   }
-    // }
-
-    // Regular login flow
     try {
       const response = await api.post("/login", {
         email,
@@ -52,7 +33,7 @@ const Login = () => {
       toast.success("Successfully logged in");
       navigate("/index");
     } catch (err: any) {
-      const message = err.response?.data?.message || "Login failed";
+      const message = err.response?.data?.message || "Login Failed";
       toast.error(message);
     }
   };

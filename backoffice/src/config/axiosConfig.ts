@@ -1,39 +1,37 @@
 import axios from "axios";
 
-// Create an Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // Adjust base URL to your backend
+  baseURL: import.meta.env.VITE_API_PROD,
   timeout: 10000,
+  withCredentials: true, // keep this if you need to send cookies with requests
 });
 
 // Request interceptor: Add token to headers
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
+    console.log("Request:", config);
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Response interceptor: Global error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("Response:", response);
+    return response;
+  },
   (error) => {
     const status = error.response?.status;
-
+    console.log("Error Response:", error.response);
     if (status === 401) {
-      // Token expired / unauthorized
       localStorage.removeItem("token");
-      window.location.href = "/login"; // or use router redirect
+      window.location.href = "/login"; // or router redirect
     }
-
     return Promise.reject(error);
   }
 );

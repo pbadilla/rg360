@@ -4,27 +4,27 @@
   "description": "RG360 Ecommerce API",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && tsc-alias --resolveFullPaths --extensions",
-    "dev": "tsx watch src/index.ts",
-    "dev-watch": "ts-node-dev --esm --respawn --transpile-only --require tsconfig-paths/register src/index.ts",
-    "dev-esm": "ts-node --esm --loader ts-node/esm --require tsconfig-paths/register src/index.ts",
-    "start": "node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "bun run src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir build"
   },
   "keywords": [],
   "author": "Pachi Badilla",
   "license": "ISC",
   "dependencies": {
     "@types/qrcode": "^1.5.5",
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.8.4",
     "basic-auth-header": "^1.0.1",
     "basic-ftp": "^5.0.5",
     "csv-parser": "^3.2.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "mock-aws-s3": "^4.0.2",
     "mongodb": "^6.14.2",
     "mongoose": "^7.5.2",
-    "nodemailer": "^6.10.0",
+    "nock": "^14.0.4",
+    "nodemailer": "^7.0.3",
     "openai": "^4.92.1",
     "qrcode": "^1.5.4",
     "redsys-easy": "^5.2.11",
@@ -45,7 +45,9 @@
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.19.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@types/bun": "latest"
   },
-  "type": "module"
+  "type": "module",
+  "private": true
 }

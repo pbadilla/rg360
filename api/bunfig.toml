@@ -1,0 +1,31 @@
+[entrypoints]
+index = "src/index.ts"
+
+[target]
+default = "bun"
+
+[build]
+tsconfig = "tsconfig.json" # No quotes around key
+
+[alias]
+"@/assets" = "src/assets"
+"@/config" = "src/config"
+"@/constants" = "src/constants"
+"@/controllers" = "src/controllers"
+"@/db" = "src/db"
+"@/docs" = "src/docs"
+"@/helpers" = "src/helpers"
+"@/interfaces" = "src/interfaces"
+"@/middleware" = "src/middleware"
+"@/migrations" = "src/migrations"
+"@/models" = "src/models"
+"@/routes" = "src/routes"
+"@/seeders" = "src/seeders"
+"@/services" = "src/services"
+"@/tests" = "src/tests"
+"@/types" = "src/types"
+"@/utils" = "src/utils"
+"@/validators" = "src/validators"
+"@/views" = "src/views"
+"@/config/env" = "src/config/env"
+"@/config/database" = "src/config/database"

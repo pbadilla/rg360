@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const router = Router();
 
 const FAKE_EMAIL = "rollergrind360@gmail.com";
-const FAKE_PASSWORD = "test1234";
+const FAKE_PASSWORD = "Test1234";
 
 router.post("/", (req, res) => {
   const { email, password } = req.body;

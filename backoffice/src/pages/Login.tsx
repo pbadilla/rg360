@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { EyeClosed, Eye } from "lucide-react";
 
 import { AuthLayout } from "@/components/layout/AuthLayout"; // wrapper layout
+import { handleApiError } from "@/utils/handleAPIErrors";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,8 +34,8 @@ const Login = () => {
       toast.success("Successfully logged in");
       navigate("/index");
     } catch (err: any) {
-      return err.status(401).json({ message: "Invalid credentials" });
-      toast.error("Invalid credentials");
+      // Handle specific error cases
+      handleApiError(err, navigate);
     }
   };
 

@@ -1,4 +1,4 @@
-import { OpenAI } from "openai";
+import { OpenAI } from "openai/index.mjs";
 import { Product } from "@/types/product";
 import dotenv from "dotenv";
 

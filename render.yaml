@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: frontend
+    rootDir: apps/front
+    runtime: node
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+  - type: web
+    name: backoffice
+    rootDir: apps/backoffice
+    runtime: node
+    buildCommand: pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm preview -- --host
+  - type: web
+    name: api
+    rootDir: apps/api
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile
+

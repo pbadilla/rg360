@@ -1,5 +1,5 @@
 {
-  "name": "rg360-commerce-api",
+  "name": "api",
   "version": "0.0.2",
   "description": "RG360 Ecommerce API",
   "main": "src/index.ts",

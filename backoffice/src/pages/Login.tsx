@@ -33,8 +33,8 @@ const Login = () => {
       toast.success("Successfully logged in");
       navigate("/index");
     } catch (err: any) {
-      const message = err.response?.data?.message || "Login Failed";
-      toast.error(message);
+      return err.status(401).json({ message: "Invalid credentials" });
+      toast.error("Invalid credentials");
     }
   };
 

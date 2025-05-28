@@ -1,18 +1,23 @@
 {
-  "name": "frontend",
-  "version": "0.0.1",
+  "name": "rollergrind360-ecommerce-platform",
+  "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@8.15.4",
+  "license": "MIT",
+  "description": "RollerGrind360 E-commerce Platform",
+  "author": "pachibadilla@gmail.com",
   "scripts": {
-    "dev:api": "pnpm --filter api dev",
-    "dev:front": "pnpm --filter frontend dev",
-    "dev:backoffice": "pnpm --filter backoffice dev",
+    "dev:api": "pnpm --filter rollergrind360-ecommerce-api dev",
+    "dev:front": "pnpm --filter rollergrind360-ecommerce-frontend dev",
+    "dev:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice dev",
+    "dev": "concurrently -k --names api,frontend,backoffice \"pnpm dev:api\" \"pnpm dev:front\" \"pnpm dev:backoffice\"",
     "build": "pnpm -r build"
   },
   "dependencies": {
     "api": "workspace:*",
-    "frontend": "workspace:*",
-    "backoffice": "workspace:*"
+    "backoffice": "workspace:*",
+    "concurrently": "^9.1.2",
+    "frontend": "workspace:*"
   },
   "devDependencies": {
     "pnpm": "^8.15.4"
@@ -26,8 +31,5 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "license": "MIT",
-  "description": "RollerGrind360 E-commerce Platform",
-  "author": "pachibadilla@gmail.com"
+  }
 }

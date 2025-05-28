@@ -1,6 +1,7 @@
 {
-  "name": "api",
-  "version": "0.0.2",
+  "name": "rollergrind360-ecommerce-api",
+  "author": "Pachi Badilla - pachibadilla@gmail.com",
+  "version": "0.1.0",
   "description": "RG360 Ecommerce API",
   "main": "src/index.ts",
   "type": "module",
@@ -11,7 +12,6 @@
     "build": "bun build src/index.ts --outdir build"
   },
   "keywords": [],
-  "author": "Pachi Badilla",
   "license": "ISC",
   "dependencies": {
     "@types/qrcode": "^1.5.5",

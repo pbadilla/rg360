@@ -1,0 +1,12 @@
+.next/
+/dist/
+/out/
+/node_modules/
+
+# Ignorar archivos de configuración específicos
+.env
+.env.local
+
+# Ignorar archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db

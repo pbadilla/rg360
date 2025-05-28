@@ -1,6 +1,7 @@
 {
-  "name": "backoffice",
-  "version": "0.0.1",
+  "name": "rollergrind360-ecommerce-backoffice",
+  "author": "Pachi Badilla - pachibadilla@gmail.com",
+  "version": "0.1.0",
   "description": "RG360 Ecommerce Backoffice",
   "private": true,
   "type": "module",

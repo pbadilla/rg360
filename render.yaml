@@ -1,21 +1,21 @@
 services:
   - type: web
     name: frontend
-    rootDir: frontend
+    rootDir: apps/frontend
     runtime: node
-    buildCommand: corepack enable && pnpm install --filter ./frontend --frozen-lockfile && pnpm build --filter ./frontend
-    startCommand: pnpm start --filter ./frontend
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
 
   - type: web
     name: backoffice
-    rootDir: backoffice
+    rootDir: apps/backoffice
     runtime: node
-    buildCommand: corepack enable && pnpm install --filter ./backoffice --frozen-lockfile && pnpm build --filter ./backoffice
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm preview -- --host 0.0.0.0
 
   - type: web
     name: api
-    rootDir: api
+    rootDir: apps/api
     runtime: node
-    buildCommand: corepack enable && pnpm install --filter ./api --frozen-lockfile
-    startCommand: pnpm dev --filter ./api
+    buildCommand: bun install
+    startCommand: bun run src/index.ts

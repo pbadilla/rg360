@@ -1,5 +1,5 @@
 [entrypoints]
-index = "src/index.ts"
+index = "src/index.js"
 
 [target]
 default = "bun"

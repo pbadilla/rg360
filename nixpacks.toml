@@ -21,4 +21,4 @@ cmds = [
 ]
 
 [start]
-cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.ts"
+cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.js"

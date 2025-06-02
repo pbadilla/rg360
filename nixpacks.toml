@@ -3,14 +3,13 @@ nixPkgs = ["nodejs", "curl", "bun", "unzip", "pnpm"]
 
 [phases.install]
 cmds = [
-  # Instalar Bun y exponerlo para otras fases
   "curl -fsSL https://bun.sh/install | bash",
   "mv ~/.bun /bun",
+  "export PATH=\"/bun/bin:$PATH\"",
 
-  # Instalar dependencias de cada app
-  "cd apps/api && /bun/bin/bun install",
+  "cd apps/api && bun install",
   "cd apps/frontend && pnpm install",
-  "cd apps/backoffice && pnpm start",
+  "cd apps/backoffice && pnpm install",
 ]
 
 [phases.build]
@@ -18,9 +17,8 @@ cmds = [
   "export PATH=\"/bun/bin:$PATH\"",
   "cd apps/frontend && pnpm build",
   "cd apps/backoffice && pnpm build",
+  "cd apps/api && bun build",         # if you have a build step for API
 ]
 
 [start]
-# Podés elegir cómo arrancar: una sola app o todas
-# Por ejemplo, sólo la API:
 cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.ts"

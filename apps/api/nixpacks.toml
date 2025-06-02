@@ -1,15 +1,15 @@
 [phases.setup]
-nixPkgs = ["nodejs", "bun", "curl"]
+nixPkgs = ["nodejs", "curl", "unzip"]
 
 [phases.install]
 cmds = [
   "curl -fsSL https://bun.sh/install | bash",
-  "export PATH=\"/root/.bun/bin:$PATH\"",
-  "cd apps/api && bun install"
+  "mv ~/.bun /bun",                                                        # mueve fuera de HOME para persistencia entre fases
+  "export PATH=\"/bun/bin:$PATH\" && cd apps/api && /bun/bin/bun install",
 ]
 
 [phases.build]
-cmds = []
+cmds = [] # no hay build si se ejecuta directamente
 
 [start]
-cmd = "cd apps/api && /root/.bun/bin/bun run src/index.ts"
+cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.ts"

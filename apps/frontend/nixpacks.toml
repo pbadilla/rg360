@@ -1,11 +1,15 @@
 [phases.setup]
-nixPkgs = ["nodejs"]
+nixPkgs = ["nodejs", "bun", "curl"]
 
 [phases.install]
-cmds = ["corepack enable", "cd apps/frontend && pnpm install"]
+cmds = [
+  "curl -fsSL https://bun.sh/install | bash",
+  "export PATH=\"/root/.bun/bin:$PATH\"",
+  "cd apps/api && bun install",
+]
 
 [phases.build]
-cmds = ["cd apps/frontend && pnpm build"]
+cmds = []
 
 [start]
-cmd = "cd apps/frontend && pnpm run dev"
+cmd = "cd apps/api && /root/.bun/bin/bun run src/index.ts"

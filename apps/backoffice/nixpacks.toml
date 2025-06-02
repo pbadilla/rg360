@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["nodejs"]
+nixPkgs = ["nodejs", "pnpm"]
 
 [phases.install]
-cmds = ["corepack enable", "cd apps/backoffice && pnpm install"]
+cmds = ["cd apps/backoffice && pnpm install"]
 
 [phases.build]
 cmds = ["cd apps/backoffice && pnpm build"]

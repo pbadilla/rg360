@@ -2,10 +2,14 @@
 nixPkgs = ["nodejs", "pnpm"]
 
 [phases.install]
-cmds = ["cd apps/backoffice && pnpm install"]
+cmds = [
+  "corepack enable",
+  "corepack prepare pnpm@latest --activate",
+  "pnpm install",
+]
 
 [phases.build]
-cmds = ["cd apps/backoffice && pnpm build"]
+cmds = ["pnpm build"]
 
 [start]
-cmd = "cd apps/backoffice && pnpm preview -- --host 0.0.0.0"
+cmd = "pnpm preview -- --host 0.0.0.0"

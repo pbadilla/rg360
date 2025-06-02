@@ -1,15 +1,15 @@
 [phases.setup]
-nixPkgs = ["nodejs", "bun", "curl"]
+nixPkgs = ["nodejs", "pnpm"]
 
 [phases.install]
 cmds = [
-  "curl -fsSL https://bun.sh/install | bash",
-  "export PATH=\"/root/.bun/bin:$PATH\"",
-  "cd apps/api && bun install",
+  "corepack enable",
+  "corepack prepare pnpm@latest --activate",
+  "pnpm install",
 ]
 
 [phases.build]
-cmds = []
+cmds = ["pnpm build"]
 
 [start]
-cmd = "cd apps/api && /root/.bun/bin/bun run src/index.ts"
+cmd = "pnpm start"

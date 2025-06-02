@@ -1,13 +1,12 @@
-function omitFields(obj, fields = []) {
+import { Order, Payment, Stock, User, Vendor } from "@/types/bff";
+
+function omitFields(obj: Record<string, any>, fields: string[] = []) {
   const copy = { ...obj };
   for (const field of fields) {
     delete copy[field];
   }
   return copy;
 }
-
-// Usage
-// res.json(omitFields(user, ['password']));
 
 function transformPayment(data: any): Payment {
   return {
@@ -21,7 +20,6 @@ function transformPayment(data: any): Payment {
     createdAt: new Date(data.createdAt?.$date?.$numberLong),
   };
 }
-
 
 function transformOrder(data: any): Order {
   return {
@@ -40,7 +38,7 @@ function transformOrder(data: any): Order {
   };
 }
 
-function transformstock(data: any): stock {
+function transformstock(data: any): Stock {
   return {
     id: data._id?.$oid || '',
     productId: data.productId?.$oid || '',
@@ -51,8 +49,7 @@ function transformstock(data: any): stock {
   };
 }
 
-
-export function transformUser(data: any): User {
+function transformUser(data: any): User {
   return {
     id: data._id?.$oid || '',
     name: data.name,
@@ -80,6 +77,5 @@ function transformVendor(data: any): Vendor {
     updatedAt: new Date(data.updatedAt?.$date?.$numberLong),
   };
 }
-
 
 export { transformUser , transformOrder, transformPayment, transformstock, transformVendor, omitFields };

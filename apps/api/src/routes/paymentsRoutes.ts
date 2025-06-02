@@ -1,16 +1,24 @@
 import express from 'express';
+import {
+  encodeMerchantParameters,
+  createMerchantSignature,
+  getEnvironment
+} from 'redsys-easy';
 import { createPayment, getPaymentById } from '@/controllers/payments';
-import { authMiddleware } from '@/middleware/auth'; // your JWT middleware
+import { authMiddleware } from '@/middleware/auth';
+import { REDSYS_CONFIG } from '@/config/redsys';
 
 const router = express.Router();
 
 router.post('/', authMiddleware, createPayment);
 router.get('/:id', authMiddleware, getPaymentById);
+
 router.post('/redsys', authMiddleware, (req, res) => {
   const { orderId, amount, userId } = req.body;
-  const redsys = new Redsys(REDSYS_CONFIG.secretKey);
+
   const formattedAmount = (amount * 100).toFixed(0);
-  const orderNumber = `ORD${Date.now()}`; // Unique order ID
+  const orderNumber = `ORD${Date.now()}`;
+
   const merchantParams = {
     DS_MERCHANT_AMOUNT: formattedAmount,
     DS_MERCHANT_ORDER: orderNumber,
@@ -24,11 +32,14 @@ router.post('/redsys', authMiddleware, (req, res) => {
     DS_MERCHANT_PRODUCTDESCRIPTION: 'E-commerce Order',
     DS_MERCHANT_TITULAR: 'Customer Name',
   };
-  const merchantParamsBase64 = redsys.createMerchantParameters(merchantParams);
-  const signature = redsys.createMerchantSignature(merchantParams.DS_MERCHANT_ORDER, merchantParamsBase64);
+
+  const merchantParamsBase64 = encodeMerchantParameters(merchantParams);
+  const signature = createMerchantSignature(REDSYS_CONFIG.secretKey, merchantParamsBase64);
+  const redsysUrl = getEnvironment(REDSYS_CONFIG.environment);
+
   res.json({
     redsysForm: {
-      url: redsys.getEnvironment(REDSYS_CONFIG.environment),
+      url: redsysUrl,
       params: {
         Ds_SignatureVersion: 'HMAC_SHA256_V1',
         Ds_MerchantParameters: merchantParamsBase64,

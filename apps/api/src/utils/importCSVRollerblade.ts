@@ -1,6 +1,7 @@
 
 import csv from 'csv-parser';
 import { productsRollerbladeProcessing } from '@/utils/productsRollerblade';
+import fs from 'fs';
 
 export async function importCSVRollerblade(filePath: string): Promise<void> {
   if (!fs.existsSync(filePath)) return;

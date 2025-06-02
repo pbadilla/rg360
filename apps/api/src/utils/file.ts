@@ -1,6 +1,7 @@
 
 import csv from 'csv-parser';
 import { processProduct } from '@/utils/product';
+import fs from 'fs';
 
 // Define the ProductRow interface
 interface ProductRow {

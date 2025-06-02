@@ -2,10 +2,7 @@
 nixPkgs = ["nodejs"]
 
 [phases.install]
-cmds = [
-  "corepack enable",
-  "cd apps/backoffice && pnpm install --frozen-lockfile",
-]
+cmds = ["corepack enable", "cd apps/backoffice && pnpm install"]
 
 [phases.build]
 cmds = ["cd apps/backoffice && pnpm build"]

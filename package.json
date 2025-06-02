@@ -14,19 +14,19 @@
     "build": "pnpm -r build"
   },
   "dependencies": {
-    "api": "workspace:*",
-    "backoffice": "workspace:*",
+    "rollergrind360-ecommerce-api": "workspace:*",
+    "rollergrind360-ecommerce-backoffice": "workspace:*",
     "concurrently": "^9.1.2",
-    "frontend": "workspace:*"
+    "rollergrind360-ecommerce-frontend": "workspace:*"
   },
   "devDependencies": {
     "pnpm": "^8.15.4"
   },
   "workspaces": {
     "packages": [
-      "api",
-      "frontend",
-      "backoffice"
+      "rollergrind360-ecommerce-api",
+      "rollergrind360-ecommerce-frontend",
+      "rollergrind360-ecommerce-backoffice"
     ]
   },
   "engines": {

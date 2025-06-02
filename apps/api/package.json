@@ -7,9 +7,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run src/index.ts",
-    "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --target=node --outdir build"
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc --project tsconfig.json && tsc-alias"
   },
   "keywords": [],
   "license": "ISC",

@@ -9,7 +9,7 @@ cmds = [
 ]
 
 [phases.build]
-cmds = ["bun run build"]
+cmds = ["bunx tsc --project tsconfig.json && bunx tsc-alias"]
 
 [start]
-cmd = "/root/.bun/bin/bun run build/index.js"
+cmd = "bunx tsx src/index.ts"

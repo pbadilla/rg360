@@ -1,16 +1,18 @@
 [phases.setup]
-nixPkgs = ["nodejs", "curl", "bun", "unzip", "pnpm"]
+nixPkgs = ["nodejs", "curl", "unzip", "bun", "pnpm"]
 
 [phases.install]
 cmds = [
+  # Install Bun
   "curl -fsSL https://bun.sh/install | bash",
   "mv ~/.bun /bun",
-  "export PATH=\"/bun/bin:$PATH\"",
-  "pnpm install",
+
+  # Add Bun to PATH for install phase
+  "export PATH=\"/bun/bin:$PATH\" && pnpm install",
 ]
 
 [phases.build]
 cmds = ["export PATH=\"/bun/bin:$PATH\"", "pnpm -r build"]
 
 [start]
-cmd = "export PATH=\"/bun/bin:$PATH\" && concurrently -k -n api,front,backoffice \"pnpm --filter apps/api dev\" \"pnpm --filter apps/frontend dev\" \"pnpm --filter apps/backoffice dev\""
+cmd = "export PATH=\"/bun/bin:$PATH\" && concurrently -k -n api,front,backoffice \"pnpm --filter rollergrind360-ecommerce-api dev\" \"pnpm --filter rollergrind360-ecommerce-frontend dev\" \"pnpm --filter rollergrind360-ecommerce-backoffice dev\""

@@ -24,9 +24,9 @@
   },
   "workspaces": {
     "packages": [
-      "rollergrind360-ecommerce-api",
-      "rollergrind360-ecommerce-frontend",
-      "rollergrind360-ecommerce-backoffice"
+      "apps/api",
+      "apps/frontend",
+      "apps/backoffice"
     ]
   },
   "engines": {

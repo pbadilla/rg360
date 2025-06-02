@@ -10,7 +10,7 @@ cmds = [
   # Instalar dependencias de cada app
   "cd apps/api && /bun/bin/bun install",
   "cd apps/frontend && pnpm install",
-  "cd apps/backoffice && pnpm install",
+  "cd apps/backoffice && pnpm start",
 ]
 
 [phases.build]

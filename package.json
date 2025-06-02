@@ -7,11 +7,10 @@
   "description": "RollerGrind360 E-commerce Platform",
   "author": "pachibadilla@gmail.com",
   "scripts": {
-    "dev:api": "pnpm --filter rollergrind360-ecommerce-api dev",
-    "dev:front": "pnpm --filter rollergrind360-ecommerce-frontend dev",
-    "dev:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice dev",
-    "dev": "concurrently -k --names api,frontend,backoffice \"pnpm dev:api\" \"pnpm dev:front\" \"pnpm dev:backoffice\"",
-    "build": "pnpm -r build"
+    "preview:api": "pnpm --filter rollergrind360-ecommerce-api preview",
+    "preview:front": "pnpm --filter rollergrind360-ecommerce-frontend preview",
+    "preview:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice preview",
+    "preview": "concurrently -k -n api,front,backoffice \"pnpm preview:api\" \"pnpm preview:front\" \"pnpm preview:backoffice\""
   },
   "dependencies": {
     "rollergrind360-ecommerce-api": "workspace:*",

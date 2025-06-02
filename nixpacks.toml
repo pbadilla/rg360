@@ -20,5 +20,14 @@ cmds = [
   "cd apps/api && bun build",         # if you have a build step for API
 ]
 
+[phases.preview]
+cmds = [
+  "export PATH=\"/bun/bin:$PATH\"",
+  "pnpm --filter rollergrind360-ecommerce-api preview &",
+  "pnpm --filter rollergrind360-ecommerce-frontend preview &",
+  "pnpm --filter rollergrind360-ecommerce-backoffice preview &",
+  "wait",
+]
+
 [start]
 cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.js"

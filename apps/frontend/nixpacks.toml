@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs"]
+
+[phases.install]
+cmds = ["corepack enable", "cd apps/frontend && pnpm install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["cd apps/frontend && pnpm build"]
+
+[start]
+cmd = "cd apps/frontend && pnpm run dev"

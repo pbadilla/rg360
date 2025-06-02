@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["nodejs"]
+
+[phases.install]
+cmds = [
+  "corepack enable",
+  "cd apps/backoffice && pnpm install --frozen-lockfile",
+]
+
+[phases.build]
+cmds = ["cd apps/backoffice && pnpm build"]
+
+[start]
+cmd = "cd apps/backoffice && pnpm preview -- --host 0.0.0.0"

@@ -6,28 +6,11 @@ cmds = [
   "curl -fsSL https://bun.sh/install | bash",
   "mv ~/.bun /bun",
   "export PATH=\"/bun/bin:$PATH\"",
-
-  "cd apps/api && bun install",
-  "cd apps/frontend && pnpm install",
-  "cd apps/backoffice && pnpm install",
+  "pnpm install",
 ]
 
 [phases.build]
-cmds = [
-  "export PATH=\"/bun/bin:$PATH\"",
-  "cd apps/frontend && pnpm build",
-  "cd apps/backoffice && pnpm build",
-  "cd apps/api && bun build",         # if you have a build step for API
-]
-
-[phases.preview]
-cmds = [
-  "export PATH=\"/bun/bin:$PATH\"",
-  "pnpm --filter rollergrind360-ecommerce-api preview &",
-  "pnpm --filter rollergrind360-ecommerce-frontend preview &",
-  "pnpm --filter rollergrind360-ecommerce-backoffice preview &",
-  "wait",
-]
+cmds = ["export PATH=\"/bun/bin:$PATH\"", "pnpm -r build"]
 
 [start]
-cmd = "export PATH=\"/bun/bin:$PATH\" && cd apps/api && bun run src/index.js"
+cmd = "export PATH=\"/bun/bin:$PATH\" && concurrently -k -n api,front,backoffice \"pnpm --filter apps/api dev\" \"pnpm --filter apps/frontend dev\" \"pnpm --filter apps/backoffice dev\""

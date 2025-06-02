@@ -1,0 +1,16 @@
+[phases.setup]
+nixPkgs = ["curl"]
+
+[phases.install]
+cmds = [
+  "corepack enable",
+  "curl -fsSL https://bun.sh/install | bash",
+  "export PATH=\"/root/.bun/bin:$PATH\"",
+  "pnpm install --frozen-lockfile",
+]
+
+[phases.build]
+cmds = ["export PATH=\"/root/.bun/bin:$PATH\"", "pnpm run build"]
+
+[start]
+cmd = "export PATH=\"/root/.bun/bin:$PATH\" && pnpm start"

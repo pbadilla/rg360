@@ -8,12 +8,12 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
+    "start": "node build/index.js",
     "build": "tsc --project tsconfig.json && tsc-alias",
-    "preview": "node build/index.js",
     "build:api": "tsc --project tsconfig.json",
     "postbuild:api": "tsc-alias",
-    "preview:api": "pnpm --filter rollergrind360-ecommerce-api -- tsc --project tsconfig.json && tsc-alias"
+    "preview:api": "pnpm run build:api && pnpm run postbuild:api && pnpm run start",
+    "preview": "pnpm run preview:api"
   },
   "keywords": [],
   "license": "ISC",

@@ -15,9 +15,4 @@ cmds = [
 cmds = ["export PATH=\"/bun/bin:$PATH\"", "pnpm -r build"]
 
 [start]
-cmd = """
-export PATH="/bun/bin:$PATH" && concurrently -k -n api,front,backoffice \
-"pnpm preview:api -- --host 0.0.0.0" \
-"pnpm preview:front -- --host 0.0.0.0" \
-"pnpm preview:backoffice -- --host 0.0.0.0"
-"""
+cmd = "pnpm run preview"

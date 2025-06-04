@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -25,4 +24,22 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'vendor_react';
+            }
+            if (id.includes('lodash')) {
+              return 'vendor_lodash';
+            }
+            // add more libs here as needed
+            return 'vendor';
+          }
+        }
+      }
+    }
+  }
 }));

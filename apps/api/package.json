@@ -9,7 +9,10 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",
-    "build": "tsc --project tsconfig.json && tsc-alias"
+    "build": "tsc --project tsconfig.json && tsc-alias",
+    "preview": "node build/index.js",
+    "build:api": "tsc --project tsconfig.json && tsc-alias",
+    "preview:api": "pnpm --filter rollergrind360-ecommerce-api -- tsc --project tsconfig.json && tsc-alias"
   },
   "keywords": [],
   "license": "ISC",

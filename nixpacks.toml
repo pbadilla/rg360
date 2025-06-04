@@ -17,7 +17,7 @@ cmds = ["export PATH=\"/bun/bin:$PATH\"", "pnpm -r build"]
 [start]
 cmd = """
 export PATH="/bun/bin:$PATH" && concurrently -k -n api,front,backoffice \
-"pnpm --filter rollergrind360-ecommerce-api preview -- --host 0.0.0.0" \
-"pnpm --filter rollergrind360-ecommerce-frontend preview -- --host 0.0.0.0" \
-"pnpm --filter rollergrind360-ecommerce-backoffice preview -- --host 0.0.0.0"
+"pnpm preview:api -- --host 0.0.0.0" \
+"pnpm preview:front -- --host 0.0.0.0" \
+"pnpm preview:backoffice -- --host 0.0.0.0"
 """

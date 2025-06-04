@@ -1,4 +1,5 @@
 
+import fs from 'fs';
 import csv from 'csv-parser';
 
 import { productsUniverskateProcessing } from '@/utils/productsUniverskate';

@@ -3,7 +3,10 @@ import { WishlistModel } from '@/models/whishList';
 
 const getWishlist = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized: User not found' });
+    }
+    const userId = req.user.id;
     const wishlist = await WishlistModel.findOne({ userId }).populate('products');
     res.json(wishlist || { products: [] });
   } catch (err: any) {

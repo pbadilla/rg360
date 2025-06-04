@@ -4,7 +4,11 @@ import mongoose from 'mongoose';
 
 const addToWishlist = async (req: Request, res: Response) => {
   try {
-    const userId = req.user._id;
+    const user = req.user;
+    if (!user || typeof (user as any)._id !== 'string') {
+      return res.status(401).json({ message: 'Unauthorized: User not authenticated' });
+    }
+    const userId = (user as any)._id;
     const productId = new mongoose.Types.ObjectId(req.body.productId);
 
     let wishlist = await WishlistModel.findOne({ userId });

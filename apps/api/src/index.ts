@@ -40,6 +40,10 @@ const startServer = async () => {
     logging.info(NAMESPACE, 'Connected to MongoDB.');
 
     // List collections using async/await or then (Check for 'products' collection)
+    if (!mongoose.connection.db) {
+      logging.error(NAMESPACE, 'MongoDB database connection is undefined.');
+      throw new Error('MongoDB database connection is undefined.');
+    }
     const collections = await mongoose.connection.db.listCollections().toArray();
     logging.info(NAMESPACE, 'Collections in the DB:', collections);
 

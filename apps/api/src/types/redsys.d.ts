@@ -1,15 +1,24 @@
+import type { CurrencyNum, TransactionType } from 'redsys-easy';
+
+/**
+ * Redsys API settings
+ *
+ * @public
+ */
+
 export interface RedsysConfig {
   merchantCode: string;
   terminal: string;
   secretKey: string;
-  currency: string;
-  transactionType: string;
+  currency: CurrencyNum;
+  transactionType: TransactionType;
   merchantURL: string;
   successURL: string;
   failureURL: string;
   environment: 'test' | 'live';
   urls: {
-    live: string;
-    test: string;
+    redirect: string;
+    restTrataPeticion: string;
+    restIniciaPeticion: string;
   };
 }

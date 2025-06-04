@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
-    /* Language and Environment */
-    "target": "ES2020",                                  /* Use a modern JS target for async/await, etc. */
-
-    /* Modules */
+    "target": "ES2020",
     "module": "ES6",
     "moduleResolution": "bundler",
     "moduleDetection": "force",
@@ -26,7 +23,7 @@
       "@/tests/*": ["src/tests/*"],
       "@/types/*": ["src/types/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/validators/*": ["src/validators/*"],
+      "@/validators/*": ["src/validators/*"]
     },
     "preserveSymlinks": true,
 
@@ -34,6 +31,8 @@
     "sourceMap": true,
     "outDir": "./build",
     "rootDir": "./src",
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
 
     /* Interop Constraints */
     "esModuleInterop": true,
@@ -52,6 +51,8 @@
     /* Completeness */
     "skipLibCheck": true
   },
+  "include": ["src"],
+  "exclude": ["node_modules", "build", "dist", "tests"],
   "ts-node": {
     "esm": true,
     "transpileOnly": true

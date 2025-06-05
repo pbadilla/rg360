@@ -13,7 +13,7 @@
     "build:api": "tsc --project tsconfig.json",
     "postbuild:api": "tsc-alias",
     "preview:api": "pnpm run build:api && pnpm run postbuild:api && pnpm run start",
-    "preview": "pnpm run build && pnpm run start"
+    "preview": "pnpm run build"
   },
   "keywords": [],
   "license": "ISC",

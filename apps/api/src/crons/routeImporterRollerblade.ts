@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { importerRollerblade} from '@/controllers/importerRollerblade';
+import { importerRollerblade} from 'src/crons/importerRollerblade';
 
 const router = Router();
 

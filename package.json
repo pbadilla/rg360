@@ -7,18 +7,18 @@
   "description": "RollerGrind360 E-commerce Platform",
   "author": "pachibadilla@gmail.com",
   "scripts": {
-    "dev:api": "pnpm --filter rollergrind360-ecommerce-api -- tsx src/index.ts",
-    "dev:front": "pnpm --filter rollergrind360-ecommerce-frontend -- next dev",
-    "dev:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice -- vite",
+    "dev:api": "pnpm --filter rollergrind360-ecommerce-api run dev",
+    "dev:front": "pnpm --filter rollergrind360-ecommerce-frontend run dev",
+    "dev:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice run dev",
     "dev": "concurrently -k --names api,front,backoffice \"pnpm dev:api\" \"pnpm dev:front\" \"pnpm dev:backoffice\"",
-    "build:api": "pnpm --filter rollergrind360-ecommerce-api -- tsc",
-    "build:front": "pnpm --filter rollergrind360-ecommerce-frontend -- next build",
-    "build:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice -- vite build",
+    "build:api": "pnpm --filter rollergrind360-ecommerce-api run build",
+    "build:front": "pnpm --filter rollergrind360-ecommerce-frontend run build",
+    "build:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice run build",
     "build": "pnpm -r build",
-    "preview:api": "pnpm --filter rollergrind360-ecommerce-api -- tsc --project tsconfig.json && tsc-alias",
-    "preview:front": "pnpm --filter rollergrind360-ecommerce-frontend -- next start",
-    "preview:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice -- vite preview --host 0.0.0.0",
-    "preview": "concurrently -k -n api,front,backoffice \"pnpm --filter rollergrind360-ecommerce-api run preview:api\" \"pnpm --filter rollergrind360-ecommerce-frontend run preview:frontend\" \"pnpm --filter rollergrind360-ecommerce-backoffice run preview:backoffice\""
+    "preview:api": "pnpm --filter rollergrind360-ecommerce-api run preview",
+    "preview:front": "pnpm --filter rollergrind360-ecommerce-frontend run preview",
+    "preview:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice run preview",
+    "preview": "concurrently -k -n api,front,backoffice \"pnpm preview:api\" \"pnpm preview:front\" \"pnpm preview:backoffice\""
   },
   "dependencies": {
     "rollergrind360-ecommerce-api": "workspace:*",

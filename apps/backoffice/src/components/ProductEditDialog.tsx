@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from 'react';
-import { Product } from '@/types/product';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from "react";
+import { Product } from "@/types/product";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,25 +8,27 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ProductEditDialogProps {
   product?: Product;
   isOpen: boolean;
   onClose: () => void;
   onSave: (product: Product) => void;
+  isLoading?: boolean;
 }
 
 const DEFAULT_PRODUCT: Product = {
-  id: '',
-  name: '',
-  description: '',
+  id: "",
+  name: "",
+  description: "",
   price: 0,
-  category: '',
-  image: 'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop',
+  category: "",
+  image:
+    "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop",
   stock: 0,
 };
 
@@ -54,7 +55,8 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'price' || name === 'stock' ? parseFloat(value) || 0 : value,
+      [name]:
+        name === "price" || name === "stock" ? parseFloat(value) || 0 : value,
     }));
   };
 
@@ -69,12 +71,12 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold">
-              {isNewProduct ? 'Add New Product' : 'Edit Product'}
+              {isNewProduct ? "Add New Product" : "Edit Product"}
             </DialogTitle>
             <DialogDescription>
               {isNewProduct
-                ? 'Create a new product by filling out the form below.'
-                : 'Make changes to the product details.'}
+                ? "Create a new product by filling out the form below."
+                : "Make changes to the product details."}
             </DialogDescription>
           </DialogHeader>
 

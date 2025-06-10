@@ -1,26 +1,31 @@
-
-import React from 'react';
-import { formatPrice } from '@/utils/productUtils';
-import { Product } from '@/types/product';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Pen, Trash2 } from 'lucide-react';
+import React from "react";
+import { formatPrice } from "@/utils/productUtils";
+import { Product } from "@/types/product";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Pen, Trash2 } from "lucide-react";
 
 interface ProductTableProps {
   products: Product[];
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
+  isDeleting?: boolean;
+  isEditing?: boolean;
 }
 
-const ProductTable: React.FC<ProductTableProps> = ({ products, onEdit, onDelete }) => {
+const ProductTable: React.FC<ProductTableProps> = ({
+  products,
+  onEdit,
+  onDelete,
+}) => {
   return (
     <div className="w-full overflow-auto">
       <Table>
@@ -39,9 +44,9 @@ const ProductTable: React.FC<ProductTableProps> = ({ products, onEdit, onDelete 
             <TableRow key={product.id}>
               <TableCell>
                 <div className="h-12 w-12 rounded overflow-hidden bg-muted">
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
+                  <img
+                    src={product.image}
+                    alt={product.name}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -49,7 +54,9 @@ const ProductTable: React.FC<ProductTableProps> = ({ products, onEdit, onDelete 
               <TableCell className="font-medium">
                 <div>
                   <div className="font-medium">{product.name}</div>
-                  <div className="text-sm text-muted-foreground line-clamp-1">{product.description}</div>
+                  <div className="text-sm text-muted-foreground line-clamp-1">
+                    {product.description}
+                  </div>
                 </div>
               </TableCell>
               <TableCell>

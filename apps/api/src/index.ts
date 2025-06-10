@@ -18,8 +18,8 @@ import usersRoutes from '@/routes/usersRoutes';
 import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
 
-import importerUniverskate from '@/routes/importerUniverskate';
-import importerRollerblade from '@/routes/importerRollerblade';
+import importerUniverskate from 'src/crons/routeImporterUniverskate';
+import importerRollerblade from 'src/crons/routeImporterRollerblade';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from '@/config/swagger';

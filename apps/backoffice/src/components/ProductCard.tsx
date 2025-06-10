@@ -1,14 +1,13 @@
+import React, { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 
-import React, { useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import { Product } from "@/types/product";
+import { formatPrice } from "@/utils/productUtils";
+import { Pen, Trash2 } from "lucide-react";
 
-import { Product } from '@/types/product';
-import { formatPrice } from '@/utils/productUtils';
-import { Pen, Trash2 } from 'lucide-react';
-
-import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,22 +15,28 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { ColorBadge } from '@/components/ui/color-badge';
-import { OfferBadge } from '@/components/ui/offer-badge';
+} from "@/components/ui/card";
+import { ColorBadge } from "@/components/ui/color-badge";
+import { OfferBadge } from "@/components/ui/offer-badge";
 
-import ProductEditDialog from './ProductEditDialog';
-import ProductDeleteDialog from './ProductDeleteDialog';
+import ProductEditDialog from "./ProductEditDialog";
+import ProductDeleteDialog from "./ProductDeleteDialog";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
+  isDeleting?: boolean;
+  isEditing?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onEdit,
+  onDelete,
+}) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -58,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
 
   function ProductColors() {
     const [selectedColor, setSelectedColor] = useState("red");
-  
+
     return (
       <div className="flex gap-2">
         {mockAvailableColors.map((color) => (
@@ -75,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
 
   return (
     <>
-      <Card 
+      <Card
         className={cn(
           "overflow-hidden border card-transition cursor-pointer",
           isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm"
@@ -85,11 +90,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
         onClick={() => handleEdit()}
       >
         <div className="relative">
-          <AspectRatio ratio={4/3} className="bg-muted">
-            <div className={cn(
-              "absolute inset-0 bg-gradient-to-t from-muted/20 to-muted/5 transition-opacity duration-300",
-              imageLoaded ? "opacity-0" : "opacity-100"
-            )} />
+          <AspectRatio ratio={4 / 3} className="bg-muted">
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-t from-muted/20 to-muted/5 transition-opacity duration-300",
+                imageLoaded ? "opacity-0" : "opacity-100"
+              )}
+            />
             <img
               src={product.image}
               alt={product.name}
@@ -100,9 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
               )}
             />
           </AspectRatio>
-          <Badge 
-            className="absolute top-3 right-3 bg-background/70 backdrop-blur-sm text-foreground"
-          >
+          <Badge className="absolute top-3 right-3 bg-background/70 backdrop-blur-sm text-foreground">
             {product.category}
           </Badge>
           <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
@@ -116,20 +121,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
             />
           </div>
         </div>
-        
+
         <CardHeader className="pb-3">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
           <CardDescription className="space-y-1">
             <div className="flex flex-wrap justify-between items-center gap-2">
               <span className="font-medium text-lg text-foreground">
-                {formatPrice(product.price, 'es-ES', 'EUR')}
+                {formatPrice(product.price, "es-ES", "EUR")}
               </span>
-              <Badge variant="outline">
-                Sizes: {product.sizes}
-              </Badge>
-              <Badge variant="outline">
-                Stock: {product.stock}
-              </Badge>
+              <Badge variant="outline">Sizes: {product.sizes}</Badge>
+              <Badge variant="outline">Stock: {product.stock}</Badge>
             </div>
             <div className="flex flex-wrap justify-between items-center gap-2">
               {ProductColors()}
@@ -137,11 +138,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onEdit, onDelete }) 
             </div>
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="pb-4">
-          <p className="text-muted-foreground line-clamp-2">{product.description}</p>
+          <p className="text-muted-foreground line-clamp-2">
+            {product.description}
+          </p>
         </CardContent>
-        
+
         <CardFooter className="flex justify-between border-t pt-4">
           <Button
             variant="outline"

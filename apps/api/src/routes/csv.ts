@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { importerUniverskate } from '@/controllers/importerUniverskate';
+import { importerUniverskate } from 'src/crons/importerUniverskate';
 
 const router = Router();
 

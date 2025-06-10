@@ -1,21 +1,26 @@
+import React, { useState } from "react";
+import { useStoreCSVData } from "@/store/storeCSVData";
 
-import React, { useState } from 'react';
-import { useStoreCSVData } from '@/store/storeCSVData';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CSVData } from "@/utils/csvUtils";
+// import { addProduct } from '@/store/storeProducts';
+import { Product } from "@/types/product";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CSVData } from '@/utils/csvUtils';
-import { useProducts } from '@/context/ProductContext';
-import { Product } from '@/types/product';
+import DataTable from "@/components/DataTable";
+import ExportButton from "@/components/ExportButton";
+import FTPImport from "@/components/FTPImport";
+import FileUpload from "@/components/FileUpload";
 
-import DataTable from '@/components/DataTable';
-import ExportButton from '@/components/ExportButton';
-import FTPImport from '@/components/FTPImport';
-import FileUpload from '@/components/FileUpload';
-
-import { AlertCircle } from 'lucide-react';
-import { toast } from 'sonner';
+import { AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 interface CSVImportExportProps {
   title: string;
@@ -24,67 +29,76 @@ interface CSVImportExportProps {
 
 const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
   const [csvData, setCsvData] = useState<CSVData>({ headers: [], rows: [] });
-  const [activeTab, setActiveTab] = useState('import');
+  const [activeTab, setActiveTab] = useState("import");
   const { mutate } = useStoreCSVData();
-  const { addProduct } = useProducts();
 
-  const handleCSVImport = (csvData: { headers: string[]; rows: string[][] }) => {
+  const handleCSVImport = (csvData: {
+    headers: string[];
+    rows: string[][];
+  }) => {
     const { headers, rows } = csvData;
 
-    console.log("Entra?", rows)
-    console.log("Entra headers?", headers)
+    console.log("Entra?", rows);
+    console.log("Entra headers?", headers);
 
     const headerMap: Record<string, keyof Product> = {
-      "Id": "id",
-      "Reference": "reference",
-      "Ean": "ean13",
-      "Marque": "brand",
-      "Nom": "name",
-      "Prix": "price",
-      "Brand": "category",
-      "Image": "image",
-      "Stock": "stock",
+      Id: "id",
+      Reference: "reference",
+      Ean: "ean13",
+      Marque: "brand",
+      Nom: "name",
+      Prix: "price",
+      Brand: "category",
+      Image: "image",
+      Stock: "stock",
     };
-    
-    rows.forEach(row => {    
-      const product = headers.reduce<Partial<Record<keyof Product, any>>>((obj, header, index) => {
-        const mappedKey = headerMap[header];
-    
-        if (mappedKey) {
-          let value: unknown = row[index];    
 
-          if (mappedKey === "price" || mappedKey === "stock" || mappedKey === "ean13") {
-            value = parseFloat(row[index]) || 0;
+    rows.forEach((row) => {
+      const product = headers.reduce<Partial<Record<keyof Product, any>>>(
+        (obj, header, index) => {
+          const mappedKey = headerMap[header];
+
+          if (mappedKey) {
+            let value: unknown = row[index];
+
+            if (
+              mappedKey === "price" ||
+              mappedKey === "stock" ||
+              mappedKey === "ean13"
+            ) {
+              value = parseFloat(row[index]) || 0;
+            }
+
+            obj[mappedKey] = value;
           }
-    
-          obj[mappedKey] = value;
-        }
-    
-        return obj;
-      }, {});
 
-      if (product.name && product.price) {
-        addProduct({
-          id: String(product.ean13),
-          reference: product.reference || '',
-          ean13: product.ean13 as number || 0,
-          brand: product.brand || 'Unknown', 
-          name: product.name,
-          description: product.description || '', 
-          price: product.price as number || 0, 
-          category: product.category || 'Uncategorized', 
-          image: product.image || '', 
-          stock: product.stock as number || 0, 
-        });
-      }
+          return obj;
+        },
+        {}
+      );
+
+      // if (product.name && product.price) {
+      //   addProduct({
+      //     id: String(product.ean13),
+      //     reference: product.reference || '',
+      //     ean13: product.ean13 as number || 0,
+      //     brand: product.brand || 'Unknown',
+      //     name: product.name,
+      //     description: product.description || '',
+      //     price: product.price as number || 0,
+      //     category: product.category || 'Uncategorized',
+      //     image: product.image || '',
+      //     stock: product.stock as number || 0,
+      //   });
+      // }
     });
   };
-  
+
   const handleFileLoaded = (data: CSVData) => {
     // Parse CSV data
     const parsedCSVData = {
       headers: data.headers,
-      rows: data.rows.map(row => row.map(cell => cell.trim())),
+      rows: data.rows.map((row) => row.map((cell) => cell.trim())),
     };
     setCsvData(data);
 
@@ -93,7 +107,7 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
 
     // Change to save the data into the mongoDB DDBB
     // first mapped and transform and then save it
-    // this what I have in the mongoDB atlas DDBB 
+    // this what I have in the mongoDB atlas DDBB
     // {"_id":{"$oid":"67d08c5ae001af851f635932"},
     // "name":"Wireless Keyboard",
     // "description":"Ergonomic wireless keyboard with backlight.",
@@ -129,13 +143,13 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
     //   "updatedAt":{"$date":{"$numberLong":"1741720666672"}}}
     // ]
 
-    toast.success('Products saved correctly!!');
+    toast.success("Products saved correctly!!");
 
     // Process CSV rows and add products
     handleCSVImport(parsedCSVData);
 
     // Switch tab to show data
-    setActiveTab('data');
+    setActiveTab("data");
   };
 
   const hasData = csvData.headers.length > 0 && csvData.rows.length > 0;
@@ -148,15 +162,17 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
           Import, view, and export CSV data with ease
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="automatic_import">Automatic Import</TabsTrigger>
             <TabsTrigger value="manual_import">Manual Import</TabsTrigger>
-            <TabsTrigger value="data" disabled={!hasData}>Data View</TabsTrigger>
+            <TabsTrigger value="data" disabled={!hasData}>
+              Data View
+            </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="automatic_import" className="pt-4">
             <FTPImport />
           </TabsContent>
@@ -164,7 +180,7 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
           <TabsContent value="manual_import" className="pt-4">
             <FileUpload onFileLoaded={handleFileLoaded} />
           </TabsContent>
-          
+
           <TabsContent value="data" className="pt-4">
             {hasData ? (
               <div className="space-y-4">
@@ -176,7 +192,7 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
                   </div>
                   <ExportButton data={csvData} />
                 </div>
-                
+
                 <DataTable data={csvData} store={store} />
               </div>
             ) : (

@@ -15,7 +15,7 @@ import Index from "@/pages/Index";
 import Inventory from "@/pages/Inventary";
 import Login from "@/pages/Login";
 import Logistics from "@/pages/Logistics";
-import MicroBulkActions from "@/pages/MicroBulkActions";
+import MicroList from "@/pages/MicroList";
 import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
@@ -24,10 +24,10 @@ import ProductDetail from "@/pages/Stocks/product-detail";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
 import ProductsPage from "@/pages/Stocks/products-page";
 import Promotions from "@/pages/Promotions";
-import RollerbladeBulkActions from "@/pages/RollerbladeBulkActions";
+import RollerbladeList from "@/pages/RollerbladeList";
 import Stocks from "@/pages/Stocks/Stocks";
 import Transports from "@/pages/Transports";
-import UniverskateBulkActions from "@/pages/UniverskateBulkActions";
+import UniverskateList from "@/pages/UniverskateList";
 import Users from "@/pages/Users";
 
 import { ProtectedRoute } from "@/routes/protectedRoutes";
@@ -98,16 +98,13 @@ const App = () => (
               <Route path="/bulk-actions" element={<BulkActions />} />
               <Route
                 path="/bulk-actions/universkate"
-                element={<UniverskateBulkActions />}
+                element={<UniverskateList />}
               />
               <Route
                 path="/bulk-actions/rollerblade"
-                element={<RollerbladeBulkActions />}
+                element={<RollerbladeList />}
               />
-              <Route
-                path="/bulk-actions/micro"
-                element={<MicroBulkActions />}
-              />
+              <Route path="/bulk-actions/micro" element={<MicroList />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

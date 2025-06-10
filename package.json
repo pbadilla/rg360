@@ -10,7 +10,8 @@
     "dev:api": "pnpm --filter rollergrind360-ecommerce-api run dev",
     "dev:front": "pnpm --filter rollergrind360-ecommerce-frontend run dev",
     "dev:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice run dev",
-    "dev": "concurrently -k --names api,front,backoffice \"pnpm dev:api\" \"pnpm dev:front\" \"pnpm dev:backoffice\"",
+    "dev": "concurrently -k --names api,front,backoffice,browser -c blue,green,yellow,magenta \"pnpm dev:api\" \"pnpm dev:front\" \"pnpm dev:backoffice\"",
+    "dev:py": "python3 openRepos.py",
     "build:api": "pnpm --filter rollergrind360-ecommerce-api run build",
     "build:front": "pnpm --filter rollergrind360-ecommerce-frontend run build",
     "build:backoffice": "pnpm --filter rollergrind360-ecommerce-backoffice run build",
@@ -21,13 +22,15 @@
     "preview": "concurrently -k -n api,front,backoffice \"pnpm preview:api\" \"pnpm preview:front\" \"pnpm preview:backoffice\""
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
     "rollergrind360-ecommerce-api": "workspace:*",
     "rollergrind360-ecommerce-backoffice": "workspace:*",
-    "concurrently": "^9.1.2",
     "rollergrind360-ecommerce-frontend": "workspace:*"
   },
   "devDependencies": {
-    "pnpm": "^8.15.4"
+    "open": "^10.1.2",
+    "pnpm": "^8.15.4",
+    "wait-on": "^8.0.3"
   },
   "workspaces": {
     "packages": [

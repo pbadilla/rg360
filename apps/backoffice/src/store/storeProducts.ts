@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import api from '@/config/axiosConfig';
 import { useState, useMemo } from 'react';
 import { Product } from '@/types/product';
 
@@ -33,9 +34,8 @@ export const useProductStore = () => {
   } = useQuery({
     queryKey: PRODUCTS_QUERY_KEY,
     queryFn: async () => {
-      // Replace this with your actual API call
-      // For now, returning empty array as initial state
-      return [] as Product[];
+      const response = await api.get('/products');
+      return response.data.products ?? []; // ✅ extract the array
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+
 import { useQueryClient } from "@tanstack/react-query";
 import { useProductStore } from "@/store/storeProducts"; // Replace context with our new hook
 import ProductCard from "./ProductCard";
@@ -30,6 +31,8 @@ const ProductList: React.FC = () => {
     isEditing,
     isAdding,
   } = useProductStore();
+
+  console.log("Filtered Products:", filteredProducts);
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);

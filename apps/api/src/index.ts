@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import logging from '@/config/logging';
 import config from '@/config/config';
@@ -35,19 +36,18 @@ dotenv.config();
 /** Connect to MongoDB using Mongoose */
 const startServer = async () => {
   try {
-    // Connect to MongoDB (the 'ecommerce' database is inferred from the Mongo URI)
+    // Connect to MongoDB
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
     logging.info(NAMESPACE, 'Connected to MongoDB.');
 
-    // List collections using async/await or then (Check for 'products' collection)
     if (!mongoose.connection.db) {
       logging.error(NAMESPACE, 'MongoDB database connection is undefined.');
       throw new Error('MongoDB database connection is undefined.');
     }
+
     const collections = await mongoose.connection.db.listCollections().toArray();
     logging.info(NAMESPACE, 'Collections in the DB:', collections);
 
-    // You can check specifically for the "products" collection
     const productsCollectionExists = collections.some(col => col.name === 'products');
     if (productsCollectionExists) {
       logging.info(NAMESPACE, 'Products collection found!');
@@ -59,29 +59,34 @@ const startServer = async () => {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    // Logging the request
+    // Logging requests
     app.use((req, res, next) => {
       logging.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`, NAMESPACE);
       next();
     });
 
-    // --- UPDATED CORS MIDDLEWARE ---
-    const allowedOrigin = process.env.SERVER_FRONTEND_URL
+    // CORS setup with 'cors' package
+    const allowedOrigins = [
+      process.env.SERVER_FRONTEND_URL_LOCAL || 'http://localhost:8080',
+      process.env.SERVER_FRONTEND_URL_PROD || 'https://your-production-frontend-url.com',
+    ];
 
-    app.use((req, res, next) => {
-      if (!allowedOrigin) {
-        logging.warn(NAMESPACE, "⚠️ SERVER_FRONTEND_URL is undefined!");
-      }
-      res.header('Access-Control-Allow-Origin', allowedOrigin || '');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-      res.header('Access-Control-Allow-Credentials', 'true');
-      if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({});
-      }
-      next();
-    });
-    // --- END CORS MIDDLEWARE ---
+    app.use(cors({
+      origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+        // Allow requests with no origin (like Postman or mobile apps)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          logging.warn(NAMESPACE, `Blocked CORS request from origin: ${origin}`);
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    }));
 
     // Routes
     app.use('/login', authRoutes);
@@ -91,17 +96,20 @@ const startServer = async () => {
     app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
     app.use('/shipping', shippingRoutes);
-    app.use('/users', usersRoutes)
+    app.use('/users', usersRoutes);
     app.use('/vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);
 
     app.use('/importerUniverskate', importerUniverskate);
-    app.use('/importerRollerblade', importerRollerblade); 
+    app.use('/importerRollerblade', importerRollerblade);
 
     // Error handling for unmatched routes
     app.use((_req, res, _next) => {
       res.status(404).json({ message: 'Not found' });
     });
+
+    // Swagger API docs
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     // Start the server
     const httpServer = http.createServer(app);
@@ -115,12 +123,8 @@ const startServer = async () => {
     } else {
       logging.error(NAMESPACE, 'An unknown error occurred');
     }
-    process.exit(1); // Exit process if DB connection fails
+    process.exit(1);
   }
-
-  //SWAGGER Documentation
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
 
-// Start server once MongoDB connection is established
 startServer();

@@ -42,22 +42,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const handleEdit = () => {
-    setIsEditDialogOpen(true);
-  };
-
-  const handleDelete = () => {
-    setIsDeleteDialogOpen(true);
-  };
-
+  const handleEdit = () => setIsEditDialogOpen(true);
+  const handleDelete = () => setIsDeleteDialogOpen(true);
   const handleSave = (updatedProduct: Product) => {
     onEdit(updatedProduct);
     setIsEditDialogOpen(false);
   };
-
-  const handleConfirmDelete = () => {
-    onDelete(product.id);
-  };
+  const handleConfirmDelete = () => onDelete(product._id);
 
   const mockAvailableColors = ["red", "blue", "black", "white"];
 
@@ -87,7 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => handleEdit()}
+        onClick={handleEdit}
       >
         <div className="relative">
           <AspectRatio ratio={4 / 3} className="bg-muted">
@@ -98,8 +89,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
               )}
             />
             <img
-              src={product.image}
-              alt={product.name}
+              src={product.images?.[0]?.url ?? "/placeholder.jpg"}
+              alt={product.category?.name ?? "Product"}
               onLoad={() => setImageLoaded(true)}
               className={cn(
                 "object-cover w-full h-full transition-opacity duration-500",
@@ -107,12 +98,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
               )}
             />
           </AspectRatio>
+
           <Badge className="absolute top-3 right-3 bg-background/70 backdrop-blur-sm text-foreground">
-            {product.category}
+            {product.category?.name}
           </Badge>
+
           <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
             <QRCodeSVG
-              value={product.id} // or product.name, or a URL, etc.
+              value={product._id}
               size={48}
               bgColor="#ffffff"
               fgColor="#000000"
@@ -129,11 +122,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <span className="font-medium text-lg text-foreground">
                 {formatPrice(product.price, "es-ES", "EUR")}
               </span>
-              <Badge variant="outline">Sizes: {product.sizes}</Badge>
+              <Badge variant="outline">Sizes: {product.sizes ?? "N/A"}</Badge>
               <Badge variant="outline">Stock: {product.stock}</Badge>
             </div>
             <div className="flex flex-wrap justify-between items-center gap-2">
-              {ProductColors()}
+              <ProductColors />
               <OfferBadge type="limited">Only 3 left!</OfferBadge>
             </div>
           </CardDescription>
@@ -175,7 +168,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       />
 
       <ProductDeleteDialog
-        productName={product.name}
+        productName={product.category?.name ?? product.name}
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleConfirmDelete}

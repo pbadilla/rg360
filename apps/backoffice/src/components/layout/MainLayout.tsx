@@ -29,7 +29,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     <div className="min-h-screen flex w-full bg-gray-50 dark:bg-gray-900">
       <Sidebar
         menuItems={menuItems}
-        logo={<Logo />}
+        logo={sidebarCollapsed ? "RG360" : <Logo />}
         collapsed={sidebarCollapsed}
         onToggle={toggleSidebar}
       />

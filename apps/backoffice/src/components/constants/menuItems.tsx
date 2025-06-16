@@ -21,7 +21,6 @@ export const menuItems = [
     submenu: [
       { id: "allProducts", label: "All Products", link: "/products/all" },
       { id: "categories", label: "Categories", link: "/products/categories" },
-      { id: "inventory", label: "Inventory", link: "/products/inventory" },
     ],
   },
   {
@@ -141,25 +140,6 @@ export const menuItems = [
         label: "Fulfillment",
         link: "/dropshipping/fulfillment",
       },
-    ],
-  },
-  {
-    id: "bulkActions",
-    label: "Bulk Actions",
-    icon: <Boxes size={20} />,
-    link: "/bulk-actions",
-    submenu: [
-      {
-        id: "universkate",
-        label: "Universkate",
-        link: "/bulk-actions/universkate",
-      },
-      {
-        id: "rollerblade",
-        label: "Rollerblade",
-        link: "/bulk-actions/rollerblade",
-      },
-      { id: "micro", label: "Micro", link: "/bulk-actions/micro" },
     ],
   },
 ];

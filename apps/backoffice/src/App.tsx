@@ -6,9 +6,9 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ThemeProvider } from "@/hooks/use-theme";
 
-import AbandonedCarts from "@/pages/AbandonedCarts";
+import AbandonedCarts from "@/pages/AbandonedCarts/AbandonedCarts";
 import ActivePromotion from "@/pages/Promotions/ActivePromotions";
-import Categories from "@/pages/Categories";
+import Categories from "@/pages/Products/Categories";
 import CreatePromotion from "@/pages/Promotions/CreatePromotion";
 import Dashboard from "@/pages/Stocks/dashboard";
 import DropshippingDashboard from "@/pages/Dropshipping/DropshippingDashboard";
@@ -18,16 +18,16 @@ import Login from "@/pages/Login";
 import LogisticsDashboard from "@/pages/Logistics/LogisticsDashboard";
 import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
-import Orders from "@/pages/Orders";
+import Orders from "@/pages/Orders/Orders";
 import PaymentsDashboard from "@/pages/Payments/PaymentsDashboard";
 import ProductDetail from "@/pages/Stocks/product-detail";
-import ProductsListWrapper from "@/pages/ProductsListWrapper";
+import ProductsListWrapper from "@/pages/Products/ProductsListWrapper";
 import ProductsPage from "@/pages/Stocks/products-page";
-import Promotions from "@/pages/Promotions";
+import Promotions from "@/pages/Promotions/Promotions";
 import ScheduledPromotion from "@/pages/Promotions/ScheduledPromotion";
 import Stocks from "@/pages/Stocks/Stocks";
-import Transports from "@/pages/Transports";
-import Users from "@/pages/Users";
+import Users from "@/pages/Users/Users";
+import UserRoles from "@/pages/Users/Roles";
 
 // import BulkActions from "@/pages/BulkActions";
 // import RollerbladeList from "@/pages/RollerbladeList";
@@ -88,6 +88,7 @@ const App = () => (
               {/* Users Routes */}
               <Route path="/users" element={<Users />} />
               <Route path="/users/all" element={<Users />} />
+              <Route path="/users/roles" element={<UserRoles />} />
 
               {/* Promotions Routes */}
               <Route path="/promotions" element={<Promotions />} />

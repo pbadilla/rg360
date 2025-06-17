@@ -1,15 +1,12 @@
 import { CategoryTable } from "@/components/CategoryTable";
 import InsideLayout from "@/components/layout/InsideLayout";
 
-const ActivePromotion = () => {
+const UserRoles = () => {
   return (
-    <InsideLayout
-      title="Active Promotions"
-      subTitle="Create and manage promotions."
-    >
+    <InsideLayout title="Roles" subTitle="Create and manage user roles.">
       <CategoryTable />
     </InsideLayout>
   );
 };
 
-export default ActivePromotion;
+export default UserRoles;

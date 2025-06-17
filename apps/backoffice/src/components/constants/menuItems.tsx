@@ -55,7 +55,6 @@ export const menuItems = [
     submenu: [
       { id: "allUsers", label: "All Users", link: "/users/all" },
       { id: "roles", label: "Roles", link: "/users/roles" },
-      { id: "permissions", label: "Permissions", link: "/users/permissions" },
     ],
   },
   {

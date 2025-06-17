@@ -92,54 +92,17 @@ export const menuItems = [
     label: "Logistics",
     icon: <Truck size={20} />,
     link: "/logistics",
-    submenu: [
-      { id: "warehouses", label: "Warehouses", link: "/logistics/warehouses" },
-      {
-        id: "shipping",
-        label: "Shipping Methods",
-        link: "/logistics/shipping",
-      },
-      { id: "tracking", label: "Order Tracking", link: "/logistics/tracking" },
-    ],
-  },
-  {
-    id: "transports",
-    label: "Transports",
-    icon: <Train size={20} />,
-    link: "/transports",
-    submenu: [
-      { id: "vehicles", label: "Vehicles", link: "/transports/vehicles" },
-      { id: "routes", label: "Routes", link: "/transports/routes" },
-    ],
   },
   {
     id: "payments",
     label: "Payments",
     icon: <CreditCard size={20} />,
     link: "/payments",
-    submenu: [
-      { id: "methods", label: "Payment Methods", link: "/payments/methods" },
-      {
-        id: "transactions",
-        label: "Transactions",
-        link: "/payments/transactions",
-      },
-      { id: "refunds", label: "Refunds", link: "/payments/refunds" },
-    ],
   },
   {
     id: "dropshipping",
     label: "Dropshipping",
     icon: <ArrowDown size={20} />,
     link: "/dropshipping",
-    submenu: [
-      { id: "suppliers", label: "Suppliers", link: "/dropshipping/suppliers" },
-      { id: "products", label: "Products", link: "/dropshipping/products" },
-      {
-        id: "fulfillment",
-        label: "Fulfillment",
-        link: "/dropshipping/fulfillment",
-      },
-    ],
   },
 ];

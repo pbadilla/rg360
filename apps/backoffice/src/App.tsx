@@ -8,30 +8,31 @@ import { ThemeProvider } from "@/hooks/use-theme";
 
 import AbandonedCarts from "@/pages/AbandonedCarts";
 import ActivePromotion from "@/pages/Promotions/ActivePromotions";
-import BulkActions from "@/pages/BulkActions";
 import Categories from "@/pages/Categories";
 import CreatePromotion from "@/pages/Promotions/CreatePromotion";
 import Dashboard from "@/pages/Stocks/dashboard";
-import Dropshipping from "@/pages/Dropshipping";
+import DropshippingDashboard from "@/pages/Dropshipping/DropshippingDashboard";
 import EditProduct from "@/pages/Stocks/edit-product";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
-import Logistics from "@/pages/Logistics";
-import MicroList from "@/pages/MicroList";
+import LogisticsDashboard from "@/pages/Logistics/LogisticsDashboard";
 import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders";
-import Payments from "@/pages/Payments";
+import PaymentsDashboard from "@/pages/Payments/PaymentsDashboard";
 import ProductDetail from "@/pages/Stocks/product-detail";
 import ProductsListWrapper from "@/pages/ProductsListWrapper";
 import ProductsPage from "@/pages/Stocks/products-page";
 import Promotions from "@/pages/Promotions";
-import RollerbladeList from "@/pages/RollerbladeList";
 import ScheduledPromotion from "@/pages/Promotions/ScheduledPromotion";
 import Stocks from "@/pages/Stocks/Stocks";
 import Transports from "@/pages/Transports";
-import UniverskateList from "@/pages/UniverskateList";
 import Users from "@/pages/Users";
+
+// import BulkActions from "@/pages/BulkActions";
+// import RollerbladeList from "@/pages/RollerbladeList";
+// import UniverskateList from "@/pages/UniverskateList";
+// import MicroList from "@/pages/MicroList";
 
 import { ProtectedRoute } from "@/routes/protectedRoutes";
 import { PublicRoute } from "@/routes/publicRoutes";
@@ -72,6 +73,7 @@ const App = () => (
               {/* Products Routes */}
               <Route path="/products/*" element={<ProductsListWrapper />} />
               <Route path="/products/categories" element={<Categories />} />
+
               {/* Inventory/Stocks Routes */}
               <Route path="/stocks/dashboard" element={<Dashboard />} />
               <Route path="/stocks" element={<Stocks />} />
@@ -82,9 +84,11 @@ const App = () => (
 
               {/* Orders Routes */}
               <Route path="/orders" element={<Orders />} />
+
               {/* Users Routes */}
               <Route path="/users" element={<Users />} />
               <Route path="/users/all" element={<Users />} />
+
               {/* Promotions Routes */}
               <Route path="/promotions" element={<Promotions />} />
               <Route path="/promotions/active" element={<ActivePromotion />} />
@@ -93,27 +97,19 @@ const App = () => (
                 element={<ScheduledPromotion />}
               />
               <Route path="/promotions/create" element={<CreatePromotion />} />
+
               {/* Abandoned Carts Routes */}
               <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />
+
               {/* Logistics Routes */}
-              <Route path="/logistics/*" element={<Logistics />} />
-              {/* Transports Routes */}
-              <Route path="/transports/*" element={<Transports />} />
+              <Route path="/logistics/*" element={<LogisticsDashboard />} />
               {/* Payments Routes */}
-              <Route path="/payments/*" element={<Payments />} />
+              <Route path="/payments/*" element={<PaymentsDashboard />} />
               {/* Dropshipping Routes */}
-              <Route path="/dropshipping/*" element={<Dropshipping />} />
-              {/* Bulk Actions Routes */}
-              <Route path="/bulk-actions" element={<BulkActions />} />
               <Route
-                path="/bulk-actions/universkate"
-                element={<UniverskateList />}
+                path="/dropshipping/*"
+                element={<DropshippingDashboard />}
               />
-              <Route
-                path="/bulk-actions/rollerblade"
-                element={<RollerbladeList />}
-              />
-              <Route path="/bulk-actions/micro" element={<MicroList />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

@@ -20,15 +20,15 @@ router.use((req, res, next) => {
 });
 
 /** Users Routes */
-router.post('/users', addUser);
-router.get('/users', authMiddleware, getAllUsers);
-router.get('/users/:userId', authMiddleware, getUserById);
-router.put('/users/:userId', authMiddleware, updateUsers);
-router.delete('/users/:userId', authMiddleware, deleteUserById);
+router.post('/', addUser);
+router.get('/', getAllUsers);
+router.get('/:userId', getUserById);
+router.put('/:userId', updateUsers);
+router.delete('//:userId', deleteUserById);
 
 /** Login and PWD Routes */
-router.post('/auth/login', loginUser);
-router.post('/auth/request-password-reset', requestPasswordReset);
-router.post('/auth/reset-password', resetPassword);
+router.post('/auth/login',authMiddleware, loginUser);
+router.post('/auth/request-password-reset',authMiddleware, requestPasswordReset);
+router.post('/auth/reset-password',authMiddleware, resetPassword);
 
 export default router;

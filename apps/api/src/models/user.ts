@@ -40,7 +40,7 @@ export interface UserDocument extends Document {
   updatedAt: Date;
 }
 
-export const UserModel = mongoose.model<UserDocument>('user', UserSchema);
+export const UserModel = mongoose.model<UserDocument>('user', UserSchema, 'users');
 
 // Auth Tips (Optional but Important)
 // Use bcrypt to hash and verify passwords.

@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info:
+  title: Rollergrind360 API
+  version: 1.0.0
+  description: 'Document for the Rollergrind360 API, which includes endpoints for managing products, orders, and users. The API is designed to be RESTful and follows standard conventions for HTTP methods and status codes. The documentation provides details on request and response formats, authentication, and error handling.'
+servers:
+  - url: http://localhost:3000
+paths:
+  /process:
+    $ref: './paths/process.yaml'
+components:
+  schemas:
+    Product:
+      $ref: './components/product.yaml'

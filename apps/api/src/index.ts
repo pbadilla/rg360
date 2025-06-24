@@ -9,12 +9,13 @@ import logging from '@/config/logging';
 import config from '@/config/config';
 
 import authRoutes from '@/routes/authRoutes';
-import stockRoutes from '@/routes/stockRoutes';
+import categoriesRoutes from '@/routes/categoriesRoutes';
 import notificationsRoutes from '@/routes/notificationsRoutes';
 import ordersRoutes from '@/routes/ordersRoutes';
 import paymentRoutes from '@/routes/paymentsRoutes';
 import productRoutes from '@/routes/productsRoutes';
 import shippingRoutes from '@/routes/shippingRoutes';
+import stockRoutes from '@/routes/stockRoutes';
 import usersRoutes from '@/routes/usersRoutes';
 import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
@@ -23,7 +24,7 @@ import importerUniverskate from 'src/crons/routeImporterUniverskate';
 import importerRollerblade from 'src/crons/routeImporterRollerblade';
 
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from '@/config/swagger';
+import swaggerSpec from './config/swagger';
 
 import '@/docs/components/productSchemas';
 import '@/docs/routes/productDocs';
@@ -33,10 +34,10 @@ const app = express();
 
 dotenv.config();
 
-/** Connect to MongoDB using Mongoose */
+/** ✅ Connect to MongoDB using Mongoose */
 const startServer = async () => {
   try {
-    // Connect to MongoDB
+    // ✅ Connect to MongoDB
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
     logging.info(NAMESPACE, 'Connected to MongoDB.');
 
@@ -55,17 +56,17 @@ const startServer = async () => {
       logging.error(NAMESPACE, 'Products collection does not exist in the database');
     }
 
-    // Middleware setup
+    // ✅ Middleware setup
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    // Logging requests
+    // ✅ Logging requests
     app.use((req, res, next) => {
       logging.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`, NAMESPACE);
       next();
     });
 
-    // CORS setup with 'cors' package
+    // ✅ CORS setup with 'cors' package
     const allowedOrigins = [
       process.env.SERVER_FRONTEND_URL_LOCAL || 'http://localhost:8080',
       process.env.SERVER_FRONTEND_URL_PROD || 'https://your-production-frontend-url.com',
@@ -88,14 +89,15 @@ const startServer = async () => {
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
     }));
 
-    // Routes
+    // ✅ Routes
     app.use('/login', authRoutes);
     app.use('/stock', stockRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);
     app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
-    app.use('/shipping', shippingRoutes);
+    app.use('/categories', categoriesRoutes);
+    app.use('/shippings', shippingRoutes);
     app.use('/users', usersRoutes);
     app.use('/vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);
@@ -103,15 +105,15 @@ const startServer = async () => {
     app.use('/importerUniverskate', importerUniverskate);
     app.use('/importerRollerblade', importerRollerblade);
 
-    // Error handling for unmatched routes
-    app.use((_req, res, _next) => {
+    // ✅ Swagger API docs
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+    // ✅ Only ONE 404 handler
+    app.use((_req, res) => {
       res.status(404).json({ message: 'Not found' });
     });
 
-    // Swagger API docs
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-    // Start the server
+    // ✅ Start the server
     const httpServer = http.createServer(app);
     httpServer.listen(config.server.port, () =>
       logging.info(NAMESPACE, `Server running at http://${config.server.hostname}:${config.server.port}/`)

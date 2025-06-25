@@ -69,7 +69,9 @@ const startServer = async () => {
     // ✅ CORS setup with 'cors' package
     const allowedOrigins = [
       process.env.SERVER_FRONTEND_URL_LOCAL || 'http://localhost:8080',
-      process.env.SERVER_FRONTEND_URL_PROD || 'https://your-production-frontend-url.com',
+      process.env.SERVER_FRONTEND_URL_PROD || 'https://patinesbarcelona.com',
+      process.env.SERVER_API_URL_LOCAL || 'http://localhost:3000',
+      process.env.SERVER_API_URL_PROD || 'https://api.patinesbarcelona.com'
     ];
 
     app.use(cors({

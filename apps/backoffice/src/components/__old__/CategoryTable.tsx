@@ -1,53 +1,39 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useStaggeredAnimation } from "@/lib/animations";
 import { ImageUpload } from "./ImageUpload";
 import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
-import SearchInput from "@/components/SearchInput";
-import SortSelector from "./SortSelector";
 
-import { Category } from "@/types/category";
-import { searchEntities } from "@/utils/searchEntities";
-import { sortEntities } from "@/utils/sortEntities";
-import { useCategoryStore } from "@/store/useCategoryStore";
+// Types
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  image?: string;
+}
 
 export function CategoryTable() {
-  const {
-    entities: categories,
-    isLoading,
-    error,
-    searchTerm,
-    sortConfig,
-    setSearchTerm,
-    setSortConfig,
-    addEntity: addCategory,
-    editEntity: editCategory,
-    deleteEntity: deleteCategory,
-  } = useCategoryStore();
+  const [categories, setCategories] = useState<Category[]>([
+    {
+      id: "1",
+      name: "Electronics",
+      description: "Devices, gadgets, and more",
+      image:
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    },
+    {
+      id: "2",
+      name: "Clothing",
+      description: "Men, Women, and Kids clothing",
+      image:
+        "https://images.unsplash.com/photo-1521335629791-ce4aec67ddaf?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
+    },
+  ]);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<Category>>({});
-
   const visibleItems = useStaggeredAnimation(categories.length);
-
-  const filteredCategories = useMemo(() => {
-    const searched = searchEntities(categories, searchTerm, [
-      "name",
-      "description",
-    ]);
-    // Only allow "name" or "description" as sort keys
-    if (sortConfig.key === "name" || sortConfig.key === "description") {
-      return sortEntities(
-        searched,
-        sortConfig as {
-          key: "name" | "description";
-          direction: typeof sortConfig.direction;
-        }
-      );
-    }
-    return searched;
-  }, [categories, searchTerm, sortConfig]);
 
   const handleEditClick = (category: Category) => {
     setEditingId(category.id);
@@ -55,14 +41,16 @@ export function CategoryTable() {
   };
 
   const handleSaveClick = (id: string) => {
-    editCategory({ ...editValues, id } as Category);
+    setCategories((prev) =>
+      prev.map((cat) => (cat.id === id ? { ...cat, ...editValues } : cat))
+    );
     setEditingId(null);
     setEditValues({});
     toast.success("Category updated successfully");
   };
 
   const handleDeleteClick = (id: string) => {
-    deleteCategory(id);
+    setCategories((prev) => prev.filter((cat) => cat.id !== id));
     if (editingId === id) {
       setEditingId(null);
       setEditValues({});
@@ -78,49 +66,36 @@ export function CategoryTable() {
     if (editingId === id) {
       setEditValues((prev) => ({ ...prev, image }));
     } else {
-      editCategory({ ...categories.find((c) => c.id === id)!, image });
+      setCategories((prev) =>
+        prev.map((cat) => (cat.id === id ? { ...cat, image } : cat))
+      );
       toast.success("Image updated successfully");
     }
   };
 
   const handleAddCategory = () => {
-    const newCategory = {
+    const newCategory: Category = {
+      id: `${Date.now()}`,
       name: "New Category",
       description: "Describe your category",
       image: "",
     };
-    addCategory(newCategory);
-    const newId = `${Date.now()}`;
-    setEditingId(newId);
-    setEditValues({ ...newCategory, id: newId });
+
+    setCategories((prev) => [...prev, newCategory]);
+    setEditingId(newCategory.id);
+    setEditValues({ ...newCategory });
 
     setTimeout(() => {
-      const element = document.getElementById(`category-${newId}`);
+      const element = document.getElementById(`category-${newCategory.id}`);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }, 100);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-[200px] flex items-center justify-center text-muted-foreground">
-        Loading categories...
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-[200px] flex flex-col items-center justify-center text-red-500">
-        Error loading categories
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex items-center justify-between">
         <button
           onClick={handleAddCategory}
           className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
@@ -128,28 +103,6 @@ export function CategoryTable() {
           <PlusCircle size={16} />
           <span>Add Category</span>
         </button>
-
-        <div className="flex gap-4">
-          <SearchInput
-            searchTerm={searchTerm}
-            onSearch={setSearchTerm}
-            placeholder="Search categories..."
-            className="w-full max-w-xs"
-          />
-          <SortSelector
-            sortConfig={sortConfig}
-            onSortChange={(config) =>
-              setSortConfig({
-                key: config.key as keyof Category,
-                direction: config.direction,
-              })
-            }
-            sortOptions={[
-              { value: "name", label: "Name" },
-              { value: "description", label: "Description" },
-            ]}
-          />
-        </div>
       </div>
 
       <div className="relative overflow-hidden rounded-lg border bg-card">
@@ -172,7 +125,7 @@ export function CategoryTable() {
               </tr>
             </thead>
             <tbody>
-              {filteredCategories.map((category, index) => (
+              {categories.map((category, index) => (
                 <tr
                   key={category.id}
                   id={`category-${category.id}`}
@@ -251,7 +204,7 @@ export function CategoryTable() {
                   </td>
                 </tr>
               ))}
-              {filteredCategories.length === 0 && (
+              {categories.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}

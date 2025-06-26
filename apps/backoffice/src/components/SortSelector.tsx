@@ -1,58 +1,65 @@
-
-import React from 'react';
-import { SortConfig, SortKey, SortOrder } from '@/types/product';
-import { ArrowUpDown, ArrowDown, ArrowUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { ArrowUp, ArrowDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
-interface SortSelectorProps {
-  sortConfig: SortConfig;
-  onSortChange: (config: SortConfig) => void;
-  className?: string;
+export type SortOrder = "asc" | "desc";
+
+export interface SortConfig<T extends string> {
+  key: T;
+  direction: SortOrder;
 }
 
-const sortOptions: { label: string; value: SortKey }[] = [
-  { label: 'Name', value: 'name' },
-  { label: 'Price', value: 'price' },
-  { label: 'Category', value: 'category' },
-  { label: 'Stock', value: 'stock' },
-];
+interface SortOption<T extends string> {
+  label: string;
+  value: T;
+}
 
-const SortSelector: React.FC<SortSelectorProps> = ({ 
-  sortConfig, 
+interface SortDropdownProps<T extends string> {
+  sortConfig: SortConfig<T>;
+  onSortChange: (config: SortConfig<T>) => void;
+  sortOptions: SortOption<T>[];
+  className?: string;
+  label?: string;
+}
+
+const SortDropdown = <T extends string>({
+  sortConfig,
   onSortChange,
-  className
-}) => {
-  const toggleDirection = (key: SortKey) => {
-    const newDirection: SortOrder = 
-      key === sortConfig.key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
-    
+  sortOptions,
+  className,
+  label = "Sort by:",
+}: SortDropdownProps<T>) => {
+  const toggleDirection = (key: T) => {
+    const newDirection: SortOrder =
+      key === sortConfig.key && sortConfig.direction === "asc" ? "desc" : "asc";
     onSortChange({ key, direction: newDirection });
   };
 
-  const handleSelectOption = (key: SortKey) => {
+  const handleSelectOption = (key: T) => {
     if (key === sortConfig.key) {
       toggleDirection(key);
     } else {
-      onSortChange({ key, direction: 'asc' });
+      onSortChange({ key, direction: "asc" });
     }
   };
 
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
-      <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
-      
+    <div className={cn("flex items-center space-x-2", className)}>
+      <span className="text-sm font-medium text-muted-foreground">{label}</span>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="h-9 gap-1">
-            {sortOptions.find(option => option.value === sortConfig.key)?.label || 'Sort'}
-            {sortConfig.direction === 'asc' ? (
+            {sortOptions.find((option) => option.value === sortConfig.key)
+              ?.label || "Sort"}
+            {sortConfig.direction === "asc" ? (
               <ArrowUp className="h-4 w-4 text-muted-foreground" />
             ) : (
               <ArrowDown className="h-4 w-4 text-muted-foreground" />
@@ -70,13 +77,12 @@ const SortSelector: React.FC<SortSelectorProps> = ({
               )}
             >
               <span>{option.label}</span>
-              {sortConfig.key === option.value && (
-                sortConfig.direction === 'asc' ? (
+              {sortConfig.key === option.value &&
+                (sortConfig.direction === "asc" ? (
                   <ArrowUp className="h-4 w-4" />
                 ) : (
                   <ArrowDown className="h-4 w-4" />
-                )
-              )}
+                ))}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -85,4 +91,4 @@ const SortSelector: React.FC<SortSelectorProps> = ({
   );
 };
 
-export default SortSelector;
+export default SortDropdown;

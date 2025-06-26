@@ -1,6 +1,7 @@
 import React from "react";
-import { CategoryTable } from "@/components/CategoryTable";
+
 import InsideLayout from "@/components/layout/InsideLayout";
+import { CategoryTable } from "@/components/CategoryTable";
 
 const Categories = () => {
   return (

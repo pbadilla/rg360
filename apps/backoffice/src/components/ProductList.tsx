@@ -1,28 +1,26 @@
 import React, { useState, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useProductStore } from "@/store/storeProducts"; // Replace context with our new hook
+import { useProductStore } from "@/store/storeProducts";
 import ProductCard from "./ProductCard";
 import ProductTable from "./ProductTable";
-import ProductSearch from "./ProductSearch";
-import SortSelector from "./SortSelector";
+
 import ViewToggle from "./ViewToggle";
 import ProductEditDialog from "./ProductEditDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product } from "@/types/product";
+import SearchInput from "@/components/SearchInput";
+import SortDropdown, { SortConfig } from "@/components/SortSelector";
 
 const ProductList: React.FC = () => {
-  // Replace both useProducts() and useProductsQuery() with single hook
   const {
     filteredProducts,
     loading,
     error,
     searchTerm,
-    sortConfig,
     viewMode,
     setSearchTerm,
-    setSortConfig,
     setViewMode,
     deleteProduct,
     editProduct,
@@ -32,12 +30,26 @@ const ProductList: React.FC = () => {
     isAdding,
   } = useProductStore();
 
+  const productSortOptions = [
+    { label: "Name", value: "name" },
+    { label: "Price", value: "price" },
+    { label: "Category", value: "category" },
+    { label: "Stock", value: "stock" },
+  ];
+
+  type ProductSortKey = (typeof productSortOptions)[number]["value"];
+
+  const [sortConfig, setSortConfig] = useState<SortConfig<ProductSortKey>>({
+    key: "name",
+    direction: "asc",
+  });
+
   console.log("Filtered Products:", filteredProducts);
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const pageSize = 8;
+  const pageSize = 10;
 
   // Paginate the already filtered products
   const paginatedProducts = useMemo(() => {
@@ -88,16 +100,19 @@ const ProductList: React.FC = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <ProductSearch
+            <SearchInput
               searchTerm={searchTerm}
               onSearch={setSearchTerm}
-              className="sm:max-w-md flex-grow"
+              placeholder="Search products..."
+              className="w-full max-w-xs"
             />
             <div className="flex items-center gap-4">
               <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
-              <SortSelector
+              <SortDropdown
                 sortConfig={sortConfig}
                 onSortChange={setSortConfig}
+                sortOptions={productSortOptions}
+                label="Sort products by:"
               />
             </div>
           </div>

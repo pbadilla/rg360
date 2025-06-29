@@ -100,7 +100,7 @@ const App = () => (
               <Route path="/promotions/create" element={<CreatePromotion />} />
 
               {/* Abandoned Carts Routes */}
-              <Route path="/abandoned-carts/*" element={<AbandonedCarts />} />
+              <Route path="/abandoned-carts" element={<AbandonedCarts />} />
 
               {/* Logistics Routes */}
               <Route path="/logistics/*" element={<LogisticsDashboard />} />

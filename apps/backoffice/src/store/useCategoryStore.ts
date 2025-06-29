@@ -1,4 +1,3 @@
-// useProductStore.ts
 import { useEntityStore } from '@/hooks/useEntityStore';
 import api from '@/config/axiosConfig';
 import { Category } from '@/types/category';
@@ -9,7 +8,11 @@ export const useCategoryStore = () =>
     queryKey: 'categories',
     fetchFn: async () => {
       const res = await api.get('/categories');
-      return res.data.categories ?? [];
+      const categories = res.data.categories;
+      return {
+        data: categories,
+        total: categories.length, // or from server, if available
+      };
     },
     createFn: async (category) => {
       return { ...category, id: Date.now().toString() };

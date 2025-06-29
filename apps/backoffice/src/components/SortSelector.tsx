@@ -23,8 +23,8 @@ interface SortOption<T extends string> {
 
 interface SortDropdownProps<T extends string> {
   sortConfig: SortConfig<T>;
-  onSortChange: (config: SortConfig<T>) => void;
-  sortOptions: SortOption<T>[];
+  onSortChange?: (config: SortConfig<T>) => void;
+  sortOptions?: SortOption<T>[];
   className?: string;
   label?: string;
 }

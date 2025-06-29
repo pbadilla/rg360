@@ -1,6 +1,6 @@
 // useEntityStore.ts
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { toast } from 'sonner';
 
 type ViewMode = 'grid' | 'list';
@@ -8,7 +8,7 @@ type SortDirection = 'asc' | 'desc';
 
 interface EntityStoreOptions<T extends { id: string }> {
   queryKey: string;
-  fetchFn: () => Promise<T[]>;
+  fetchFn: (params?: { page?: number; pageSize?: number }) => Promise<{ data: T[]; total: number }>;
   createFn?: (item: Omit<T, 'id'>) => Promise<T>;
   updateFn?: (item: T) => Promise<T>;
   deleteFn?: (id: string) => Promise<string>;
@@ -39,15 +39,25 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   const [sortConfig, setSortConfig] = useState(defaultSort);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+
   const {
-    data: entities = [],
+    data,
     isLoading,
     error
   } = useQuery({
-    queryKey: [queryKey],
-    queryFn: fetchFn,
-    staleTime: 5 * 60 * 1000
+    queryKey: [queryKey, page, pageSize],
+    queryFn: () => fetchFn({ page, pageSize }),
+    staleTime: 5 * 60 * 1000,
   });
+
+  const entities = data?.data ?? [];
+
+  useEffect(() => {
+    setTotal(data?.total ?? 0);
+  }, [data?.total]);
 
   const filteredEntities = useMemo(() => {
     const searched = searchFn(entities, searchTerm);
@@ -57,7 +67,10 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   const deleteMutation = useMutation({
     mutationFn: deleteFn,
     onSuccess: (deletedId) => {
-      queryClient.setQueryData([queryKey], (old: T[] = []) => old.filter(item => item.id !== deletedId));
+      queryClient.setQueryData([queryKey, page, pageSize], (old?: { data: T[]; total: number }) => ({
+        ...old,
+        data: old?.data.filter(item => item.id !== deletedId) ?? [],
+      }));
       toast.success(`${queryKey} deleted`);
     },
     onError: () => toast.error(`Failed to delete ${queryKey}`)
@@ -66,9 +79,10 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   const updateMutation = useMutation({
     mutationFn: updateFn,
     onSuccess: (updatedItem) => {
-      queryClient.setQueryData([queryKey], (old: T[] = []) =>
-        old.map(item => (item.id === updatedItem.id ? updatedItem : item))
-      );
+      queryClient.setQueryData([queryKey, page, pageSize], (old?: { data: T[]; total: number }) => ({
+        ...old,
+        data: old?.data.map(item => (item.id === updatedItem.id ? updatedItem : item)) ?? [],
+      }));
       toast.success(`${queryKey} updated`);
     },
     onError: () => toast.error(`Failed to update ${queryKey}`)
@@ -77,7 +91,11 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   const createMutation = useMutation({
     mutationFn: createFn,
     onSuccess: (newItem) => {
-      queryClient.setQueryData([queryKey], (old: T[] = []) => [...old, newItem]);
+      queryClient.setQueryData([queryKey, page, pageSize], (old?: { data: T[]; total: number }) => ({
+        ...old,
+        data: old ? [...old.data, newItem] : [newItem],
+        total: (old?.total ?? 0) + 1,
+      }));
       toast.success(`${queryKey} added`);
     },
     onError: () => toast.error(`Failed to add ${queryKey}`)
@@ -86,7 +104,10 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   const importMutation = useMutation({
     mutationFn: importFn,
     onSuccess: (importedItems) => {
-      queryClient.setQueryData([queryKey], importedItems);
+      queryClient.setQueryData([queryKey, page, pageSize], {
+        data: importedItems,
+        total: importedItems.length
+      });
       toast.success(`${queryKey} imported`);
     },
     onError: () => toast.error(`Failed to import ${queryKey}`)
@@ -95,8 +116,13 @@ export const useEntityStore = <T extends { id: string }>(options: EntityStoreOpt
   return {
     entities,
     filteredEntities,
+    total,
+    page,
+    pageSize,
     isLoading,
     error,
+    setPage,
+    setPageSize,
     searchTerm,
     sortConfig,
     viewMode,

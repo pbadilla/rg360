@@ -8,6 +8,7 @@ import cors from 'cors';
 import logging from '@/config/logging';
 import config from '@/config/config';
 
+import abandonedCartsRoutes from '@/routes/abandonedCartsRoutes';
 import authRoutes from '@/routes/authRoutes';
 import categoriesRoutes from '@/routes/categoriesRoutes';
 import notificationsRoutes from '@/routes/notificationsRoutes';
@@ -92,14 +93,16 @@ const startServer = async () => {
     }));
 
     // ✅ Routes
+    app.use('/abandonedCarts', abandonedCartsRoutes);
+    app.use('/auth', authRoutes);
+    app.use('/categories', categoriesRoutes);
     app.use('/login', authRoutes);
-    app.use('/stock', stockRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);
     app.use('/payments', paymentRoutes);
     app.use('/products', productRoutes);
-    app.use('/categories', categoriesRoutes);
     app.use('/shippings', shippingRoutes);
+    app.use('/stock', stockRoutes);
     app.use('/users', usersRoutes);
     app.use('/vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);

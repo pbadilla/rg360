@@ -1,158 +1,231 @@
+import React, { useMemo } from "react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useOrderStore } from "@/store/useOrderStore";
+import { formatCurrency } from "@/utils/format";
+import SearchInput from "@/components/SearchInput";
+import SortSelector from "@/components/SortSelector";
+import SortableColumn from "./SortableColumn";
 
-import React, { useState, useMemo } from 'react';
-import { format } from 'date-fns';
-import SortableColumn from './SortableColumn';
-import { cn } from '@/lib/utils';
+const OrderTable: React.FC = () => {
+  const {
+    entities: orders,
+    isLoading,
+    error,
+    searchTerm,
+    sortConfig,
+    setSearchTerm,
+    setSortConfig,
+  } = useOrderStore();
 
-export interface Order {
-  id: string;
-  name: string;
-  date: Date;
-  product: string;
-  pvp: number;
-  costPercentage: number;
-  gainPercentage: number;
-}
+  // Keys valid for sorting and searching — update these based on your Order type
+  type SortKey =
+    | "id"
+    | "createdAt"
+    | "status"
+    | "totalAmount"
+    | "paymentStatus"
+    | "itemsCount";
 
-interface OrderTableProps {
-  orders: Order[];
-  className?: string;
-}
+  const filteredOrders = useMemo(() => {
+    let result = [...orders];
 
-type SortKey = 'name' | 'date' | 'product' | 'pvp' | 'costPercentage' | 'gainPercentage';
-type SortDirection = 'asc' | 'desc' | null;
-
-const OrderTable: React.FC<OrderTableProps> = ({ orders, className }) => {
-  const [sortKey, setSortKey] = useState<SortKey>('date');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-
-  const handleSort = (key: string) => {
-    const newKey = key as SortKey;
-    if (newKey === sortKey) {
-      // Toggle direction if same key
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      // Set new key and default to ascending
-      setSortKey(newKey);
-      setSortDirection('asc');
+    // Search by ID or Status or payment method or product name inside items
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      result = result.filter((order) => {
+        // Search id or status
+        if (order.id.toLowerCase().includes(lowerSearch)) return true;
+        if (order.status.toLowerCase().includes(lowerSearch)) return true;
+        // Search payment status
+        if (order.payment.status.toLowerCase().includes(lowerSearch))
+          return true;
+        // Search inside product names from items (assuming you have product info here)
+        return order.items.some((item) =>
+          item.productId.toLowerCase().includes(lowerSearch)
+        );
+      });
     }
-  };
 
-  const sortedOrders = useMemo(() => {
-    if (!sortKey || !sortDirection) return orders;
+    // Sort
+    if (sortConfig.key && sortConfig.direction) {
+      result.sort((a, b) => {
+        let valA: any;
+        let valB: any;
 
-    return [...orders].sort((a, b) => {
-      let valueA = a[sortKey];
-      let valueB = b[sortKey];
+        switch (sortConfig.key) {
+          case "id":
+            valA = a.id;
+            valB = b.id;
+            break;
+          case "createdAt":
+            valA = new Date(a.createdAt).getTime();
+            valB = new Date(b.createdAt).getTime();
+            break;
+          case "status":
+            valA = a.status;
+            valB = b.status;
+            break;
+          case "totalAmount":
+            valA = a.totalAmount;
+            valB = b.totalAmount;
+            break;
+          // case "paymentStatus":
+          //   valA = a.payment.status;
+          //   valB = b.payment.status;
+          //   break;
+          // case "itemsCount":
+          //   valA = a.items.length;
+          //   valB = b.items.length;
+          //   break;
+          default:
+            valA = "";
+            valB = "";
+        }
 
-      // Special handling for dates
-      if (sortKey === 'date') {
-        valueA = new Date(valueA).getTime();
-        valueB = new Date(valueB).getTime();
-      }
+        if (typeof valA === "string" && typeof valB === "string") {
+          return sortConfig.direction === "asc"
+            ? valA.localeCompare(valB)
+            : valB.localeCompare(valA);
+        }
 
-      // For sorting strings
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortDirection === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+        return sortConfig.direction === "asc" ? valA - valB : valB - valA;
+      });
+    }
 
-      // For sorting numbers
-      return sortDirection === 'asc'
-        ? (valueA as number) - (valueB as number)
-        : (valueB as number) - (valueA as number);
-    });
-  }, [orders, sortKey, sortDirection]);
+    return result;
+  }, [orders, searchTerm, sortConfig]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(amount);
-  };
+  // const handleSortChange = (key: SortKey) => {
+  //   setSortConfig((prev) => {
+  //     const direction =
+  //       prev.key === key && prev.direction === "asc" ? "desc" : "asc";
+  //     return { key, direction };
+  //   });
+  // };
 
-  const formatPercentage = (value: number) => {
-    return `${value.toFixed(2)}%`;
-  };
+  if (isLoading) {
+    return (
+      <div className="text-center text-muted-foreground py-8">
+        Loading orders...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 py-8">
+        Failed to load orders.
+      </div>
+    );
+  }
 
   return (
-    <div className={cn("w-full overflow-auto rounded-lg shadow-sm border", className)}>
-      <div className="bg-white dark:bg-card rounded-lg overflow-hidden">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <SearchInput
+          searchTerm={searchTerm}
+          onSearch={setSearchTerm}
+          placeholder="Search by ID, status, payment, or product..."
+          className="w-full max-w-xs"
+        />
+        <SortSelector
+          sortConfig={sortConfig}
+          // onSortChange={(config: { key: SortKey; direction: "asc" | "desc" }) =>
+          //   setSortConfig({
+          //     key: config.key,
+          //     direction: config.direction,
+          //   })
+          // }
+          sortOptions={[
+            { value: "id", label: "Order ID" },
+            { value: "createdAt", label: "Created Date" },
+            { value: "status", label: "Status" },
+            { value: "totalAmount", label: "Total Amount" },
+            { value: "paymentStatus", label: "Payment Status" },
+            { value: "itemsCount", label: "# Items" },
+          ]}
+        />
+      </div>
+
+      <div className="overflow-auto rounded-lg shadow-sm border">
         <table className="w-full">
           <thead className="bg-muted/50">
             <tr>
               <SortableColumn
-                label="Name"
-                sortKey="name"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="Order ID"
+                sortKey="id"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
               <SortableColumn
-                label="Date"
-                sortKey="date"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="Created Date"
+                sortKey="createdAt"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
               <SortableColumn
-                label="Product"
-                sortKey="product"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="Status"
+                sortKey="status"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
               <SortableColumn
-                label="PVP"
-                sortKey="pvp"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="Total Amount"
+                sortKey="totalAmount"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
               <SortableColumn
-                label="Cost %"
-                sortKey="costPercentage"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="Payment Status"
+                sortKey="paymentStatus"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
               <SortableColumn
-                label="Gain %"
-                sortKey="gainPercentage"
-                currentSortKey={sortKey}
-                direction={sortDirection}
-                onSort={handleSort}
+                label="# Items"
+                sortKey="itemsCount"
+                currentSortKey={sortConfig.key}
+                direction={sortConfig.direction}
+                // onSort={handleSortChange}
               />
             </tr>
           </thead>
           <tbody>
-            {sortedOrders.map((order) => (
-              <tr 
-                key={order.id} 
-                className="table-row hover:bg-muted/30 border-t border-muted"
-              >
-                <td className="px-6 py-4 text-sm font-medium">{order.name}</td>
-                <td className="px-6 py-4 text-sm">
-                  {format(new Date(order.date), 'MMM dd, yyyy')}
-                </td>
-                <td className="px-6 py-4 text-sm">{order.product}</td>
-                <td className="px-6 py-4 text-sm font-medium">
-                  {formatCurrency(order.pvp)}
-                </td>
-                <td className="px-6 py-4 text-sm text-destructive">
-                  {formatPercentage(order.costPercentage)}
-                </td>
-                <td className="px-6 py-4 text-sm text-green-600">
-                  {formatPercentage(order.gainPercentage)}
-                </td>
-              </tr>
-            ))}
-            {orders.length === 0 && (
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order) => (
+                <tr
+                  key={order.id}
+                  className="hover:bg-muted/30 border-t border-muted"
+                >
+                  <td className="px-6 py-4 text-sm font-medium">{order.id}</td>
+                  <td className="px-6 py-4 text-sm">
+                    {format(new Date(order.createdAt), "MMM dd, yyyy")}
+                  </td>
+                  <td className="px-6 py-4 text-sm capitalize">
+                    {order.status}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium">
+                    {formatCurrency(order.totalAmount)}
+                  </td>
+                  <td className="px-6 py-4 text-sm capitalize">
+                    {order.payment?.status || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 text-sm">{order.items.length}</td>
+                </tr>
+              ))
+            ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">
-                  No orders found
+                <td
+                  colSpan={6}
+                  className="px-6 py-12 text-center text-muted-foreground"
+                >
+                  No orders found.
                 </td>
               </tr>
             )}

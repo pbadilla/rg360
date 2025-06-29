@@ -1,11 +1,10 @@
-
-import AbandonedCarts from "@/components/AbandonedCarts";
+import { AbandonedCartsTable } from "@/components/AbandonedCartsTable";
 import InsideLayout from "@/components/layout/InsideLayout";
 
 const AbandonedCartsPage = () => {
   return (
-    <InsideLayout title="CartTracker" subTitle='CartTracker'>
-      <AbandonedCarts />
+    <InsideLayout title="CartTracker" subTitle="CartTracker">
+      <AbandonedCartsTable />
     </InsideLayout>
   );
 };

@@ -29,10 +29,10 @@ export function CategoryTable() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<Category>>({});
 
-  const visibleItems = useStaggeredAnimation(categories.length);
+  const visibleItems = useStaggeredAnimation((categories || []).length);
 
   const filteredCategories = useMemo(() => {
-    const searched = searchEntities(categories, searchTerm, [
+    const searched = searchEntities(categories || [], searchTerm, [
       "name",
       "description",
     ]);

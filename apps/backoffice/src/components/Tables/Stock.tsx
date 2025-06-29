@@ -60,14 +60,13 @@ export function StockTable() {
   }
 
   return (
-    <EditableTable<Stock>
+    <EditableTable
       data={stocks}
       fields={[
         { key: "name", label: "Product" },
         { key: "own_stock", label: "Own Stock" },
         { key: "brand", label: "Brand" },
         { key: "ean13", label: "EAN13" },
-        // Add more fields as needed based on the Stock type definition
       ]}
       entityName="Stock"
       searchKeys={["name", "brand", "ean13"]}

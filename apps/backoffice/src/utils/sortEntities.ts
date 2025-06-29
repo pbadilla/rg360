@@ -1,7 +1,7 @@
 type SortDirection = 'asc' | 'desc';
 
 export const sortEntities = <T>(
-  items: T[],
+  items: T[] = [], // <- default to empty array
   config: { key: keyof T; direction: SortDirection }
 ): T[] => {
   const { key, direction } = config;
@@ -20,6 +20,6 @@ export const sortEntities = <T>(
       return direction === 'asc' ? aVal - bVal : bVal - aVal;
     }
 
-    return 0; // fallback for unsupported types
+    return 0;
   });
 };

@@ -4,6 +4,11 @@ type StatusOrder = 'processing' | 'shipped' | 'delivered' | 'cancelled' | string
 type PaymentMethod = 'credit_card' | 'paypal' | 'bank_transfer';
 type PaymentStatus = 'paid' | 'pending' | 'failed';
 type ReturnStatus = 'pending' | 'approved' | 'rejected';
+type SortKey = keyof Order | 'paymentStatus' | 'itemsCount';
+type SortConfig = {
+  key: SortKey;
+  direction: 'asc' | 'desc';
+};
 
 type Address = {
   street: string;

@@ -6,10 +6,22 @@ import { searchStock, sortStock } from '@/utils/stockUtils';
 export const useStockStore = () =>
   useEntityStore<Stock>({
     queryKey: 'products',
-    fetchFn: async () => {
-      const res = await api.get('/products');
-      return res.data.products ?? [];
+
+    fetchFn: async ({ page = 1, pageSize = 10 }) => {
+      const res = await api.get('/products', {
+        params: { page, pageSize },
+      });
+
+      return {
+        data: res.data.products ?? [],
+        total: res.data.total, // optional, for total count
+      };
     },
+
+    // fetchFn: async () => {
+    //   const res = await api.get('/products');
+    //   return res.data.products ?? [];
+    // },
     createFn: async (product) => {
       return { ...product, id: Date.now().toString() };
     },

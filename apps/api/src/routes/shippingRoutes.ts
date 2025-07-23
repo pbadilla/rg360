@@ -5,7 +5,8 @@ import {
   getAllShippings,
   getShippingById,
   getShippingByUserId,
-  saveOrUpdateShipping, 
+  saveOrUpdateShipping,
+  updateShippingById
 } from '@/controllers/shipping';
 
 const router = express.Router();
@@ -18,5 +19,7 @@ router.get('/user/:userId', getShippingByUserId);
 
 router.post('/updateShipping', saveOrUpdateShipping);
 router.post('/addShipping', addShipping);
+
+router.patch('/:shippingId', updateShippingById);
 
 export default router;

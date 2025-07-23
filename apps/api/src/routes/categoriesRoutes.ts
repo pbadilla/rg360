@@ -8,11 +8,25 @@ import updateExistingCategoryById from '@/controllers/categories/updateExistingC
 
 const router = express.Router();
 
-router.post('/:id', addCategoryById);
-router.patch('/:id', updateExistingCategoryById);
-router.delete('/:id', deleteCategoryById);        
+// Rutas específicas primero (orden importante)
 router.delete('/', deleteAllCategories);
 router.get('/', getAllCategories);
-router.get('/:id', getCategoryById);
+
+// Rutas para niveles específicos (más específicas primero)
+// Para acceder a items específicos: /skates/accessories/custom-kits
+router.post('/:category/:subcategory/:item', addCategoryById);
+router.patch('/:category/:subcategory/:item', updateExistingCategoryById);
+router.delete('/:category/:subcategory/:item', deleteCategoryById);
+router.get('/:category/:subcategory/:item', getCategoryById);
+
+// Para acceder a subcategorías: /skates/accessories
+router.get('/:category/:subcategory', getCategoryById);
+router.patch('/:category/:subcategory', updateExistingCategoryById);
+router.delete('/:category/:subcategory', deleteCategoryById);
+
+// Para acceder a categorías principales: /skates
+router.get('/:category', getCategoryById);
+router.patch('/:category', updateExistingCategoryById);
+router.delete('/:category', deleteCategoryById);
 
 export default router;

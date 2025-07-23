@@ -7,6 +7,7 @@ import {
   deleteStockProductById,
   getAllStocksProducts,
   getStockProductById,
+  updateStockProductById
 } from '@/controllers/stocks';
 
 const router = Router();
@@ -26,5 +27,6 @@ router.get('/', getAllStocksProducts);
 router.get('/:stockId', getStockProductById);
 router.delete('/', deleteAllStockProducts);
 router.delete('/:stockId', deleteStockProductById);
+router.patch('/:stockId', updateStockProductById);
 
 export default router;

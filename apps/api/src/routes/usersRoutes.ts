@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import {
   addUser, getAllUsers, getUserById,
   updateUsers, deleteUserById, loginUser,
+  updateUserById
 } from '@/controllers/users';
 import { requestPasswordReset, resetPassword } from '@/controllers/passwords';
 
@@ -24,7 +25,8 @@ router.post('/', addUser);
 router.get('/', getAllUsers);
 router.get('/:userId', getUserById);
 router.put('/:userId', updateUsers);
-router.delete('//:userId', deleteUserById);
+router.delete('/:userId', deleteUserById);
+router.patch('/:userId', updateUserById);
 
 /** Login and PWD Routes */
 router.post('/auth/login',authMiddleware, loginUser);

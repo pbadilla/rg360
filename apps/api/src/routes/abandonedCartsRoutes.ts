@@ -4,10 +4,11 @@ import getAllAbandonedCarts from '@/controllers/abandonedCarts/getAllAbandonedCa
 
 const router = express.Router();
 
-// router.post('/:id', addCategoryById);
-// router.delete('/:id', deleteCategoryById);
-// router.delete('/', deleteAllCategories);
-// router.get('/:id', getCategoryById);
+// router.post('/:id', addAbandonedCartById);
+// router.delete('/:id', deleteAbandonedCartById);
+// router.delete('/', deleteAllAbandonedCarts);
+// router.get('/:id', getAbandonedCartById);
+// router.patch('/:id', updateAbandonedCartById);
 router.get('/', getAllAbandonedCarts);
 
 

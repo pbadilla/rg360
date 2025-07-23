@@ -6,7 +6,8 @@ import {
   getAllProducts,
   getProductById,
   deleteAllProducts,
-  deleteProductById
+  deleteProductById,
+  updateProductById
 } from '@/controllers/products';
 
 import { generateDescription } from '@/services/aiDescription';
@@ -47,6 +48,7 @@ router.post('/product', async (req: Request, res: Response) => {
 /** CRUD Product Routes */
 router.post('/', addProduct);
 router.get('/', getAllProducts);
+router.patch('/:id', updateProductById);
 router.get('/:productId', getProductById);
 router.delete('/', deleteAllProducts);
 router.delete('/:productId', deleteProductById);

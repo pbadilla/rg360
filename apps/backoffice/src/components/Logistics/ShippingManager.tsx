@@ -1,10 +1,15 @@
-
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Package, Truck } from 'lucide-react';
-import ShippingMethodsList from './ShippingMethodsList';
-import TrackingList from './TrackingList';
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Package, Truck } from "lucide-react";
+import ShippingMethodsList from "./ShippingMethodsList";
+import TrackingList from "./TrackingList";
 
 export interface ShippingMethod {
   id: string;
@@ -22,7 +27,7 @@ export interface TrackingEntry {
   shippingMethodId: string;
   customerName: string;
   destination: string;
-  status: 'pending' | 'in_transit' | 'delivered' | 'exception';
+  status: "pending" | "in_transit" | "delivered" | "exception";
   createdAt: Date;
   estimatedDelivery?: Date;
   actualDelivery?: Date;
@@ -31,64 +36,65 @@ export interface TrackingEntry {
 const ShippingManager = () => {
   const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>([
     {
-      id: '1',
-      name: 'Standard Shipping',
-      carrier: 'FedEx',
+      id: "1",
+      name: "Standard Shipping",
+      carrier: "FedEx",
       estimatedDays: 5,
       cost: 9.99,
       isActive: true,
-      description: 'Standard ground shipping'
+      description: "Standard ground shipping",
     },
     {
-      id: '2',
-      name: 'Express Shipping',
-      carrier: 'UPS',
+      id: "2",
+      name: "Express Shipping",
+      carrier: "UPS",
       estimatedDays: 2,
       cost: 24.99,
       isActive: true,
-      description: 'Express overnight delivery'
-    }
+      description: "Express overnight delivery",
+    },
   ]);
 
   const [trackingEntries, setTrackingEntries] = useState<TrackingEntry[]>([
     {
-      id: '1',
-      trackingNumber: 'TRK123456789',
-      shippingMethodId: '1',
-      customerName: 'John Doe',
-      destination: 'New York, NY',
-      status: 'in_transit',
-      createdAt: new Date('2024-06-15'),
-      estimatedDelivery: new Date('2024-06-20')
+      id: "1",
+      trackingNumber: "TRK123456789",
+      shippingMethodId: "1",
+      customerName: "John Doe",
+      destination: "New York, NY",
+      status: "in_transit",
+      createdAt: new Date("2024-06-15"),
+      estimatedDelivery: new Date("2024-06-20"),
     },
     {
-      id: '2',
-      trackingNumber: 'TRK987654321',
-      shippingMethodId: '2',
-      customerName: 'Jane Smith',
-      destination: 'Los Angeles, CA',
-      status: 'delivered',
-      createdAt: new Date('2024-06-16'),
-      estimatedDelivery: new Date('2024-06-18'),
-      actualDelivery: new Date('2024-06-17')
-    }
+      id: "2",
+      trackingNumber: "TRK987654321",
+      shippingMethodId: "2",
+      customerName: "Jane Smith",
+      destination: "Los Angeles, CA",
+      status: "delivered",
+      createdAt: new Date("2024-06-16"),
+      estimatedDelivery: new Date("2024-06-18"),
+      actualDelivery: new Date("2024-06-17"),
+    },
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Shipping Manager</h1>
-          <p className="text-slate-400">Manage your shipping methods and track shipments</p>
-        </div>
-
+    <div className="min-h-screen p-0">
+      <div className="mx-auto">
         <Tabs defaultValue="methods" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-slate-800">
-            <TabsTrigger value="methods" className="flex items-center gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white">
+            <TabsTrigger
+              value="methods"
+              className="flex items-center gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white"
+            >
               <Package className="h-4 w-4" />
               Shipping Methods
             </TabsTrigger>
-            <TabsTrigger value="tracking" className="flex items-center gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white">
+            <TabsTrigger
+              value="tracking"
+              className="flex items-center gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white"
+            >
               <Truck className="h-4 w-4" />
               Tracking
             </TabsTrigger>
@@ -103,7 +109,7 @@ const ShippingManager = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ShippingMethodsList 
+                <ShippingMethodsList
                   shippingMethods={shippingMethods}
                   setShippingMethods={setShippingMethods}
                 />
@@ -120,7 +126,7 @@ const ShippingManager = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TrackingList 
+                <TrackingList
                   trackingEntries={trackingEntries}
                   setTrackingEntries={setTrackingEntries}
                   shippingMethods={shippingMethods}

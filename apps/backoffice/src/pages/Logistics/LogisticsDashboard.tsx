@@ -1,10 +1,14 @@
+import InsideLayout from "@/components/layout/InsideLayout";
 import ShippingManager from "@/components/Logistics/ShippingManager";
 
 const LogisticsDashboard = () => {
   return (
-    <div className="min-h-screen bg-slate-900">
+    <InsideLayout
+      title="Shipping manager"
+      subTitle="Manage your shipping methods and track shipments"
+    >
       <ShippingManager />
-    </div>
+    </InsideLayout>
   );
 };
 

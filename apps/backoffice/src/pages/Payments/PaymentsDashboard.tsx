@@ -7,77 +7,74 @@ import CustomerManager from "@/components/Payments/CustomerManager";
 import { CreditCard, Receipt, RotateCcw, BarChart3, Users } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
+import InsideLayout from "@/components/layout/InsideLayout";
 
 const PaymentsDashboard = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-800 dark:text-white mb-2">
-            Payment Manager
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
-            Manage payment methods, transactions, refunds, and analytics
-          </p>
+    <InsideLayout
+      title="Payment Manager"
+      subTitle="Manage payment methods, transactions, refunds, and analytics."
+    >
+      <div className="min-h-screen p-0">
+        <div className="mx-auto">
+          <Tabs defaultValue="stats" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-5 bg-white dark:bg-slate-800 shadow-sm">
+              <TabsTrigger
+                value="stats"
+                className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <BarChart3 className="h-4 w-4" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger
+                value="payments"
+                className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <CreditCard className="h-4 w-4" />
+                Payment Methods
+              </TabsTrigger>
+              <TabsTrigger
+                value="transactions"
+                className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <Receipt className="h-4 w-4" />
+                Transactions
+              </TabsTrigger>
+              <TabsTrigger
+                value="refunds"
+                className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Refunds
+              </TabsTrigger>
+              <TabsTrigger
+                value="customers"
+                className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+              >
+                <Users className="h-4 w-4" />
+                Customers
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="stats">
+              <PaymentStats />
+            </TabsContent>
+            <TabsContent value="payments">
+              <PaymentMethodsManager />
+            </TabsContent>
+            <TabsContent value="transactions">
+              <TransactionTracker />
+            </TabsContent>
+            <TabsContent value="refunds">
+              <RefundManager />
+            </TabsContent>
+            <TabsContent value="customers">
+              <CustomerManager />
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <Tabs defaultValue="stats" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-white dark:bg-slate-800 shadow-sm">
-            <TabsTrigger
-              value="stats"
-              className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-            >
-              <BarChart3 className="h-4 w-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger
-              value="payments"
-              className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-            >
-              <CreditCard className="h-4 w-4" />
-              Payment Methods
-            </TabsTrigger>
-            <TabsTrigger
-              value="transactions"
-              className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-            >
-              <Receipt className="h-4 w-4" />
-              Transactions
-            </TabsTrigger>
-            <TabsTrigger
-              value="refunds"
-              className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-            >
-              <RotateCcw className="h-4 w-4" />
-              Refunds
-            </TabsTrigger>
-            <TabsTrigger
-              value="customers"
-              className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-            >
-              <Users className="h-4 w-4" />
-              Customers
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="stats">
-            <PaymentStats />
-          </TabsContent>
-          <TabsContent value="payments">
-            <PaymentMethodsManager />
-          </TabsContent>
-          <TabsContent value="transactions">
-            <TransactionTracker />
-          </TabsContent>
-          <TabsContent value="refunds">
-            <RefundManager />
-          </TabsContent>
-          <TabsContent value="customers">
-            <CustomerManager />
-          </TabsContent>
-        </Tabs>
       </div>
-    </div>
+    </InsideLayout>
   );
 };
 

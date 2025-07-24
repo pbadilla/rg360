@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import { ProductModel } from '@/models/product';
+import { ProductModel } from '../models/product';
 import config from '@/config/config';
 
-// Tu lógica de mapeo (copiada tal cual del mensaje original)
-const colorMap: Record<string, string> = {
+const colorMap = {
   BK: 'Negro', BLK: 'Negro', BL: 'Azul', BG: 'Rosa chicle', CRBN: 'Carbon',
   R: 'Carbon', DA: 'Negro Transparente', CL: 'Blanco Transparente', CO: 'Coral',
   GD: 'Dorado', GR: 'Verde', GY: 'Gris', GRY: 'Gris', GL: 'Gris Perla', NL: 'Marrón',
@@ -12,7 +11,7 @@ const colorMap: Record<string, string> = {
   SV: 'Plata', YE: 'Amarillo', YL: 'Amarillo', VI: 'Violeta', WH: 'Blanco',
 };
 
-const sizeMap: Record<string, string> = {
+const sizeMap = {
   '2': '32-34', '2 - 4': '32-34', '5 - 8': '37-39', '9 - 12': '40-42',
   '4 - 6': '35-37', '2730': '27-30', '2734': '27-34', '2932': '29-32',
   '3336': '33-36', '3538': '35-38', '3740': '37-40', '34': '34', '35': '35',
@@ -35,14 +34,14 @@ const colorCodes = new Set([
 
 const validSizes = new Set(Object.keys(sizeMap));
 
-const changeColor = (originColor: string): string | undefined => colorMap[originColor];
-const changeSize = (originSize: string): string | undefined => sizeMap[originSize];
+const changeColor = (originColor) => colorMap[originColor];
+const changeSize = (originSize) => sizeMap[originSize];
 
-function findValidSize(parts: string[]) {
+function findValidSize(parts) {
   return parts.find((part) => validSizes.has(part));
 }
 
-function extractColor(reference: string | undefined | null): string | undefined {
+function extractColor(reference) {
   if (!reference || typeof reference !== 'string') return undefined;
   const parts = reference.split('-').reverse();
   for (const part of parts) {
@@ -52,7 +51,7 @@ function extractColor(reference: string | undefined | null): string | undefined 
   }
 }
 
-function extractCSizes(reference: string): string | undefined {
+function extractCSizes(reference) {
   if (!reference) return changeSize('undefined');
   const parts = reference.split('-');
   const found = findValidSize(parts);
@@ -65,7 +64,7 @@ function extractCSizes(reference: string): string | undefined {
 async function classifyAndUpdateProducts() {
   try {
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
-    console.log('✅ Conectado a MongoDB'  );
+    console.log('✅ Conectado a MongoDB');
 
     const products = await ProductModel.find();
 

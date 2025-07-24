@@ -1,89 +1,139 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
+type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 type Status = 'active' | 'inactive' | 'discontinued';
 
-const PriceSchema = new Schema({
-  pvp: { type: Number, required: true },
-  pv: { type: Number, required: true },
-  benefit_percentage: { type: Number, required: true },
-}, { _id: false });
+interface Price {
+  pvp: number;
+  pv: number;
+  benefit_percentage: number;
+}
 
-const SizeVariationSchema = new Schema({
-  size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'], required: true },
-  stock: { type: Number, required: true },
-  price: { type: PriceSchema, required: true },
-  own_stock: { type: Boolean, default: false },
-}, { _id: false });
+interface SizeVariation {
+  size: Sizes;
+  stock: number;
+  price: Price;
+  own_stock?: boolean;
+}
 
-const TagSchema = new Schema({
-  name: { type: String, required: true },
-  color: { type: String, required: true },
-  type: { type: String, enum: ['offer', 'category', 'brand'], required: true },
-}, { _id: false });
+interface Tag {
+  name: string;
+  color: string;
+  type: 'offer' | 'category' | 'brand';
+}
 
-const CategorySchema = new Schema({
-  name: { type: String, required: true },
-  color: { type: String, required: true },
-}, { _id: false });
+interface Category {
+  name: string;
+  color: string;
+}
 
-const VariationSchema = new Schema({
-  color: { type: String, required: true },
-  sizes: { type: [SizeVariationSchema], required: true },
-}, { _id: false });
-
-const ProductImageSchema = new Schema({
-  url: { type: String, required: true },
-  alt: { type: String },
-  type: { type: String, enum: ['image', 'video'], default: 'image' },
-}, { _id: false });
+interface Variation {
+  color: string;
+  sizes: SizeVariation[];
+}
 
 export interface ProductDocument extends Document {
   brand?: string;
-  category?: {
-    name: string;
-    color: string;
-  };
+  category?: Category;
   description?: string;
   ean13: string;
-  images: typeof ProductImageSchema[];
+  images: string[];
   name: string;
-  price?: {
-    pvp: number;
-    pv: number;
-    benefit_percentage: number;
-  };
+  price?: Price;
   rating: number;
   reference: string;
   status: Status;
   stock?: number;
-  tags: typeof TagSchema[];
-  variations: typeof VariationSchema[];
-  vendorId: string;
-  UpdateData: Date | string;
+  tags: Tag[];
+  variations: Variation[];
+  vendorId?: string;
+  updateData: Date | string;
   createdAt: Date | string;
 }
 
-const ProductSchema = new Schema({
-  brand: String,
-  category: { type: Schema.Types.Mixed }, // if CategorySchema is not defined
+// Esquemas anidados
+
+const PriceSchema = new Schema(
+  {
+    pvp: { type: Number, required: true },
+    pv: { type: Number, required: true },
+    benefit_percentage: { type: Number, required: true },
+  },
+  { _id: false }
+);
+
+const SizeVariationSchema = new Schema(
+  {
+    size: {
+      type: String,
+      enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      required: true,
+    },
+    stock: { type: Number, required: true },
+    price: { type: PriceSchema, required: true },
+    own_stock: { type: Boolean, default: false },
+  },
+  { _id: false }
+);
+
+const TagSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    color: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ['offer', 'category', 'brand'],
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
+const CategorySchema = new Schema(
+  {
+    name: { type: String, required: true },
+    color: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+const VariationSchema = new Schema(
+  {
+    color: { type: String, required: true },
+    sizes: { type: [SizeVariationSchema], required: true },
+  },
+  { _id: false }
+);
+
+// Esquema principal
+
+export const ProductSchema = new Schema({
+  brand: { type: String },
+  category: { type: CategorySchema, required: false },
   colors: { type: [String], default: [] },
   createdAt: { type: Date, default: Date.now },
-  description: String,
+  description: { type: String },
   ean13: { type: String, required: true },
-  images: { type: [String], default: [] }, // Assuming images are just URLs
+  images: { type: [String], default: [] }, // URLs de imágenes
   name: { type: String, required: true },
   parentReference: { type: String },
-  price: PriceSchema,
+  price: { type: PriceSchema },
   rating: { type: Number, default: 0, required: true },
   reference: { type: String, required: true },
-  retailPrice: PriceSchema,
+  retailPrice: { type: PriceSchema },
   sizes: { type: [String], default: [] },
-  status: { type: String, enum: ['active', 'inactive', 'discontinued'], required: true },
+  status: {
+    type: String,
+    enum: ['active', 'inactive', 'discontinued'],
+    required: true,
+  },
   stock: { type: Number, default: 0 },
-  tags: { type: [Schema.Types.Mixed], default: [] },
-  variations: { type: [Schema.Types.Mixed], default: [] },
+  tags: { type: [TagSchema], default: [] },
+  variations: { type: [VariationSchema], default: [] },
   updateData: { type: Date, default: Date.now },
+  vendorId: { type: String },
 });
 
-export const ProductModel = mongoose.model<ProductDocument>('products', ProductSchema);
+// Para evitar el OverwriteModelError en hot-reload o tests
+export const ProductModel =
+  mongoose.models.Product || mongoose.model<ProductDocument>('Product', ProductSchema);

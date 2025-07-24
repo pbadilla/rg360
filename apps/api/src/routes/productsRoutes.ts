@@ -13,9 +13,11 @@ import {
 import { generateDescription } from '@/services/aiDescription';
 import { Product } from '@/types/product';
 
+import groupProductsByField from '@/controllers/products/groupProductsByField';
+
 const router = Router();
 
-/** Middleware to check DB connection */
+/** Middleware para verificar conexión DB */
 router.use((req, res, next) => {
   const readyState = mongoose.connection.readyState;
   console.log('Mongoose readyState:', readyState);
@@ -29,7 +31,7 @@ router.use((req, res, next) => {
   next();
 });
 
-/** Route to generate AI description */
+/** Ruta para generar descripción con IA */
 router.post('/product', async (req: Request, res: Response) => {
   try {
     const product: Product = {
@@ -45,12 +47,23 @@ router.post('/product', async (req: Request, res: Response) => {
   }
 });
 
-/** CRUD Product Routes */
+/** Rutas específicas deben ir antes de las dinámicas */
+
+// http://localhost:3000/products?page=1&limit=20&brand=Zara&category=ropa&stock=true&sort=price&order=asc
+
+
+// 🆕 Agrupación dinámica: /group-by/:field
+router.get('/group-by/:field', groupProductsByField);
+
+// CRUD: Productos
 router.post('/', addProduct);
+
+// GET /?page=1&limit=20&brand=Zara&sort=price&order=desc
 router.get('/', getAllProducts);
+
 router.patch('/:id', updateProductById);
 router.get('/:productId', getProductById);
-router.delete('/', deleteAllProducts);
 router.delete('/:productId', deleteProductById);
+router.delete('/', deleteAllProducts);
 
 export default router;

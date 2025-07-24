@@ -1,42 +1,50 @@
 import { Request, Response } from 'express';
 import { ProductModel } from '@/models/product';
 
-const getAllProducts = async (_req: Request, res: Response) => {
+const getAllProducts = async (req: Request, res: Response) => {
   try {
-      // Log the start of the query
-      console.log("Fetching all products from the database...");
+    console.log("Fetching products with filters, pagination and sorting...");
 
-      // Query the database for all products
-      const products = await ProductModel.find().lean();
+    // 🧭 PAGINATION
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
 
-      // Log how many products were found
-      console.log(`Found ${products.length} products.`);
+    // 🔎 FILTERS
+    const filter: any = {};
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+    if (req.query.stock) {
+      filter.stock = req.query.stock === 'true';
+    }
+    if (req.query.brand) {
+      filter.brand = req.query.brand;
+    }
 
-      // If no products found, return an empty response with a message
-      if (products.length === 0) {
-          return res.status(200).json({
-              message: "No products found.",
-              count: 0,
-              products: []
-          });
-      }
+    // 📦 SORTING
+    const sortField = req.query.sort as string || 'createdAt';
+    const sortOrder = req.query.order === 'desc' ? -1 : 1;
+    const sortOptions = { [sortField]: sortOrder };
 
-      // Send back the products and the count
-      return res.status(200).json({
-          products,
-          count: products.length
-      });
+    // 🚀 QUERY
+    const [products, total] = await Promise.all([
+      ProductModel.find(filter).sort(sortOptions).skip(skip).limit(limit).lean(),
+      ProductModel.countDocuments(filter),
+    ]);
+
+    return res.status(200).json({
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      products
+    });
+
   } catch (error: any) {
-      // Log the error for debugging purposes
-      console.error("Error fetching products:", error);
-
-      // Return an error response if something went wrong
-      return res.status(500).json({
-          message: error.message,
-          error
-      });
+    console.error("Error fetching products:", error);
+    return res.status(500).json({ message: error.message, error });
   }
 };
 
 export default getAllProducts;
-

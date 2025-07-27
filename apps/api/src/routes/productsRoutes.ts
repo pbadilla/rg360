@@ -48,14 +48,9 @@ router.post('/product', async (req: Request, res: Response) => {
 });
 
 /** Rutas específicas deben ir antes de las dinámicas */
-
 // http://localhost:3000/products?page=1&limit=20&brand=Zara&category=ropa&stock=true&sort=price&order=asc
-
-
-// 🆕 Agrupación dinámica: /group-by/:field
 router.get('/group-by/:field', groupProductsByField);
 
-// CRUD: Productos
 router.post('/', addProduct);
 
 // GET /?page=1&limit=20&brand=Zara&sort=price&order=desc

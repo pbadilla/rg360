@@ -45,14 +45,22 @@ const startServer = async () => {
     }
 
     const collections = await mongoose.connection.db.listCollections().toArray();
-    logging.info(NAMESPACE, 'Collections in the DB:', collections);
 
-    const productsCollectionExists = collections.some(col => col.name === 'products');
-    if (productsCollectionExists) {
-      logging.info(NAMESPACE, 'Products collection found!');
-    } else {
-      logging.error(NAMESPACE, 'Products collection does not exist in the database');
-    }
+    const summaries = await Promise.all(
+      collections.map(async (col) => {
+        if (!mongoose.connection.db) {
+          throw new Error('MongoDB database connection is undefined.');
+        }
+        const collection = mongoose.connection.db.collection(col.name);
+        const count = await collection.countDocuments();
+        return {
+          name: col.name,
+          count
+        };
+      })
+    );
+
+    logging.info(NAMESPACE, 'Collections Summary:', summaries);
 
     // ✅ Middleware setup
     app.use(bodyParser.urlencoded({ extended: true }));

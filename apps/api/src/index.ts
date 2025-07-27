@@ -27,9 +27,6 @@ import importerRollerblade from 'src/crons/routeImporterRollerblade';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 
-import '@/docs/components/productSchemas';
-import '@/docs/routes/productDocs';
-
 const NAMESPACE = 'Server';
 const app = express();
 

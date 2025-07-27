@@ -17,3 +17,4 @@ router.post('/email/password-reset', sendPasswordResetEmail);
 router.post('/email/promotional', sendPromotionalEmail);
 
 export default router;
+

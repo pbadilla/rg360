@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { importerUniverskate} from 'src/crons/importerUniverskate';
+import { importHTTPUniverskate} from 'src/scripts/universkate/downloadUniverskateCSV';
 
 const router = Router();
 
-router.get('/', importerUniverskate);
+router.get('/', importHTTPUniverskate);
 
 export default router;

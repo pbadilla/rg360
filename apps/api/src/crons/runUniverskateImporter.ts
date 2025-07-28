@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import basicAuth from 'basic-auth-header';
-import { removeFirstRow, importCSVUniverskate } from '@/utils/importCSVUniverskate';
+import { removeFirstRow, importCSVUniverskate } from 'src/scripts/universkate/importCSVUniverskate';
 
 async function runImporter() {
   const url = process.env.IMPORTER_UNIVERSKATE_URL;

@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import {
   addProduct,
   getAllProducts,
+  getAllProductsGrouped,
   getProductById,
   deleteAllProducts,
   deleteProductById,
@@ -49,13 +50,11 @@ router.post('/product', async (req: Request, res: Response) => {
 
 /** Rutas específicas deben ir antes de las dinámicas */
 // http://localhost:3000/products?page=1&limit=20&brand=Zara&category=ropa&stock=true&sort=price&order=asc
-router.get('/group-by/:field', groupProductsByField);
-
-router.post('/', addProduct);
-
 // GET /?page=1&limit=20&brand=Zara&sort=price&order=desc
 router.get('/', getAllProducts);
-
+router.get('/grouped', getAllProductsGrouped);
+router.get('/group-by/:field', groupProductsByField);
+router.post('/', addProduct);
 router.patch('/:id', updateProductById);
 router.get('/:productId', getProductById);
 router.delete('/:productId', deleteProductById);

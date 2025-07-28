@@ -1,5 +1,6 @@
 export { default as addProduct } from './addProducts';
 export { default as getAllProducts } from './getAllProducts';
+export { default as getAllProductsGrouped } from './getAllProductsGrouped';
 export { default as getProductById } from './getProductById';
 export { default as deleteProductById } from './deleteProductById';
 export { default as deleteAllProducts } from './deleteAllProducts';

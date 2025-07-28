@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductModel } from '@/models/product';
 
-const getAllProducts = async (req: Request, res: Response) => {
+const getAllProductsGrouped = async (req: Request, res: Response) => {
   try {
     console.log("Fetching products with filters, pagination and sorting...");
 
@@ -47,4 +47,4 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export default getAllProducts;
+export default getAllProductsGrouped;

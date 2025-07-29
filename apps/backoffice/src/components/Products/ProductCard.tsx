@@ -48,16 +48,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
     onEdit(updatedProduct);
     setIsEditDialogOpen(false);
   };
-  const handleConfirmDelete = () => onDelete(product._id);
+  const handleConfirmDelete = () => onDelete(product.id);
 
-  const mockAvailableColors = ["red", "blue", "black", "white"];
+  const availableColors = product.colors ?? [];
 
   function ProductColors() {
-    const [selectedColor, setSelectedColor] = useState("red");
+    const [selectedColor, setSelectedColor] = useState(
+      availableColors[0] ?? ""
+    );
+
+    if (availableColors.length === 0) return null;
 
     return (
-      <div className="flex gap-2">
-        {mockAvailableColors.map((color) => (
+      <div className="flex gap-2 flex-wrap">
+        {availableColors.map((color) => (
           <ColorBadge
             key={color}
             color={color}
@@ -80,6 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleEdit}
       >
+        {/* IMAGE + QR + CATEGORY */}
         <div className="relative">
           <AspectRatio ratio={4 / 3} className="bg-muted">
             <div
@@ -105,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
             <QRCodeSVG
-              value={product._id}
+              value={product.id}
               size={48}
               bgColor="#ffffff"
               fgColor="#000000"
@@ -115,34 +120,73 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        <CardHeader className="pb-3">
+        {/* HEADER */}
+        <CardHeader className="pb-3 space-y-1">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
-          <CardDescription className="space-y-1">
-            <div className="flex flex-wrap justify-between items-center gap-2">
-              <span className="font-medium text-lg text-foreground">
-                {formatPrice(product.price, "es-ES", "EUR")}
-              </span>
-              <Badge variant="outline">Sizes: {product.sizes ?? "N/A"}</Badge>
-              <Badge variant="outline">Stock: {product.stock}</Badge>
-            </div>
-            <div className="flex flex-wrap justify-between items-center gap-2">
+          <CardDescription className="text-sm space-y-1">
+            <p>
+              <strong>Brand:</strong> {product.brand}
+            </p>
+            <p>
+              <strong>Reference:</strong> {product.reference}
+            </p>
+            <p>
+              <strong>EAN13:</strong> {product.ean13}
+            </p>
+          </CardDescription>
+
+          <div className="flex flex-wrap justify-between items-center gap-2 pt-2">
+            <span className="font-medium text-lg text-foreground">
+              {typeof product.price.pvp === "number"
+                ? formatPrice(product.price.pvp, "es-ES", "EUR")
+                : "No price"}
+            </span>
+            <Badge variant="outline">
+              Sizes: {product.sizes?.join(", ") || "N/A"}
+            </Badge>
+            <Badge variant="outline">Stock: {product.stock}</Badge>
+          </div>
+        </CardHeader>
+
+        {/* COLORS + VARIATIONS */}
+        <CardContent className="pb-4 space-y-2">
+          {availableColors.length > 0 && (
+            <div className="flex items-center justify-between">
               <ProductColors />
               <OfferBadge type="limited">Only 3 left!</OfferBadge>
             </div>
-          </CardDescription>
-        </CardHeader>
+          )}
 
-        <CardContent className="pb-4">
-          <p className="text-muted-foreground line-clamp-2">
-            {product.description}
-          </p>
+          {product.description && (
+            <p className="text-muted-foreground text-sm line-clamp-2">
+              {product.description}
+            </p>
+          )}
+
+          {product.variations?.length > 0 && (
+            <div className="text-sm text-muted-foreground">
+              <strong>Variations:</strong>
+              <ul className="list-disc list-inside mt-1">
+                {product.variations.map((variation, index) => (
+                  <li key={index}>
+                    {variation.color} – Sizes:{" "}
+                    {variation.sizes?.join(", ") || "N/A"}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </CardContent>
 
+        {/* ACTIONS */}
         <CardFooter className="flex justify-between border-t pt-4">
           <Button
             variant="outline"
             size="sm"
-            onClick={handleEdit}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit();
+            }}
             className="w-full mr-2 transition-colors"
           >
             <Pen className="h-4 w-4 mr-2" />
@@ -151,7 +195,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Button
             variant="outline"
             size="sm"
-            onClick={handleDelete}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
             className="w-full ml-2 text-destructive hover:text-destructive-foreground hover:bg-destructive transition-colors"
           >
             <Trash2 className="h-4 w-4 mr-2" />

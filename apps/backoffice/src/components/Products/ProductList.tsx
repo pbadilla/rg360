@@ -5,7 +5,7 @@ import { useProductStore } from "@/store/storeProducts";
 import ProductCard from "./ProductCard";
 import ProductTable from "./ProductTable";
 
-import ViewToggle from "./ViewToggle";
+import ViewToggle from "../ViewToggle";
 import ProductEditDialog from "./ProductEditDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";

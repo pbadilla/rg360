@@ -34,24 +34,23 @@ type ProductImage = {
   type?: 'image' | 'video';
 };
 
-export interface Product {
+export type Product = {
   id: string;
-  SKU?: string;
-  brand?: string;
-  category?: Category;
-  description?: string;
+  name: string;
+  description: string;
+  reference: string;
+  brand: string;
+  category: Category;
+  colors: string[];
+  sizes: string[];
+  stock: number;
+  price: Price;
+  status: Status;
+  rating: number;
   ean13: string;
   images: ProductImage[];
-  name: string;
-  price?: Price;
-  rating: number;
-  reference: string;
-  status: Status;
-  stock?: number;
+  createdAt: string;
+  updateData: string;
   tags: Tag[];
   variations: Variation[];
-  vendorId: string;
-
-  UpdateData: string | Date;
-  createdAt: string | Date;
-}
+};

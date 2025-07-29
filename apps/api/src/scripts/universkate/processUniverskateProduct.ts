@@ -13,7 +13,6 @@ export async function processUniverskateProduct(row: CsvRow): Promise<void> {
   const brand = row.Brand;
   const name = row.Name;
   const weight = parseFloat(row.Weight || '0');
-
   const color = extractColor(sku) || '';
   const sizes = extractCSizes(sku) || [];
 
@@ -31,19 +30,21 @@ export async function processUniverskateProduct(row: CsvRow): Promise<void> {
     price,
     image,
   };
-
   const productData: ProductDoc = {
     skuRoot,
+    reference: sku,
+    ean13: ean,
     name,
     brand,
     weight,
+    status: 'active', // or 'draft' etc.
     category: {
       code: skuRoot,
-      name: skuRoot, // Or map this to a human-readable name
+      name: skuRoot,
+      color,
     },
     variations: [variation],
   };
-
   try {
     await ProductModel.create(productData);
     console.log(`Inserted ${productReference} into MongoDB`);

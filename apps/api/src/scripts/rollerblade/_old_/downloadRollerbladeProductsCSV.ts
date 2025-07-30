@@ -1,10 +1,10 @@
 import fs from 'fs';
-import { Request, Response } from 'express';
-import { removeFirstRow } from '@/utils/removeFirstRow';
-import { CsvRow } from '@/types/csvUniverskate';
-import { processRollerbladeGroup } from './processRollerbladeGroup';
 import ftp from 'basic-ftp';
-import tls from 'tls';
+
+import { Request, Response } from 'express';
+
+import { CsvRowRollerblade } from '@/types/CSVProducts';
+import { processRollerbladeGroup } from '../processRollerbladeGroup';
 
 const downloadRollerbladeProductsCSV = async (req: Request, res: Response): Promise<void> => {
   const path = './rollerbladeProducts.csv';
@@ -38,7 +38,7 @@ const downloadRollerbladeProductsCSV = async (req: Request, res: Response): Prom
     const headers = lines[0].split('\t');
     const dataRows = lines.slice(1);
 
-    const csvRows: CsvRow[] = dataRows.map(line => {
+    const csvRows: CsvRowRollerblade[] = dataRows.map(line => {
       const values = line.split('\t'); // correct delimiter
       const raw: any = {};
       headers.forEach((key, index) => {
@@ -50,22 +50,26 @@ const downloadRollerbladeProductsCSV = async (req: Request, res: Response): Prom
       const firstImage = imageKeys.map(k => raw[k]).find(url => url && url.startsWith('http'));
 
       return {
-        Reference: raw['SKU'],
         EAN: raw['EAN'],
-        Price: raw['PVPR'],
-        Stock: raw['Cantidad Minima'] || '0', // You might want to change this logic
-        Name: `${raw['Art. Nombre']} ${raw['Color Nombre']}`.trim(),
+        Reference: raw['SKU'],
+        idCode: raw['Art. Codigo'],
+        Name: raw['Art. Nombre'],
+        Color: raw['Color Nombre'],
+        ColorBase: raw['Color Base'],
+        ColorCodigo: raw['Color Codigo'],
+        Size: raw['Talla'],
         Image: firstImage || '',
         Brand: raw['Marca'],
-        Family: raw['familia_web'],
-        Weight: '0',
+        Family: raw['Linea'],
       };
     });
     
-    const grouped: Record<string, CsvRow[]> = {};
+    const grouped: Record<string, CsvRowRollerblade[]> = {};
     for (const row of csvRows) {
-      if (!grouped[row.Family]) grouped[row.Family] = [];
-      grouped[row.Family].push(row);
+      const skuRoot = row.idCode; // use 'Art. Codigo'
+      if (!skuRoot) continue; // skip if missing
+      if (!grouped[skuRoot]) grouped[skuRoot] = [];
+      grouped[skuRoot].push(row);
     }
 
     const results = [];

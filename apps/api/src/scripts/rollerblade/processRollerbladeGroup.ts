@@ -1,67 +1,71 @@
 import { ProductModel } from '@/models/product';
-import { CsvRow, Variation, ProductDoc } from '@/types/csvUniverskate';
+import { CsvRowRollerblade, ProductDoc, Variation } from '@/types/CSVProducts';
 
-export async function processRollerbladeGroup(skuRoot: string, rows: CsvRow[]) {
+export async function processRollerbladeGroup(
+  idCode: string,
+  rows: CsvRowRollerblade[]
+): Promise<{ success: boolean; message?: string }> {
+  if (!rows.length) return { success: false, message: 'Empty group' };
+
   const first = rows[0];
-
-  const name = first.Name?.trim();
+  const productName = first.Name;
   const brand = first.Brand;
+  const family = first.Family || '';
   const weight = parseFloat(first.Weight || '0');
-  const category = first.Family || skuRoot;
 
-  // Collect all image URLs from all rows
-  const images: string[] = Array.from(
-    new Set(
-      rows.flatMap(row => row.Image ? [row.Image] : [])
-    )
-  );
+  const variations: Variation[] = rows
+    .filter(row => row.EAN && row.Reference)
+    .map(row => {
+      const price = parseFloat(row.Price || '0');
+      const stock = parseInt(row.Stock || '0', 10);
+      const size = typeof row.Size === 'string' ? row.Size.trim() : '';
+      const color = (row.ColorNombre || row.ColorBase || row.ColorCodigo || '').trim();
+      const image = row.Image || '';
 
-  // Generate variations (1 per row)
-  const variations: Variation[] = rows.map(row => ({
-    sku: row.Reference,
-    ean: row.EAN,
-    size: row.Size || row['Talla'] || '',
-    color: row.Color || row['Color Nombre'] || '',
-    stock: parseInt(row.Stock || '0', 10),
-    price: parseFloat(row.Price || '0'),
-    image: row.Image || '',
-  }));
+      return {
+        sku: row.Reference,
+        ean: row.EAN,
+        price,
+        stock,
+        size,
+        color,
+        image,
+      };
+    });
 
-  const colors = [...new Set(variations.map(v => v.color).filter(Boolean))];
-  const sizes = [...new Set(variations.map(v => v.size).filter(Boolean))];
+  const uniqueSizes = Array.from(new Set(variations.map(v => v.size).filter(Boolean)));
+  const uniqueColors = Array.from(new Set(variations.map(v => v.color).filter(Boolean)));
 
-  // Prepare product document
-  const productData: ProductDoc = {
-    parentReference: skuRoot,
-    reference: first.Reference,
+  const product: ProductDoc = {
+    reference: idCode,
+    parentReference: idCode,
     ean13: first.EAN,
-    name,
+    name: productName,
     brand,
     weight,
     status: 'active',
     category: {
-      code: skuRoot,
-      name: category,
+      code: idCode,
+      name: family,
     },
-    colors,
-    sizes,
-    images,
     variations,
+    sizes: uniqueSizes,
+    colors: uniqueColors,
   };
 
   try {
-    const doc = await ProductModel.findOneAndUpdate(
-      { parentReference: skuRoot },
-      productData,
-      { upsert: true, new: true }
+    await ProductModel.updateOne(
+      { reference: idCode },
+      { $set: product },
+      { upsert: true }
     );
-    console.log(`Upserted grouped product ${skuRoot}`);
-    return doc;
-  } catch (err) {
-    console.error(`Error upserting ${skuRoot}:`, err);
-    return {
-      skuRoot,
-      errors: [err.message],
-    };
+    console.log(`Upserted grouped product ${idCode} with ${variations.length} variations`);
+    return { success: true };
+  } catch (error) {
+    console.error(`Failed to upsert product group ${idCode}:`, error);
+    const message = typeof error === 'object' && error !== null && 'message' in error
+      ? String((error as { message?: unknown }).message)
+      : 'Unknown error';
+    return { success: false, message };
   }
 }

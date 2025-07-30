@@ -1,6 +1,6 @@
 import { ProductModel } from '@/models/product';
 import { extractColor, extractCSizes } from '@/utils/parserUniverskate';
-import { CsvRow, Variation, ProductDoc } from '@/types/csvUniverskate';
+import { CsvRow, Variation, ProductDoc } from '@/types/CSVProducts';
 
 export async function processUniverskateProduct(row: CsvRow): Promise<void> {
   const sku = row.Reference;

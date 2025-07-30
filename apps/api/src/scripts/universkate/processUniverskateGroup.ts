@@ -2,7 +2,7 @@
 
 import { ProductModel } from '@/models/product';
 import { extractColor, extractCSizes } from '@/utils/proces/parserUniverskate';
-import { CsvRow, Variation, ProductDoc } from '@/types/csvUniverskate';
+import { CsvRow, Variation, ProductDoc } from '@/types/CSVProducts';
 
 export async function processUniverskateGroup(skuRoot: string, rows: CsvRow[]) {
   const first = rows[0];

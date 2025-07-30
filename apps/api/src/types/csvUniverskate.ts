@@ -35,4 +35,5 @@ export interface ProductDoc {
   colors: string[];
   sizes: string[];
   variations: Variation[];
+  images?: string[];
 }

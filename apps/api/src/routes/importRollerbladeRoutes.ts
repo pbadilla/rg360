@@ -1,0 +1,15 @@
+import { Router, Request, Response } from 'express';
+import { downloadRollerbladeCSV } from 'src/scripts/rollerblade/downloadRollerbladeCSV';
+
+const router = Router();
+
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    await downloadRollerbladeCSV(req, res);
+  } catch (error: any) {
+    console.error("Error processing CSV:", error.message);
+    res.status(500).json({ error: "Failed to process CSV" });
+  }
+});
+
+export default router;

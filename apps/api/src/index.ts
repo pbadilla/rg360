@@ -22,7 +22,7 @@ import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
 
 import importUniverskateRoutes from '@/routes/importUniverskateRoutes';
-import importerRollerblade from 'src/crons/routeImporterRollerblade';
+import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
@@ -113,7 +113,7 @@ const startServer = async () => {
     app.use('/wishlist', wishlistRoutes);
 
     app.use('/importUniverskate', importUniverskateRoutes);
-    app.use('/importRollerblade', importerRollerblade);
+    app.use('/importRollerblade', importRollerbladeRoutes);
 
     // ✅ Swagger API docs
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

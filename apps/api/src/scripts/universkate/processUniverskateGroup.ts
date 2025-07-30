@@ -1,7 +1,7 @@
 // apps/api/src/scripts/universkate/processUniverskateGroup.ts
 
 import { ProductModel } from '@/models/product';
-import { extractColor, extractCSizes } from '@/utils/parserUniverskate';
+import { extractColor, extractCSizes } from '@/utils/proces/parserUniverskate';
 import { CsvRow, Variation, ProductDoc } from '@/types/csvUniverskate';
 
 export async function processUniverskateGroup(skuRoot: string, rows: CsvRow[]) {

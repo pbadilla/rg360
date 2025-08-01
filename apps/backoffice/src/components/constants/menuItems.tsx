@@ -5,11 +5,10 @@ import {
   BadgePercent,
   AlertTriangle,
   Truck,
-  Train,
   CreditCard,
   ArrowDown,
-  Boxes,
   FileBox,
+  BadgeDollarSign,
 } from "lucide-react";
 
 export const menuItems = [
@@ -103,5 +102,11 @@ export const menuItems = [
     label: "Dropshipping",
     icon: <ArrowDown size={20} />,
     link: "/dropshipping",
+  },
+  {
+    id: "pos",
+    label: "POS",
+    icon: <BadgeDollarSign size={20} />,
+    link: "/pos",
   },
 ];

@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { CategoryModel } from '@/models/category';
 
+// Example > http://localhost:3000/categories/laptops/lenovo/ideapad
+
 const addCategoryById = async (req: Request, res: Response, _next: NextFunction) => {
-  const { id } = req.params; // e.g. "skates/accessories/custom-kits"
+  const { item: id } = req.params; // ✅ Fix here
   const { name, slug, image, description } = req.body;
 
   if (!name || !slug) {

@@ -23,6 +23,7 @@ import ProductEditDialog from "./ProductEditDialog";
 import ProductDeleteDialog from "./ProductDeleteDialog";
 
 import { cn } from "@/lib/utils";
+import { ProductVariations } from "@/components/Products/ProductVariations";
 
 interface ProductCardProps {
   product: Product;
@@ -137,7 +138,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           <div className="flex flex-wrap justify-between items-center gap-2 pt-2">
             <span className="font-medium text-lg text-foreground">
-              {typeof product.price.pvp === "number"
+              {typeof product?.price?.pvp === "number"
                 ? formatPrice(product.price.pvp, "es-ES", "EUR")
                 : "No price"}
             </span>
@@ -164,17 +165,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           )}
 
           {product.variations?.length > 0 && (
-            <div className="text-sm text-muted-foreground">
-              <strong>Variations:</strong>
-              <ul className="list-disc list-inside mt-1">
-                {product.variations.map((variation, index) => (
-                  <li key={index}>
-                    {variation.color} – Sizes:{" "}
-                    {variation.sizes?.join(", ") || "N/A"}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ProductVariations variations={product.variations} />
           )}
         </CardContent>
 

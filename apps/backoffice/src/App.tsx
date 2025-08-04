@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
+import { Layout } from "@/components/Layout";
 import { ThemeProvider } from "@/hooks/use-theme";
 
 import AbandonedCarts from "@/pages/AbandonedCarts/AbandonedCarts";
@@ -29,10 +30,10 @@ import Stocks from "@/pages/Stocks/Stocks";
 import Users from "@/pages/Users/Users";
 import UserRoles from "@/pages/Users/Roles";
 
-// import BulkActions from "@/pages/BulkActions";
-// import RollerbladeList from "@/pages/RollerbladeList";
-// import UniverskateList from "@/pages/UniverskateList";
-// import MicroList from "@/pages/MicroList";
+import Products from "@/pages/POS/Products";
+import Sales from "@/pages/POS/Sales";
+import Sellers from "@/pages/POS/Sellers";
+import Stats from "@/pages/POS/Stats";
 
 import { ProtectedRoute } from "@/routes/protectedRoutes";
 import { PublicRoute } from "@/routes/publicRoutes";
@@ -111,6 +112,40 @@ const App = () => (
                 path="/dropshipping/*"
                 element={<DropshippingDashboard />}
               />
+              {/* POS Routes */}
+              <Route
+                path="/pos/"
+                element={
+                  <Layout>
+                    <Sales />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/pos/products"
+                element={
+                  <Layout>
+                    <Products />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/pos/stats"
+                element={
+                  <Layout>
+                    <Stats />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/pos/sellers"
+                element={
+                  <Layout>
+                    <Sellers />
+                  </Layout>
+                }
+              />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

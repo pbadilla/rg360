@@ -108,5 +108,22 @@ export const menuItems = [
     label: "POS",
     icon: <BadgeDollarSign size={20} />,
     link: "/pos",
+    submenu: [
+      {
+        id: "posProduts",
+        label: "Products",
+        link: "/pos/products",
+      },
+      {
+        id: "posStats",
+        label: "Stats",
+        link: "/pos/stats",
+      },
+      {
+        id: "posSellers",
+        label: "Sellers",
+        link: "/pos/sellers",
+      },
+    ],
   },
 ];

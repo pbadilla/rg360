@@ -1,5 +1,5 @@
 // useProductStore.ts
-import { useEntityStore } from '@/hooks/useEntityStore';
+import { useEntityStore } from '@/store/useEntityStore';
 import api from '@/config/axiosConfig';
 import { Product } from '@/types/product';
 import { searchProducts, sortProducts } from '@/utils/productUtils';

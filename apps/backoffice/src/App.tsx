@@ -113,38 +113,10 @@ const App = () => (
                 element={<DropshippingDashboard />}
               />
               {/* POS Routes */}
-              <Route
-                path="/pos/"
-                element={
-                  <Layout>
-                    <Sales />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/pos/products"
-                element={
-                  <Layout>
-                    <Products />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/pos/stats"
-                element={
-                  <Layout>
-                    <Stats />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/pos/sellers"
-                element={
-                  <Layout>
-                    <Sellers />
-                  </Layout>
-                }
-              />
+              <Route path="/pos/" element={<Sales />} />
+              <Route path="/pos/products" element={<Products />} />
+              <Route path="/pos/stats" element={<Stats />} />
+              <Route path="/pos/sellers" element={<Sellers />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -1,4 +1,4 @@
-import { useEntityStore } from '@/hooks/useEntityStore';
+import { useEntityStore } from '@/store/useEntityStore';
 import api from '@/config/axiosConfig';
 import { Promotion } from '@/types/promotion';
 import { searchPromotion, sortPromotion } from '@/utils/promotionUtils';

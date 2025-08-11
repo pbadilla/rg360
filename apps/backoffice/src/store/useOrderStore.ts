@@ -1,4 +1,4 @@
-import { useEntityStore } from '@/hooks/useEntityStore';
+import { useEntityStore } from '@/store/useEntityStore';
 import api from '@/config/axiosConfig';
 import { Order } from '@/types/orders';
 // import { searchOrder, sortOrder } from '@/utils/orderUtils';

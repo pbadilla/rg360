@@ -1,9 +1,11 @@
-
 import { useEffect, useState } from "react";
 import { AbandonedCart, SortDirection, SortField } from "@/types/cart";
-import { getMockAbandonedCarts, sendCartReminder } from "@/services/cartService";
-import StatusBadge from "./StatusBadge";
-import SortableHeader from "./SortableHeader";
+import {
+  getMockAbandonedCarts,
+  sendCartReminder,
+} from "@/services/cartService";
+import StatusBadge from "../StatusBadge";
+import SortableHeader from "../SortableHeader";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -14,18 +16,20 @@ const AbandonedCarts = () => {
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [isLoading, setIsLoading] = useState(true);
-  const [reminderInProgress, setReminderInProgress] = useState<string | null>(null);
+  const [reminderInProgress, setReminderInProgress] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     // Simulate loading data
     const loadData = async () => {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise((resolve) => setTimeout(resolve, 800));
       const data = getMockAbandonedCarts();
       setCarts(data);
       setIsLoading(false);
     };
-    
+
     loadData();
   }, []);
 
@@ -40,7 +44,7 @@ const AbandonedCarts = () => {
 
   const sortedCarts = [...carts].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortField) {
       case "date":
         comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
@@ -55,12 +59,13 @@ const AbandonedCarts = () => {
         comparison = a.name.localeCompare(b.name);
         break;
       case "lastActive":
-        comparison = new Date(a.lastActive).getTime() - new Date(b.lastActive).getTime();
+        comparison =
+          new Date(a.lastActive).getTime() - new Date(b.lastActive).getTime();
         break;
       default:
         comparison = 0;
     }
-    
+
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
@@ -68,22 +73,22 @@ const AbandonedCarts = () => {
     try {
       setReminderInProgress(cart.id);
       const success = await sendCartReminder(cart.id);
-      
+
       if (success) {
         // Update the cart status in the local state
-        setCarts(prev => 
-          prev.map(c => 
-            c.id === cart.id ? { ...c, status: 'reminder-sent' } : c
+        setCarts((prev) =>
+          prev.map((c) =>
+            c.id === cart.id ? { ...c, status: "reminder-sent" } : c
           )
         );
-        
+
         toast.success(`Reminder sent to ${cart.name}`, {
-          description: `Email sent to ${cart.email}`
+          description: `Email sent to ${cart.email}`,
         });
       }
     } catch (error) {
       toast.error("Failed to send reminder", {
-        description: "Please try again later"
+        description: "Please try again later",
       });
     } finally {
       setReminderInProgress(null);
@@ -91,9 +96,9 @@ const AbandonedCarts = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
@@ -119,10 +124,10 @@ const AbandonedCarts = () => {
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
-          {carts.length} {carts.length === 1 ? 'cart' : 'carts'} found
+          {carts.length} {carts.length === 1 ? "cart" : "carts"} found
         </span>
       </div>
-      
+
       <div className="rounded-xl overflow-hidden border bg-card shadow-sm">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-border">
@@ -173,7 +178,7 @@ const AbandonedCarts = () => {
             </thead>
             <tbody className="bg-card divide-y divide-border">
               {sortedCarts.map((cart) => (
-                <tr 
+                <tr
                   key={cart.id}
                   className="hover:bg-muted/30 transition-all-200"
                 >
@@ -200,7 +205,10 @@ const AbandonedCarts = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleSendReminder(cart)}
-                      disabled={reminderInProgress === cart.id || cart.status === 'recovered'}
+                      disabled={
+                        reminderInProgress === cart.id ||
+                        cart.status === "recovered"
+                      }
                       className="transition-all-200"
                     >
                       {reminderInProgress === cart.id ? (
@@ -211,8 +219,11 @@ const AbandonedCarts = () => {
                       ) : (
                         <span className="flex items-center gap-1">
                           <Mail className="h-3.5 w-3.5 mr-1" />
-                          {cart.status === 'abandoned' ? 'Send Reminder' : 
-                            cart.status === 'reminder-sent' ? 'Resend' : 'Recovered'}
+                          {cart.status === "abandoned"
+                            ? "Send Reminder"
+                            : cart.status === "reminder-sent"
+                            ? "Resend"
+                            : "Recovered"}
                         </span>
                       )}
                     </Button>

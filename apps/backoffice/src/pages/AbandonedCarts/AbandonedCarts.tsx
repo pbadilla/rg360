@@ -1,4 +1,4 @@
-import { AbandonedCartsTable } from "@/components/AbandonedCartsTable";
+import { AbandonedCartsTable } from "@/components/AbandonedCarts/AbandonedCartsTable";
 import InsideLayout from "@/components/layout/InsideLayout";
 
 const AbandonedCartsPage = () => {

@@ -12,6 +12,7 @@ import { BannerForm } from "@/components/Promotions/BannerForm";
 import { BannerPreview } from "@/components/Promotions/BannerPreviewScheduled";
 import { ScheduleCalendar } from "@/components/Promotions/ScheduleCalendar";
 import { ActiveBanner } from "@/components/Promotions/ActiveBanner";
+import InsideLayout from "@/components/layout/InsideLayout";
 
 export interface BannerPromotion {
   id: string;
@@ -106,178 +107,166 @@ const ScheduledPromotion = () => {
   const activePromotion = promotions.find((p) => p.isActive);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-      {/* Active Banner Display */}
+    <InsideLayout
+      title="Promotion Schedule"
+      subTitle="Manage your promotional banners with ease."
+    >
       {activePromotion && <ActiveBanner promotion={activePromotion} />}
+      {/* Action Buttons */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <Button
+          onClick={() => setShowForm(true)}
+          className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Create Promotion
+        </Button>
+        <Button
+          variant={activeView === "list" ? "default" : "outline"}
+          onClick={() => setActiveView("list")}
+        >
+          List View
+        </Button>
+        <Button
+          variant={activeView === "calendar" ? "default" : "outline"}
+          onClick={() => setActiveView("calendar")}
+        >
+          <Calendar className="w-4 h-4 mr-2" />
+          Calendar View
+        </Button>
+      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Banner Promotion Manager
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Create and schedule promotional banners for your website
-            </p>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 mb-6">
-          <Button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Create Promotion
-          </Button>
-          <Button
-            variant={activeView === "list" ? "default" : "outline"}
-            onClick={() => setActiveView("list")}
-          >
-            List View
-          </Button>
-          <Button
-            variant={activeView === "calendar" ? "default" : "outline"}
-            onClick={() => setActiveView("calendar")}
-          >
-            <Calendar className="w-4 h-4 mr-2" />
-            Calendar View
-          </Button>
-        </div>
-
-        {/* Main Content */}
-        {activeView === "list" ? (
-          <div className="grid gap-6">
-            {promotions.length === 0 ? (
-              <Card className="text-center py-12">
-                <CardContent>
-                  <div className="text-gray-400 dark:text-gray-600 mb-4">
-                    <Calendar className="w-16 h-16 mx-auto mb-4 opacity-50" />
+      {/* Main Content */}
+      {activeView === "list" ? (
+        <div className="grid gap-6">
+          {promotions.length === 0 ? (
+            <Card className="text-center py-12">
+              <CardContent>
+                <div className="text-gray-400 dark:text-gray-600 mb-4">
+                  <Calendar className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                  No promotions yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Create your first banner promotion to get started
+                </p>
+                <Button
+                  onClick={() => setShowForm(true)}
+                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create First Promotion
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            promotions.map((promotion) => (
+              <Card
+                key={promotion.id}
+                className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700"
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl dark:text-white">
+                        {promotion.title}
+                      </CardTitle>
+                      <CardDescription className="mt-1 dark:text-gray-400">
+                        {promotion.description}
+                      </CardDescription>
+                    </div>
+                    {getStatusBadge(promotion)}
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    No promotions yet
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    Create your first banner promotion to get started
-                  </p>
-                  <Button
-                    onClick={() => setShowForm(true)}
-                    className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Create First Promotion
-                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        Start Date
+                      </p>
+                      <p className="font-medium dark:text-white">
+                        {promotion.startDate.toLocaleDateString()}{" "}
+                        {promotion.startDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        End Date
+                      </p>
+                      <p className="font-medium dark:text-white">
+                        {promotion.endDate.toLocaleDateString()}{" "}
+                        {promotion.endDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPreviewPromotion(promotion)}
+                      className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <Eye className="w-4 h-4 mr-1" />
+                      Preview
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setEditingPromotion(promotion);
+                        setShowForm(true);
+                      }}
+                      className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <Edit className="w-4 h-4 mr-1" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeletePromotion(promotion.id)}
+                      className="text-red-600 hover:text-red-700 hover:border-red-300 dark:text-red-400 dark:hover:text-red-300 dark:border-gray-600 dark:hover:border-red-400"
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" />
+                      Delete
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
-            ) : (
-              promotions.map((promotion) => (
-                <Card
-                  key={promotion.id}
-                  className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl dark:text-white">
-                          {promotion.title}
-                        </CardTitle>
-                        <CardDescription className="mt-1 dark:text-gray-400">
-                          {promotion.description}
-                        </CardDescription>
-                      </div>
-                      {getStatusBadge(promotion)}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                          Start Date
-                        </p>
-                        <p className="font-medium dark:text-white">
-                          {promotion.startDate.toLocaleDateString()}{" "}
-                          {promotion.startDate.toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                          End Date
-                        </p>
-                        <p className="font-medium dark:text-white">
-                          {promotion.endDate.toLocaleDateString()}{" "}
-                          {promotion.endDate.toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPreviewPromotion(promotion)}
-                        className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-                      >
-                        <Eye className="w-4 h-4 mr-1" />
-                        Preview
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setEditingPromotion(promotion);
-                          setShowForm(true);
-                        }}
-                        className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-                      >
-                        <Edit className="w-4 h-4 mr-1" />
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeletePromotion(promotion.id)}
-                        className="text-red-600 hover:text-red-700 hover:border-red-300 dark:text-red-400 dark:hover:text-red-300 dark:border-gray-600 dark:hover:border-red-400"
-                      >
-                        <Trash2 className="w-4 h-4 mr-1" />
-                        Delete
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-        ) : (
-          <ScheduleCalendar promotions={promotions} />
-        )}
+            ))
+          )}
+        </div>
+      ) : (
+        <ScheduleCalendar promotions={promotions} />
+      )}
 
-        {/* Banner Form Modal */}
-        {showForm && (
-          <BannerForm
-            promotion={editingPromotion}
-            onSave={handleSavePromotion}
-            onCancel={() => {
-              setShowForm(false);
-              setEditingPromotion(null);
-            }}
-          />
-        )}
+      {/* Banner Form Modal */}
+      {showForm && (
+        <BannerForm
+          promotion={editingPromotion}
+          onSave={handleSavePromotion}
+          onCancel={() => {
+            setShowForm(false);
+            setEditingPromotion(null);
+          }}
+        />
+      )}
 
-        {/* Banner Preview Modal */}
-        {previewPromotion && (
-          <BannerPreview
-            promotion={previewPromotion}
-            onClose={() => setPreviewPromotion(null)}
-          />
-        )}
-      </div>
-    </div>
+      {/* Banner Preview Modal */}
+      {previewPromotion && (
+        <BannerPreview
+          promotion={previewPromotion}
+          onClose={() => setPreviewPromotion(null)}
+        />
+      )}
+    </InsideLayout>
   );
 };
 

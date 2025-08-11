@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 
 interface CartItem {
@@ -18,10 +20,24 @@ interface CartProps {
   selectedSeller?: string;
 }
 
-const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSeller }: CartProps) => {
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.08; // 8% tax
-  const total = subtotal + tax;
+const Cart = ({
+  items,
+  onUpdateQuantity,
+  onRemoveItem,
+  onCheckout,
+  selectedSeller,
+}: CartProps) => {
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const tax = subtotal * 0.21; // 21% tax
+  const preDiscountTotal = subtotal + tax;
+
+  const discountAmount = (discountPercent / 100) * preDiscountTotal;
+  const total = Math.max(preDiscountTotal - discountAmount, 0);
 
   return (
     <Card className="p-6 h-full bg-gradient-card border-0 shadow-lg">
@@ -38,15 +54,22 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSelle
 
       <div className="flex-1 space-y-3 mb-6">
         {items.length === 0 ? (
-          <p className="text-muted-foreground text-center py-8">Cart is empty</p>
+          <p className="text-muted-foreground text-center py-8">
+            Cart is empty
+          </p>
         ) : (
           items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between p-3 bg-background rounded-lg">
+            <div
+              key={item.id}
+              className="flex items-center justify-between p-3 bg-background rounded-lg"
+            >
               <div className="flex-1">
                 <h4 className="font-medium text-sm">{item.name}</h4>
-                <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} each</p>
+                <p className="text-sm text-muted-foreground">
+                  ${item.price.toFixed(2)} each
+                </p>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -56,9 +79,11 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSelle
                 >
                   <Minus className="h-3 w-3" />
                 </Button>
-                
-                <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
-                
+
+                <span className="w-8 text-center text-sm font-medium">
+                  {item.quantity}
+                </span>
+
                 <Button
                   variant="outline"
                   size="icon"
@@ -67,7 +92,7 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSelle
                 >
                   <Plus className="h-3 w-3" />
                 </Button>
-                
+
                 <Button
                   variant="destructive"
                   size="icon"
@@ -85,16 +110,40 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSelle
       {items.length > 0 && (
         <>
           <Separator className="my-4" />
-          
+
           <div className="space-y-2 mb-6">
             <div className="flex justify-between text-sm">
               <span>Subtotal:</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span>Tax (8%):</span>
+              <span>Tax (21%):</span>
               <span>${tax.toFixed(2)}</span>
             </div>
+
+            {/* Discount percentage input */}
+            <div className="flex justify-between items-center text-sm">
+              <span>Discount (%):</span>
+              <Input
+                type="number"
+                className="w-20 h-8 text-right"
+                value={discountPercent}
+                onChange={(e) =>
+                  setDiscountPercent(parseFloat(e.target.value) || 0)
+                }
+                min="0"
+                max="100"
+              />
+            </div>
+
+            {/* Show discount amount */}
+            {discountPercent > 0 && (
+              <div className="flex justify-between text-sm text-green-600">
+                <span>Discount Amount:</span>
+                <span>- ${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
+
             <Separator />
             <div className="flex justify-between font-bold text-lg">
               <span>Total:</span>
@@ -102,7 +151,7 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout, selectedSelle
             </div>
           </div>
 
-          <Button 
+          <Button
             onClick={onCheckout}
             className="w-full"
             variant="success"

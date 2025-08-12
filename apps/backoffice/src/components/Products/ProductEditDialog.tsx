@@ -76,11 +76,19 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        name === "price" || name === "stock" ? parseFloat(value) || 0 : value,
-    }));
+
+    // For stock, parse as number; for others just use string
+    if (name === "stock") {
+      setFormData((prev) => ({
+        ...prev,
+        stock: parseInt(value) || 0,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -139,7 +147,7 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
                   type="number"
                   step="0.01"
                   min="0"
-                  value={formData.price.pvp}
+                  value={formData.price?.pvp ?? 0}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,

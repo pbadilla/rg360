@@ -87,6 +87,8 @@ export function EditableTable<T extends Record<string, any>>({
     }
   };
 
+  console.log("data", data);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -152,7 +154,12 @@ export function EditableTable<T extends Record<string, any>>({
                     )}
                   >
                     {fields.map((field) => (
-                      <td key={String(field.key)} className="px-6 py-4">
+                      <td
+                        key={String(field.key)}
+                        className="px-6 py-4"
+                        data-testid="editable-table-cell"
+                        data-value={String(field.key)}
+                      >
                         {field.type === "image" ? (
                           <ImageUpload
                             currentImage={

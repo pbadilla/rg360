@@ -34,13 +34,13 @@ const Sales = () => {
     searchTerm,
     viewMode,
     setSearchTerm,
-    setViewMode,
-    deleteProduct,
-    editProduct,
-    addProduct,
-    isDeleting,
-    isEditing,
-    isAdding,
+    // setViewMode,
+    // deleteProduct,
+    // editProduct,
+    // addProduct,
+    // isDeleting,
+    // isEditing,
+    // isAdding,
   } = useProductStore();
 
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -87,7 +87,7 @@ const Sales = () => {
         {
           id: product.id,
           name: product.name,
-          price: product.price.pvp,
+          price: product.price,
           quantity: 1,
         },
       ]);
@@ -127,7 +127,7 @@ const Sales = () => {
     }
 
     const subtotal = cart.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+      (sum, item) => sum + item.price.pvp * item.quantity,
       0
     );
     const discount = subtotal * (discountPercent / 100);
@@ -233,13 +233,14 @@ const Sales = () => {
 
           <div>
             <Cart
-              items={cart}
+              items={cart.map((item) => ({
+                ...item,
+                price: item.price.pvp,
+              }))}
               onUpdateQuantity={updateQuantity}
               onRemoveItem={removeItem}
               onCheckout={handleCheckout}
               selectedSeller={selectedSeller}
-              discountPercent={discountPercent}
-              setDiscountPercent={setDiscountPercent}
             />
           </div>
         </div>
@@ -263,7 +264,7 @@ const Sales = () => {
                   {item.name} x{item.quantity}
                 </div>
                 <div className="right">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ${(item.price.pvp * item.quantity).toFixed(2)}
                 </div>
               </div>
             ))}

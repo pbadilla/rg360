@@ -65,6 +65,7 @@ export function StockTable() {
       fields={[
         { key: "name", label: "Product" },
         { key: "own_stock", label: "Own Stock" },
+        { key: "stock", label: "Stock" },
         { key: "brand", label: "Brand" },
         { key: "ean13", label: "EAN13" },
       ]}

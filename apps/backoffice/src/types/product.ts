@@ -38,19 +38,26 @@ export type Product = {
   id: string;
   name: string;
   description: string;
-  reference: string;
+  reference?: string;
   brand: string;
-  category: Category;
-  colors: string[];
-  sizes: string[];
+  category?: Category;
+  colors?: string[];
+  sizes?: string[];
   stock: number;
   price: Price;
-  status: Status;
-  rating: number;
-  ean13: string;
-  images: ProductImage[];
-  createdAt: string;
-  updateData: string;
-  tags: Tag[];
-  variations: Variation[];
+  status?: Status;
+  rating?: number;
+  ean13?: string;
+  images?: ProductImage[];
+  createdAt?: string;
+  updateData?: Date;
+  tags?: Tag[];
+  variations?: Variation[];
 };
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: Price;
+  quantity: number;
+}

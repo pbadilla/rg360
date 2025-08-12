@@ -41,6 +41,29 @@ export const menuItems = [
     ],
   },
   {
+    id: "pos",
+    label: "POS",
+    icon: <BadgeDollarSign size={20} />,
+    link: "/pos",
+    submenu: [
+      {
+        id: "posProduts",
+        label: "Products",
+        link: "/pos/products",
+      },
+      {
+        id: "posStats",
+        label: "Stats",
+        link: "/pos/stats",
+      },
+      {
+        id: "posSellers",
+        label: "Sellers",
+        link: "/pos/sellers",
+      },
+    ],
+  },
+  {
     id: "orders",
     label: "Orders",
     icon: <ShoppingBag size={20} />,
@@ -102,28 +125,5 @@ export const menuItems = [
     label: "Dropshipping",
     icon: <ArrowDown size={20} />,
     link: "/dropshipping",
-  },
-  {
-    id: "pos",
-    label: "POS",
-    icon: <BadgeDollarSign size={20} />,
-    link: "/pos",
-    submenu: [
-      {
-        id: "posProduts",
-        label: "Products",
-        link: "/pos/products",
-      },
-      {
-        id: "posStats",
-        label: "Stats",
-        link: "/pos/stats",
-      },
-      {
-        id: "posSellers",
-        label: "Sellers",
-        link: "/pos/sellers",
-      },
-    ],
   },
 ];

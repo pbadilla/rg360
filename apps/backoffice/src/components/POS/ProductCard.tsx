@@ -1,15 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  image?: string;
-  stock: number;
-}
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
@@ -20,23 +12,23 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   return (
     <Card className="p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0">
       <div className="aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center overflow-hidden">
-        {product.image ? (
-          <img 
-            src={product.image} 
+        {product.images ? (
+          <img
+            src={product.images[0].url}
             alt={product.name}
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="text-4xl">{product.category === "food" ? "🍕" : "📱"}</div>
+          <div className="text-4xl">IMAGE</div>
         )}
       </div>
-      
+
       <div className="space-y-2">
         <h3 className="font-semibold text-sm">{product.name}</h3>
-        <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
+        <p className="text-lg font-bold text-primary">${product.price.pvp}</p>
         <p className="text-xs text-muted-foreground">Stock: {product.stock}</p>
-        
-        <Button 
+
+        <Button
           onClick={() => onAddToCart(product)}
           className="w-full"
           variant="success"

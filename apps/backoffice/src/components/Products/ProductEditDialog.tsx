@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { number } from "framer-motion";
+import { Category } from "@/types/category";
 
 interface ProductEditDialogProps {
   product?: Product;
@@ -25,11 +27,32 @@ const DEFAULT_PRODUCT: Product = {
   id: "",
   name: "",
   description: "",
-  price: 0,
-  category: "",
-  image:
-    "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop",
+  reference: "",
+  brand: "",
+  colors: [],
+  sizes: [],
+  price: {
+    pvp: 0,
+    pv: 0,
+    benefit_percentage: 0,
+  },
+  category: {
+    name: "default",
+    color: "#cccccc",
+  },
+  images: [
+    {
+      url: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop",
+    },
+  ],
   stock: 0,
+  tags: [],
+  createdAt: "",
+  status: "active", // or your default value
+  rating: 0,
+  ean13: "",
+  updateData: new Date(),
+  variations: [],
 };
 
 const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
@@ -116,8 +139,16 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
                   type="number"
                   step="0.01"
                   min="0"
-                  value={formData.price}
-                  onChange={handleChange}
+                  value={formData.price.pvp}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      price: {
+                        ...prev.price,
+                        pvp: parseFloat(e.target.value) || 0,
+                      },
+                    }))
+                  }
                   placeholder="0.00"
                   required
                   className="transition-all focus:ring-2 focus:ring-primary/20"
@@ -146,8 +177,16 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
               <Input
                 id="category"
                 name="category"
-                value={formData.category}
-                onChange={handleChange}
+                value={formData.category.name}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    category: {
+                      ...prev.category,
+                      name: e.target.value,
+                    },
+                  }))
+                }
                 placeholder="Enter product category"
                 required
                 className="transition-all focus:ring-2 focus:ring-primary/20"
@@ -159,8 +198,13 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
               <Input
                 id="image"
                 name="image"
-                value={formData.image}
-                onChange={handleChange}
+                value={formData.images[0]?.url || ""}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    images: [{ url: e.target.value }, ...prev.images.slice(1)],
+                  }))
+                }
                 placeholder="https://example.com/image.jpg"
                 required
                 className="transition-all focus:ring-2 focus:ring-primary/20"

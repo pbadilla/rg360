@@ -21,62 +21,30 @@ import Cart from "@/components/POS/Cart";
 import { useToast } from "@/hooks/use-toast";
 import { Search } from "lucide-react";
 import InsideLayout from "@/components/layout/InsideLayout";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
-}
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    name: "Margherita Pizza",
-    price: 12.99,
-    category: "food",
-    stock: 15,
-  },
-  {
-    id: "2",
-    name: "Pepperoni Pizza",
-    price: 14.99,
-    category: "food",
-    stock: 12,
-  },
-  { id: "3", name: "Caesar Salad", price: 8.99, category: "food", stock: 20 },
-  { id: "4", name: "Coca Cola", price: 2.99, category: "beverage", stock: 50 },
-  {
-    id: "5",
-    name: "Smartphone",
-    price: 699.99,
-    category: "electronics",
-    stock: 5,
-  },
-  {
-    id: "6",
-    name: "Wireless Headphones",
-    price: 129.99,
-    category: "electronics",
-    stock: 8,
-  },
-  { id: "7", name: "Coffee", price: 3.99, category: "beverage", stock: 30 },
-  { id: "8", name: "Burger", price: 11.99, category: "food", stock: 18 },
-];
+import { useProductStore } from "@/store/storeProducts";
+import { CartItem, Product } from "@/types/product";
 
 const sellers = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"];
 
 const Sales = () => {
+  const {
+    filteredProducts: filteredProductsStore,
+    loading,
+    error,
+    searchTerm,
+    viewMode,
+    setSearchTerm,
+    setViewMode,
+    deleteProduct,
+    editProduct,
+    addProduct,
+    isDeleting,
+    isEditing,
+    isAdding,
+  } = useProductStore();
+
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedSeller, setSelectedSeller] = useState<string>("");
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -95,12 +63,11 @@ const Sales = () => {
   const categories = ["all", "food", "beverage", "electronics"];
   const TAX_RATE = 0.21; // 21%
 
-  const filteredProducts = mockProducts.filter((product) => {
+  const filteredProducts = filteredProductsStore.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "all";
     return matchesSearch && matchesCategory;
   });
 
@@ -120,7 +87,7 @@ const Sales = () => {
         {
           id: product.id,
           name: product.name,
-          price: product.price,
+          price: product.price.pvp,
           quantity: 1,
         },
       ]);

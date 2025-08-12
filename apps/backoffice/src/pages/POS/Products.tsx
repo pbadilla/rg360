@@ -1,183 +1,271 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import React, { useState, useMemo, useEffect } from "react";
+import { useProductStore } from "@/store/storeProducts";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Plus, Search, Edit, Trash2, Package } from "lucide-react";
+import { Package, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
-  description?: string;
-}
+import SearchInput from "@/components/SearchInput";
+import ViewToggle from "@/components/ViewToggle";
+import SortDropdown, { SortConfig } from "@/components/SortSelector";
+import ProductCard from "@/components/POS/ProductCard";
+import ProductTable from "@/components/Products/ProductTable";
+import ProductEditDialog from "@/components/Products/ProductEditDialog";
 
-const mockProducts: Product[] = [
-  { id: "1", name: "Margherita Pizza", price: 12.99, category: "food", stock: 15, description: "Classic pizza with tomato sauce and mozzarella" },
-  { id: "2", name: "Pepperoni Pizza", price: 14.99, category: "food", stock: 12, description: "Pizza with pepperoni and cheese" },
-  { id: "3", name: "Caesar Salad", price: 8.99, category: "food", stock: 20, description: "Fresh lettuce with caesar dressing" },
-  { id: "4", name: "Coca Cola", price: 2.99, category: "beverage", stock: 50, description: "Classic cola drink" },
-  { id: "5", name: "Smartphone", price: 699.99, category: "electronics", stock: 5, description: "Latest model smartphone" },
-  { id: "6", name: "Wireless Headphones", price: 129.99, category: "electronics", stock: 8, description: "High-quality wireless headphones" },
-  { id: "7", name: "Coffee", price: 3.99, category: "beverage", stock: 30, description: "Premium roasted coffee" },
-  { id: "8", name: "Burger", price: 11.99, category: "food", stock: 18, description: "Beef burger with all the fixings" },
-];
+const POSProducts: React.FC = () => {
+  const {
+    filteredProducts,
+    loading,
+    error,
+    searchTerm,
+    viewMode,
+    setSearchTerm,
+    setViewMode,
+    deleteProduct,
+    editProduct,
+    addProduct,
+    isDeleting,
+    isEditing,
+    isAdding,
+  } = useProductStore();
 
-const Products = () => {
-  const [products] = useState<Product[]>(mockProducts);
-  const [searchTerm, setSearchTerm] = useState("");
+  const productSortOptions = [
+    { label: "Name", value: "name" },
+    { label: "Price", value: "price" },
+    { label: "Category", value: "category" },
+    { label: "Stock", value: "stock" },
+  ];
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  type ProductSortKey = (typeof productSortOptions)[number]["value"];
 
+  const [sortConfig, setSortConfig] = useState<SortConfig<ProductSortKey>>({
+    key: "name",
+    direction: "asc",
+  });
+
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
+  // Pagination
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredProducts.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+  // Reset to first page when filters or sorting changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortConfig]);
+
+  // Category badge colors
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case "food": return "bg-orange-100 text-orange-800 hover:bg-orange-200";
-      case "beverage": return "bg-blue-100 text-blue-800 hover:bg-blue-200";
-      case "electronics": return "bg-purple-100 text-purple-800 hover:bg-purple-200";
-      default: return "bg-gray-100 text-gray-800 hover:bg-gray-200";
+      case "food":
+        return "bg-orange-100 text-orange-800 hover:bg-orange-200";
+      case "beverage":
+        return "bg-blue-100 text-blue-800 hover:bg-blue-200";
+      case "electronics":
+        return "bg-purple-100 text-purple-800 hover:bg-purple-200";
+      default:
+        return "bg-gray-100 text-gray-800 hover:bg-gray-200";
     }
   };
 
+  // Stock status badge
   const getStockStatus = (stock: number) => {
-    if (stock === 0) return { label: "Out of Stock", color: "bg-red-100 text-red-800" };
-    if (stock < 10) return { label: "Low Stock", color: "bg-yellow-100 text-yellow-800" };
+    if (stock === 0)
+      return { label: "Out of Stock", color: "bg-red-100 text-red-800" };
+    if (stock < 10)
+      return { label: "Low Stock", color: "bg-yellow-100 text-yellow-800" };
     return { label: "In Stock", color: "bg-green-100 text-green-800" };
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">
+          Loading products...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[400px] flex flex-col items-center justify-center">
+        <div className="text-red-500 mb-4">Error loading products</div>
+        <Button onClick={() => window.location.reload()}>Retry</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Package className="h-6 w-6 text-primary" />
-          <h1 className="text-2xl font-bold">Product Management</h1>
+          <h1 className="text-2xl font-bold">POS Product Management</h1>
         </div>
-        <Button variant="default">
-          <Plus className="h-4 w-4" />
-          Add Product
+        <Button
+          onClick={() => setIsAddDialogOpen(true)}
+          className="group"
+          disabled={isAdding}
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          {isAdding ? "Adding..." : "Add Product"}
         </Button>
       </div>
 
-      <Card className="p-6 bg-gradient-card border-0 shadow-md">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <Card className="p-4 bg-gradient-primary text-white">
+          <p className="text-sm opacity-90">Total Products</p>
+          <p className="text-2xl font-bold">{filteredProducts.length}</p>
+        </Card>
+        <Card className="p-4 bg-gradient-success text-white">
+          <p className="text-sm opacity-90">In Stock</p>
+          <p className="text-2xl font-bold">
+            {filteredProducts.filter((p) => p.stock > 0).length}
+          </p>
+        </Card>
+        <Card className="p-4 bg-yellow-500 text-white">
+          <p className="text-sm opacity-90">Low Stock</p>
+          <p className="text-2xl font-bold">
+            {filteredProducts.filter((p) => p.stock < 10 && p.stock > 0).length}
+          </p>
+        </Card>
+        <Card className="p-4 bg-red-500 text-white">
+          <p className="text-sm opacity-90">Out of Stock</p>
+          <p className="text-2xl font-bold">
+            {filteredProducts.filter((p) => p.stock === 0).length}
+          </p>
+        </Card>
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <SearchInput
+          searchTerm={searchTerm}
+          onSearch={setSearchTerm}
+          placeholder="Search products..."
+          className="w-full max-w-xs"
+        />
+        <div className="flex items-center gap-4">
+          <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
+          <SortDropdown
+            sortConfig={sortConfig}
+            onSortChange={setSortConfig}
+            sortOptions={productSortOptions}
+            label="Sort products by:"
+          />
+        </div>
+      </div>
+
+      {/* Product List */}
+      {filteredProducts.length === 0 ? (
+        <div className="min-h-[300px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-muted/20">
+          <h3 className="text-xl font-medium">No products found</h3>
+          <p className="text-muted-foreground mt-2 mb-6">
+            {searchTerm
+              ? "Try adjusting your search criteria"
+              : "No products available. Add your first product!"}
+          </p>
+          {searchTerm ? (
+            <Button variant="outline" onClick={() => setSearchTerm("")}>
+              Clear search
+            </Button>
+          ) : (
+            <Button onClick={() => setIsAddDialogOpen(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Product
+            </Button>
+          )}
+        </div>
+      ) : viewMode === "grid" ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {paginatedProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={{
+                ...product,
+                // category: String(product.category),
+                price:
+                  typeof product.price === "object" && product.price !== null
+                    ? typeof (product.price as any).amount === "number"
+                      ? (product.price as any).amount
+                      : 0
+                    : typeof product.price === "number"
+                    ? product.price
+                    : 0,
+              }}
+              onAddToCart={() => {}} // TODO: implement cart logic if needed
             />
-          </div>
+          ))}
         </div>
+      ) : (
+        <ProductTable
+          products={paginatedProducts.map((p) => ({
+            ...p,
+            categoryBadge: (
+              <Badge className={getCategoryColor(String(p.category))}>
+                {String(p.category)}
+              </Badge>
+            ),
+            stockBadge: (
+              <Badge className={getStockStatus(p.stock).color}>
+                {getStockStatus(p.stock).label}
+              </Badge>
+            ),
+          }))}
+          onEdit={editProduct}
+          onDelete={deleteProduct}
+          isDeleting={isDeleting}
+          isEditing={isEditing}
+        />
+      )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4 bg-gradient-primary text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">Total Products</p>
-                <p className="text-2xl font-bold">{products.length}</p>
-              </div>
-              <Package className="h-8 w-8 opacity-80" />
-            </div>
-          </Card>
-          
-          <Card className="p-4 bg-gradient-success text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">In Stock</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.stock > 0).length}</p>
-              </div>
-              <Package className="h-8 w-8 opacity-80" />
-            </div>
-          </Card>
-          
-          <Card className="p-4 bg-yellow-500 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">Low Stock</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.stock < 10 && p.stock > 0).length}</p>
-              </div>
-              <Package className="h-8 w-8 opacity-80" />
-            </div>
-          </Card>
-          
-          <Card className="p-4 bg-red-500 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">Out of Stock</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.stock === 0).length}</p>
-              </div>
-              <Package className="h-8 w-8 opacity-80" />
-            </div>
-          </Card>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-6">
+          <Button
+            variant="outline"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          >
+            <ChevronLeft className="h-5 w-5" /> Prev
+          </Button>
+          <span className="text-sm">
+            Page {currentPage} of {totalPages} ({filteredProducts.length} total)
+          </span>
+          <Button
+            variant="outline"
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+          >
+            Next <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
+      )}
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredProducts.map((product) => {
-              const stockStatus = getStockStatus(product.stock);
-              
-              return (
-                <TableRow key={product.id}>
-                  <TableCell>
-                    <div>
-                      <div className="font-medium">{product.name}</div>
-                      <div className="text-sm text-muted-foreground">{product.description}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getCategoryColor(product.category)}>
-                      {product.category}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="font-medium">${product.price.toFixed(2)}</TableCell>
-                  <TableCell>{product.stock}</TableCell>
-                  <TableCell>
-                    <Badge className={stockStatus.color}>
-                      {stockStatus.label}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="destructive" size="sm">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Card>
+      {/* Add/Edit Dialog */}
+      <ProductEditDialog
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+        onSave={(product) => {
+          const { id, ...productWithoutId } = product;
+          addProduct(productWithoutId);
+          setIsAddDialogOpen(false);
+        }}
+        isLoading={isAdding}
+      />
     </div>
   );
 };
 
-export default Products;
+export default POSProducts;

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -10,74 +9,18 @@ import {
 import { Package, Truck } from "lucide-react";
 import ShippingMethodsList from "./ShippingMethodsList";
 import TrackingList from "./TrackingList";
-
-export interface ShippingMethod {
-  id: string;
-  name: string;
-  carrier: string;
-  estimatedDays: number;
-  cost: number;
-  isActive: boolean;
-  description?: string;
-}
-
-export interface TrackingEntry {
-  id: string;
-  trackingNumber: string;
-  shippingMethodId: string;
-  customerName: string;
-  destination: string;
-  status: "pending" | "in_transit" | "delivered" | "exception";
-  createdAt: Date;
-  estimatedDelivery?: Date;
-  actualDelivery?: Date;
-}
+import { useShippingMethodStore } from "@/store/useShippingMethodStore";
 
 const ShippingManager = () => {
-  const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>([
-    {
-      id: "1",
-      name: "Standard Shipping",
-      carrier: "FedEx",
-      estimatedDays: 5,
-      cost: 9.99,
-      isActive: true,
-      description: "Standard ground shipping",
-    },
-    {
-      id: "2",
-      name: "Express Shipping",
-      carrier: "UPS",
-      estimatedDays: 2,
-      cost: 24.99,
-      isActive: true,
-      description: "Express overnight delivery",
-    },
-  ]);
+  const {
+    entities: shippingMethods,
+    isLoading: isLoadingShipping,
+    addEntity: addShippingMethod,
+    editEntity: updateShippingMethod,
+    deleteEntity: deleteShippingMethod,
+  } = useShippingMethodStore();
 
-  const [trackingEntries, setTrackingEntries] = useState<TrackingEntry[]>([
-    {
-      id: "1",
-      trackingNumber: "TRK123456789",
-      shippingMethodId: "1",
-      customerName: "John Doe",
-      destination: "New York, NY",
-      status: "in_transit",
-      createdAt: new Date("2024-06-15"),
-      estimatedDelivery: new Date("2024-06-20"),
-    },
-    {
-      id: "2",
-      trackingNumber: "TRK987654321",
-      shippingMethodId: "2",
-      customerName: "Jane Smith",
-      destination: "Los Angeles, CA",
-      status: "delivered",
-      createdAt: new Date("2024-06-16"),
-      estimatedDelivery: new Date("2024-06-18"),
-      actualDelivery: new Date("2024-06-17"),
-    },
-  ]);
+  console.log("entities: shippingMethods", shippingMethods);
 
   return (
     <div className="min-h-screen p-0">
@@ -109,10 +52,16 @@ const ShippingManager = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ShippingMethodsList
-                  shippingMethods={shippingMethods}
-                  setShippingMethods={setShippingMethods}
-                />
+                {isLoadingShipping ? (
+                  <div className="text-slate-400">Loading...</div>
+                ) : (
+                  <ShippingMethodsList
+                    shippingMethods={shippingMethods}
+                    addShippingMethod={addShippingMethod}
+                    updateShippingMethod={updateShippingMethod}
+                    deleteShippingMethod={deleteShippingMethod}
+                  />
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -127,8 +76,8 @@ const ShippingManager = () => {
               </CardHeader>
               <CardContent>
                 <TrackingList
-                  trackingEntries={trackingEntries}
-                  setTrackingEntries={setTrackingEntries}
+                  trackingEntries={[]} // replace with store data later
+                  setTrackingEntries={() => {}}
                   shippingMethods={shippingMethods}
                 />
               </CardContent>

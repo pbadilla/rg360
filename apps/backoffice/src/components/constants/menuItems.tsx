@@ -109,10 +109,10 @@ export const menuItems = [
     link: "/abandoned-carts",
   },
   {
-    id: "logistics",
-    label: "Logistics",
+    id: "shippingMethods",
+    label: "Shipping Methods",
     icon: <Truck size={20} />,
-    link: "/logistics",
+    link: "/shipping-methods",
   },
   {
     id: "payments",

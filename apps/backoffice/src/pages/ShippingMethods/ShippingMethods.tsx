@@ -1,7 +1,7 @@
 import InsideLayout from "@/components/layout/InsideLayout";
-import ShippingManager from "@/components/Logistics/ShippingManager";
+import ShippingManager from "@/components/ShippingMethods/ShippingManager";
 
-const LogisticsDashboard = () => {
+const ShippingMethodsDashboard = () => {
   return (
     <InsideLayout
       title="Shipping manager"
@@ -12,4 +12,4 @@ const LogisticsDashboard = () => {
   );
 };
 
-export default LogisticsDashboard;
+export default ShippingMethodsDashboard;

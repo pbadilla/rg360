@@ -16,7 +16,6 @@ import DropshippingDashboard from "@/pages/Dropshipping/DropshippingDashboard";
 import EditProduct from "@/pages/Stocks/edit-product";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
-import LogisticsDashboard from "@/pages/Logistics/LogisticsDashboard";
 import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders/Orders";
@@ -26,6 +25,7 @@ import ProductsListWrapper from "@/pages/Products/ProductsListWrapper";
 import ProductsPage from "@/pages/Stocks/products-page";
 import Promotions from "@/pages/Promotions/Promotions";
 import ScheduledPromotion from "@/pages/Promotions/ScheduledPromotion";
+import ShippingMethods from "@/pages/ShippingMethods/ShippingMethods";
 import Stocks from "@/pages/Stocks/Stocks";
 import Users from "@/pages/Users/Users";
 import UserRoles from "@/pages/Users/Roles";
@@ -103,8 +103,8 @@ const App = () => (
               {/* Abandoned Carts Routes */}
               <Route path="/abandoned-carts" element={<AbandonedCarts />} />
 
-              {/* Logistics Routes */}
-              <Route path="/logistics/*" element={<LogisticsDashboard />} />
+              {/* Shipping Methods Routes */}
+              <Route path="/shipping-methods/*" element={<ShippingMethods />} />
               {/* Payments Routes */}
               <Route path="/payments/*" element={<PaymentsDashboard />} />
               {/* Dropshipping Routes */}

@@ -1,16 +1,17 @@
 import React, { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "./ImageUpload";
+import { ImageUpload } from "../ImageUpload";
 import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import SearchInput from "@/components/SearchInput";
-import SortSelector from "./SortSelector";
+import SortSelector from "../SortSelector";
 
 import { Category } from "@/types/category";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
 import { useCategoryStore } from "@/store/useCategoryStore";
+import { Button } from "@/components/ui/button";
 
 export function CategoryTable() {
   const {
@@ -28,6 +29,7 @@ export function CategoryTable() {
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<Category>>({});
+  const [isAdding, setIsAdding] = useState<boolean>(false);
 
   const visibleItems = useStaggeredAnimation((categories || []).length);
 
@@ -93,6 +95,8 @@ export function CategoryTable() {
     const newId = `${Date.now()}`;
     setEditingId(newId);
     setEditValues({ ...newCategory, id: newId });
+    setIsAdding(true);
+    toast.success("Category added successfully");
 
     setTimeout(() => {
       const element = document.getElementById(`category-${newId}`);
@@ -120,22 +124,26 @@ export function CategoryTable() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <button
-          onClick={handleAddCategory}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
-        >
-          <PlusCircle size={16} />
-          <span>Add Category</span>
-        </button>
-
-        <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
-            placeholder="Search categories..."
-            className="w-full max-w-xs"
+            placeholder="Search category..."
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
           />
+          <Button onClick={handleAddCategory} className="group">
+            <PlusCircle
+              size={16}
+              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+            />
+            {isAdding ? "Adding..." : "Add Category"}
+          </Button>
+        </div>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
             onSortChange={(config) =>

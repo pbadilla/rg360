@@ -8,7 +8,13 @@ import ProductTable from "./ProductTable";
 import ViewToggle from "../ViewToggle";
 import ProductEditDialog from "./ProductEditDialog";
 import { Button } from "@/components/ui/button";
-import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Plus,
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  PlusCircle,
+} from "lucide-react";
 import { Product } from "@/types/product";
 import SearchInput from "@/components/SearchInput";
 import SortDropdown, { SortConfig } from "@/components/SortSelector";
@@ -87,26 +93,39 @@ const ProductList: React.FC = () => {
     <>
       <div className="py-6 px-4 sm:px-6 bg-primary/5 border-b">
         <div className="flex flex-col space-y-5">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h1 className="text-3xl font-semibold tracking-tight">Products</h1>
-            <Button
-              onClick={() => setIsAddDialogOpen(true)}
-              className="group"
-              disabled={isAdding}
-            >
-              <Plus className="h-5 w-5 mr-2 transition-transform group-hover:scale-110" />
-              {isAdding ? "Adding..." : "Add Product"}
-            </Button>
+          <div className="flex flex-col gap-2 mb-2">
+            <h1 className="text-3xl font-semibold tracking-tight animate-slide-down">
+              Products
+            </h1>
+            <p className="text-muted-foreground animate-slide-down">
+              Create and manage products.
+            </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <SearchInput
-              searchTerm={searchTerm}
-              onSearch={setSearchTerm}
-              placeholder="Search products..."
-              className="w-full max-w-xs"
-            />
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+            {/* Left side: Search */}
+            <div className="flex items-center gap-2">
+              <SearchInput
+                searchTerm={searchTerm}
+                onSearch={setSearchTerm}
+                placeholder="Search products..."
+                className="w-[500px] sm:w-[500px] lg:w-[500px]"
+              />
+              <Button
+                onClick={() => setIsAddDialogOpen(true)}
+                className="group"
+                disabled={isAdding}
+              >
+                <PlusCircle
+                  size={16}
+                  className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+                />
+                {isAdding ? "Adding..." : "Add Product"}
+              </Button>
+            </div>
+
+            {/* Right side: Controls */}
+            <div className="flex items-center gap-4 sm:ml-auto">
               <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
               <SortDropdown
                 sortConfig={sortConfig}

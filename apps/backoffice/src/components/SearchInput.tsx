@@ -36,17 +36,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   return (
-    <div
-      className={cn(
-        "relative w-full max-w-md mx-auto search-transition",
-        isFocused && "scale-[1.02]",
-        className
-      )}
-    >
+    <div className={cn("relative w-full max-w-md mx-auto", className)}>
       <div
         className={cn(
-          "flex items-center rounded-full border bg-background px-3 py-2 shadow-sm transition-all",
-          isFocused ? "border-primary ring-2 ring-primary/20" : "border-input"
+          "flex items-center border bg-background px-2 py-1 transition-all rounded-md",
+          isFocused ? "border-primary ring-1 ring-primary/20" : "border-input"
         )}
       >
         <Search
@@ -63,12 +57,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
           onChange={handleSearchChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="flex-1 border-0 bg-transparent px-3 py-1 text-foreground placeholder:text-muted-foreground focus:outline-none"
+          className="ml-2 h-8 w-full border-none bg-transparent px-1 text-sm placeholder:text-muted-foreground focus:outline-none"
         />
         {localSearchTerm && (
           <button
             onClick={handleClearSearch}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="ml-2 text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Clear search"
           >
             <X className="h-5 w-5" />

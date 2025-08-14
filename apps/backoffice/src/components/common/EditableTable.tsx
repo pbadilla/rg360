@@ -8,6 +8,7 @@ import SortSelector from "@/components/SortSelector";
 import { ImageUpload } from "@/components/ImageUpload";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
+import { Button } from "@/components/ui/button";
 
 type Field<T> = {
   key: keyof T;
@@ -40,6 +41,7 @@ export function EditableTable<T extends Record<string, any>>({
 }: EditableTableProps<T>) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<T>>({});
+  const [isAdding, setIsAdding] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<{
     key: string;
@@ -61,6 +63,7 @@ export function EditableTable<T extends Record<string, any>>({
     onEdit({ ...editValues, id } as unknown as T);
     setEditingId(null);
     setEditValues({});
+    setIsAdding(false);
     toast.success(`${entityName} updated successfully`);
   };
 
@@ -91,22 +94,26 @@ export function EditableTable<T extends Record<string, any>>({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <button
-          onClick={onAdd}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
-        >
-          <PlusCircle size={16} />
-          <span>Add {entityName}</span>
-        </button>
-
-        <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
             placeholder={`Search ${entityName.toLowerCase()}...`}
-            className="w-full max-w-xs"
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
           />
+          <Button onClick={onAdd} className="group">
+            <PlusCircle
+              size={16}
+              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+            />
+            {isAdding ? "Adding..." : `Add ${entityName}`}
+          </Button>
+        </div>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
             onSortChange={(config) =>

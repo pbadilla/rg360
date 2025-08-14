@@ -1,5 +1,5 @@
 import React from "react";
-import OrderTable from "@/components/OrderTable";
+import OrderTable from "@/components/Order/OrderTable";
 import InsideLayout from "@/components/layout/InsideLayout";
 
 const Orders: React.FC = () => {

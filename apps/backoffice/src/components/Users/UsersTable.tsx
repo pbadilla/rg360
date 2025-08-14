@@ -8,6 +8,7 @@ import SearchInput from "@/components/SearchInput";
 import SortSelector from "../SortSelector";
 import { useUsersStore } from "@/store/useUsersStore";
 import { User } from "@/types/users";
+import { Button } from "@/components/ui/button";
 
 export const UsersTable: React.FC = () => {
   const {
@@ -107,22 +108,23 @@ export const UsersTable: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <button
-          onClick={handleAddUser}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
-        >
-          <PlusCircle size={16} />
-          <span>Add User</span>
-        </button>
-
-        <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
-            placeholder="Search users..."
-            className="w-full max-w-xs"
+            placeholder="Search users"
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
           />
+          <Button onClick={handleAddUser} className="group">
+            <PlusCircle size={16} className="h-4 w-4 mr-2" />
+            <span>Add User</span>
+          </Button>
+        </div>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
             onSortChange={(config) =>

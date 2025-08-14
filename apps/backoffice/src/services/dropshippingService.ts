@@ -1,5 +1,5 @@
 
-import { Order } from '@/components/OrderTable';
+import { Order } from '@/components/Order/OrderTable';
 import axios from 'axios';
 
 const isLocal = import.meta.env.MODE === 'development';

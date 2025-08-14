@@ -63,14 +63,19 @@ export function AbandonedCartsTable() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex gap-4 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
-            placeholder="Search carts..."
-            className="w-full max-w-xs"
+            placeholder="Search carts ..."
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
           />
+        </div>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
             onSortChange={(config) =>

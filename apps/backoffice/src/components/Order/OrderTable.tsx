@@ -5,7 +5,7 @@ import { useOrderStore } from "@/store/useOrderStore";
 import { formatCurrency } from "@/utils/format";
 import SearchInput from "@/components/SearchInput";
 import SortSelector from "@/components/SortSelector";
-import SortableColumn from "./SortableColumn";
+import SortableColumn from "../SortableColumn";
 
 const OrderTable: React.FC = () => {
   const {
@@ -122,13 +122,19 @@ const OrderTable: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <SearchInput
-          searchTerm={searchTerm}
-          onSearch={setSearchTerm}
-          placeholder="Search by ID, status, payment, or product..."
-          className="w-full max-w-xs"
-        />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
+          <SearchInput
+            searchTerm={searchTerm}
+            onSearch={setSearchTerm}
+            placeholder="Search by ID, status, payment, or product..."
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
+          />
+        </div>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto"></div>
         <SortSelector
           sortConfig={sortConfig}
           // onSortChange={(config: { key: SortKey; direction: "asc" | "desc" }) =>

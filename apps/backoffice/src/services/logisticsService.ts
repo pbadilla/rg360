@@ -1,5 +1,5 @@
 
-import { Order } from '@/components/OrderTable';
+import { Order } from '@/components/Order/OrderTable';
 
 // Mock data for orders
 export const getMockLogistics = (): Order[] => {

@@ -1,26 +1,26 @@
-import { Role } from "@/types/users";
+import { User } from "@/types/users";
 import { useEntityStore } from "./useEntityStore";
 
 
 // Your real API methods here
-const fetchRoles = async () => {
+const fetchUsers = async () => {
   // Fetch from API
   return { data: [], total: 0 };
 };
-const createRole = async (role: Omit<Role, "id">) => {
+const createUser = async (role: Omit<User, "id">) => {
   // Create API call
   return { ...role, id: Date.now().toString() };
 };
-const updateRole = async (role: Role) => {
+const updateUser = async (role: User) => {
   // Update API call
   return role;
 };
-const deleteRole = async (id: string) => {
+const deleteUser = async (id: string) => {
   // Delete API call
   return id;
 };
 
-const searchRoles = (data: Role[], term: string) => {
+const searchUsers = (data: User[], term: string) => {
   if (!term) return data;
   return data.filter(
     (r) =>
@@ -29,9 +29,9 @@ const searchRoles = (data: Role[], term: string) => {
   );
 };
 
-const sortRoles = (
-  data: Role[],
-  config: { key: keyof Role; direction: "asc" | "desc" }
+const sortUsers = (
+  data: User[],
+  config: { key: keyof User; direction: "asc" | "desc" }
 ) => {
   return [...data].sort((a, b) => {
     const valA = a[config.key] ?? "";
@@ -42,15 +42,15 @@ const sortRoles = (
   });
 };
 
-export const useRolesStore = () => {
-  return useEntityStore<Role>({
+export const useUsersStore = () => {
+  return useEntityStore<User>({
     queryKey: "roles",
-    fetchFn: fetchRoles,
-    createFn: createRole,
-    updateFn: updateRole,
-    deleteFn: deleteRole,
-    searchFn: searchRoles,
-    sortFn: sortRoles,
+    fetchFn: fetchUsers,
+    createFn: createUser,
+    updateFn: updateUser,
+    deleteFn: deleteUser,
+    searchFn: searchUsers,
+    sortFn: sortUsers,
     defaultSort: { key: "name", direction: "asc" },
   });
 };

@@ -1,15 +1,15 @@
+import React from "react";
 
-import React from 'react';
-import OrderTable from '@/components/OrderTable';
-import { getMockUsers } from '@/services/usersService';
-import InsideLayout from '@/components/layout/InsideLayout';
+import InsideLayout from "@/components/layout/InsideLayout";
+import { UsersTable } from "@/components/Users/UsersTable";
 
 const Users: React.FC = () => {
-  const users = getMockUsers();
-  
   return (
-    <InsideLayout title="Users" subTitle='View and manage all your users with sortable columns.'>
-      <OrderTable orders={users} />
+    <InsideLayout
+      title="Users"
+      subTitle="View and manage all your users with sortable columns."
+    >
+      <UsersTable />
     </InsideLayout>
   );
 };

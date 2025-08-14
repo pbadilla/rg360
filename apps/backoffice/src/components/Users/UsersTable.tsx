@@ -6,29 +6,29 @@ import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import SearchInput from "@/components/SearchInput";
 import SortSelector from "../SortSelector";
-import { useRolesStore } from "@/store/useRolesStore";
-import { Role } from "@/types/users";
+import { useUsersStore } from "@/store/useUsersStore";
+import { User } from "@/types/users";
 
-export function RolesTable() {
+export const UsersTable: React.FC = () => {
   const {
-    filteredEntities: roles,
+    filteredEntities: users,
     isLoading,
     error,
     searchTerm,
     sortConfig,
     setSearchTerm,
     setSortConfig,
-    addEntity: addRole,
-    editEntity: editRole,
-    deleteEntity: deleteRole,
-  } = useRolesStore();
+    addEntity: addUser,
+    editEntity: editUser,
+    deleteEntity: deleteUser,
+  } = useUsersStore();
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editValues, setEditValues] = useState<Partial<Role>>({});
+  const [editValues, setEditValues] = useState<Partial<User>>({});
 
-  const visibleItems = useStaggeredAnimation((roles || []).length);
+  const visibleItems = useStaggeredAnimation((users || []).length);
 
-  const handleEditClick = (role: Role) => {
+  const handleEditClick = (role: User) => {
     setEditingId(role.id);
     setEditValues({ ...role });
   };
@@ -38,22 +38,22 @@ export function RolesTable() {
       toast.error("Name is required");
       return;
     }
-    editRole({ ...editValues, id } as Role);
+    editUser({ ...editValues, id } as User);
     setEditingId(null);
     setEditValues({});
-    toast.success("Role updated successfully");
+    toast.success("User updated successfully");
   };
 
   const handleDeleteClick = (id: string) => {
-    deleteRole(id);
+    deleteUser(id);
     if (editingId === id) {
       setEditingId(null);
       setEditValues({});
     }
-    toast.success("Role deleted successfully");
+    toast.success("User deleted successfully");
   };
 
-  const handleInputChange = (key: keyof Role, value: string) => {
+  const handleInputChange = (key: keyof User, value: string) => {
     setEditValues((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -61,24 +61,24 @@ export function RolesTable() {
     if (editingId === id) {
       setEditValues((prev) => ({ ...prev, image }));
     } else {
-      const currentRole = roles.find((r) => r.id === id);
-      if (currentRole) {
-        editRole({ ...currentRole, image });
+      const currentUser = users.find((r) => r.id === id);
+      if (currentUser) {
+        editUser({ ...currentUser, image });
         toast.success("Image updated successfully");
       }
     }
   };
 
-  const handleAddRole = () => {
-    const newRole = {
-      name: "New Role",
+  const handleAddUser = () => {
+    const newUser = {
+      name: "New User",
       description: "Describe this role",
       image: "",
     };
-    addRole(newRole);
+    addUser(newUser);
     const newId = `${Date.now()}`;
     setEditingId(newId);
-    setEditValues({ ...newRole, id: newId });
+    setEditValues({ ...newUser, id: newId });
 
     setTimeout(() => {
       const element = document.getElementById(`role-${newId}`);
@@ -91,7 +91,7 @@ export function RolesTable() {
   if (isLoading) {
     return (
       <div className="min-h-[200px] flex items-center justify-center text-muted-foreground">
-        Loading roles...
+        Loading users...
       </div>
     );
   }
@@ -99,7 +99,7 @@ export function RolesTable() {
   if (error) {
     return (
       <div className="min-h-[200px] flex flex-col items-center justify-center text-red-500">
-        Error loading roles
+        Error loading users
       </div>
     );
   }
@@ -109,25 +109,25 @@ export function RolesTable() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <button
-          onClick={handleAddRole}
+          onClick={handleAddUser}
           className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
         >
           <PlusCircle size={16} />
-          <span>Add Role</span>
+          <span>Add User</span>
         </button>
 
         <div className="flex gap-4">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
-            placeholder="Search roles..."
+            placeholder="Search users..."
             className="w-full max-w-xs"
           />
           <SortSelector
             sortConfig={sortConfig}
             onSortChange={(config) =>
               setSortConfig({
-                key: config.key as keyof Role,
+                key: config.key as keyof User,
                 direction: config.direction,
               })
             }
@@ -160,7 +160,7 @@ export function RolesTable() {
               </tr>
             </thead>
             <tbody>
-              {roles.map((role, index) => (
+              {users.map((role, index) => (
                 <tr
                   key={role.id}
                   id={`role-${role.id}`}
@@ -237,13 +237,13 @@ export function RolesTable() {
                   </td>
                 </tr>
               ))}
-              {roles.length === 0 && (
+              {users.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
                     className="px-6 py-8 text-center text-muted-foreground"
                   >
-                    No roles found. Add one to get started.
+                    No users found. Add one to get started.
                   </td>
                 </tr>
               )}
@@ -253,4 +253,4 @@ export function RolesTable() {
       </div>
     </div>
   );
-}
+};

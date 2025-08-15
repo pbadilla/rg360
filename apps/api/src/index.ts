@@ -16,8 +16,11 @@ import ordersRoutes from '@/routes/ordersRoutes';
 import paymentRoutes from '@/routes/paymentsRoutes';
 import posRoutes from '@/routes/posRoutes';
 import productRoutes from '@/routes/productsRoutes';
+import promotionsRoutes from '@/routes/promotionsRoutes';
+import salesRoutes from '@/routes/salesRoutes';
 import shippingRoutes from '@/routes/shippingRoutes';
 import stockRoutes from '@/routes/stockRoutes';
+import trackingRoutes from '@/routes/trackingRoutes';
 import usersRoutes from '@/routes/usersRoutes';
 import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
@@ -27,6 +30,7 @@ import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
+
 
 
 const NAMESPACE = 'Server';
@@ -107,13 +111,16 @@ const startServer = async () => {
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);
     app.use('/payments', paymentRoutes);
+    app.use('/pos', posRoutes);
     app.use('/products', productRoutes);
+    app.use('/promotions', promotionsRoutes);
+    app.use('/sales', salesRoutes);
     app.use('/shippings', shippingRoutes);
     app.use('/stock', stockRoutes);
+    app.use('/tracking', trackingRoutes);
     app.use('/users', usersRoutes);
     app.use('/vendors', vendorsRoutes);
     app.use('/wishlist', wishlistRoutes);
-    app.use('/pos', posRoutes);
 
     app.use('/importUniverskate', importUniverskateRoutes);
     app.use('/importRollerblade', importRollerbladeRoutes);

@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "./ImageUpload";
+import { ImageUpload } from "../ImageUpload";
 import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { usePromotionStore } from "@/store/usePromotionStore";
 import { Promotion } from "@/types/promotion";
+import SearchInput from "@/components/SearchInput";
+import { Button } from "@/components/ui/button";
 
-export function PromotionTable() {
-  const { data: promotions = [], create, update, remove } = usePromotionStore();
+export const PromotionTable = () => {
+  const {
+    entities: promotions,
+    create,
+    update,
+    remove,
+    isLoading,
+    error,
+    searchTerm,
+    sortConfig,
+    setSearchTerm,
+    setSortConfig,
+  } = usePromotionStore();
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<Promotion>>({});
+  const [isAdding, setIsAdding] = useState<boolean>(false);
   const visibleItems = useStaggeredAnimation(promotions.length);
 
   // Handle edit
@@ -81,14 +95,26 @@ export function PromotionTable() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <button
-          onClick={handleAddPromotion}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/80 transition-colors"
-        >
-          <PlusCircle size={16} />
-          <span>Add Promotion</span>
-        </button>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+        {/* Left side: Search */}
+        <div className="flex items-center gap-2">
+          <SearchInput
+            searchTerm={searchTerm}
+            onSearch={setSearchTerm}
+            placeholder="Search carts ..."
+            className="w-[500px] sm:w-[500px] lg:w-[500px]"
+          />
+        </div>
+        <Button onClick={handleAddPromotion} className="group">
+          <PlusCircle
+            size={16}
+            className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+          />
+          {isAdding ? "Adding..." : `Add Promotion`}
+        </Button>
+
+        {/* Right side: Controls */}
+        <div className="flex items-center gap-4 sm:ml-auto"></div>
       </div>
 
       <div className="relative overflow-hidden rounded-lg border bg-card">
@@ -206,4 +232,4 @@ export function PromotionTable() {
       </div>
     </div>
   );
-}
+};

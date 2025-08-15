@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Package, Upload, Download } from "lucide-react";
+import { Plus, Package, Upload, Download, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ShippingMethod } from "@/types/shippingMethod";
 
@@ -134,11 +134,11 @@ const ShippingMethodsList = ({
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button
-              onClick={() => handleOpenDialog()}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <Plus className="h-4 w-4 mr-2" />
+            <Button onClick={() => handleOpenDialog()} className="group">
+              <PlusCircle
+                size={16}
+                className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+              />
               Add Method
             </Button>
           </DialogTrigger>
@@ -344,11 +344,11 @@ const ShippingMethodsList = ({
           <p className="text-slate-500 mb-4">
             Get started by adding your first shipping method
           </p>
-          <Button
-            onClick={() => handleOpenDialog()}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="h-4 w-4 mr-2" />
+          <Button onClick={() => handleOpenDialog()} className="group">
+            <PlusCircle
+              size={16}
+              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+            />
             Add First Method
           </Button>
         </div>

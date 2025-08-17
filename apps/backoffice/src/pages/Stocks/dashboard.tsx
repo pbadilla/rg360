@@ -4,7 +4,7 @@ import { StatCard } from "@/components/stat-card";
 import { Box, PackageOpen, AlertCircle, DollarSign } from "lucide-react";
 import { Product } from "@/types/stocks";
 import { supabase } from "@/integrations/supabase/client";
-import { CSVImport } from "@/components/csv-import";
+import { CSVImport } from "@/components/csv/csv-import";
 import InsideLayout from "@/components/layout/InsideLayout";
 
 const Dashboard = () => {

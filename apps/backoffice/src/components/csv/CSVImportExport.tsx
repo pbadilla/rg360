@@ -15,9 +15,9 @@ import { CSVData } from "@/utils/csvUtils";
 import { Product } from "@/types/product";
 
 import DataTable from "@/components/DataTable";
-import ExportButton from "@/components/ExportButton";
-import FTPImport from "@/components/FTPImport";
-import FileUpload from "@/components/FileUpload";
+import ExportButton from "@/components/csv/ExportButton";
+import FTPImport from "@/components/csv/FTPImport";
+import FileUpload from "@/components/csv/FileUpload";
 
 import { AlertCircle } from "lucide-react";
 import { toast } from "sonner";

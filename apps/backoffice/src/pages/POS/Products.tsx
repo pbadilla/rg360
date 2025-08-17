@@ -7,7 +7,7 @@ import { Package, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
 import SearchInput from "@/components/SearchInput";
 import ViewToggle from "@/components/ViewToggle";
-import SortDropdown, { SortConfig } from "@/components/SortSelector";
+import SortDropdown, { SortConfig } from "@/components/sorting/SortSelector";
 import ProductCard from "@/components/POS/ProductCard";
 import ProductTable from "@/components/Products/ProductTable";
 import ProductEditDialog from "@/components/Products/ProductEditDialog";

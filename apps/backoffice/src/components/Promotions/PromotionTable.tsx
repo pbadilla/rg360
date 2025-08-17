@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "../ImageUpload";
+import { ImageUpload } from "../csv/ImageUpload";
 import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 

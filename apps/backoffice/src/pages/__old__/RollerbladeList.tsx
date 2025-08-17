@@ -1,5 +1,5 @@
 import InsideLayout from "@/components/layout/InsideLayout";
-import CSVImportExport from "@/components/CSVImportExport";
+import CSVImportExport from "@/components/csv/CSVImportExport";
 
 const RollerbladeList = () => {
   return (

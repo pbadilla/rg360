@@ -5,7 +5,7 @@ import {
   sendCartReminder,
 } from "@/services/cartService";
 import StatusBadge from "../StatusBadge";
-import SortableHeader from "../SortableHeader";
+import SortableHeader from "../sorting/SortableHeader";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";

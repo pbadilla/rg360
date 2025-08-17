@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useStaggeredAnimation } from "@/lib/animations";
 import { useAbandonedCartStore } from "@/store/useAbandonedCartStore";
 import SearchInput from "@/components/SearchInput";
-import SortSelector from "../SortSelector";
+import SortSelector from "../sorting/SortSelector";
 import { cn } from "@/lib/utils";
 
 export function AbandonedCartsTable() {

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Product } from "@/types/product";
 import SearchInput from "@/components/SearchInput";
-import SortDropdown, { SortConfig } from "@/components/SortSelector";
+import SortDropdown, { SortConfig } from "@/components/sorting/SortSelector";
 
 const ProductList: React.FC = () => {
   const {

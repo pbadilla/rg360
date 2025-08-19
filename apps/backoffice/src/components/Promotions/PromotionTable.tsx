@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
-import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "../csv/ImageUpload";
-import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
+
 import { toast } from "sonner";
 
-import { usePromotionStore } from "@/store/usePromotionStore";
-import { Promotion } from "@/types/promotion";
+import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
+
 import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
+
+import { usePromotionStore } from "@/store/usePromotionStore";
+
+import type { Promotion } from "@/types/promotion";
+
+import { ImageUpload } from "../csv/ImageUpload";
+
+import { useStaggeredAnimation } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 
 export const PromotionTable = () => {
   const {
@@ -144,7 +150,7 @@ export const PromotionTable = () => {
                   className={cn(
                     "transition-all duration-300",
                     !visibleItems[index] && "opacity-0 translate-y-4",
-                    editingId === promotion._id && "bg-accent/5"
+                    editingId === promotion._id && "bg-accent/5",
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">

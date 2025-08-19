@@ -1,13 +1,15 @@
-import { useEntityStore } from '@/store/useEntityStore';
-import api from '@/config/axiosConfig';
-import { Category } from '@/types/category';
-import { searchCategory, sortCategory } from '@/utils/categoryUtils';
+import { useEntityStore } from "@/store/useEntityStore";
+
+import type { Category } from "@/types/category";
+
+import api from "@/config/axiosConfig";
+import { searchCategory, sortCategory } from "@/utils/categoryUtils";
 
 export const useCategoryStore = () =>
   useEntityStore<Category>({
-    queryKey: 'categories',
+    queryKey: "categories",
     fetchFn: async () => {
-      const res = await api.get('/categories');
+      const res = await api.get("/categories");
       const categories = res.data.categories;
       return {
         data: categories,
@@ -21,9 +23,9 @@ export const useCategoryStore = () =>
     deleteFn: async (id) => id,
     importFn: async (data) => data,
     defaultSort: {
-      key: 'name',
-      direction: 'asc'
+      key: "name",
+      direction: "asc",
     },
     searchFn: searchCategory,
-    sortFn: sortCategory
+    sortFn: sortCategory,
   });

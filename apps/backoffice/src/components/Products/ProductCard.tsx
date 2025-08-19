@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
+
 import { QRCodeSVG } from "qrcode.react";
 
-import { Product } from "@/types/product";
-import { formatPrice } from "@/utils/productUtils";
 import { Pen, Trash2 } from "lucide-react";
 
+import { ProductVariations } from "@/components/Products/ProductVariations";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,11 +20,13 @@ import {
 import { ColorBadge } from "@/components/ui/color-badge";
 import { OfferBadge } from "@/components/ui/offer-badge";
 
-import ProductEditDialog from "./ProductEditDialog";
+import type { Product } from "@/types/product";
+
 import ProductDeleteDialog from "./ProductDeleteDialog";
+import ProductEditDialog from "./ProductEditDialog";
 
 import { cn } from "@/lib/utils";
-import { ProductVariations } from "@/components/Products/ProductVariations";
+import { formatPrice } from "@/utils/productUtils";
 
 interface ProductCardProps {
   product: Product;
@@ -55,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   function ProductColors() {
     const [selectedColor, setSelectedColor] = useState(
-      availableColors[0] ?? ""
+      availableColors[0] ?? "",
     );
 
     if (availableColors.length === 0) return null;
@@ -79,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <Card
         className={cn(
           "overflow-hidden border card-transition cursor-pointer",
-          isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm"
+          isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm",
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -91,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <div
               className={cn(
                 "absolute inset-0 bg-gradient-to-t from-muted/20 to-muted/5 transition-opacity duration-300",
-                imageLoaded ? "opacity-0" : "opacity-100"
+                imageLoaded ? "opacity-0" : "opacity-100",
               )}
             />
             <img
@@ -100,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               onLoad={() => setImageLoaded(true)}
               className={cn(
                 "object-cover w-full h-full transition-opacity duration-500",
-                imageLoaded ? "opacity-100" : "opacity-0"
+                imageLoaded ? "opacity-100" : "opacity-0",
               )}
             />
           </AspectRatio>

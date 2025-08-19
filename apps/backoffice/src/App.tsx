@@ -1,40 +1,41 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { MainLayout } from "@/components/layout/MainLayout";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+
+
 import { Layout } from "@/components/Layout";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import { ThemeProvider } from "@/hooks/use-theme";
 
 import AbandonedCarts from "@/pages/AbandonedCarts/AbandonedCarts";
-import ActivePromotion from "@/pages/Promotions/ActivePromotions";
-import Categories from "@/pages/Products/Categories";
-import CreatePromotion from "@/pages/Promotions/CreatePromotion";
-import Dashboard from "@/pages/Stocks/dashboard";
 import DropshippingDashboard from "@/pages/Dropshipping/DropshippingDashboard";
-import EditProduct from "@/pages/Stocks/edit-product";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
-import NewProduct from "@/pages/Stocks/new-product";
 import NotFound from "@/pages/NotFound";
 import Orders from "@/pages/Orders/Orders";
 import PaymentsDashboard from "@/pages/Payments/PaymentsDashboard";
-import ProductDetail from "@/pages/Stocks/product-detail";
-import ProductsListWrapper from "@/pages/Products/ProductsListWrapper";
-import ProductsPage from "@/pages/Stocks/products-page";
-import Promotions from "@/pages/Promotions/Promotions";
-import ScheduledPromotion from "@/pages/Promotions/ScheduledPromotion";
-import ShippingMethods from "@/pages/ShippingMethods/ShippingMethods";
-import Stocks from "@/pages/Stocks/Stocks";
-import Users from "@/pages/Users/Users";
-import UserRoles from "@/pages/Users/Roles";
-
 import Products from "@/pages/POS/Products";
 import Sales from "@/pages/POS/Sales";
 import Sellers from "@/pages/POS/Sellers";
 import Stats from "@/pages/POS/Stats";
-
+import Categories from "@/pages/Products/Categories";
+import ProductsListWrapper from "@/pages/Products/ProductsListWrapper";
+import ActivePromotion from "@/pages/Promotions/ActivePromotions";
+import CreatePromotion from "@/pages/Promotions/CreatePromotion";
+import Promotions from "@/pages/Promotions/Promotions";
+import ScheduledPromotion from "@/pages/Promotions/ScheduledPromotion";
+import ShippingMethods from "@/pages/ShippingMethods/ShippingMethods";
+import Dashboard from "@/pages/Stocks/dashboard";
+import EditProduct from "@/pages/Stocks/edit-product";
+import NewProduct from "@/pages/Stocks/new-product";
+import ProductDetail from "@/pages/Stocks/product-detail";
+import ProductsPage from "@/pages/Stocks/products-page";
+import Stocks from "@/pages/Stocks/Stocks";
+import UserRoles from "@/pages/Users/Roles";
+import Users from "@/pages/Users/Users";
 import { ProtectedRoute } from "@/routes/protectedRoutes";
 import { PublicRoute } from "@/routes/publicRoutes";
 

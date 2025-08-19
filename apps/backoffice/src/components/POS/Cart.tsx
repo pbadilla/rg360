@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+
+import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 interface CartItem {
   id: string;
@@ -31,7 +33,7 @@ const Cart = ({
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const tax = subtotal * 0.21; // 21% tax
   const preDiscountTotal = subtotal + tax;

@@ -13,7 +13,7 @@ export interface Promotion {
     end: string;
   };
   bannerImage: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   createdAt: string;
   updatedAt: string;
 }

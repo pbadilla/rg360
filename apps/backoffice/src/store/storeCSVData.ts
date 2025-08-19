@@ -1,18 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CSVData } from '@/utils/csvUtils';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { CSVData } from "@/utils/csvUtils";
 
 const storeCSVData = (parsedData: CSVData) => {
-  return parsedData; 
+  return parsedData;
 };
 
 const getStoreKeyByTitle = (title: string) => {
-  return ['csvData', title];
+  return ["csvData", title];
 };
 
 export function useStoreCSVData() {
   const queryClient = useQueryClient();
 
-  return useMutation<CSVData, Error, { parsedData: CSVData, title: string }>({
+  return useMutation<CSVData, Error, { parsedData: CSVData; title: string }>({
     mutationFn: ({ parsedData }) => Promise.resolve(storeCSVData(parsedData)),
     onSuccess: (data, variables) => {
       const { title } = variables;

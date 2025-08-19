@@ -1,5 +1,4 @@
-
-import { AbandonedCart } from "@/types/cart";
+import type { AbandonedCart } from "@/types/cart";
 
 // Mock data for abandoned carts
 export const getMockAbandonedCarts = (): AbandonedCart[] => {
@@ -16,18 +15,18 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Wireless Headphones",
           price: 99.99,
           quantity: 1,
-          image: "/placeholder.svg"
+          image: "/placeholder.svg",
         },
         {
           id: "item-002",
           name: "Phone Case",
           price: 24.99,
           quantity: 2,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-15T14:45:00Z",
-      status: "abandoned"
+      status: "abandoned",
     },
     {
       id: "cart-002",
@@ -41,11 +40,11 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Tablet Pro",
           price: 499.95,
           quantity: 1,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-14T10:28:00Z",
-      status: "reminder-sent"
+      status: "reminder-sent",
     },
     {
       id: "cart-003",
@@ -59,29 +58,29 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Smart Watch Band",
           price: 39.99,
           quantity: 2,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-16T09:35:00Z",
-      status: "abandoned"
+      status: "abandoned",
     },
     {
       id: "cart-004",
       date: "2023-09-13T16:50:00Z",
-      price: 1299.00,
+      price: 1299.0,
       email: "sophia.brown@example.com",
       name: "Sophia Brown",
       items: [
         {
           id: "item-005",
           name: "Laptop Pro",
-          price: 1299.00,
+          price: 1299.0,
           quantity: 1,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-13T17:10:00Z",
-      status: "recovered"
+      status: "recovered",
     },
     {
       id: "cart-005",
@@ -95,18 +94,18 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Wireless Speaker",
           price: 129.99,
           quantity: 1,
-          image: "/placeholder.svg"
+          image: "/placeholder.svg",
         },
         {
           id: "item-007",
           name: "Charging Cable",
           price: 19.99,
           quantity: 3,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-17T11:22:00Z",
-      status: "abandoned"
+      status: "abandoned",
     },
     {
       id: "cart-006",
@@ -120,11 +119,11 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Camera Plus",
           price: 899.99,
           quantity: 1,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-12T09:15:00Z",
-      status: "reminder-sent"
+      status: "reminder-sent",
     },
     {
       id: "cart-007",
@@ -138,11 +137,11 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Bluetooth Earbuds",
           price: 29.99,
           quantity: 2,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-18T15:42:00Z",
-      status: "abandoned"
+      status: "abandoned",
     },
     {
       id: "cart-008",
@@ -156,12 +155,12 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
           name: "Smart Home Hub",
           price: 249.99,
           quantity: 1,
-          image: "/placeholder.svg"
-        }
+          image: "/placeholder.svg",
+        },
       ],
       lastActive: "2023-09-11T13:45:00Z",
-      status: "recovered"
-    }
+      status: "recovered",
+    },
   ];
 };
 
@@ -169,6 +168,6 @@ export const getMockAbandonedCarts = (): AbandonedCart[] => {
 export const sendCartReminder = async (cartId: string): Promise<boolean> => {
   console.log(`Sending reminder for cart ID: ${cartId}`);
   // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 800));
+  await new Promise((resolve) => setTimeout(resolve, 800));
   return true;
 };

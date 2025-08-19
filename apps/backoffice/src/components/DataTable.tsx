@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
-import { CSVData } from '@/utils/csvUtils';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader,
-  TableRow 
-} from '@/components/ui/table';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ChevronDown, ChevronUp } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -20,9 +11,20 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from "@/components/ui/pagination";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-type SortDirection = 'asc' | 'desc' | null;
+import type { CSVData } from "@/utils/csvUtils";
+
+type SortDirection = "asc" | "desc" | null;
 
 const ROWS_PER_PAGE = 10;
 
@@ -32,8 +34,7 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
-
-  const [ filteredProducts, setFilteredProducts ] = useState(data.rows);
+  const [filteredProducts, setFilteredProducts] = useState(data.rows);
 
   const [sortColumn, setSortColumn] = useState<number | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
@@ -45,55 +46,58 @@ const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
 
   const handleSort = (columnIndex: number) => {
     if (sortColumn === columnIndex) {
-      if (sortDirection === 'asc') {
-        setSortDirection('desc');
-      } else if (sortDirection === 'desc') {
+      if (sortDirection === "asc") {
+        setSortDirection("desc");
+      } else if (sortDirection === "desc") {
         setSortDirection(null);
         setSortColumn(null);
       } else {
-        setSortDirection('asc');
+        setSortDirection("asc");
       }
     } else {
       setSortColumn(columnIndex);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
   const getSortIcon = (columnIndex: number) => {
     if (sortColumn !== columnIndex) return null;
-    
-    if (sortDirection === 'asc') {
+
+    if (sortDirection === "asc") {
       return <ChevronUp className="w-4 h-4 ml-1" />;
-    } else if (sortDirection === 'desc') {
+    } else if (sortDirection === "desc") {
       return <ChevronDown className="w-4 h-4 ml-1" />;
     }
-    
+
     return null;
   };
 
   // Sort data if needed
-  let displayRows = [...filteredProducts];
+  const displayRows = [...filteredProducts];
   if (sortColumn !== null && sortDirection !== null) {
     displayRows.sort((a, b) => {
-      const valueA = a[sortColumn] || '';
-      const valueB = b[sortColumn] || '';
-      
+      const valueA = a[sortColumn] || "";
+      const valueB = b[sortColumn] || "";
+
       const numA = Number(valueA);
       const numB = Number(valueB);
-      
+
       if (!isNaN(numA) && !isNaN(numB)) {
-        return sortDirection === 'asc' ? numA - numB : numB - numA;
+        return sortDirection === "asc" ? numA - numB : numB - numA;
       }
-      
-      return sortDirection === 'asc' 
-        ? valueA.localeCompare(valueB) 
+
+      return sortDirection === "asc"
+        ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
     });
   }
 
   const totalPages = Math.ceil(displayRows.length / ROWS_PER_PAGE);
   const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
-  const paginatedRows = displayRows.slice(startIndex, startIndex + ROWS_PER_PAGE);
+  const paginatedRows = displayRows.slice(
+    startIndex,
+    startIndex + ROWS_PER_PAGE,
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -102,27 +106,27 @@ const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
   const getPaginationItems = () => {
     const items = [];
     const maxPagesToShow = 5;
-    
+
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-    
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
     if (endPage - startPage + 1 < maxPagesToShow) {
       startPage = Math.max(1, endPage - maxPagesToShow + 1);
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
       items.push(
         <PaginationItem key={i}>
-          <PaginationLink 
-            isActive={currentPage === i} 
+          <PaginationLink
+            isActive={currentPage === i}
             onClick={() => handlePageChange(i)}
           >
             {i}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
-    
+
     return items;
   };
 
@@ -135,12 +139,12 @@ const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
               <TableRow className="border-b border-b-border">
                 {/* Example headers based on product properties */}
                 {Object.keys(filteredProducts[0]).map((header, index) => (
-                  <TableHead 
-                    key={index} 
+                  <TableHead
+                    key={index}
                     className="font-semibold bg-slate-100 border-r border-r-border last:border-r-0"
                   >
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="p-0 h-auto font-semibold hover:bg-transparent w-full justify-start"
                       onClick={() => handleSort(index)}
                     >
@@ -155,13 +159,13 @@ const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
             </TableHeader>
             <TableBody>
               {paginatedRows.map((row, rowIndex) => (
-                <TableRow 
-                  key={rowIndex} 
-                  className={`border-b hover:bg-slate-50 ${rowIndex % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
+                <TableRow
+                  key={rowIndex}
+                  className={`border-b hover:bg-slate-50 ${rowIndex % 2 === 0 ? "bg-white" : "bg-slate-50/50"}`}
                 >
                   {Object.values(row).map((cell, cellIndex) => (
-                    <TableCell 
-                      key={cellIndex} 
+                    <TableCell
+                      key={cellIndex}
                       className="border-r border-r-border last:border-r-0"
                     >
                       {cell}
@@ -173,23 +177,31 @@ const DataTable: React.FC<DataTableProps> = ({ data, store }) => {
           </Table>
         </ScrollArea>
       </div>
-      
+
       {totalPages > 1 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious 
+              <PaginationPrevious
                 onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                className={
+                  currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                }
               />
             </PaginationItem>
-            
+
             {getPaginationItems()}
-            
+
             <PaginationItem>
-              <PaginationNext 
-                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+              <PaginationNext
+                onClick={() =>
+                  handlePageChange(Math.min(totalPages, currentPage + 1))
+                }
+                className={
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : ""
+                }
               />
             </PaginationItem>
           </PaginationContent>

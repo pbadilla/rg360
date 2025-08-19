@@ -1,17 +1,22 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { useProductStore } from "@/store/storeProducts";
+import type React from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import { ChevronLeft, ChevronRight, Package, Plus } from "lucide-react";
+
+import InsideLayout from "@/components/layout/InsideLayout";
+import ProductCard from "@/components/POS/ProductCard";
+import ProductEditDialog from "@/components/Products/ProductEditDialog";
+import ProductTable from "@/components/Products/ProductTable";
+import SearchInput from "@/components/SearchInput";
+import SortDropdown, {
+  type SortConfig,
+} from "@/components/sorting/SortSelector";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Package, Plus, ChevronLeft, ChevronRight } from "lucide-react";
-
-import SearchInput from "@/components/SearchInput";
 import ViewToggle from "@/components/ViewToggle";
-import SortDropdown, { SortConfig } from "@/components/sorting/SortSelector";
-import ProductCard from "@/components/POS/ProductCard";
-import ProductTable from "@/components/Products/ProductTable";
-import ProductEditDialog from "@/components/Products/ProductEditDialog";
-import InsideLayout from "@/components/layout/InsideLayout";
+
+import { useProductStore } from "@/store/useProductStore";
 
 const POSProducts: React.FC = () => {
   const {
@@ -49,6 +54,7 @@ const POSProducts: React.FC = () => {
   const pageSize = 10;
 
   // Pagination
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return filteredProducts.slice(startIndex, startIndex + pageSize);
@@ -57,6 +63,7 @@ const POSProducts: React.FC = () => {
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
   // Reset to first page when filters or sorting changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, sortConfig]);

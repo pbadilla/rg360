@@ -1,13 +1,18 @@
-import { Sizes } from "@/types/product";
+import type { Sizes } from "@/types/product";
 
-type StatusOrder = 'processing' | 'shipped' | 'delivered' | 'cancelled' | string;
-type PaymentMethod = 'credit_card' | 'paypal' | 'bank_transfer';
-type PaymentStatus = 'paid' | 'pending' | 'failed';
-type ReturnStatus = 'pending' | 'approved' | 'rejected';
-type SortKey = keyof Order | 'paymentStatus' | 'itemsCount';
+type StatusOrder =
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled"
+  | string;
+type PaymentMethod = "credit_card" | "paypal" | "bank_transfer";
+type PaymentStatus = "paid" | "pending" | "failed";
+type ReturnStatus = "pending" | "approved" | "rejected";
+type SortKey = keyof Order | "paymentStatus" | "itemsCount";
 type SortConfig = {
   key: SortKey;
-  direction: 'asc' | 'desc';
+  direction: "asc" | "desc";
 };
 
 type Address = {

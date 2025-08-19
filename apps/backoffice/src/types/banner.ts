@@ -1,4 +1,3 @@
-
 export interface BannerData {
   backgroundImage: string;
   title: string;

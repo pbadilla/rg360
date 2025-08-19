@@ -1,4 +1,5 @@
 import React from "react";
+
 import clsx from "clsx";
 
 const badgeStyles = {
@@ -27,7 +28,7 @@ export const OfferBadge = ({ type = "new", children }) => {
     <span
       className={clsx(
         "text-xs font-medium px-2 py-0.5 rounded-full",
-        badgeClass
+        badgeClass,
       )}
     >
       {label}

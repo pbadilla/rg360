@@ -29,7 +29,7 @@ export interface Stock {
   colors: LocalizedString[];
   sizes: string[];
   images: string[];
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   stock: number;
   createdAt: string; // ISO date string
   updateData: string; // ISO date string

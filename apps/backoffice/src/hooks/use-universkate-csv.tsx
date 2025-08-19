@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import apiClient from "@/config/axiosConfig";
 
 interface CsvEntry {
@@ -11,7 +12,7 @@ const parseCsv = (csvText: string): CsvEntry[] => {
 
   return lines.map((line) => {
     const values = line.split(";");
-    let entry: CsvEntry = {};
+    const entry: CsvEntry = {};
     headers.forEach((header, index) => {
       entry[header] = values[index] || "";
     });

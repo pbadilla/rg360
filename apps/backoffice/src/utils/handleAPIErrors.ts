@@ -1,6 +1,9 @@
 // utils/handleApiError.ts
+
 import { toast } from "sonner";
-import { NavigateFunction } from "react-router-dom";
+
+import type { NavigateFunction } from "react-router-dom";
+
 
 export const handleApiError = (err: any, navigate?: NavigateFunction) => {
   const status = err.response?.status;

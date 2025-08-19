@@ -23,7 +23,7 @@ export type User = {
   isActive?: boolean;
   tags?: string[];
   image?: string;
-  role: 'customer' | 'admin';
+  role: "customer" | "admin";
   createdAt: Date;
   updatedAt: Date;
 };

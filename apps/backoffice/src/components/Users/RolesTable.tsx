@@ -1,14 +1,22 @@
-import React, { useState, useMemo } from "react";
-import { cn } from "@/lib/utils";
-import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "../csv/ImageUpload";
-import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
+import React, { useMemo, useState } from "react";
+
 import { toast } from "sonner";
+
+import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
+
 import SearchInput from "@/components/SearchInput";
-import SortSelector from "../sorting/SortSelector";
-import { useRolesStore } from "@/store/useRolesStore";
-import { Role } from "@/types/users";
 import { Button } from "@/components/ui/button";
+
+import { useRolesStore } from "@/store/useRolesStore";
+
+import type { Role } from "@/types/users";
+
+import { ImageUpload } from "../csv/ImageUpload";
+import SortSelector from "../sorting/SortSelector";
+
+import { useStaggeredAnimation } from "@/lib/animations";
+import { cn } from "@/lib/utils";
+
 
 export function RolesTable() {
   const {
@@ -169,7 +177,7 @@ export function RolesTable() {
                   className={cn(
                     "transition-all duration-300",
                     !visibleItems[index] && "opacity-0 translate-y-4",
-                    editingId === role.id && "bg-accent/5"
+                    editingId === role.id && "bg-accent/5",
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">

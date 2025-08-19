@@ -1,16 +1,20 @@
 "use client";
-import React, { useState } from "react";
-import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../config/axiosConfig";
+import type React from "react";
+import { useState } from "react";
 
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+import { Eye, EyeClosed } from "lucide-react";
+
+import { AuthLayout } from "@/components/layout/AuthLayout"; // wrapper layout
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { EyeClosed, Eye } from "lucide-react";
 
-import { AuthLayout } from "@/components/layout/AuthLayout"; // wrapper layout
+import api from "../config/axiosConfig";
+
 import { handleApiError } from "@/utils/handleAPIErrors";
 
 const Login = () => {
@@ -33,7 +37,7 @@ const Login = () => {
       localStorage.setItem("token", token);
       toast.success("Successfully logged in");
       navigate("/index");
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Handle specific error cases
       handleApiError(err, navigate);
     }

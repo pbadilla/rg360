@@ -1,9 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
+
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+
+import { useIsMobile } from "@/hooks/use-mobile";
+
+import { cn } from "@/lib/utils";
 
 // Type definitions
 interface MenuItem {
@@ -113,7 +118,7 @@ const MenuItem: React.FC<{
   const isChildActive = (items?: MenuItem[]): boolean => {
     if (!items || !activeItem) return false;
     return items.some(
-      (subItem) => subItem.id === activeItem || isChildActive(subItem.submenu)
+      (subItem) => subItem.id === activeItem || isChildActive(subItem.submenu),
     );
   };
 
@@ -161,7 +166,7 @@ const MenuItem: React.FC<{
               "justify-center": collapsed && level === 1,
               "pl-5": level > 1,
               "pl-4": level === 1 && !collapsed,
-            }
+            },
           )}
           aria-expanded={hasSubmenu ? isSubMenuOpen : undefined}
           role={hasSubmenu ? "button" : undefined}
@@ -341,7 +346,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div
           className={cn(
             "fixed inset-0 bg-black/30 z-20 transition-opacity duration-300",
-            mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none",
           )}
         />
       )}
@@ -368,8 +373,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               ? "expanded"
               : "collapsed"
             : collapsed
-            ? "collapsed"
-            : "expanded"
+              ? "collapsed"
+              : "expanded"
         }
         className={cn(
           "h-screen fixed top-0 left-0 z-30 flex flex-col",
@@ -379,7 +384,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {
             "translate-x-0": !isMobile || mobileOpen,
             "-translate-x-full": isMobile && !mobileOpen,
-          }
+          },
         )}
       >
         {/* Sidebar Header */}
@@ -388,7 +393,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             "h-16 flex items-center px-4 border-b border-sidebar-border",
             {
               "justify-center": collapsed && !isMobile,
-            }
+            },
           )}
         >
           {logo ? (
@@ -408,7 +413,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={toggleSidebar}
               className={cn(
                 "ml-auto p-1 rounded-md hover:bg-sidebar-accent text-sidebar-foreground",
-                { hidden: collapsed }
+                { hidden: collapsed },
               )}
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
@@ -441,7 +446,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {
               "flex-col": !collapsed || isMobile,
               "justify-center": collapsed && !isMobile,
-            }
+            },
           )}
         >
           {!collapsed || isMobile ? (

@@ -1,4 +1,5 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Package, Truck } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -6,10 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Package, Truck } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { useShippingMethodStore } from "@/store/useShippingMethodStore";
+
 import ShippingMethodsList from "./ShippingMethodsList";
 import TrackingList from "./TrackingList";
-import { useShippingMethodStore } from "@/store/useShippingMethodStore";
 
 const ShippingManager = () => {
   const {

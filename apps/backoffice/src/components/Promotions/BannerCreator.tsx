@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+
+import InsideLayout from "@/components/layout/InsideLayout";
+
+import type { BannerData } from "@/types/banner";
+
 import BannerPreview from "./BannerPreview";
 import ControlPanel from "./ControlPanel";
-import { BannerData } from "@/types/banner";
-import InsideLayout from "@/components/layout/InsideLayout";
 
 const BannerCreator = () => {
   const [bannerData, setBannerData] = useState<BannerData>({

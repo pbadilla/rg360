@@ -1,8 +1,10 @@
+import { useState } from "react";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { X, ExternalLink } from 'lucide-react';
-import { BannerPromotion } from '@/pages/Index';
+import { ExternalLink, X } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import type { BannerPromotion } from "@/pages/Index";
 
 interface ActiveBannerProps {
   promotion: BannerPromotion;
@@ -15,14 +17,17 @@ export const ActiveBanner = ({ promotion }: ActiveBannerProps) => {
 
   const handleCtaClick = () => {
     if (promotion.ctaLink) {
-      window.open(promotion.ctaLink, '_blank');
+      window.open(promotion.ctaLink, "_blank");
     }
   };
 
   return (
-    <div 
+    <div
       className="relative w-full py-4 px-6 text-center shadow-md"
-      style={{ backgroundColor: promotion.backgroundColor, color: promotion.textColor }}
+      style={{
+        backgroundColor: promotion.backgroundColor,
+        color: promotion.textColor,
+      }}
     >
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <div className="flex-1">
@@ -32,10 +37,10 @@ export const ActiveBanner = ({ promotion }: ActiveBannerProps) => {
             <Button
               onClick={handleCtaClick}
               className="font-medium hover:opacity-80 transition-opacity"
-              style={{ 
-                backgroundColor: 'transparent',
+              style={{
+                backgroundColor: "transparent",
                 color: promotion.textColor,
-                border: `2px solid ${promotion.textColor}`
+                border: `2px solid ${promotion.textColor}`,
               }}
             >
               {promotion.ctaText}
@@ -43,7 +48,7 @@ export const ActiveBanner = ({ promotion }: ActiveBannerProps) => {
             </Button>
           )}
         </div>
-        
+
         <Button
           variant="ghost"
           size="sm"

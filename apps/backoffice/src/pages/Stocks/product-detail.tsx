@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { Product } from "@/types/stocks";
-import { generateMockProducts } from "@/utils/data";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+import { Edit, QrCode, Trash2 } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,8 +16,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Edit, Trash2, QrCode } from "lucide-react";
+
+import type { Product } from "@/types/stocks";
+
+import { generateMockProducts } from "@/utils/data";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();

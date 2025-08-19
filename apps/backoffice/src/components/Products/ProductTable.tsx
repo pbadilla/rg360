@@ -1,6 +1,9 @@
-import React from "react";
-import { formatPrice } from "@/utils/productUtils";
-import { Product } from "@/types/product";
+import type React from "react";
+
+import { Pen, Trash2 } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,9 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Pen, Trash2 } from "lucide-react";
+
+import type { Product } from "@/types/product";
+
+import { formatPrice } from "@/utils/productUtils";
 
 interface ProductTableProps {
   products: Product[];

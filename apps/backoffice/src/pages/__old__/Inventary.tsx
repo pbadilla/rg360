@@ -1,7 +1,9 @@
-import React from "react";
-import OrderTable from "@/components/Order/OrderTable";
-import { getMockInventory } from "@/services/inventoryService";
+import type React from "react";
+
 import InsideLayout from "@/components/layout/InsideLayout";
+import OrderTable from "@/components/Order/OrderTable";
+
+import { getMockInventory } from "@/services/inventoryService";
 
 const Inventory: React.FC = () => {
   const orders = getMockInventory();

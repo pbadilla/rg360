@@ -1,7 +1,11 @@
-import React from "react";
+import type React from "react";
+
 import { Bell, Moon, Search, Sun } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+
 import { useTheme } from "@/hooks/use-theme";
+
 import { cn } from "@/lib/utils";
 
 interface HeaderProps {
@@ -18,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({ collapsed }) => {
         {
           "left-60": !collapsed,
           "left-[72px]": collapsed,
-        }
+        },
       )}
     >
       <div className="h-full flex items-center justify-end px-6">

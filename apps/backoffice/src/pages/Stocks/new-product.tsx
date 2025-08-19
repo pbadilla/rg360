@@ -1,9 +1,13 @@
 import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import { ProductForm } from "@/components/Products/product-form";
-import { ProductFormValues } from "@/types";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+
+import type { ProductFormValues } from "@/types";
+
+import { supabase } from "@/integrations/supabase/client";
 
 const NewProduct = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

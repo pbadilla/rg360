@@ -1,15 +1,16 @@
+import { useEntityStore } from "@/store/useEntityStore";
 
-import { useEntityStore } from '@/store/useEntityStore';
-import api from '@/config/axiosConfig';
-import { ShippingMethod } from '@/types/shippingMethod';
+import type { ShippingMethod } from "@/types/shippingMethod";
+
+import api from "@/config/axiosConfig";
 
 export const useShippingMethodStore = () =>
   useEntityStore<ShippingMethod>({
-    queryKey: 'shippings',
+    queryKey: "shippings",
 
     fetchFn: async ({ page = 1, pageSize = 10 }) => {
       // This matches GET /
-      const res = await api.get('/shippings', {
+      const res = await api.get("/shippings", {
         params: { page, pageSize },
       });
 
@@ -21,19 +22,19 @@ export const useShippingMethodStore = () =>
 
     createFn: async (shippingMethod) => {
       // Matches POST /addShipping
-      const res = await api.post('/shippings/addShipping', shippingMethod);
+      const res = await api.post("/shippings/addShipping", shippingMethod);
       return res.data;
     },
 
     updateFn: async (shippingMethod) => {
       // Matches POST /updateShipping (or PATCH if you want partial)
-      const res = await api.post('/shippings/updateShipping', shippingMethod);
+      const res = await api.post("/shippings/updateShipping", shippingMethod);
       return res.data;
     },
 
     deleteFn: async (id) => {
       // Matches DELETE / with body { id }
-      await api.delete('/shippings', { data: { id } });
+      await api.delete("/shippings", { data: { id } });
       return id;
     },
 
@@ -43,13 +44,13 @@ export const useShippingMethodStore = () =>
     },
 
     defaultSort: {
-      key: 'name',
-      direction: 'asc',
+      key: "name",
+      direction: "asc",
     },
 
     searchFn: (items, searchTerm) =>
       items.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
 
     sortFn: (items, { key, direction }) => {
@@ -57,8 +58,8 @@ export const useShippingMethodStore = () =>
         const valA = a[key];
         const valB = b[key];
 
-        if (valA < valB) return direction === 'asc' ? -1 : 1;
-        if (valA > valB) return direction === 'asc' ? 1 : -1;
+        if (valA < valB) return direction === "asc" ? -1 : 1;
+        if (valA > valB) return direction === "asc" ? 1 : -1;
         return 0;
       });
     },

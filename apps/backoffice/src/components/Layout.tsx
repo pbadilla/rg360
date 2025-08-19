@@ -1,6 +1,6 @@
+import React, { type ReactNode } from "react";
 
-import React, { ReactNode } from 'react'; 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,7 +15,9 @@ export function Layout({ children, className }: LayoutProps) {
           <div className="container flex h-16 items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 rounded-full bg-primary/80 flex items-center justify-center">
-                <span className="text-xs font-bold text-primary-foreground">P</span>
+                <span className="text-xs font-bold text-primary-foreground">
+                  P
+                </span>
               </div>
               <span className="font-medium">Promotion Management</span>
             </div>

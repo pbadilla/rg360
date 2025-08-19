@@ -1,8 +1,10 @@
+import type React from "react";
 
-import React from 'react';
-import { ViewMode } from '@/types/product';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { LayoutGrid, Table2 } from 'lucide-react';
+import { LayoutGrid, Table2 } from "lucide-react";
+
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
+import type { ViewMode } from "@/types/product";
 
 interface ViewToggleProps {
   viewMode: ViewMode;
@@ -11,7 +13,11 @@ interface ViewToggleProps {
 
 const ViewToggle: React.FC<ViewToggleProps> = ({ viewMode, onViewChange }) => {
   return (
-    <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && onViewChange(value as ViewMode)}>
+    <ToggleGroup
+      type="single"
+      value={viewMode}
+      onValueChange={(value) => value && onViewChange(value as ViewMode)}
+    >
       <ToggleGroupItem value="grid" aria-label="Grid view">
         <LayoutGrid className="h-4 w-4 mr-1" />
         Grid

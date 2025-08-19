@@ -1,6 +1,6 @@
-import { Role } from "@/types/users";
-import { useEntityStore } from "./useEntityStore";
+import type { Role } from "@/types/users";
 
+import { useEntityStore } from "./useEntityStore";
 
 // Your real API methods here
 const fetchRoles = async () => {
@@ -25,13 +25,13 @@ const searchRoles = (data: Role[], term: string) => {
   return data.filter(
     (r) =>
       r.name.toLowerCase().includes(term.toLowerCase()) ||
-      r.description.toLowerCase().includes(term.toLowerCase())
+      r.description.toLowerCase().includes(term.toLowerCase()),
   );
 };
 
 const sortRoles = (
   data: Role[],
-  config: { key: keyof Role; direction: "asc" | "desc" }
+  config: { key: keyof Role; direction: "asc" | "desc" },
 ) => {
   return [...data].sort((a, b) => {
     const valA = a[config.key] ?? "";

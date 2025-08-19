@@ -1,17 +1,23 @@
-import React, { useState, useMemo } from "react";
-import { cn } from "@/lib/utils";
-import { useStaggeredAnimation } from "@/lib/animations";
-import { ImageUpload } from "../csv/ImageUpload";
-import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
+import React, { useMemo, useState } from "react";
+
 import { toast } from "sonner";
+
+import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
+
 import SearchInput from "@/components/SearchInput";
+import { Button } from "@/components/ui/button";
+
+import { useCategoryStore } from "@/store/useCategoryStore";
+
+import type { Category } from "@/types/category";
+
+import { ImageUpload } from "../csv/ImageUpload";
 import SortSelector from "../sorting/SortSelector";
 
-import { Category } from "@/types/category";
+import { useStaggeredAnimation } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
-import { useCategoryStore } from "@/store/useCategoryStore";
-import { Button } from "@/components/ui/button";
 
 export function CategoryTable() {
   const {
@@ -45,7 +51,7 @@ export function CategoryTable() {
         sortConfig as {
           key: "name" | "description";
           direction: typeof sortConfig.direction;
-        }
+        },
       );
     }
     return searched;
@@ -187,7 +193,7 @@ export function CategoryTable() {
                   className={cn(
                     "transition-all duration-300",
                     !visibleItems[index] && "opacity-0 translate-y-4",
-                    editingId === category.id && "bg-accent/5"
+                    editingId === category.id && "bg-accent/5",
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">

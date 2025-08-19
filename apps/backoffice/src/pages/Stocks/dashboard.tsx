@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StatCard } from "@/components/stat-card";
-import { Box, PackageOpen, AlertCircle, DollarSign } from "lucide-react";
-import { Product } from "@/types/stocks";
-import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
+
+import { AlertCircle, Box, DollarSign, PackageOpen } from "lucide-react";
+
 import { CSVImport } from "@/components/csv/csv-import";
 import InsideLayout from "@/components/layout/InsideLayout";
+import { StatCard } from "@/components/stat-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import type { Product } from "@/types/stocks";
+
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -49,7 +53,7 @@ const Dashboard = () => {
   const lowStockItems = products.filter((product) => product.stock < 10).length;
   const totalValue = products.reduce(
     (sum, product) => sum + product.price * product.stock,
-    0
+    0,
   );
 
   return (

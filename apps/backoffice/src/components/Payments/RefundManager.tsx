@@ -1,15 +1,43 @@
+import { useState } from "react";
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertCircle, CheckCircle, Plus, RotateCcw } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RotateCcw, Plus, AlertCircle, CheckCircle } from 'lucide-react';
+
 import { useToast } from "@/hooks/use-toast";
 
 interface Refund {
@@ -19,7 +47,7 @@ interface Refund {
   originalAmount: number;
   refundAmount: number;
   reason: string;
-  status: 'pending' | 'approved' | 'rejected' | 'processed';
+  status: "pending" | "approved" | "rejected" | "processed";
   requestDate: string;
   processedDate?: string;
 }
@@ -28,70 +56,75 @@ const RefundManager = () => {
   const { toast } = useToast();
   const [refunds, setRefunds] = useState<Refund[]>([
     {
-      id: 'ref_001',
-      transactionId: 'txn_001',
-      customer: 'John Doe',
+      id: "ref_001",
+      transactionId: "txn_001",
+      customer: "John Doe",
       originalAmount: 299.99,
       refundAmount: 299.99,
-      reason: 'Product defect',
-      status: 'approved',
-      requestDate: '2024-06-17',
-      processedDate: '2024-06-17'
+      reason: "Product defect",
+      status: "approved",
+      requestDate: "2024-06-17",
+      processedDate: "2024-06-17",
     },
     {
-      id: 'ref_002',
-      transactionId: 'txn_002',
-      customer: 'Jane Smith',
-      originalAmount: 149.50,
-      refundAmount: 75.00,
-      reason: 'Partial refund request',
-      status: 'pending',
-      requestDate: '2024-06-16'
+      id: "ref_002",
+      transactionId: "txn_002",
+      customer: "Jane Smith",
+      originalAmount: 149.5,
+      refundAmount: 75.0,
+      reason: "Partial refund request",
+      status: "pending",
+      requestDate: "2024-06-16",
     },
     {
-      id: 'ref_003',
-      transactionId: 'txn_003',
-      customer: 'Bob Johnson',
+      id: "ref_003",
+      transactionId: "txn_003",
+      customer: "Bob Johnson",
       originalAmount: 89.99,
       refundAmount: 89.99,
-      reason: 'Service not delivered',
-      status: 'processed',
-      requestDate: '2024-06-15',
-      processedDate: '2024-06-16'
-    }
+      reason: "Service not delivered",
+      status: "processed",
+      requestDate: "2024-06-15",
+      processedDate: "2024-06-16",
+    },
   ]);
 
   const [newRefund, setNewRefund] = useState({
-    transactionId: '',
-    customer: '',
-    originalAmount: '',
-    refundAmount: '',
-    reason: ''
+    transactionId: "",
+    customer: "",
+    originalAmount: "",
+    refundAmount: "",
+    reason: "",
   });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const getStatusColor = (status: Refund['status']) => {
+  const getStatusColor = (status: Refund["status"]) => {
     switch (status) {
-      case 'approved':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
-      case 'processed':
-        return 'bg-blue-100 text-blue-800';
+      case "approved":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
+      case "processed":
+        return "bg-blue-100 text-blue-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const processRefund = () => {
-    if (!newRefund.transactionId || !newRefund.customer || !newRefund.refundAmount || !newRefund.reason) {
+    if (
+      !newRefund.transactionId ||
+      !newRefund.customer ||
+      !newRefund.refundAmount ||
+      !newRefund.reason
+    ) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -103,49 +136,52 @@ const RefundManager = () => {
       originalAmount: parseFloat(newRefund.originalAmount),
       refundAmount: parseFloat(newRefund.refundAmount),
       reason: newRefund.reason,
-      status: 'pending',
-      requestDate: new Date().toISOString().split('T')[0]
+      status: "pending",
+      requestDate: new Date().toISOString().split("T")[0],
     };
 
     setRefunds([refund, ...refunds]);
     setNewRefund({
-      transactionId: '',
-      customer: '',
-      originalAmount: '',
-      refundAmount: '',
-      reason: ''
+      transactionId: "",
+      customer: "",
+      originalAmount: "",
+      refundAmount: "",
+      reason: "",
     });
     setIsDialogOpen(false);
 
     toast({
       title: "Success",
-      description: "Refund request created successfully"
+      description: "Refund request created successfully",
     });
   };
 
-  const updateRefundStatus = (refundId: string, newStatus: Refund['status']) => {
-    setRefunds(refunds =>
-      refunds.map(refund => {
+  const updateRefundStatus = (
+    refundId: string,
+    newStatus: Refund["status"],
+  ) => {
+    setRefunds((refunds) =>
+      refunds.map((refund) => {
         if (refund.id === refundId) {
           const updates: Partial<Refund> = { status: newStatus };
-          if (newStatus === 'processed') {
-            updates.processedDate = new Date().toISOString().split('T')[0];
+          if (newStatus === "processed") {
+            updates.processedDate = new Date().toISOString().split("T")[0];
           }
           return { ...refund, ...updates };
         }
         return refund;
-      })
+      }),
     );
 
     toast({
       title: "Status Updated",
-      description: `Refund status changed to ${newStatus}`
+      description: `Refund status changed to ${newStatus}`,
     });
   };
 
-  const pendingRefunds = refunds.filter(r => r.status === 'pending').length;
+  const pendingRefunds = refunds.filter((r) => r.status === "pending").length;
   const totalRefunded = refunds
-    .filter(r => r.status === 'processed')
+    .filter((r) => r.status === "processed")
     .reduce((sum, r) => sum + r.refundAmount, 0);
 
   return (
@@ -165,9 +201,7 @@ const RefundManager = () => {
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Process Refund</DialogTitle>
-              <DialogDescription>
-                Create a new refund request
-              </DialogDescription>
+              <DialogDescription>Create a new refund request</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
@@ -175,7 +209,12 @@ const RefundManager = () => {
                 <Input
                   id="transactionId"
                   value={newRefund.transactionId}
-                  onChange={(e) => setNewRefund({ ...newRefund, transactionId: e.target.value })}
+                  onChange={(e) =>
+                    setNewRefund({
+                      ...newRefund,
+                      transactionId: e.target.value,
+                    })
+                  }
                   placeholder="txn_001"
                 />
               </div>
@@ -184,7 +223,9 @@ const RefundManager = () => {
                 <Input
                   id="customer"
                   value={newRefund.customer}
-                  onChange={(e) => setNewRefund({ ...newRefund, customer: e.target.value })}
+                  onChange={(e) =>
+                    setNewRefund({ ...newRefund, customer: e.target.value })
+                  }
                   placeholder="John Doe"
                 />
               </div>
@@ -195,7 +236,12 @@ const RefundManager = () => {
                   type="number"
                   step="0.01"
                   value={newRefund.originalAmount}
-                  onChange={(e) => setNewRefund({ ...newRefund, originalAmount: e.target.value })}
+                  onChange={(e) =>
+                    setNewRefund({
+                      ...newRefund,
+                      originalAmount: e.target.value,
+                    })
+                  }
                   placeholder="299.99"
                 />
               </div>
@@ -206,7 +252,9 @@ const RefundManager = () => {
                   type="number"
                   step="0.01"
                   value={newRefund.refundAmount}
-                  onChange={(e) => setNewRefund({ ...newRefund, refundAmount: e.target.value })}
+                  onChange={(e) =>
+                    setNewRefund({ ...newRefund, refundAmount: e.target.value })
+                  }
                   placeholder="299.99"
                 />
               </div>
@@ -215,7 +263,9 @@ const RefundManager = () => {
                 <Textarea
                   id="reason"
                   value={newRefund.reason}
-                  onChange={(e) => setNewRefund({ ...newRefund, reason: e.target.value })}
+                  onChange={(e) =>
+                    setNewRefund({ ...newRefund, reason: e.target.value })
+                  }
                   placeholder="Describe the reason for refund..."
                 />
               </div>
@@ -234,7 +284,9 @@ const RefundManager = () => {
             <div className="flex items-center">
               <AlertCircle className="h-8 w-8 text-yellow-600 mr-3" />
               <div>
-                <div className="text-2xl font-bold text-slate-900">{pendingRefunds}</div>
+                <div className="text-2xl font-bold text-slate-900">
+                  {pendingRefunds}
+                </div>
                 <p className="text-sm text-slate-600">Pending Refunds</p>
               </div>
             </div>
@@ -246,7 +298,7 @@ const RefundManager = () => {
               <CheckCircle className="h-8 w-8 text-green-600 mr-3" />
               <div>
                 <div className="text-2xl font-bold text-slate-900">
-                  {refunds.filter(r => r.status === 'processed').length}
+                  {refunds.filter((r) => r.status === "processed").length}
                 </div>
                 <p className="text-sm text-slate-600">Processed</p>
               </div>
@@ -258,7 +310,9 @@ const RefundManager = () => {
             <div className="flex items-center">
               <RotateCcw className="h-8 w-8 text-blue-600 mr-3" />
               <div>
-                <div className="text-2xl font-bold text-slate-900">${totalRefunded.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-slate-900">
+                  ${totalRefunded.toFixed(2)}
+                </div>
                 <p className="text-sm text-slate-600">Total Refunded</p>
               </div>
             </div>
@@ -270,7 +324,9 @@ const RefundManager = () => {
       <Card>
         <CardHeader>
           <CardTitle>Refund Requests</CardTitle>
-          <CardDescription>Manage and track all refund requests</CardDescription>
+          <CardDescription>
+            Manage and track all refund requests
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -294,26 +350,34 @@ const RefundManager = () => {
                   <TableCell>{refund.customer}</TableCell>
                   <TableCell>
                     <div>
-                      <div className="font-medium">${refund.refundAmount.toFixed(2)}</div>
+                      <div className="font-medium">
+                        ${refund.refundAmount.toFixed(2)}
+                      </div>
                       <div className="text-sm text-slate-500">
                         of ${refund.originalAmount.toFixed(2)}
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="max-w-xs truncate">{refund.reason}</TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {refund.reason}
+                  </TableCell>
                   <TableCell>
                     <Badge className={getStatusColor(refund.status)}>
                       {refund.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>{new Date(refund.requestDate).toLocaleDateString()}</TableCell>
                   <TableCell>
-                    {refund.status === 'pending' && (
+                    {new Date(refund.requestDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {refund.status === "pending" && (
                       <div className="flex space-x-1">
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateRefundStatus(refund.id, 'approved')}
+                          onClick={() =>
+                            updateRefundStatus(refund.id, "approved")
+                          }
                           className="text-green-600 hover:text-green-700"
                         >
                           Approve
@@ -321,18 +385,22 @@ const RefundManager = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => updateRefundStatus(refund.id, 'rejected')}
+                          onClick={() =>
+                            updateRefundStatus(refund.id, "rejected")
+                          }
                           className="text-red-600 hover:text-red-700"
                         >
                           Reject
                         </Button>
                       </div>
                     )}
-                    {refund.status === 'approved' && (
+                    {refund.status === "approved" && (
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => updateRefundStatus(refund.id, 'processed')}
+                        onClick={() =>
+                          updateRefundStatus(refund.id, "processed")
+                        }
                         className="text-blue-600 hover:text-blue-700"
                       >
                         Process

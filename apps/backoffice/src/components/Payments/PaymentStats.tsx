@@ -1,24 +1,51 @@
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, CreditCard, RefreshCw, Users } from 'lucide-react';
+import {
+  CreditCard,
+  DollarSign,
+  RefreshCw,
+  TrendingDown,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const PaymentStats = () => {
   // Mock data for demonstration
   const revenueData = [
-    { month: 'Jan', revenue: 12500, transactions: 145 },
-    { month: 'Feb', revenue: 15200, transactions: 167 },
-    { month: 'Mar', revenue: 18900, transactions: 198 },
-    { month: 'Apr', revenue: 16700, transactions: 183 },
-    { month: 'May', revenue: 22100, transactions: 234 },
-    { month: 'Jun', revenue: 25800, transactions: 267 }
+    { month: "Jan", revenue: 12500, transactions: 145 },
+    { month: "Feb", revenue: 15200, transactions: 167 },
+    { month: "Mar", revenue: 18900, transactions: 198 },
+    { month: "Apr", revenue: 16700, transactions: 183 },
+    { month: "May", revenue: 22100, transactions: 234 },
+    { month: "Jun", revenue: 25800, transactions: 267 },
   ];
 
   const paymentMethodData = [
-    { name: 'Credit Card', value: 65, color: '#3b82f6' },
-    { name: 'PayPal', value: 20, color: '#10b981' },
-    { name: 'Bank Transfer', value: 10, color: '#f59e0b' },
-    { name: 'Other', value: 5, color: '#6b7280' }
+    { name: "Credit Card", value: 65, color: "#3b82f6" },
+    { name: "PayPal", value: 20, color: "#10b981" },
+    { name: "Bank Transfer", value: 10, color: "#f59e0b" },
+    { name: "Other", value: 5, color: "#6b7280" },
   ];
 
   const stats = [
@@ -28,7 +55,7 @@ const PaymentStats = () => {
       change: "+12.5%",
       trend: "up",
       icon: DollarSign,
-      color: "text-green-600"
+      color: "text-green-600",
     },
     {
       title: "Transactions",
@@ -36,7 +63,7 @@ const PaymentStats = () => {
       change: "+8.2%",
       trend: "up",
       icon: CreditCard,
-      color: "text-blue-600"
+      color: "text-blue-600",
     },
     {
       title: "Refunds",
@@ -44,7 +71,7 @@ const PaymentStats = () => {
       change: "-15.3%",
       trend: "down",
       icon: RefreshCw,
-      color: "text-orange-600"
+      color: "text-orange-600",
     },
     {
       title: "Active Customers",
@@ -52,8 +79,8 @@ const PaymentStats = () => {
       change: "+5.7%",
       trend: "up",
       icon: Users,
-      color: "text-purple-600"
-    }
+      color: "text-purple-600",
+    },
   ];
 
   return (
@@ -65,15 +92,21 @@ const PaymentStats = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600">{stat.title}</p>
-                  <p className="text-3xl font-bold text-slate-900">{stat.value}</p>
+                  <p className="text-sm font-medium text-slate-600">
+                    {stat.title}
+                  </p>
+                  <p className="text-3xl font-bold text-slate-900">
+                    {stat.value}
+                  </p>
                   <div className="flex items-center mt-2">
                     {stat.trend === "up" ? (
                       <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
                     ) : (
                       <TrendingDown className="h-4 w-4 text-red-500 mr-1" />
                     )}
-                    <span className={`text-sm font-medium ${stat.trend === "up" ? "text-green-600" : "text-red-600"}`}>
+                    <span
+                      className={`text-sm font-medium ${stat.trend === "up" ? "text-green-600" : "text-red-600"}`}
+                    >
                       {stat.change}
                     </span>
                   </div>
@@ -93,7 +126,9 @@ const PaymentStats = () => {
         <Card>
           <CardHeader>
             <CardTitle>Revenue Trend</CardTitle>
-            <CardDescription>Monthly revenue and transaction count</CardDescription>
+            <CardDescription>
+              Monthly revenue and transaction count
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -102,7 +137,12 @@ const PaymentStats = () => {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={3} />
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#3b82f6"
+                  strokeWidth={3}
+                />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -150,7 +190,11 @@ const PaymentStats = () => {
               <XAxis dataKey="month" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="transactions" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="transactions"
+                fill="#10b981"
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

@@ -1,6 +1,15 @@
-import React, { useState } from "react";
-import { useStoreCSVData } from "@/store/storeCSVData";
+import type React from "react";
+import { useState } from "react";
 
+import { toast } from "sonner";
+
+import { AlertCircle } from "lucide-react";
+
+import ExportButton from "@/components/csv/ExportButton";
+import FileUpload from "@/components/csv/FileUpload";
+import FTPImport from "@/components/csv/FTPImport";
+import DataTable from "@/components/DataTable";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
@@ -8,19 +17,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CSVData } from "@/utils/csvUtils";
+
+import { useStoreCSVData } from "@/store/storeCSVData";
+
 // import { addProduct } from '@/store/storeProducts';
-import { Product } from "@/types/product";
+import type { Product } from "@/types/product";
 
-import DataTable from "@/components/DataTable";
-import ExportButton from "@/components/csv/ExportButton";
-import FTPImport from "@/components/csv/FTPImport";
-import FileUpload from "@/components/csv/FileUpload";
-
-import { AlertCircle } from "lucide-react";
-import { toast } from "sonner";
+import type { CSVData } from "@/utils/csvUtils";
 
 interface CSVImportExportProps {
   title: string;
@@ -74,7 +78,7 @@ const CSVImportExport: React.FC<CSVImportExportProps> = ({ title, store }) => {
 
           return obj;
         },
-        {}
+        {},
       );
 
       // if (product.name && product.price) {

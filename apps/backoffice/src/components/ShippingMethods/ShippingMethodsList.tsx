@@ -1,9 +1,9 @@
 import { useState } from "react";
+
+import { Download, Package, Plus, PlusCircle, Upload } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -12,10 +12,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Package, Upload, Download, PlusCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+
 import { useToast } from "@/hooks/use-toast";
-import { ShippingMethod } from "@/types/shippingMethod";
+
+import type { ShippingMethod } from "@/types/shippingMethod";
 
 interface ShippingMethodsListProps {
   shippingMethods: ShippingMethod[];
@@ -29,7 +33,7 @@ const ShippingMethodsList = ({
   console.log("shippingMethods", shippingMethods);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMethod, setEditingMethod] = useState<ShippingMethod | null>(
-    null
+    null,
   );
   const [formData, setFormData] = useState({
     name: "",
@@ -84,8 +88,8 @@ const ShippingMethodsList = ({
     if (editingMethod) {
       setShippingMethods(
         shippingMethods.map((method) =>
-          method.id === editingMethod.id ? { ...method, ...formData } : method
-        )
+          method.id === editingMethod.id ? { ...method, ...formData } : method,
+        ),
       );
       toast({
         title: "Success",
@@ -118,8 +122,8 @@ const ShippingMethodsList = ({
   const toggleActive = (id: string) => {
     setShippingMethods(
       shippingMethods.map((method) =>
-        method.id === id ? { ...method, active: !method.active } : method
-      )
+        method.id === id ? { ...method, active: !method.active } : method,
+      ),
     );
   };
 

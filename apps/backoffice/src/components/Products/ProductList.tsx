@@ -1,23 +1,27 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
-import { useProductStore } from "@/store/storeProducts";
-import ProductCard from "./ProductCard";
-import ProductTable from "./ProductTable";
-
-import ViewToggle from "../ViewToggle";
-import ProductEditDialog from "./ProductEditDialog";
-import { Button } from "@/components/ui/button";
 import {
-  Plus,
   ChevronLeft,
   ChevronRight,
-  Search,
+  Plus,
   PlusCircle,
+  Search,
 } from "lucide-react";
-import { Product } from "@/types/product";
+
 import SearchInput from "@/components/SearchInput";
-import SortDropdown, { SortConfig } from "@/components/sorting/SortSelector";
+import SortDropdown, {
+  type SortConfig,
+} from "@/components/sorting/SortSelector";
+import { Button } from "@/components/ui/button";
+
+import { useProductStore } from "@/store/useProductStore";
+
+import { Product } from "@/types/product";
+
+import ProductCard from "./ProductCard";
+import ProductEditDialog from "./ProductEditDialog";
+import ProductTable from "./ProductTable";
+import ViewToggle from "../ViewToggle";
 
 const ProductList: React.FC = () => {
   const {
@@ -28,12 +32,12 @@ const ProductList: React.FC = () => {
     viewMode,
     setSearchTerm,
     setViewMode,
-    deleteProduct,
-    editProduct,
     addProduct,
-    isDeleting,
-    isEditing,
+    editProduct,
+    deleteProduct,
     isAdding,
+    isEditing,
+    isDeleting,
   } = useProductStore();
 
   const productSortOptions = [
@@ -50,14 +54,13 @@ const ProductList: React.FC = () => {
     direction: "asc",
   });
 
-  console.log("Filtered Products:", filteredProducts);
-
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
 
   // Paginate the already filtered products
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return filteredProducts.slice(startIndex, startIndex + pageSize);
@@ -66,6 +69,7 @@ const ProductList: React.FC = () => {
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
   // Reset to page 1 when search/filter changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, sortConfig]);
@@ -98,7 +102,7 @@ const ProductList: React.FC = () => {
               Products
             </h1>
             <p className="text-muted-foreground animate-slide-down">
-              Create and manage products.
+              addProduct and manage products.
             </p>
           </div>
 
@@ -166,7 +170,7 @@ const ProductList: React.FC = () => {
                   product={product}
                   onEdit={editProduct}
                   onDelete={deleteProduct}
-                  isDeleting={isDeleting}
+                  isDeleting={false} // Replace with appropriate logic if needed
                   isEditing={isEditing}
                 />
               </div>

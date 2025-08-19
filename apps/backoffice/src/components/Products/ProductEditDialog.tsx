@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Product } from "@/types/product";
+import type React from "react";
+import { useEffect, useState } from "react";
+
+import { number } from "framer-motion";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { number } from "framer-motion";
+
 import { Category } from "@/types/category";
+import type { Product } from "@/types/product";
 
 interface ProductEditDialogProps {
   product?: Product;
@@ -73,7 +77,7 @@ const ProductEditDialog: React.FC<ProductEditDialogProps> = ({
   }, [product, isOpen]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
 

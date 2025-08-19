@@ -1,5 +1,18 @@
-import InsideLayout from "@/components/layout/InsideLayout";
-import { Card } from "@/components/ui/card";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
 import {
   BarChart3,
   DollarSign,
@@ -7,20 +20,9 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+
+import InsideLayout from "@/components/layout/InsideLayout";
+import { Card } from "@/components/ui/card";
 
 const dailySales = [
   { day: "Mon", sales: 1250, orders: 45 },

@@ -1,13 +1,15 @@
-import { useEntityStore } from '@/store/useEntityStore';
-import api from '@/config/axiosConfig';
-import { Promotion } from '@/types/promotion';
-import { searchPromotion, sortPromotion } from '@/utils/promotionUtils';
+import { useEntityStore } from "@/store/useEntityStore";
+
+import type { Promotion } from "@/types/promotion";
+
+import api from "@/config/axiosConfig";
+import { searchPromotion, sortPromotion } from "@/utils/promotionUtils";
 
 export const usePromotionStore = () =>
   useEntityStore<Promotion>({
-    queryKey: 'promotions',
+    queryKey: "promotions",
     fetchFn: async () => {
-      const res = await api.get('/promotions');
+      const res = await api.get("/promotions");
       const promotions = res.data.promotions;
       return {
         data: promotions,
@@ -21,12 +23,13 @@ export const usePromotionStore = () =>
     deleteFn: async (id) => id,
     importFn: async (data) => data,
     defaultSort: {
-      key: 'title',
-      direction: 'asc'
+      key: "title",
+      direction: "asc",
     },
-    searchFn: (data, term) => data.filter(promotion => searchPromotion(promotion, term)),
+    searchFn: (data, term) =>
+      data.filter((promotion) => searchPromotion(promotion, term)),
     sortFn: (data, config) =>
       [...data].sort((a, b) =>
-        sortPromotion(a, b, config.key as string, config.direction)
-      )
+        sortPromotion(a, b, config.key as string, config.direction),
+      ),
   });

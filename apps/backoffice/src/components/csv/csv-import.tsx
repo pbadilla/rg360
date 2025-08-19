@@ -1,8 +1,8 @@
-import { ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState } from "react";
+
 import { AlertCircle, CheckCircle2, Upload } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
@@ -10,6 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+
+import { supabase } from "@/integrations/supabase/client";
 
 interface CSVRow {
   name: string;
@@ -156,7 +159,7 @@ export const CSVImport = () => {
           } catch (error) {
             return { success: false, error };
           }
-        })
+        }),
       );
 
       const succeeded = results.filter((r) => r.success).length;

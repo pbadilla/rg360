@@ -1,4 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { Calendar, Edit, Eye, Plus, Trash2 } from "lucide-react";
+
+import InsideLayout from "@/components/layout/InsideLayout";
+import { ActiveBanner } from "@/components/Promotions/ActiveBanner";
+import { BannerForm } from "@/components/Promotions/BannerForm";
+import { BannerPreview } from "@/components/Promotions/BannerPreviewScheduled";
+import { ScheduleCalendar } from "@/components/Promotions/ScheduleCalendar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,12 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus, Calendar, Eye, Edit, Trash2 } from "lucide-react";
-import { BannerForm } from "@/components/Promotions/BannerForm";
-import { BannerPreview } from "@/components/Promotions/BannerPreviewScheduled";
-import { ScheduleCalendar } from "@/components/Promotions/ScheduleCalendar";
-import { ActiveBanner } from "@/components/Promotions/ActiveBanner";
-import InsideLayout from "@/components/layout/InsideLayout";
 
 export interface BannerPromotion {
   id: string;
@@ -44,7 +46,7 @@ const ScheduledPromotion = () => {
         prev.map((promo) => ({
           ...promo,
           isActive: now >= promo.startDate && now <= promo.endDate,
-        }))
+        })),
       );
     };
 
@@ -55,15 +57,15 @@ const ScheduledPromotion = () => {
   }, []);
 
   const handleSavePromotion = (
-    promotion: Omit<BannerPromotion, "id" | "isActive">
+    promotion: Omit<BannerPromotion, "id" | "isActive">,
   ) => {
     if (editingPromotion) {
       setPromotions((prev) =>
         prev.map((p) =>
           p.id === editingPromotion.id
             ? { ...promotion, id: editingPromotion.id, isActive: false }
-            : p
-        )
+            : p,
+        ),
       );
       setEditingPromotion(null);
     } else {

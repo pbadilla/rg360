@@ -1,6 +1,8 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import type React from "react";
+
 import SortIcon from "./SortIcon";
+
+import { cn } from "@/lib/utils";
 
 type SortDirection = "asc" | "desc" | null;
 
@@ -35,7 +37,7 @@ const SortableColumn: React.FC<SortableColumnProps> = ({
           direction={currentDirection}
           className={cn(
             isActive ? "opacity-100" : "opacity-50",
-            "transition-opacity duration-200"
+            "transition-opacity duration-200",
           )}
         />
       </div>

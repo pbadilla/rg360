@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { Search, X } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 interface SearchInputProps {
@@ -40,13 +43,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
       <div
         className={cn(
           "flex items-center border bg-background px-2 py-1 transition-all rounded-md",
-          isFocused ? "border-primary ring-1 ring-primary/20" : "border-input"
+          isFocused ? "border-primary ring-1 ring-primary/20" : "border-input",
         )}
       >
         <Search
           className={cn(
             "h-5 w-5 text-muted-foreground transition-colors",
-            isFocused && "text-primary"
+            isFocused && "text-primary",
           )}
         />
         <input

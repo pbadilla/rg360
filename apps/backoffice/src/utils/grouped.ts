@@ -1,5 +1,6 @@
-import _ from 'lodash';
-import { newExtractCSizes, newExtractColor, newFindDiff } from '@/utils/utils';
+import _ from "lodash";
+
+import { newExtractColor, newExtractCSizes, newFindDiff } from "@/utils/utils";
 
 export function sizesAndColorOfProducts(allReferences: any[]) {
   const products: any[] = [];
@@ -16,7 +17,7 @@ export function sizesAndColorOfProducts(allReferences: any[]) {
         color,
         size,
         ean13: JSON.stringify(item.ean),
-        description: '',
+        description: "",
         stock: item.stock === 0 ? null : item.stock,
         pvp: parseFloat((item.prix * 2.01).toFixed(2)),
         active: 0,
@@ -24,8 +25,8 @@ export function sizesAndColorOfProducts(allReferences: any[]) {
     }
   });
 
-  const grouped = _.groupBy(products, 'refmere');
-  const productsList = Object.values(grouped).map((group) => group[0]); 
+  const grouped = _.groupBy(products, "refmere");
+  const productsList = Object.values(grouped).map((group) => group[0]);
 
   return {
     allColors: products.map((p) => p.color),

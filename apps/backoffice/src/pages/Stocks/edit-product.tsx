@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { useNavigate, useParams } from "react-router-dom";
+
 import { ProductForm } from "@/components/Products/product-form";
-import { Product, ProductFormValues } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
+
+import type { Product, ProductFormValues } from "@/types";
+
 import { supabase } from "@/integrations/supabase/client";
 
 const EditProduct = () => {

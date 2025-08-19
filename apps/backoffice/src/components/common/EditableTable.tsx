@@ -1,14 +1,18 @@
 import React, { useMemo, useState } from "react";
-import { Edit2, Save, Trash2, PlusCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useStaggeredAnimation } from "@/lib/animations";
+
 import { toast } from "sonner";
+
+import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
+
+import { ImageUpload } from "@/components/csv/ImageUpload";
 import SearchInput from "@/components/SearchInput";
 import SortSelector from "@/components/sorting/SortSelector";
-import { ImageUpload } from "@/components/csv/ImageUpload";
+import { Button } from "@/components/ui/button";
+
+import { useStaggeredAnimation } from "@/lib/animations";
+import { cn } from "@/lib/utils";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
-import { Button } from "@/components/ui/button";
 
 type Field<T> = {
   key: keyof T;
@@ -157,7 +161,7 @@ export function EditableTable<T extends Record<string, any>>({
                     className={cn(
                       "transition-all duration-300",
                       !visibleItems[index] && "opacity-0 translate-y-4",
-                      editingId === id && "bg-accent/5"
+                      editingId === id && "bg-accent/5",
                     )}
                   >
                     {fields.map((field) => (

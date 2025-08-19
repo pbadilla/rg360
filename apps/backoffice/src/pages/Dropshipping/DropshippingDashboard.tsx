@@ -1,10 +1,12 @@
 import React from "react";
+
+import { Activity, Package, RefreshCw } from "lucide-react";
+
 import { ProductList } from "@/components/Dropshipping/ProductList";
-import { SystemStatus } from "@/components/Dropshipping/SystemStatus";
 import { ReloadManager } from "@/components/Dropshipping/ReloadManager";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Package, Activity, RefreshCw } from "lucide-react";
+import { SystemStatus } from "@/components/Dropshipping/SystemStatus";
 import InsideLayout from "@/components/layout/InsideLayout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DropshippingDashboard = () => {
   return (

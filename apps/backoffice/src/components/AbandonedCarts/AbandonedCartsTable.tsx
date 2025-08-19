@@ -1,9 +1,14 @@
 import React, { useMemo } from "react";
-import { useStaggeredAnimation } from "@/lib/animations";
-import { useAbandonedCartStore } from "@/store/useAbandonedCartStore";
+
 import SearchInput from "@/components/SearchInput";
+
+import { useAbandonedCartStore } from "@/store/useAbandonedCartStore";
+
 import SortSelector from "../sorting/SortSelector";
+
+import { useStaggeredAnimation } from "@/lib/animations";
 import { cn } from "@/lib/utils";
+
 
 export function AbandonedCartsTable() {
   const {
@@ -125,7 +130,7 @@ export function AbandonedCartsTable() {
                   key={cart.id}
                   className={cn(
                     "transition-all duration-300",
-                    !visibleItems[index] && "opacity-0 translate-y-4"
+                    !visibleItems[index] && "opacity-0 translate-y-4",
                   )}
                 >
                   <td className="px-6 py-4">{cart.user}</td>

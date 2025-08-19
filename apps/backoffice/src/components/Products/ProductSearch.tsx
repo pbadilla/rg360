@@ -1,7 +1,9 @@
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Search, X } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface ProductSearchProps {
   searchTerm: string;
@@ -9,7 +11,11 @@ interface ProductSearchProps {
   className?: string;
 }
 
-const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSearch, className }) => {
+const ProductSearch: React.FC<ProductSearchProps> = ({
+  searchTerm,
+  onSearch,
+  className,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,32 +32,30 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ searchTerm, onSearch, cla
   };
 
   const handleClearSearch = () => {
-    setLocalSearchTerm('');
-    onSearch('');
+    setLocalSearchTerm("");
+    onSearch("");
     inputRef.current?.focus();
   };
 
   return (
     <div
       className={cn(
-        'relative w-full max-w-md mx-auto search-transition',
-        isFocused && 'scale-[1.02]',
-        className
+        "relative w-full max-w-md mx-auto search-transition",
+        isFocused && "scale-[1.02]",
+        className,
       )}
     >
       <div
         className={cn(
-          'flex items-center rounded-full border bg-background px-3 py-2 shadow-sm transition-all',
-          isFocused 
-            ? 'border-primary ring-2 ring-primary/20' 
-            : 'border-input'
+          "flex items-center rounded-full border bg-background px-3 py-2 shadow-sm transition-all",
+          isFocused ? "border-primary ring-2 ring-primary/20" : "border-input",
         )}
       >
-        <Search 
+        <Search
           className={cn(
-            'h-5 w-5 text-muted-foreground transition-colors',
-            isFocused && 'text-primary'
-          )} 
+            "h-5 w-5 text-muted-foreground transition-colors",
+            isFocused && "text-primary",
+          )}
         />
         <input
           ref={inputRef}

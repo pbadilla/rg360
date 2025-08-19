@@ -6,10 +6,10 @@ const generateDescription = async (product: any) => {
   - Category: ${product.category}
   `;
 
-  const response = await fetch('https://your-ai-endpoint.com/generate', {
-    method: 'POST',
+  const response = await fetch("https://your-ai-endpoint.com/generate", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ prompt }),
   });

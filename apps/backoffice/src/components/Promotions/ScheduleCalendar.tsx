@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BannerPromotion } from "@/pages/Index";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import type { BannerPromotion } from "@/pages/Index";
 
 interface ScheduleCalendarProps {
   promotions: BannerPromotion[];
@@ -35,12 +36,12 @@ export const ScheduleCalendar = ({ promotions }: ScheduleCalendarProps) => {
       const startDate = new Date(
         promotion.startDate.getFullYear(),
         promotion.startDate.getMonth(),
-        promotion.startDate.getDate()
+        promotion.startDate.getDate(),
       );
       const endDate = new Date(
         promotion.endDate.getFullYear(),
         promotion.endDate.getMonth(),
-        promotion.endDate.getDate()
+        promotion.endDate.getDate(),
       );
       return date >= startDate && date <= endDate;
     });
@@ -119,8 +120,8 @@ export const ScheduleCalendar = ({ promotions }: ScheduleCalendarProps) => {
                       const statusColor = promotion.isActive
                         ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                         : new Date() < promotion.startDate
-                        ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-                        : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                          : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
                       return (
                         <div
                           key={idx}

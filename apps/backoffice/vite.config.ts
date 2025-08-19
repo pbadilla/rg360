@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
 import { componentTagger } from "lovable-tagger";
+import path from "path";
+import { defineConfig } from "vite";
 
 export default defineConfig(({ mode }) => ({
   server: {
@@ -15,10 +15,9 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-  plugins: [
-    react(),
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(
+    Boolean,
+  ),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -28,18 +27,18 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) {
-              return 'vendor_react';
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) {
+              return "vendor_react";
             }
-            if (id.includes('lodash')) {
-              return 'vendor_lodash';
+            if (id.includes("lodash")) {
+              return "vendor_lodash";
             }
             // add more libs here as needed
-            return 'vendor';
+            return "vendor";
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }));

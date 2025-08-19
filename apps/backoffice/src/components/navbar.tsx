@@ -1,7 +1,8 @@
-
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+
 import { ShoppingBag } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export const Navbar = () => {
   return (

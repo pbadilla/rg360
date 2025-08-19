@@ -1,8 +1,10 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 // Staggered animation for list items
-export const useStaggeredAnimation = (itemCount: number, staggerMs: number = 50) => {
+export const useStaggeredAnimation = (
+  itemCount: number,
+  staggerMs: number = 50,
+) => {
   const [visibleItems, setVisibleItems] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -10,21 +12,21 @@ export const useStaggeredAnimation = (itemCount: number, staggerMs: number = 50)
     setVisibleItems(newVisibleItems);
 
     const timeouts: NodeJS.Timeout[] = [];
-    
+
     for (let i = 0; i < itemCount; i++) {
       const timeout = setTimeout(() => {
-        setVisibleItems(prev => {
+        setVisibleItems((prev) => {
           const updated = [...prev];
           updated[i] = true;
           return updated;
         });
       }, staggerMs * i);
-      
+
       timeouts.push(timeout);
     }
 
     return () => {
-      timeouts.forEach(timeout => clearTimeout(timeout));
+      timeouts.forEach((timeout) => clearTimeout(timeout));
     };
   }, [itemCount, staggerMs]);
 
@@ -35,22 +37,22 @@ export const useStaggeredAnimation = (itemCount: number, staggerMs: number = 50)
 export const useLazyImage = (src: string) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState('');
+  const [currentSrc, setCurrentSrc] = useState("");
 
   useEffect(() => {
     setIsLoaded(false);
     setError(false);
-    
+
     if (!src) return;
 
     const img = new Image();
     img.src = src;
-    
+
     img.onload = () => {
       setIsLoaded(true);
       setCurrentSrc(src);
     };
-    
+
     img.onerror = () => {
       setError(true);
     };

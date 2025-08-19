@@ -1,4 +1,5 @@
 import React from "react";
+
 import clsx from "clsx";
 
 export const ColorBadge = ({ color = "gray", selected = false, onClick }) => {
@@ -62,7 +63,7 @@ export const ColorBadge = ({ color = "gray", selected = false, onClick }) => {
       className={clsx(
         "w-6 h-6 rounded-full cursor-pointer border-2 transition-all duration-200 ease-in-out transform",
         selected ? "ring-2 ring-offset-2 ring-black scale-110" : "scale-100",
-        colorMap[color.toLowerCase()] || "bg-gray-400"
+        colorMap[color.toLowerCase()] || "bg-gray-400",
       )}
       title={`${colorNames[normalizedColor] || color} (${color})`}
     />

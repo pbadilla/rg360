@@ -1,6 +1,19 @@
-import { useState, useRef } from "react";
-import { Card } from "@/components/ui/card";
+import { useRef, useState } from "react";
+
+import { Search } from "lucide-react";
+
+import InsideLayout from "@/components/layout/InsideLayout";
+import Cart from "@/components/POS/Cart";
+import ProductCard from "@/components/POS/ProductCard";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,20 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import ProductCard from "@/components/POS/ProductCard";
-import Cart from "@/components/POS/Cart";
+
 import { useToast } from "@/hooks/use-toast";
-import { Search } from "lucide-react";
-import InsideLayout from "@/components/layout/InsideLayout";
-import { useProductStore } from "@/store/storeProducts";
-import { CartItem, Product } from "@/types/product";
+
+import { useProductStore } from "@/store/useProductStore";
+
+import type { CartItem, Product } from "@/types/product";
 
 const sellers = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"];
 

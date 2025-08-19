@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 import InsideLayout from "@/components/layout/InsideLayout";
 import { UsersTable } from "@/components/Users/UsersTable";

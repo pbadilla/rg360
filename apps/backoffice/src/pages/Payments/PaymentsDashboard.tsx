@@ -1,13 +1,13 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PaymentMethodsManager from "@/components/Payments/PaymentMethodsManager";
-import TransactionTracker from "@/components/Payments/TransactionTracker";
-import RefundManager from "@/components/Payments/RefundManager";
-import PaymentStats from "@/components/Payments/PaymentStats";
-import CustomerManager from "@/components/Payments/CustomerManager";
-import { CreditCard, Receipt, RotateCcw, BarChart3, Users } from "lucide-react";
+import { BarChart3, CreditCard, Receipt, RotateCcw, Users } from "lucide-react";
 
-import { Card } from "@/components/ui/card";
 import InsideLayout from "@/components/layout/InsideLayout";
+import CustomerManager from "@/components/Payments/CustomerManager";
+import PaymentMethodsManager from "@/components/Payments/PaymentMethodsManager";
+import PaymentStats from "@/components/Payments/PaymentStats";
+import RefundManager from "@/components/Payments/RefundManager";
+import TransactionTracker from "@/components/Payments/TransactionTracker";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PaymentsDashboard = () => {
   return (

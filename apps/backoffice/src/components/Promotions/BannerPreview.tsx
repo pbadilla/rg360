@@ -1,8 +1,10 @@
+import React, { useRef } from "react";
 
-import React, { useRef } from 'react';
-import { Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { BannerData } from '@/types/banner';
+import { Download } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import type { BannerData } from "@/types/banner";
 
 interface BannerPreviewProps {
   bannerData: BannerData;
@@ -15,7 +17,7 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas dimensions
@@ -25,21 +27,21 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
     // Create background
     if (bannerData.backgroundImage) {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
+      img.crossOrigin = "anonymous";
       img.onload = () => {
         // Draw background image
         ctx.drawImage(img, 0, 0, bannerData.width, bannerData.height);
-        
+
         // Add overlay
-        ctx.fillStyle = bannerData.backgroundColor + '80';
+        ctx.fillStyle = bannerData.backgroundColor + "80";
         ctx.fillRect(0, 0, bannerData.width, bannerData.height);
-        
+
         // Add text
         drawText(ctx);
-        
+
         // Download
-        const link = document.createElement('a');
-        link.download = 'promotional-banner.png';
+        const link = document.createElement("a");
+        link.download = "promotional-banner.png";
         link.href = canvas.toDataURL();
         link.click();
       };
@@ -49,9 +51,9 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
       ctx.fillStyle = bannerData.backgroundColor;
       ctx.fillRect(0, 0, bannerData.width, bannerData.height);
       drawText(ctx);
-      
-      const link = document.createElement('a');
-      link.download = 'promotional-banner.png';
+
+      const link = document.createElement("a");
+      link.download = "promotional-banner.png";
       link.href = canvas.toDataURL();
       link.click();
     }
@@ -61,11 +63,11 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
     // Title
     ctx.fillStyle = bannerData.titleColor;
     ctx.font = `bold ${bannerData.titleSize}px ${bannerData.titleFont}`;
-    ctx.textAlign = 'left';
+    ctx.textAlign = "left";
     ctx.fillText(
       bannerData.title,
       (bannerData.titlePosition.x / 100) * bannerData.width,
-      (bannerData.titlePosition.y / 100) * bannerData.height
+      (bannerData.titlePosition.y / 100) * bannerData.height,
     );
 
     // Subtitle
@@ -74,7 +76,7 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
     ctx.fillText(
       bannerData.subtitle,
       (bannerData.subtitlePosition.x / 100) * bannerData.width,
-      (bannerData.subtitlePosition.y / 100) * bannerData.height
+      (bannerData.subtitlePosition.y / 100) * bannerData.height,
     );
   };
 
@@ -87,32 +89,34 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
           Download Banner
         </Button>
       </div>
-      
+
       <div className="relative border-2 border-slate-200 rounded-lg overflow-hidden">
         <div
           className="relative flex items-center justify-center"
           style={{
-            width: '100%',
+            width: "100%",
             aspectRatio: `${bannerData.width}/${bannerData.height}`,
             backgroundColor: bannerData.backgroundColor,
-            backgroundImage: bannerData.backgroundImage ? `url(${bannerData.backgroundImage})` : 'none',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundImage: bannerData.backgroundImage
+              ? `url(${bannerData.backgroundImage})`
+              : "none",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           {/* Overlay */}
-          <div 
+          <div
             className="absolute inset-0"
-            style={{ backgroundColor: bannerData.backgroundColor + '80' }}
+            style={{ backgroundColor: bannerData.backgroundColor + "80" }}
           />
-          
+
           {/* Title */}
           <div
             className="absolute font-bold leading-tight"
             style={{
               left: `${bannerData.titlePosition.x}%`,
               top: `${bannerData.titlePosition.y}%`,
-              transform: 'translate(-50%, -50%)',
+              transform: "translate(-50%, -50%)",
               color: bannerData.titleColor,
               fontSize: `${Math.max(bannerData.titleSize * 0.6, 16)}px`,
               fontFamily: bannerData.titleFont,
@@ -120,14 +124,14 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
           >
             {bannerData.title}
           </div>
-          
+
           {/* Subtitle */}
           <div
             className="absolute leading-tight"
             style={{
               left: `${bannerData.subtitlePosition.x}%`,
               top: `${bannerData.subtitlePosition.y}%`,
-              transform: 'translate(-50%, -50%)',
+              transform: "translate(-50%, -50%)",
               color: bannerData.subtitleColor,
               fontSize: `${Math.max(bannerData.subtitleSize * 0.6, 12)}px`,
               fontFamily: bannerData.subtitleFont,
@@ -137,7 +141,7 @@ const BannerPreview = ({ bannerData }: BannerPreviewProps) => {
           </div>
         </div>
       </div>
-      
+
       <canvas ref={canvasRef} className="hidden" />
     </div>
   );

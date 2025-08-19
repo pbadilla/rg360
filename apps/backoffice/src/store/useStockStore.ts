@@ -1,14 +1,16 @@
-import { useEntityStore } from '@/store/useEntityStore';
-import api from '@/config/axiosConfig';
-import { Stock } from '@/types/stock';
-import { searchStock, sortStock } from '@/utils/stockUtils';
+import { useEntityStore } from "@/store/useEntityStore";
+
+import type { Stock } from "@/types/stock";
+
+import api from "@/config/axiosConfig";
+import { searchStock, sortStock } from "@/utils/stockUtils";
 
 export const useStockStore = () =>
   useEntityStore<Stock>({
-    queryKey: 'products',
+    queryKey: "products",
 
     fetchFn: async ({ page = 1, pageSize = 10 }) => {
-      const res = await api.get('/products', {
+      const res = await api.get("/products", {
         params: { page, pageSize },
       });
 
@@ -29,9 +31,9 @@ export const useStockStore = () =>
     deleteFn: async (id) => id,
     importFn: async (data) => data,
     defaultSort: {
-      key: 'name',
-      direction: 'asc'
+      key: "name",
+      direction: "asc",
     },
     searchFn: searchStock,
-    sortFn: sortStock
+    sortFn: sortStock,
   });

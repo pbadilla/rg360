@@ -1,28 +1,30 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '@/config/axiosConfig';
-import { useState, useMemo } from 'react';
-import { Stock } from '@/types/stock';
+import { useMemo, useState } from "react";
 
-import { searchStocks, sortStocks } from '@/utils/stockUtils';
-import { toast } from 'sonner';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-const STOCKS_QUERY_KEY = ['stocks'];
+import type { Stock } from "@/types/stock";
 
-type ViewMode = 'grid' | 'list';
+import api from "@/config/axiosConfig";
+import { searchStocks, sortStocks } from "@/utils/stockUtils";
+
+const STOCKS_QUERY_KEY = ["stocks"];
+
+type ViewMode = "grid" | "list";
 type SortConfig = {
   key: keyof Stock;
-  direction: 'asc' | 'desc';
+  direction: "asc" | "desc";
 };
 
 export const useStockStore = () => {
   const queryClient = useQueryClient();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({
-    key: 'name',  // or any default key of Stock
-    direction: 'asc',
+    key: "name", // or any default key of Stock
+    direction: "asc",
   });
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
   const {
     data: stocks = [],
@@ -31,7 +33,7 @@ export const useStockStore = () => {
   } = useQuery({
     queryKey: STOCKS_QUERY_KEY,
     queryFn: async () => {
-      const response = await api.get('/stocks');
+      const response = await api.get("/stocks");
       return response.data.stocks ?? [];
     },
     staleTime: 5 * 60 * 1000,
@@ -49,14 +51,14 @@ export const useStockStore = () => {
     },
     onSuccess: (deletedId) => {
       queryClient.setQueryData(STOCKS_QUERY_KEY, (old: Stock[] = []) =>
-        old.filter(stock => stock.id !== deletedId)
+        old.filter((stock) => stock.id !== deletedId),
       );
-      toast.success('Stock deleted successfully');
+      toast.success("Stock deleted successfully");
     },
     onError: (error) => {
-      toast.error('Failed to delete stock');
-      console.error('Delete error:', error);
-    }
+      toast.error("Failed to delete stock");
+      console.error("Delete error:", error);
+    },
   });
 
   const editStockMutation = useMutation({
@@ -66,31 +68,36 @@ export const useStockStore = () => {
     },
     onSuccess: (updatedStock) => {
       queryClient.setQueryData(STOCKS_QUERY_KEY, (old: Stock[] = []) =>
-        old.map(stock => stock.id === updatedStock.id ? updatedStock : stock)
+        old.map((stock) =>
+          stock.id === updatedStock.id ? updatedStock : stock,
+        ),
       );
-      toast.success('Stock updated successfully');
+      toast.success("Stock updated successfully");
     },
     onError: (error) => {
-      toast.error('Failed to update stock');
-      console.error('Update error:', error);
-    }
+      toast.error("Failed to update stock");
+      console.error("Update error:", error);
+    },
   });
 
   const addStockMutation = useMutation({
-    mutationFn: async (stock: Omit<Stock, 'id'>) => {
+    mutationFn: async (stock: Omit<Stock, "id">) => {
       // const response = await api.post('/stocks', stock);
       // return response.data;
       const newStock = { ...stock, id: Date.now().toString() };
       return newStock;
     },
     onSuccess: (newStock) => {
-      queryClient.setQueryData(STOCKS_QUERY_KEY, (old: Stock[] = []) => [...old, newStock]);
-      toast.success('Stock added successfully');
+      queryClient.setQueryData(STOCKS_QUERY_KEY, (old: Stock[] = []) => [
+        ...old,
+        newStock,
+      ]);
+      toast.success("Stock added successfully");
     },
     onError: (error) => {
-      toast.error('Failed to add stock');
-      console.error('Add error:', error);
-    }
+      toast.error("Failed to add stock");
+      console.error("Add error:", error);
+    },
   });
 
   const importCSVMutation = useMutation({
@@ -100,12 +107,12 @@ export const useStockStore = () => {
     },
     onSuccess: (importedData) => {
       queryClient.setQueryData(STOCKS_QUERY_KEY, importedData);
-      toast.success('CSV data imported successfully');
+      toast.success("CSV data imported successfully");
     },
     onError: (error) => {
-      toast.error('Failed to import CSV data');
-      console.error('Import error:', error);
-    }
+      toast.error("Failed to import CSV data");
+      console.error("Import error:", error);
+    },
   });
 
   return {
@@ -113,15 +120,15 @@ export const useStockStore = () => {
     filteredStocks,
     loading,
     error,
-    
+
     searchTerm,
     sortConfig,
     viewMode,
-    
+
     setSearchTerm,
     setSortConfig,
     setViewMode,
-    
+
     deleteStock: deleteStockMutation.mutate,
     editStock: editStockMutation.mutate,
     addStock: addStockMutation.mutate,

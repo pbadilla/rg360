@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 import {
-  Users,
-  Search,
-  Plus,
-  Edit,
-  Star,
   DollarSign,
+  Edit,
+  Plus,
+  Search,
   ShoppingCart,
+  Star,
+  Users,
 } from "lucide-react";
+
 import InsideLayout from "@/components/layout/InsideLayout";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 interface Seller {
   id: string;
@@ -81,7 +83,7 @@ const Sellers = () => {
   const filteredSellers = sellers.filter(
     (seller) =>
       seller.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      seller.email.toLowerCase().includes(searchTerm.toLowerCase())
+      seller.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const activeSellers = sellers.filter((s) => s.status === "active");

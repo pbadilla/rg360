@@ -1,5 +1,5 @@
-import { CategoryTable } from "@/components/Products/CategoryTable";
 import InsideLayout from "@/components/layout/InsideLayout";
+import { CategoryTable } from "@/components/Products/CategoryTable";
 
 const ActivePromotion = () => {
   return (

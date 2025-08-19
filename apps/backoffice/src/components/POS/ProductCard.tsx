@@ -1,7 +1,9 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Product } from "@/types/product";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
+import type { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;

@@ -1,4 +1,3 @@
-
 export interface AbandonedCart {
   id: string;
   date: string;
@@ -7,7 +6,7 @@ export interface AbandonedCart {
   name: string;
   items: CartItem[];
   lastActive: string;
-  status: 'abandoned' | 'reminder-sent' | 'recovered';
+  status: "abandoned" | "reminder-sent" | "recovered";
 }
 
 export interface CartItem {
@@ -18,5 +17,5 @@ export interface CartItem {
   image: string;
 }
 
-export type SortField = 'date' | 'price' | 'email' | 'name' | 'lastActive';
-export type SortDirection = 'asc' | 'desc';
+export type SortField = "date" | "price" | "email" | "name" | "lastActive";
+export type SortDirection = "asc" | "desc";

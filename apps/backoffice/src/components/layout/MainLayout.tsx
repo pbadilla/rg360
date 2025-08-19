@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { Sidebar } from "./Sidebar";
-import { Header } from "./Header";
+import type React from "react";
+import { useState } from "react";
+
+import { Link } from "react-router-dom";
+
+import { menuItems } from "@/components/constants/menuItems";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Link } from "react-router-dom";
+
+import { Header } from "./Header";
+import { Sidebar } from "./Sidebar";
+
 import { cn } from "@/lib/utils";
-import { menuItems } from "@/components/constants/menuItems";
 
 interface MainLayoutProps {
   children: React.ReactNode;

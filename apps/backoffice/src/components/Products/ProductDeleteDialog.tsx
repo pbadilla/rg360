@@ -1,5 +1,5 @@
+import type React from "react";
 
-import React from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 interface ProductDeleteDialogProps {
   productName: string;
@@ -37,8 +37,9 @@ const ProductDeleteDialog: React.FC<ProductDeleteDialogProps> = ({
             Delete Product
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete <span className="font-medium">{productName}</span>? 
-            This action cannot be undone.
+            Are you sure you want to delete{" "}
+            <span className="font-medium">{productName}</span>? This action
+            cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

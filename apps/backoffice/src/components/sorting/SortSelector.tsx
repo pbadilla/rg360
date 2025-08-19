@@ -1,5 +1,7 @@
 import React from "react";
-import { ArrowUp, ArrowDown } from "lucide-react";
+
+import { ArrowDown, ArrowUp } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { cn } from "@/lib/utils";
 
 export type SortOrder = "asc" | "desc";
@@ -73,7 +76,7 @@ const SortDropdown = <T extends string>({
               onClick={() => handleSelectOption(option.value)}
               className={cn(
                 "cursor-pointer flex justify-between items-center",
-                sortConfig.key === option.value && "font-medium"
+                sortConfig.key === option.value && "font-medium",
               )}
             >
               <span>{option.label}</span>

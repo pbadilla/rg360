@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
-import { AbandonedCart, SortDirection, SortField } from "@/types/cart";
+
+import { formatDistanceToNow, parseISO } from "date-fns";
+import { toast } from "sonner";
+
+import { Mail } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import type { AbandonedCart, SortDirection, SortField } from "@/types/cart";
+
+import SortableHeader from "../sorting/SortableHeader";
+import StatusBadge from "../StatusBadge";
+
 import {
   getMockAbandonedCarts,
   sendCartReminder,
 } from "@/services/cartService";
-import StatusBadge from "../StatusBadge";
-import SortableHeader from "../sorting/SortableHeader";
-import { formatDistanceToNow, parseISO } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { Mail } from "lucide-react";
+
 
 const AbandonedCarts = () => {
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
@@ -17,7 +24,7 @@ const AbandonedCarts = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [isLoading, setIsLoading] = useState(true);
   const [reminderInProgress, setReminderInProgress] = useState<string | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -78,8 +85,8 @@ const AbandonedCarts = () => {
         // Update the cart status in the local state
         setCarts((prev) =>
           prev.map((c) =>
-            c.id === cart.id ? { ...c, status: "reminder-sent" } : c
-          )
+            c.id === cart.id ? { ...c, status: "reminder-sent" } : c,
+          ),
         );
 
         toast.success(`Reminder sent to ${cart.name}`, {
@@ -222,8 +229,8 @@ const AbandonedCarts = () => {
                           {cart.status === "abandoned"
                             ? "Send Reminder"
                             : cart.status === "reminder-sent"
-                            ? "Resend"
-                            : "Recovered"}
+                              ? "Resend"
+                              : "Recovered"}
                         </span>
                       )}
                     </Button>

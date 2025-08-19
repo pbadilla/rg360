@@ -1,6 +1,6 @@
-import { User } from "@/types/users";
-import { useEntityStore } from "./useEntityStore";
+import type { User } from "@/types/users";
 
+import { useEntityStore } from "./useEntityStore";
 
 // Your real API methods here
 const fetchUsers = async () => {
@@ -25,13 +25,13 @@ const searchUsers = (data: User[], term: string) => {
   return data.filter(
     (r) =>
       r.name.toLowerCase().includes(term.toLowerCase()) ||
-      r.description.toLowerCase().includes(term.toLowerCase())
+      r.description.toLowerCase().includes(term.toLowerCase()),
   );
 };
 
 const sortUsers = (
   data: User[],
-  config: { key: keyof User; direction: "asc" | "desc" }
+  config: { key: keyof User; direction: "asc" | "desc" },
 ) => {
   return [...data].sort((a, b) => {
     const valA = a[config.key] ?? "";

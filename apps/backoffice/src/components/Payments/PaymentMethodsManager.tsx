@@ -1,18 +1,46 @@
+import { useState } from "react";
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Building,
+  CreditCard,
+  Edit,
+  Plus,
+  Smartphone,
+  Trash2,
+} from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, Edit, Plus, CreditCard, Smartphone, Building } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { useToast } from "@/hooks/use-toast";
 
 interface PaymentMethod {
   id: string;
-  type: 'credit_card' | 'paypal' | 'bank_transfer' | 'mobile_payment';
+  type: "credit_card" | "paypal" | "bank_transfer" | "mobile_payment";
   name: string;
   details: string;
   isActive: boolean;
@@ -23,48 +51,48 @@ const PaymentMethodsManager = () => {
   const { toast } = useToast();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
     {
-      id: '1',
-      type: 'credit_card',
-      name: 'Visa ending in 4242',
-      details: '**** **** **** 4242',
+      id: "1",
+      type: "credit_card",
+      name: "Visa ending in 4242",
+      details: "**** **** **** 4242",
       isActive: true,
-      lastUsed: '2024-06-15'
+      lastUsed: "2024-06-15",
     },
     {
-      id: '2',
-      type: 'paypal',
-      name: 'PayPal Account',
-      details: 'user@example.com',
+      id: "2",
+      type: "paypal",
+      name: "PayPal Account",
+      details: "user@example.com",
       isActive: true,
-      lastUsed: '2024-06-14'
+      lastUsed: "2024-06-14",
     },
     {
-      id: '3',
-      type: 'bank_transfer',
-      name: 'Bank Account',
-      details: 'Account ending in 7890',
+      id: "3",
+      type: "bank_transfer",
+      name: "Bank Account",
+      details: "Account ending in 7890",
       isActive: false,
-      lastUsed: '2024-06-10'
-    }
+      lastUsed: "2024-06-10",
+    },
   ]);
 
   const [newMethod, setNewMethod] = useState({
-    type: 'credit_card' as PaymentMethod['type'],
-    name: '',
-    details: ''
+    type: "credit_card" as PaymentMethod["type"],
+    name: "",
+    details: "",
   });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const getIcon = (type: PaymentMethod['type']) => {
+  const getIcon = (type: PaymentMethod["type"]) => {
     switch (type) {
-      case 'credit_card':
+      case "credit_card":
         return <CreditCard className="h-5 w-5" />;
-      case 'paypal':
+      case "paypal":
         return <Building className="h-5 w-5" />;
-      case 'bank_transfer':
+      case "bank_transfer":
         return <Building className="h-5 w-5" />;
-      case 'mobile_payment':
+      case "mobile_payment":
         return <Smartphone className="h-5 w-5" />;
     }
   };
@@ -74,7 +102,7 @@ const PaymentMethodsManager = () => {
       toast({
         title: "Error",
         description: "Please fill in all fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -83,32 +111,34 @@ const PaymentMethodsManager = () => {
       id: Date.now().toString(),
       ...newMethod,
       isActive: true,
-      lastUsed: new Date().toISOString().split('T')[0]
+      lastUsed: new Date().toISOString().split("T")[0],
     };
 
     setPaymentMethods([...paymentMethods, method]);
-    setNewMethod({ type: 'credit_card', name: '', details: '' });
+    setNewMethod({ type: "credit_card", name: "", details: "" });
     setIsDialogOpen(false);
-    
+
     toast({
       title: "Success",
-      description: "Payment method added successfully"
+      description: "Payment method added successfully",
     });
   };
 
   const toggleMethod = (id: string) => {
-    setPaymentMethods(methods =>
-      methods.map(method =>
-        method.id === id ? { ...method, isActive: !method.isActive } : method
-      )
+    setPaymentMethods((methods) =>
+      methods.map((method) =>
+        method.id === id ? { ...method, isActive: !method.isActive } : method,
+      ),
     );
   };
 
   const deleteMethod = (id: string) => {
-    setPaymentMethods(methods => methods.filter(method => method.id !== id));
+    setPaymentMethods((methods) =>
+      methods.filter((method) => method.id !== id),
+    );
     toast({
       title: "Success",
-      description: "Payment method deleted"
+      description: "Payment method deleted",
     });
   };
 
@@ -138,7 +168,7 @@ const PaymentMethodsManager = () => {
                 <Label htmlFor="type">Payment Type</Label>
                 <Select
                   value={newMethod.type}
-                  onValueChange={(value: PaymentMethod['type']) =>
+                  onValueChange={(value: PaymentMethod["type"]) =>
                     setNewMethod({ ...newMethod, type: value })
                   }
                 >
@@ -149,7 +179,9 @@ const PaymentMethodsManager = () => {
                     <SelectItem value="credit_card">Credit Card</SelectItem>
                     <SelectItem value="paypal">PayPal</SelectItem>
                     <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                    <SelectItem value="mobile_payment">Mobile Payment</SelectItem>
+                    <SelectItem value="mobile_payment">
+                      Mobile Payment
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -158,7 +190,9 @@ const PaymentMethodsManager = () => {
                 <Input
                   id="name"
                   value={newMethod.name}
-                  onChange={(e) => setNewMethod({ ...newMethod, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewMethod({ ...newMethod, name: e.target.value })
+                  }
                   placeholder="e.g., Visa ending in 4242"
                 />
               </div>
@@ -167,7 +201,9 @@ const PaymentMethodsManager = () => {
                 <Input
                   id="details"
                   value={newMethod.details}
-                  onChange={(e) => setNewMethod({ ...newMethod, details: e.target.value })}
+                  onChange={(e) =>
+                    setNewMethod({ ...newMethod, details: e.target.value })
+                  }
                   placeholder="e.g., **** **** **** 4242"
                 />
               </div>

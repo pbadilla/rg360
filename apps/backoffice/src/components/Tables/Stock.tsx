@@ -1,7 +1,10 @@
 import React from "react";
+
 import { EditableTable } from "@/components/common/EditableTable";
+
 import { useStockStore } from "@/store/useStockStore";
-import { Stock } from "@/types/stock";
+
+import type { Stock } from "@/types/stock";
 
 export function StockTable() {
   const {

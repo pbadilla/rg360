@@ -1,5 +1,5 @@
-export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
-type Status = 'active' | 'inactive' | 'discontinued';
+export type Sizes = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+type Status = "active" | "inactive" | "discontinued";
 
 interface Price {
   pvp: number;
@@ -17,7 +17,7 @@ interface SizeVariation {
 interface Tag {
   name: string;
   color: string;
-  type: 'offer' | 'category' | 'brand';
+  type: "offer" | "category" | "brand";
 }
 interface Category {
   name: string;
@@ -31,7 +31,7 @@ interface Variation {
 type ProductImage = {
   url: string;
   alt?: string;
-  type?: 'image' | 'video';
+  type?: "image" | "video";
 };
 
 export type Product = {

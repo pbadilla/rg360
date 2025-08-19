@@ -1,13 +1,14 @@
+import React from "react";
 
-import React from 'react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Clock, Timer } from 'lucide-react';
+import { Clock, Timer } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 interface CronJob {
   id: string;
   name: string;
-  status: 'running' | 'stopped' | 'error';
+  status: "running" | "stopped" | "error";
   schedule: string;
   lastRun: string;
   nextRun: string;
@@ -16,67 +17,79 @@ interface CronJob {
 
 const cronJobs: CronJob[] = [
   {
-    id: '1',
-    name: 'Product Import',
-    status: 'running',
-    schedule: '*/30 * * * *',
-    lastRun: '2024-06-17 11:00:00',
-    nextRun: '2024-06-17 11:30:00',
-    duration: '2m 15s'
+    id: "1",
+    name: "Product Import",
+    status: "running",
+    schedule: "*/30 * * * *",
+    lastRun: "2024-06-17 11:00:00",
+    nextRun: "2024-06-17 11:30:00",
+    duration: "2m 15s",
   },
   {
-    id: '2',
-    name: 'Price Update',
-    status: 'running',
-    schedule: '0 */2 * * *',
-    lastRun: '2024-06-17 10:00:00',
-    nextRun: '2024-06-17 12:00:00',
-    duration: '1m 45s'
+    id: "2",
+    name: "Price Update",
+    status: "running",
+    schedule: "0 */2 * * *",
+    lastRun: "2024-06-17 10:00:00",
+    nextRun: "2024-06-17 12:00:00",
+    duration: "1m 45s",
   },
   {
-    id: '3',
-    name: 'Inventory Sync',
-    status: 'error',
-    schedule: '0 */4 * * *',
-    lastRun: '2024-06-17 08:00:00',
-    nextRun: '2024-06-17 12:00:00',
-    duration: 'Failed'
+    id: "3",
+    name: "Inventory Sync",
+    status: "error",
+    schedule: "0 */4 * * *",
+    lastRun: "2024-06-17 08:00:00",
+    nextRun: "2024-06-17 12:00:00",
+    duration: "Failed",
   },
   {
-    id: '4',
-    name: 'Report Generation',
-    status: 'stopped',
-    schedule: '0 6 * * *',
-    lastRun: '2024-06-17 06:00:00',
-    nextRun: '2024-06-18 06:00:00',
-    duration: '5m 20s'
-  }
+    id: "4",
+    name: "Report Generation",
+    status: "stopped",
+    schedule: "0 6 * * *",
+    lastRun: "2024-06-17 06:00:00",
+    nextRun: "2024-06-18 06:00:00",
+    duration: "5m 20s",
+  },
 ];
 
 export const SystemStatus = () => {
-  const getStatusBadge = (status: CronJob['status']) => {
+  const getStatusBadge = (status: CronJob["status"]) => {
     switch (status) {
-      case 'running':
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Running</Badge>;
-      case 'stopped':
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Stopped</Badge>;
-      case 'error':
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Error</Badge>;
+      case "running":
+        return (
+          <Badge className="bg-green-100 text-green-800 border-green-200">
+            Running
+          </Badge>
+        );
+      case "stopped":
+        return (
+          <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+            Stopped
+          </Badge>
+        );
+      case "error":
+        return (
+          <Badge className="bg-red-100 text-red-800 border-red-200">
+            Error
+          </Badge>
+        );
       default:
         return <Badge>Unknown</Badge>;
     }
   };
 
-  const getStatusColor = (status: CronJob['status']) => {
+  const getStatusColor = (status: CronJob["status"]) => {
     switch (status) {
-      case 'running':
-        return 'bg-green-500';
-      case 'stopped':
-        return 'bg-gray-400';
-      case 'error':
-        return 'bg-red-500';
+      case "running":
+        return "bg-green-500";
+      case "stopped":
+        return "bg-gray-400";
+      case "error":
+        return "bg-red-500";
       default:
-        return 'bg-gray-400';
+        return "bg-gray-400";
     }
   };
 
@@ -86,18 +99,25 @@ export const SystemStatus = () => {
         <Clock className="h-5 w-5 text-blue-600" />
         <h2 className="text-xl font-semibold">Cron Job Status</h2>
       </div>
-      
+
       <div className="grid gap-4">
         {cronJobs.map((job) => (
-          <div key={job.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <div
+            key={job.id}
+            className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+          >
             <div className="flex items-center gap-3">
-              <div className={`w-3 h-3 rounded-full ${getStatusColor(job.status)}`}></div>
+              <div
+                className={`w-3 h-3 rounded-full ${getStatusColor(job.status)}`}
+              ></div>
               <div>
                 <h3 className="font-medium text-gray-900">{job.name}</h3>
-                <p className="text-sm text-gray-500">Schedule: {job.schedule}</p>
+                <p className="text-sm text-gray-500">
+                  Schedule: {job.schedule}
+                </p>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="text-right">
                 <div className="text-sm text-gray-600">Last Run</div>
@@ -116,7 +136,7 @@ export const SystemStatus = () => {
           </div>
         ))}
       </div>
-      
+
       <div className="mt-6 p-4 bg-blue-50 rounded-lg">
         <div className="flex items-center gap-2 mb-2">
           <Timer className="h-4 w-4 text-blue-600" />

@@ -1,5 +1,4 @@
-
-import { Product } from "@/types/stocks";
+import type { Product } from "@/types/stocks";
 
 // Generate some initial dummy data for the stock manager
 export const generateMockProducts = (): Product[] => {
@@ -15,7 +14,7 @@ export const generateMockProducts = (): Product[] => {
       price: parseFloat((Math.random() * 100 + 10).toFixed(2)),
       stock: Math.floor(Math.random() * 100),
       category: categories[categoryIndex],
-      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
+      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
     });
   }
 
@@ -25,23 +24,26 @@ export const generateMockProducts = (): Product[] => {
 export const getProductStats = (products: Product[]) => {
   const totalProducts = products.length;
   const totalStock = products.reduce((sum, product) => sum + product.stock, 0);
-  const lowStockItems = products.filter(product => product.stock < 10).length;
-  const totalValue = products.reduce((sum, product) => sum + (product.price * product.stock), 0);
-  
+  const lowStockItems = products.filter((product) => product.stock < 10).length;
+  const totalValue = products.reduce(
+    (sum, product) => sum + product.price * product.stock,
+    0,
+  );
+
   const categoryCounts: Record<string, number> = {};
-  products.forEach(product => {
+  products.forEach((product) => {
     if (categoryCounts[product.category]) {
       categoryCounts[product.category]++;
     } else {
       categoryCounts[product.category] = 1;
     }
   });
-  
+
   return {
     totalProducts,
     totalStock,
     lowStockItems,
     totalValue,
-    categoryCounts
+    categoryCounts,
   };
 };

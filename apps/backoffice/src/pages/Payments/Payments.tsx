@@ -1,7 +1,9 @@
-import React from "react";
-import OrderTable from "@/components/Order/OrderTable";
-import { getMockPayments } from "@/services/paymentsService";
+import type React from "react";
+
 import InsideLayout from "@/components/layout/InsideLayout";
+import OrderTable from "@/components/Order/OrderTable";
+
+import { getMockPayments } from "@/services/paymentsService";
 
 const Payments: React.FC = () => {
   const orders = getMockPayments();

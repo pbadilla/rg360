@@ -1,14 +1,14 @@
 import {
+  AlertTriangle,
+  ArrowDown,
+  BadgeDollarSign,
+  BadgePercent,
+  CreditCard,
+  FileBox,
   Package,
   ShoppingBag,
-  Users,
-  BadgePercent,
-  AlertTriangle,
   Truck,
-  CreditCard,
-  ArrowDown,
-  FileBox,
-  BadgeDollarSign,
+  Users,
 } from "lucide-react";
 
 export const menuItems = [
@@ -18,7 +18,6 @@ export const menuItems = [
     icon: <Package size={20} />,
     link: "/products",
     submenu: [
-      { id: "allProducts", label: "All Products", link: "/products/all" },
       { id: "categories", label: "Categories", link: "/products/categories" },
     ],
   },
@@ -32,11 +31,6 @@ export const menuItems = [
         id: "dashboardStocks",
         label: "Dashboard",
         link: "/stocks/dashboard",
-      },
-      {
-        id: "productsStocks",
-        label: "Products",
-        link: "/stocks/products",
       },
     ],
   },
@@ -74,22 +68,14 @@ export const menuItems = [
     label: "Users",
     icon: <Users size={20} />,
     link: "/users",
-    submenu: [
-      { id: "allUsers", label: "All Users", link: "/users/all" },
-      { id: "roles", label: "Roles", link: "/users/roles" },
-    ],
+    submenu: [{ id: "roles", label: "Roles", link: "/users/roles" }],
   },
   {
     id: "promotions",
     label: "Promotions",
     icon: <BadgePercent size={20} />,
-    link: "/promotions",
+    link: "/promotions/active",
     submenu: [
-      {
-        id: "activePromotions",
-        label: "Active Promotions",
-        link: "/promotions/active",
-      },
       {
         id: "scheduledPromotions",
         label: "Scheduled",

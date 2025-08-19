@@ -1,11 +1,16 @@
 import React, { useMemo } from "react";
+
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { useOrderStore } from "@/store/useOrderStore";
-import { formatCurrency } from "@/utils/format";
+
 import SearchInput from "@/components/SearchInput";
-import SortSelector from "@/components/SortSelector";
-import SortableColumn from "../SortableColumn";
+import SortSelector from "@/components/sorting/SortSelector";
+
+import { useOrderStore } from "@/store/useOrderStore";
+
+import SortableColumn from "../sorting/SortableColumn";
+
+import { cn } from "@/lib/utils";
+import { formatCurrency } from "@/utils/format";
 
 const OrderTable: React.FC = () => {
   const {

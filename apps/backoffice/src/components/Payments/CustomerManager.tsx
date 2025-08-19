@@ -1,13 +1,34 @@
+import { useState } from "react";
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { CreditCard, DollarSign, Eye, Mail, Phone, Search } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarInitials } from "@/components/ui/avatar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Eye, Mail, Phone, CreditCard, DollarSign, Search } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface Customer {
   id: string;
@@ -17,7 +38,7 @@ interface Customer {
   totalSpent: number;
   transactionCount: number;
   lastTransaction: string;
-  status: 'active' | 'inactive' | 'blocked';
+  status: "active" | "inactive" | "blocked";
   preferredPaymentMethod: string;
   joinDate: string;
 }
@@ -25,81 +46,88 @@ interface Customer {
 const CustomerManager = () => {
   const [customers] = useState<Customer[]>([
     {
-      id: 'cust_001',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '+1 (555) 123-4567',
+      id: "cust_001",
+      name: "John Doe",
+      email: "john.doe@example.com",
+      phone: "+1 (555) 123-4567",
       totalSpent: 1299.97,
       transactionCount: 8,
-      lastTransaction: '2024-06-17',
-      status: 'active',
-      preferredPaymentMethod: 'Visa *4242',
-      joinDate: '2024-01-15'
+      lastTransaction: "2024-06-17",
+      status: "active",
+      preferredPaymentMethod: "Visa *4242",
+      joinDate: "2024-01-15",
     },
     {
-      id: 'cust_002',
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phone: '+1 (555) 987-6543',
-      totalSpent: 849.50,
+      id: "cust_002",
+      name: "Jane Smith",
+      email: "jane.smith@example.com",
+      phone: "+1 (555) 987-6543",
+      totalSpent: 849.5,
       transactionCount: 5,
-      lastTransaction: '2024-06-16',
-      status: 'active',
-      preferredPaymentMethod: 'PayPal',
-      joinDate: '2024-02-20'
+      lastTransaction: "2024-06-16",
+      status: "active",
+      preferredPaymentMethod: "PayPal",
+      joinDate: "2024-02-20",
     },
     {
-      id: 'cust_003',
-      name: 'Bob Johnson',
-      email: 'bob.johnson@example.com',
+      id: "cust_003",
+      name: "Bob Johnson",
+      email: "bob.johnson@example.com",
       totalSpent: 299.99,
       transactionCount: 2,
-      lastTransaction: '2024-06-10',
-      status: 'inactive',
-      preferredPaymentMethod: 'Mastercard *8888',
-      joinDate: '2024-03-05'
+      lastTransaction: "2024-06-10",
+      status: "inactive",
+      preferredPaymentMethod: "Mastercard *8888",
+      joinDate: "2024-03-05",
     },
     {
-      id: 'cust_004',
-      name: 'Alice Brown',
-      email: 'alice.brown@example.com',
-      phone: '+1 (555) 456-7890',
+      id: "cust_004",
+      name: "Alice Brown",
+      email: "alice.brown@example.com",
+      phone: "+1 (555) 456-7890",
       totalSpent: 2150.75,
       transactionCount: 12,
-      lastTransaction: '2024-06-15',
-      status: 'active',
-      preferredPaymentMethod: 'Visa *1234',
-      joinDate: '2023-12-10'
-    }
+      lastTransaction: "2024-06-15",
+      status: "active",
+      preferredPaymentMethod: "Visa *1234",
+      joinDate: "2023-12-10",
+    },
   ]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null,
+  );
 
-  const getStatusColor = (status: Customer['status']) => {
+  const getStatusColor = (status: Customer["status"]) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'inactive':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'blocked':
-        return 'bg-red-100 text-red-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "inactive":
+        return "bg-yellow-100 text-yellow-800";
+      case "blocked":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
-  const filteredCustomers = customers.filter(customer =>
-    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const totalCustomers = customers.length;
-  const activeCustomers = customers.filter(c => c.status === 'active').length;
+  const activeCustomers = customers.filter((c) => c.status === "active").length;
   const totalRevenue = customers.reduce((sum, c) => sum + c.totalSpent, 0);
   const avgSpending = totalRevenue / totalCustomers;
 
@@ -107,8 +135,12 @@ const CustomerManager = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Customer Manager</h2>
-          <p className="text-slate-600">Manage customer payment profiles and history</p>
+          <h2 className="text-2xl font-bold text-slate-800">
+            Customer Manager
+          </h2>
+          <p className="text-slate-600">
+            Manage customer payment profiles and history
+          </p>
         </div>
       </div>
 
@@ -118,7 +150,9 @@ const CustomerManager = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-slate-900">{totalCustomers}</div>
+                <div className="text-2xl font-bold text-slate-900">
+                  {totalCustomers}
+                </div>
                 <p className="text-sm text-slate-600">Total Customers</p>
               </div>
               <div className="p-3 rounded-lg bg-blue-100">
@@ -131,7 +165,9 @@ const CustomerManager = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-green-600">{activeCustomers}</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {activeCustomers}
+                </div>
                 <p className="text-sm text-slate-600">Active Customers</p>
               </div>
               <div className="p-3 rounded-lg bg-green-100">
@@ -144,7 +180,9 @@ const CustomerManager = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-slate-900">${totalRevenue.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-slate-900">
+                  ${totalRevenue.toFixed(2)}
+                </div>
                 <p className="text-sm text-slate-600">Total Revenue</p>
               </div>
               <div className="p-3 rounded-lg bg-purple-100">
@@ -157,7 +195,9 @@ const CustomerManager = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-slate-900">${avgSpending.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-slate-900">
+                  ${avgSpending.toFixed(2)}
+                </div>
                 <p className="text-sm text-slate-600">Avg. Spending</p>
               </div>
               <div className="p-3 rounded-lg bg-orange-100">
@@ -210,12 +250,15 @@ const CustomerManager = () => {
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <Avatar>
-                        <AvatarFallback>{getInitials(customer.name)}</AvatarFallback>
+                        <AvatarFallback>
+                          {getInitials(customer.name)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{customer.name}</div>
                         <div className="text-sm text-slate-500">
-                          Member since {new Date(customer.joinDate).toLocaleDateString()}
+                          Member since{" "}
+                          {new Date(customer.joinDate).toLocaleDateString()}
                         </div>
                       </div>
                     </div>
@@ -235,10 +278,14 @@ const CustomerManager = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium">${customer.totalSpent.toFixed(2)}</div>
+                    <div className="font-medium">
+                      ${customer.totalSpent.toFixed(2)}
+                    </div>
                   </TableCell>
                   <TableCell>{customer.transactionCount}</TableCell>
-                  <TableCell>{new Date(customer.lastTransaction).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    {new Date(customer.lastTransaction).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>
                     <Badge className={getStatusColor(customer.status)}>
                       {customer.status}
@@ -266,42 +313,74 @@ const CustomerManager = () => {
                           <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                               <Avatar>
-                                <AvatarFallback>{getInitials(selectedCustomer.name)}</AvatarFallback>
+                                <AvatarFallback>
+                                  {getInitials(selectedCustomer.name)}
+                                </AvatarFallback>
                               </Avatar>
                               <div>
-                                <div className="font-medium">{selectedCustomer.name}</div>
-                                <Badge className={getStatusColor(selectedCustomer.status)}>
+                                <div className="font-medium">
+                                  {selectedCustomer.name}
+                                </div>
+                                <Badge
+                                  className={getStatusColor(
+                                    selectedCustomer.status,
+                                  )}
+                                >
                                   {selectedCustomer.status}
                                 </Badge>
                               </div>
                             </div>
                             <div className="space-y-2">
                               <div>
-                                <span className="text-sm font-medium">Email:</span>
-                                <p className="text-sm text-slate-600">{selectedCustomer.email}</p>
+                                <span className="text-sm font-medium">
+                                  Email:
+                                </span>
+                                <p className="text-sm text-slate-600">
+                                  {selectedCustomer.email}
+                                </p>
                               </div>
                               {selectedCustomer.phone && (
                                 <div>
-                                  <span className="text-sm font-medium">Phone:</span>
-                                  <p className="text-sm text-slate-600">{selectedCustomer.phone}</p>
+                                  <span className="text-sm font-medium">
+                                    Phone:
+                                  </span>
+                                  <p className="text-sm text-slate-600">
+                                    {selectedCustomer.phone}
+                                  </p>
                                 </div>
                               )}
                               <div>
-                                <span className="text-sm font-medium">Preferred Payment:</span>
-                                <p className="text-sm text-slate-600">{selectedCustomer.preferredPaymentMethod}</p>
-                              </div>
-                              <div>
-                                <span className="text-sm font-medium">Total Spent:</span>
-                                <p className="text-sm text-slate-600">${selectedCustomer.totalSpent.toFixed(2)}</p>
-                              </div>
-                              <div>
-                                <span className="text-sm font-medium">Transactions:</span>
-                                <p className="text-sm text-slate-600">{selectedCustomer.transactionCount}</p>
-                              </div>
-                              <div>
-                                <span className="text-sm font-medium">Last Transaction:</span>
+                                <span className="text-sm font-medium">
+                                  Preferred Payment:
+                                </span>
                                 <p className="text-sm text-slate-600">
-                                  {new Date(selectedCustomer.lastTransaction).toLocaleDateString()}
+                                  {selectedCustomer.preferredPaymentMethod}
+                                </p>
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium">
+                                  Total Spent:
+                                </span>
+                                <p className="text-sm text-slate-600">
+                                  ${selectedCustomer.totalSpent.toFixed(2)}
+                                </p>
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium">
+                                  Transactions:
+                                </span>
+                                <p className="text-sm text-slate-600">
+                                  {selectedCustomer.transactionCount}
+                                </p>
+                              </div>
+                              <div>
+                                <span className="text-sm font-medium">
+                                  Last Transaction:
+                                </span>
+                                <p className="text-sm text-slate-600">
+                                  {new Date(
+                                    selectedCustomer.lastTransaction,
+                                  ).toLocaleDateString()}
                                 </p>
                               </div>
                             </div>

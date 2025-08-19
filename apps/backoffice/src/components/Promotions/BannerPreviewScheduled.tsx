@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExternalLink, X } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { X, ExternalLink } from "lucide-react";
-import { BannerPromotion } from "@/pages/Index";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import type { BannerPromotion } from "@/pages/Index";
 
 interface BannerPreviewProps {
   promotion: BannerPromotion;

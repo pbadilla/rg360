@@ -1,13 +1,21 @@
-
 import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Product, ProductFormValues } from "@/types";
+import { useToast } from "@/components/ui/use-toast";
+
+import type { Product, ProductFormValues } from "@/types";
 
 interface ProductFormProps {
   initialData?: Product;
@@ -15,35 +23,41 @@ interface ProductFormProps {
   isSubmitting?: boolean;
 }
 
-export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: ProductFormProps) => {
+export const ProductForm = ({
+  initialData,
+  onSubmit,
+  isSubmitting = false,
+}: ProductFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const [formData, setFormData] = useState<ProductFormValues>({
     name: initialData?.name || "",
     description: initialData?.description || "",
     price: initialData?.price || 0,
     stock: initialData?.stock || 0,
-    category: initialData?.category || ""
+    category: initialData?.category || "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: parseFloat(value) }));
+    setFormData((prev) => ({ ...prev, [name]: parseFloat(value) }));
   };
 
   const handleCategoryChange = (value: string) => {
-    setFormData(prev => ({ ...prev, category: value }));
+    setFormData((prev) => ({ ...prev, category: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       onSubmit(formData);
     } catch (error: any) {
@@ -69,7 +83,7 @@ export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: Pro
             required
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
           <Textarea
@@ -81,7 +95,7 @@ export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: Pro
             required
           />
         </div>
-        
+
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="space-y-2">
             <Label htmlFor="price">Price ($)</Label>
@@ -96,7 +110,7 @@ export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: Pro
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="stock">Stock</Label>
             <Input
@@ -109,11 +123,11 @@ export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: Pro
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
-            <Select 
-              value={formData.category} 
+            <Select
+              value={formData.category}
               onValueChange={handleCategoryChange}
               required
             >
@@ -131,12 +145,20 @@ export const ProductForm = ({ initialData, onSubmit, isSubmitting = false }: Pro
           </div>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-4">
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : initialData ? "Save changes" : "Create product"}
+          {isSubmitting
+            ? "Saving..."
+            : initialData
+              ? "Save changes"
+              : "Create product"}
         </Button>
-        <Button type="button" variant="outline" onClick={() => navigate("/products")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => navigate("/products")}
+        >
           Cancel
         </Button>
       </div>

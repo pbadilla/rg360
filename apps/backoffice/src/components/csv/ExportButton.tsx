@@ -1,9 +1,12 @@
+import type React from "react";
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
-import { CSVData, downloadCSV } from '@/utils/csvUtils';
-import { toast } from 'sonner';
+import { toast } from "sonner";
+
+import { Download } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import { type CSVData, downloadCSV } from "@/utils/csvUtils";
 
 interface ExportButtonProps {
   data: CSVData;
@@ -11,29 +14,29 @@ interface ExportButtonProps {
   disabled?: boolean;
 }
 
-const ExportButton: React.FC<ExportButtonProps> = ({ 
-  data, 
-  filename = 'export.csv',
-  disabled = false
+const ExportButton: React.FC<ExportButtonProps> = ({
+  data,
+  filename = "export.csv",
+  disabled = false,
 }) => {
   const handleExport = () => {
     if (data.headers.length === 0 || data.rows.length === 0) {
-      toast.error('No data to export');
+      toast.error("No data to export");
       return;
     }
-    
+
     try {
       downloadCSV(data, filename);
-      toast.success('CSV file exported successfully');
+      toast.success("CSV file exported successfully");
     } catch (error) {
-      console.error('Error exporting CSV:', error);
-      toast.error('Failed to export CSV file');
+      console.error("Error exporting CSV:", error);
+      toast.error("Failed to export CSV file");
     }
   };
 
   return (
-    <Button 
-      onClick={handleExport} 
+    <Button
+      onClick={handleExport}
       disabled={disabled || data.headers.length === 0}
       variant="default"
     >

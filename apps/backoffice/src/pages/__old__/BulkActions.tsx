@@ -1,9 +1,18 @@
+import React from "react";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Zap, Sparkles, Lightbulb, Star } from 'lucide-react';
+import { motion } from "framer-motion";
+
+import { ArrowRight, Lightbulb, Sparkles, Star, Zap } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const container = {
   hidden: { opacity: 0 },
@@ -18,10 +27,10 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { type: 'spring', stiffness: 300, damping: 24 } 
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 },
   },
 };
 
@@ -80,9 +89,15 @@ const Index = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button variant="ghost" className="group w-full justify-between">
+                <Button
+                  variant="ghost"
+                  className="group w-full justify-between"
+                >
                   Learn more
-                  <ArrowRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight
+                    size={16}
+                    className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                  />
                 </Button>
               </CardFooter>
             </Card>
@@ -98,11 +113,10 @@ const Index = () => {
       >
         <h2 className="text-2xl font-semibold mb-4">Ready to get started?</h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          Explore the sidebar navigation to discover all the features available in this application.
+          Explore the sidebar navigation to discover all the features available
+          in this application.
         </p>
-        <Button className="font-medium">
-          Explore Features
-        </Button>
+        <Button className="font-medium">Explore Features</Button>
       </motion.div>
     </div>
   );
@@ -117,8 +131,8 @@ const features = [
       "Smooth animations and transitions",
       "Collapsible for more screen space",
       "Responsive on all devices",
-      "Hierarchical nested menus"
-    ]
+      "Hierarchical nested menus",
+    ],
   },
   {
     title: "Intuitive Navigation",
@@ -128,8 +142,8 @@ const features = [
       "Clear visual hierarchy",
       "Context-aware menu items",
       "Streamlined user flows",
-      "Optimized for productivity"
-    ]
+      "Optimized for productivity",
+    ],
   },
   {
     title: "Minimalist Design",
@@ -139,8 +153,8 @@ const features = [
       "Thoughtful use of white space",
       "Subtle animations enhance usability",
       "High contrast for accessibility",
-      "Pixel-perfect implementation"
-    ]
+      "Pixel-perfect implementation",
+    ],
   },
   {
     title: "Customizable Interface",
@@ -150,8 +164,8 @@ const features = [
       "Collapsible sidebar for focus",
       "Mobile-friendly responsive design",
       "Smooth state transitions",
-      "Intuitive interaction patterns"
-    ]
+      "Intuitive interaction patterns",
+    ],
   },
 ];
 

@@ -1,8 +1,11 @@
+import type React from "react";
+import { useState } from "react";
 
-import React, { useState } from "react";
+import { Import } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Import } from "lucide-react";
+
 import { toast } from "@/hooks/use-toast";
 
 interface ImportButtonProps {
@@ -21,7 +24,7 @@ const ImportButton: React.FC<ImportButtonProps> = ({ onImportComplete }) => {
     const interval = setInterval(() => {
       setProgress((prevProgress) => {
         const nextProgress = prevProgress + 10;
-        
+
         if (nextProgress >= 100) {
           clearInterval(interval);
           setTimeout(() => {
@@ -35,7 +38,7 @@ const ImportButton: React.FC<ImportButtonProps> = ({ onImportComplete }) => {
           }, 500);
           return 100;
         }
-        
+
         return nextProgress;
       });
     }, 400);
@@ -43,15 +46,15 @@ const ImportButton: React.FC<ImportButtonProps> = ({ onImportComplete }) => {
 
   return (
     <div className="flex flex-col w-full max-w-xs">
-      <Button 
-        onClick={simulateImport} 
+      <Button
+        onClick={simulateImport}
         disabled={isImporting}
         className="mb-2 flex items-center gap-2"
       >
         <Import className="h-4 w-4" />
         {isImporting ? "Importing..." : "Import"}
       </Button>
-      
+
       {isImporting && (
         <div className="w-full mt-2">
           <Progress value={progress} className="h-2" />

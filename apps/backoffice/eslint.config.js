@@ -1,9 +1,9 @@
 import js from "@eslint/js";
-import globals from "globals";
+import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
 import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -17,7 +17,7 @@ export default tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "import": importPlugin,
+      import: importPlugin,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -32,40 +32,28 @@ export default tseslint.config(
         "warn",
         {
           groups: [
-            "builtin",
-            "external",
-            ["internal", "parent", "sibling", "index"],
+            "builtin",        // Node built-ins
+            "external",       // npm packages
+            "internal",       // @/... aliases
+            ["parent", "sibling", "index"], // relative imports
             "object",
-            "type",
+            "type"
           ],
           pathGroups: [
-            {
-              pattern: "react*",
-              group: "external",
-              position: "before",
-            },
-            {
-              pattern: "@/**",
-              group: "internal",
-            },
-            {
-              pattern: "*.css",
-              group: "index",
-              position: "after",
-            },
-            {
-              pattern: "*icon*",
-              group: "index",
-              position: "after",
-            },
+            { pattern: "react", group: "external", position: "before" },
+            { pattern: "lucide-react", group: "external", position: "after" },
+
+            { pattern: "@/components/**", group: "internal", position: "after" },
+            { pattern: "@/hooks/**", group: "internal", position: "after" },
+            { pattern: "@/store/**", group: "internal", position: "after" },
+            { pattern: "@/types/**", group: "internal", position: "after" }
           ],
           pathGroupsExcludedImportTypes: ["builtin"],
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
-          newlinesBetween: "always",
-        },
+          "newlines-between": "always",   // Blank line between each group
+          alphabetize: { order: "asc", caseInsensitive: true },
+          distinctGroup: true,
+          warnOnUnassignedImports: false
+        }
       ]
     },
   }

@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useShippingMethodStore } from "@/store/useShippingMethodStore";
 
 import ShippingMethodsList from "./ShippingMethodsList";
-import TrackingList from "./TrackingList";
+import CarrierList from "./CarrierList";
 
 const ShippingManager = () => {
   const {
@@ -23,7 +23,13 @@ const ShippingManager = () => {
     deleteEntity: deleteShippingMethod,
   } = useShippingMethodStore();
 
-  console.log("entities: shippingMethods", shippingMethods);
+  const {
+    entities: carriers,
+    isLoading: isLoadingCarrier,
+    addEntity: addCarrierMethod,
+    editEntity: updateCarrierMethod,
+    deleteEntity: deleteCarrierMethod,
+  } = useCarriersMethodStore();
 
   return (
     <div className="min-h-screen p-0">
@@ -42,7 +48,7 @@ const ShippingManager = () => {
               className="flex items-center gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white"
             >
               <Truck className="h-4 w-4" />
-              Tracking
+              Carriers
             </TabsTrigger>
           </TabsList>
 
@@ -78,9 +84,9 @@ const ShippingManager = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TrackingList
-                  trackingEntries={[]} // replace with store data later
-                  setTrackingEntries={() => {}}
+                <CarrierList
+                  carrierEntries={[]} // replace with store data later
+                  setCarrierEntries={() => {}}
                   shippingMethods={shippingMethods}
                 />
               </CardContent>

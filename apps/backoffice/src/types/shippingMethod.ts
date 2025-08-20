@@ -9,15 +9,3 @@ export interface ShippingMethod {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface TrackingEntry {
-  id: string;
-  trackingNumber: string;
-  shippingMethodId: string;
-  customerName: string;
-  destination: string;
-  status: "pending" | "in_transit" | "delivered" | "exception";
-  createdAt: Date;
-  estimatedDelivery?: Date;
-  actualDelivery?: Date;
-}

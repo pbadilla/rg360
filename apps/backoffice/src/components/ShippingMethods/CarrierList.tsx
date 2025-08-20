@@ -32,34 +32,34 @@ import {
 
 import { useToast } from "@/hooks/use-toast";
 
-import type { ShippingMethod, TrackingEntry } from "./ShippingManager";
+import type { ShippingMethod, CarrierEntry } from "./ShippingManager";
 
-interface TrackingListProps {
-  trackingEntries: TrackingEntry[];
-  setTrackingEntries: (entries: TrackingEntry[]) => void;
+interface CarrierListProps {
+  carrierEntries: CarrierEntry[];
+  setCarrierEntries: (entries: CarrierEntry[]) => void;
   shippingMethods: ShippingMethod[];
 }
 
-const TrackingList = ({
-  trackingEntries,
-  setTrackingEntries,
+const CarrierList = ({
+  carrierEntries,
+  setCarrierEntries,
   shippingMethods,
-}: TrackingListProps) => {
+}: CarrierListProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingEntry, setEditingEntry] = useState<TrackingEntry | null>(null);
+  const [editingEntry, setEditingEntry] = useState<CarrierEntry | null>(null);
   const [formData, setFormData] = useState({
-    trackingNumber: "",
+    carrierNumber: "",
     shippingMethodId: "",
     customerName: "",
     destination: "",
-    status: "pending" as TrackingEntry["status"],
+    status: "pending" as CarrierEntry["status"],
     estimatedDelivery: "",
   });
   const { toast } = useToast();
 
   const resetForm = () => {
     setFormData({
-      trackingNumber: "",
+      carrierNumber: "",
       shippingMethodId: "",
       customerName: "",
       destination: "",
@@ -69,11 +69,11 @@ const TrackingList = ({
     setEditingEntry(null);
   };
 
-  const handleOpenDialog = (entry?: TrackingEntry) => {
+  const handleOpenDialog = (entry?: CarrierEntry) => {
     if (entry) {
       setEditingEntry(entry);
       setFormData({
-        trackingNumber: entry.trackingNumber,
+        carrierNumber: entry.carrierNumber,
         shippingMethodId: entry.shippingMethodId,
         customerName: entry.customerName,
         destination: entry.destination,
@@ -89,7 +89,7 @@ const TrackingList = ({
 
   const handleSave = () => {
     if (
-      !formData.trackingNumber ||
+      !formData.carrierNumber ||
       !formData.shippingMethodId ||
       !formData.customerName ||
       !formData.destination
@@ -103,8 +103,8 @@ const TrackingList = ({
     }
 
     if (editingEntry) {
-      setTrackingEntries(
-        trackingEntries.map((entry) =>
+      setCarrierEntries(
+        carrierEntries.map((entry) =>
           entry.id === editingEntry.id
             ? {
                 ...entry,
@@ -117,15 +117,15 @@ const TrackingList = ({
                     ? new Date()
                     : entry.actualDelivery,
               }
-            : entry,
-        ),
+            : entry
+        )
       );
       toast({
         title: "Success",
-        description: "Tracking entry updated successfully",
+        description: "Carrier entry updated successfully",
       });
     } else {
-      const newEntry: TrackingEntry = {
+      const newEntry: CarrierEntry = {
         id: Date.now().toString(),
         ...formData,
         createdAt: new Date(),
@@ -133,10 +133,10 @@ const TrackingList = ({
           ? new Date(formData.estimatedDelivery)
           : undefined,
       };
-      setTrackingEntries([...trackingEntries, newEntry]);
+      setCarrierEntries([...carrierEntries, newEntry]);
       toast({
         title: "Success",
-        description: "Tracking entry added successfully",
+        description: "Carrier entry added successfully",
       });
     }
 
@@ -145,14 +145,14 @@ const TrackingList = ({
   };
 
   const handleDelete = (id: string) => {
-    setTrackingEntries(trackingEntries.filter((entry) => entry.id !== id));
+    setCarrierEntries(carrierEntries.filter((entry) => entry.id !== id));
     toast({
       title: "Success",
-      description: "Tracking entry deleted successfully",
+      description: "Carrier entry deleted successfully",
     });
   };
 
-  const getStatusBadge = (status: TrackingEntry["status"]) => {
+  const getStatusBadge = (status: CarrierEntry["status"]) => {
     const statusConfig = {
       pending: { variant: "secondary" as const, label: "Pending" },
       in_transit: { variant: "default" as const, label: "In Transit" },
@@ -173,9 +173,9 @@ const TrackingList = ({
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div className="text-white">
-          <h3 className="text-lg font-semibold">Tracking Entries</h3>
+          <h3 className="text-lg font-semibold">Carrier Entries</h3>
           <p className="text-sm text-slate-400">
-            {trackingEntries.length} packages being tracked
+            {carrierEntries.length} packages being tracked
           </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -185,27 +185,25 @@ const TrackingList = ({
               className="bg-green-600 hover:bg-green-700 text-white"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Tracking
+              Add Carrier
             </Button>
           </DialogTrigger>
           <DialogContent className="bg-slate-800 border-slate-700 text-white max-w-md">
             <DialogHeader>
               <DialogTitle>
-                {editingEntry
-                  ? "Edit Tracking Entry"
-                  : "Add New Tracking Entry"}
+                {editingEntry ? "Edit Carrier Entry" : "Add New Carrier Entry"}
               </DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="tracking" className="text-right text-slate-300">
-                  Tracking #
+                <Label htmlFor="carrier" className="text-right text-slate-300">
+                  Carrier #
                 </Label>
                 <Input
-                  id="tracking"
-                  value={formData.trackingNumber}
+                  id="carrier"
+                  value={formData.carrierNumber}
                   onChange={(e) =>
-                    setFormData({ ...formData, trackingNumber: e.target.value })
+                    setFormData({ ...formData, carrierNumber: e.target.value })
                   }
                   className="col-span-3 bg-slate-700 border-slate-600 text-white"
                   placeholder="TRK123456789"
@@ -276,7 +274,7 @@ const TrackingList = ({
                 </Label>
                 <Select
                   value={formData.status}
-                  onValueChange={(value: TrackingEntry["status"]) =>
+                  onValueChange={(value: CarrierEntry["status"]) =>
                     setFormData({ ...formData, status: value })
                   }
                 >
@@ -336,14 +334,14 @@ const TrackingList = ({
         </Dialog>
       </div>
 
-      {trackingEntries.length > 0 ? (
+      {carrierEntries.length > 0 ? (
         <Card className="bg-slate-700 border-slate-600">
           <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-600">
                   <TableHead className="text-slate-300">
-                    Tracking Number
+                    Carrier Number
                   </TableHead>
                   <TableHead className="text-slate-300">Customer</TableHead>
                   <TableHead className="text-slate-300">Method</TableHead>
@@ -356,10 +354,10 @@ const TrackingList = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {trackingEntries.map((entry) => (
+                {carrierEntries.map((entry) => (
                   <TableRow key={entry.id} className="border-slate-600">
                     <TableCell className="text-white font-mono">
-                      {entry.trackingNumber}
+                      {entry.carrierNumber}
                     </TableCell>
                     <TableCell className="text-slate-300">
                       {entry.customerName}
@@ -403,10 +401,10 @@ const TrackingList = ({
         <div className="text-center py-12">
           <Truck className="h-12 w-12 text-slate-500 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-slate-400 mb-2">
-            No tracking entries
+            No carrier entries
           </h3>
           <p className="text-slate-500 mb-4">
-            Start tracking packages by adding your first entry
+            Start carrier packages by adding your first entry
           </p>
           <Button
             onClick={() => handleOpenDialog()}
@@ -421,4 +419,4 @@ const TrackingList = ({
   );
 };
 
-export default TrackingList;
+export default CarrierList;

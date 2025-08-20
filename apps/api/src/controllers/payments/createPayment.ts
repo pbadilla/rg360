@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { OrderModel } from '@/models/order';
-import { PaymentModel } from '@/models/payments';
+import { PaymentMethodModel } from '@/models/payments/payments';
 
 const createPayment = async (req: Request, res: Response) => {
   try {
@@ -13,7 +13,7 @@ const createPayment = async (req: Request, res: Response) => {
     const order = await OrderModel.findById(orderId);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
-    const payment = await PaymentModel.create({
+    const payment = await PaymentMethodModel.create({
       orderId,
       userId,
       amount,

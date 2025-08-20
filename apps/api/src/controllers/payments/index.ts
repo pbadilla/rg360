@@ -1,6 +1,7 @@
 export { default as createPayment} from './createPayment';
 export { default as getPaymentById} from './getPaymentById';
 export { default as redsysPayment} from './redsysPayment';
+export { default as getAllPayments } from './getAllPayments';
 // export { default as stripeWebhookController } from './stripeWebhookController';
 // export { default as paymentController } from './paymentController';
 // export { default as paymentService } from './paymentService';

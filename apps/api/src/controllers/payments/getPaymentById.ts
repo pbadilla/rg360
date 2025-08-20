@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { PaymentModel } from '@/models/payments';
+import { PaymentMethodModel } from '@/models/payments/payments';
 
 
 const getPaymentById = async (req: Request, res: Response) => {
   try {
-    const payment = await PaymentModel.findById(req.params.id)
+    const payment = await PaymentMethodModel.findById(req.params.id)
       .populate('orderId')
       .populate('userId');
 

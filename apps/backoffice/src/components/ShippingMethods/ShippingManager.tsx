@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { useCarriersStore } from "@/store/useCarriersStore";
 import { useShippingMethodStore } from "@/store/useShippingMethodStore";
 
 import ShippingMethodsList from "./ShippingMethodsList";
@@ -29,7 +30,7 @@ const ShippingManager = () => {
     addEntity: addCarrierMethod,
     editEntity: updateCarrierMethod,
     deleteEntity: deleteCarrierMethod,
-  } = useCarriersMethodStore();
+  } = useCarriersStore();
 
   return (
     <div className="min-h-screen p-0">
@@ -85,7 +86,7 @@ const ShippingManager = () => {
               </CardHeader>
               <CardContent>
                 <CarrierList
-                  carrierEntries={[]} // replace with store data later
+                  carrierEntries={carriers} // replace with store data later
                   setCarrierEntries={() => {}}
                   shippingMethods={shippingMethods}
                 />

@@ -4,7 +4,7 @@ import { CarrierModel } from '@/models/carriers';
 
 const getAllCarriers = async (req: Request, res: Response) => {
   try {
-    console.log("Fetching carriers with filters, pagination and sorting...");
+    console.log("Fetching promotions with filters, pagination and sorting...");
 
     // 🧭 PAGINATION
     const page = parseInt(req.query.page as string) || 1;
@@ -29,7 +29,7 @@ const getAllCarriers = async (req: Request, res: Response) => {
     const sortOptions = { [sortField]: sortOrder };
 
     // 🚀 QUERY
-    const [carriers, total] = await Promise.all([
+    const [promotions, total] = await Promise.all([
       CarrierModel.find(filter).sort(sortOptions).skip(skip).limit(limit).lean(),
       CarrierModel.countDocuments(filter),
     ]);
@@ -39,11 +39,11 @@ const getAllCarriers = async (req: Request, res: Response) => {
       limit,
       total,
       totalPages: Math.ceil(total / limit),
-      carriers
+      promotions
     });
 
   } catch (error: any) {
-    console.error("Error fetching carriers:", error);
+    console.error("Error fetching promotions:", error);
     return res.status(500).json({ message: error.message, error });
   }
 };

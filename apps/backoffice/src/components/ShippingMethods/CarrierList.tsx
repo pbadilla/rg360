@@ -32,7 +32,7 @@ import {
 
 import { useToast } from "@/hooks/use-toast";
 
-import type { ShippingMethod, CarrierEntry } from "./ShippingManager";
+import type { Carrier } from "@/types/carriers";
 
 interface CarrierListProps {
   carrierEntries: CarrierEntry[];

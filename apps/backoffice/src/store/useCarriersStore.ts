@@ -4,7 +4,7 @@ import api from "@/config/axiosConfig";
 
 import type { Carrier} from "@/types/carriers";
 
-export const useCarrierStore = () =>
+export const useCarriersStore = () =>
   useEntityStore<Carrier>({
     queryKey: "carriers",
     fetchFn: async ({ page = 1, pageSize = 10 }) => {

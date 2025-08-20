@@ -1,56 +1,56 @@
 import type { User } from "@/types/users";
 
-import { useEntityStore } from "./useEntityStore";
+import { useEntityStore } from "@/store/useEntityStore";
 
-// Your real API methods here
-const fetchUsers = async () => {
-  // Fetch from API
-  return { data: [], total: 0 };
-};
-const createUser = async (role: Omit<User, "id">) => {
-  // Create API call
-  return { ...role, id: Date.now().toString() };
-};
-const updateUser = async (role: User) => {
-  // Update API call
-  return role;
-};
-const deleteUser = async (id: string) => {
-  // Delete API call
-  return id;
-};
+import api from "@/config/axiosConfig";
+// import { searchUsers, sortUsers } from "@/utils/userUtils";
 
-const searchUsers = (data: User[], term: string) => {
-  if (!term) return data;
-  return data.filter(
-    (r) =>
-      r.name.toLowerCase().includes(term.toLowerCase()) ||
-      r.description.toLowerCase().includes(term.toLowerCase()),
-  );
-};
-
-const sortUsers = (
-  data: User[],
-  config: { key: keyof User; direction: "asc" | "desc" },
-) => {
-  return [...data].sort((a, b) => {
-    const valA = a[config.key] ?? "";
-    const valB = b[config.key] ?? "";
-    if (valA < valB) return config.direction === "asc" ? -1 : 1;
-    if (valA > valB) return config.direction === "asc" ? 1 : -1;
-    return 0;
+export const useUsersStore = () =>
+  useEntityStore<User>({
+    queryKey: "users",
+    fetchFn: async ({ page = 1, pageSize = 10 }) => {
+      const res = await api.get("/users", {
+        params: { page, pageSize },
+      });
+      return {
+        data: res.data.users ?? [],
+        total: res.data.total ?? 0,
+      };
+    },
+    createFn: async (user: Omit<User, "id">) => {
+      // Replace with API call if available
+      return { ...user, id: Date.now().toString() };
+    },
+    updateFn: async (user: User) => {
+      // Replace with API call if available
+      return user;
+    },
+    deleteFn: async (id: string) => {
+      // Replace with API call if available
+      return id;
+    },
+    importFn: async (data: User[]) => {
+      // Handle CSV/Excel import, or just return as-is
+      return data;
+    },
+    defaultSort: {
+      key: "name", // or another valid User property
+      direction: "asc",
+    },
+    searchFn: (users, term) =>
+      term
+        ? users.filter(
+            (u) =>
+              u.name.toLowerCase().includes(term.toLowerCase()) ||
+              u.description.toLowerCase().includes(term.toLowerCase()),
+          )
+        : users,
+    sortFn: (users, config) =>
+      [...users].sort((a, b) => {
+        const valA = a[config.key] ?? "";
+        const valB = b[config.key] ?? "";
+        if (valA < valB) return config.direction === "asc" ? -1 : 1;
+        if (valA > valB) return config.direction === "asc" ? 1 : -1;
+        return 0;
+      }),
   });
-};
-
-export const useUsersStore = () => {
-  return useEntityStore<User>({
-    queryKey: "roles",
-    fetchFn: fetchUsers,
-    createFn: createUser,
-    updateFn: updateUser,
-    deleteFn: deleteUser,
-    searchFn: searchUsers,
-    sortFn: sortUsers,
-    defaultSort: { key: "name", direction: "asc" },
-  });
-};

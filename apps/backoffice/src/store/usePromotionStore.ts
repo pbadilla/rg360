@@ -3,6 +3,7 @@ import { useEntityStore } from "@/store/useEntityStore";
 import type { Promotion } from "@/types/promotion";
 
 import api from "@/config/axiosConfig";
+
 import { searchPromotion, sortPromotion } from "@/utils/promotionUtils";
 
 export const usePromotionStore = () =>

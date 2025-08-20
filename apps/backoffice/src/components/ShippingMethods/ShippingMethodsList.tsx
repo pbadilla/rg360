@@ -31,9 +31,11 @@ const ShippingMethodsList = ({
   setShippingMethods,
 }: ShippingMethodsListProps) => {
   console.log("shippingMethods", shippingMethods);
+  // biome-ignore lint/suspicious/noDebugger: <explanation>
+  debugger;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingMethod, setEditingMethod] = useState<ShippingMethod | null>(
-    null,
+    null
   );
   const [formData, setFormData] = useState({
     name: "",
@@ -88,8 +90,8 @@ const ShippingMethodsList = ({
     if (editingMethod) {
       setShippingMethods(
         shippingMethods.map((method) =>
-          method.id === editingMethod.id ? { ...method, ...formData } : method,
-        ),
+          method.id === editingMethod.id ? { ...method, ...formData } : method
+        )
       );
       toast({
         title: "Success",
@@ -122,8 +124,8 @@ const ShippingMethodsList = ({
   const toggleActive = (id: string) => {
     setShippingMethods(
       shippingMethods.map((method) =>
-        method.id === id ? { ...method, active: !method.active } : method,
-      ),
+        method.id === id ? { ...method, active: !method.active } : method
+      )
     );
   };
 

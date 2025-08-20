@@ -1,3 +1,5 @@
+import api from "@/config/axiosConfig";
+
 import type { Product } from "@/types/product";
 
 import { useEntityStore } from "./useEntityStore";
@@ -28,14 +30,16 @@ const sortProducts = (
 export const useProductStore = () => {
 	const store = useEntityStore<Product>({
 		queryKey: "products",
-		fetchFn: async () => {
-			// Example: fetch from your API
-			const res = await fetch("/api/products");
-			const data = await res.json();
-			return { data: data.products ?? [], total: data.products?.length ?? 0 };
-		},
+		fetchFn: async ({ page = 1, pageSize = 10 }) => {
+      const res = await api.get("/products", {
+        params: { page, pageSize },
+      });
+      return {
+        data: res.data.products ?? [],
+        total: res.data.products.length ?? 0,
+      };
+    },
 		createFn: async (product) => {
-			// Mock create, replace with API call
 			return { ...product, id: Date.now().toString() };
 		},
 		updateFn: async (product) => product,

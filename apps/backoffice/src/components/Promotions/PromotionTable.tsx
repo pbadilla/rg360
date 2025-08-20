@@ -99,6 +99,8 @@ export const PromotionTable = () => {
     }, 100);
   };
 
+  console.log("promotions", promotions);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
@@ -150,7 +152,7 @@ export const PromotionTable = () => {
                   className={cn(
                     "transition-all duration-300",
                     !visibleItems[index] && "opacity-0 translate-y-4",
-                    editingId === promotion._id && "bg-accent/5",
+                    editingId === promotion._id && "bg-accent/5"
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">

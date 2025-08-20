@@ -1,5 +1,6 @@
 import InsideLayout from "@/components/layout/InsideLayout";
-import { CategoryTable } from "@/components/Products/CategoryTable";
+
+import { PromotionTable } from "@/components/Promotions/PromotionTable";
 
 const ActivePromotion = () => {
   return (
@@ -7,7 +8,7 @@ const ActivePromotion = () => {
       title="Active Promotions"
       subTitle="Create and manage promotions."
     >
-      <CategoryTable />
+      <PromotionTable />
     </InsideLayout>
   );
 };

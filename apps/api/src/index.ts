@@ -11,6 +11,7 @@ import config from '@/config/config';
 import abandonedCartsRoutes from '@/routes/abandonedCartsRoutes';
 import authRoutes from '@/routes/authRoutes';
 import categoriesRoutes from '@/routes/categoriesRoutes';
+import carrierRoutes from '@/routes/carrierRoutes';
 import notificationsRoutes from '@/routes/notificationsRoutes';
 import ordersRoutes from '@/routes/ordersRoutes';
 import paymentRoutes from '@/routes/paymentsRoutes';
@@ -30,8 +31,6 @@ import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
-
-
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -107,6 +106,7 @@ const startServer = async () => {
     app.use('/abandonedCarts', abandonedCartsRoutes);
     app.use('/auth', authRoutes);
     app.use('/categories', categoriesRoutes);
+    app.use('/carriers', carrierRoutes);
     app.use('/login', authRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);

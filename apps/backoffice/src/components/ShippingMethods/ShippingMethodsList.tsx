@@ -30,7 +30,6 @@ const ShippingMethodsList = ({
   shippingMethods,
   setShippingMethods,
 }: ShippingMethodsListProps) => {
-  console.log("shippingMethods", shippingMethods);
   // biome-ignore lint/suspicious/noDebugger: <explanation>
   debugger;
   const [isDialogOpen, setIsDialogOpen] = useState(false);

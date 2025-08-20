@@ -10,12 +10,25 @@ export const useCarriersStore = () =>
     fetchFn: async ({ page = 1, pageSize = 10 }) => {
       const res = await api.get("/carriers", { params: { page, pageSize } });
 
-      // ✅ res.data is already the array
-      const data: Carrier[] = Array.isArray(res.data) ? res.data : [];
+      console.log("res", res);
+
+      let rawCarriers = res.data?.carriers ?? [];
+
+      let carriers: Carrier[] = [];
+      if (Array.isArray(rawCarriers) && rawCarriers.length > 0) {
+        const first = rawCarriers[0];
+        if (typeof first === "object" && first !== null) {
+          carriers = Object.values(first).filter(
+            (v): v is Carrier => typeof v === "object" && v !== null && "id" in v
+          );
+        }
+      }
+
+      console.log("carriers", carriers);
 
       return {
-        data,
-        total: data.length,
+        data: carriers,
+        total: carriers.length,
       };
     },
     createFn: async (method: Omit<Carrier, "_id">) => {

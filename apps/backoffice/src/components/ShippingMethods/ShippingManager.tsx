@@ -32,6 +32,8 @@ const ShippingManager = () => {
     deleteEntity: deleteCarrierMethod,
   } = useCarriersStore();
 
+  console.log("carriers");
+
   return (
     <div className="min-h-screen p-0">
       <div className="mx-auto">

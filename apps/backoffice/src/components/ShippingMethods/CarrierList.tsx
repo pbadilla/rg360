@@ -35,8 +35,8 @@ import { useToast } from "@/hooks/use-toast";
 import type { Carrier } from "@/types/carriers";
 
 interface CarrierListProps {
-  carrierEntries: CarrierEntry[];
-  setCarrierEntries: (entries: CarrierEntry[]) => void;
+  carrierEntries: Carrier[];
+  setCarrierEntries: (entries: Carrier[]) => void;
   shippingMethods: ShippingMethod[];
 }
 
@@ -45,14 +45,16 @@ const CarrierList = ({
   setCarrierEntries,
   shippingMethods,
 }: CarrierListProps) => {
+  console.log("carrierEntries", carrierEntries);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingEntry, setEditingEntry] = useState<CarrierEntry | null>(null);
+  const [editingEntry, setEditingEntry] = useState<Carrier | null>(null);
   const [formData, setFormData] = useState({
     carrierNumber: "",
     shippingMethodId: "",
     customerName: "",
     destination: "",
-    status: "pending" as CarrierEntry["status"],
+    status: "pending" as Carrier["status"],
     estimatedDelivery: "",
   });
   const { toast } = useToast();
@@ -69,7 +71,7 @@ const CarrierList = ({
     setEditingEntry(null);
   };
 
-  const handleOpenDialog = (entry?: CarrierEntry) => {
+  const handleOpenDialog = (entry?: Carrier) => {
     if (entry) {
       setEditingEntry(entry);
       setFormData({
@@ -125,7 +127,7 @@ const CarrierList = ({
         description: "Carrier entry updated successfully",
       });
     } else {
-      const newEntry: CarrierEntry = {
+      const newEntry: Carrier = {
         id: Date.now().toString(),
         ...formData,
         createdAt: new Date(),
@@ -152,7 +154,7 @@ const CarrierList = ({
     });
   };
 
-  const getStatusBadge = (status: CarrierEntry["status"]) => {
+  const getStatusBadge = (status: Carrier["status"]) => {
     const statusConfig = {
       pending: { variant: "secondary" as const, label: "Pending" },
       in_transit: { variant: "default" as const, label: "In Transit" },
@@ -274,7 +276,7 @@ const CarrierList = ({
                 </Label>
                 <Select
                   value={formData.status}
-                  onValueChange={(value: CarrierEntry["status"]) =>
+                  onValueChange={(value: Carrier["status"]) =>
                     setFormData({ ...formData, status: value })
                   }
                 >
@@ -370,7 +372,9 @@ const CarrierList = ({
                     </TableCell>
                     <TableCell>{getStatusBadge(entry.status)}</TableCell>
                     <TableCell className="text-slate-300">
-                      {entry.estimatedDelivery?.toLocaleDateString() || "N/A"}
+                      {entry.estimatedDelivery
+                        ? new Date(entry.estimatedDelivery).toLocaleDateString()
+                        : "N/A"}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">

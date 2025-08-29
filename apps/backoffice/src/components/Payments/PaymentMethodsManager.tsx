@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import { useState } from "react";
 
 import {
@@ -37,44 +38,38 @@ import {
 } from "@/components/ui/select";
 
 import { useToast } from "@/hooks/use-toast";
-
-interface PaymentMethod {
-  id: string;
-  type: "credit_card" | "paypal" | "bank_transfer" | "mobile_payment";
-  name: string;
-  details: string;
-  isActive: boolean;
-  lastUsed: string;
-}
+import { usePaymentMethodStore } from "@/store/usePaymentMethodStore";
+import { PaymentMethod } from "@/types/payments";
 
 const PaymentMethodsManager = () => {
+  const {
+    entities: paymentMethods,
+    addEntity,
+    editEntity,
+    deleteEntity,
+    isLoading,
+    isAdding,
+    isEditing,
+    isDeleting,
+    error,
+  } = usePaymentMethodStore();
+
   const { toast } = useToast();
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
-    {
-      id: "1",
-      type: "credit_card",
-      name: "Visa ending in 4242",
-      details: "**** **** **** 4242",
-      isActive: true,
-      lastUsed: "2024-06-15",
-    },
-    {
-      id: "2",
-      type: "paypal",
-      name: "PayPal Account",
-      details: "user@example.com",
-      isActive: true,
-      lastUsed: "2024-06-14",
-    },
-    {
-      id: "3",
-      type: "bank_transfer",
-      name: "Bank Account",
-      details: "Account ending in 7890",
-      isActive: false,
-      lastUsed: "2024-06-10",
-    },
-  ]);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const getIcon = (type: PaymentMethod["type"]) => {
+    switch (type) {
+      case "card":
+        return <CreditCard className="h-5 w-5" />;
+      case "paypal":
+        return <Building className="h-5 w-5" />;
+      case "bank_transfer":
+        return <Building className="h-5 w-5" />;
+      // case "mobile_payment":
+      //   return <Smartphone className="h-5 w-5" />;
+    }
+  };
 
   const [newMethod, setNewMethod] = useState({
     type: "credit_card" as PaymentMethod["type"],
@@ -82,22 +77,7 @@ const PaymentMethodsManager = () => {
     details: "",
   });
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const getIcon = (type: PaymentMethod["type"]) => {
-    switch (type) {
-      case "credit_card":
-        return <CreditCard className="h-5 w-5" />;
-      case "paypal":
-        return <Building className="h-5 w-5" />;
-      case "bank_transfer":
-        return <Building className="h-5 w-5" />;
-      case "mobile_payment":
-        return <Smartphone className="h-5 w-5" />;
-    }
-  };
-
-  const addPaymentMethod = () => {
+  const addPaymentMethod = async () => {
     if (!newMethod.name || !newMethod.details) {
       toast({
         title: "Error",
@@ -107,15 +87,18 @@ const PaymentMethodsManager = () => {
       return;
     }
 
-    const method: PaymentMethod = {
+    const method = {
       id: Date.now().toString(),
       ...newMethod,
       isActive: true,
       lastUsed: new Date().toISOString().split("T")[0],
     };
 
-    setPaymentMethods([...paymentMethods, method]);
-    setNewMethod({ type: "credit_card", name: "", details: "" });
+    await addEntity({
+      ...newMethod,
+      isActive: true,
+    }); // uses your store
+    setNewMethod({ type: "card", name: "", details: "" });
     setIsDialogOpen(false);
 
     toast({
@@ -124,30 +107,28 @@ const PaymentMethodsManager = () => {
     });
   };
 
-  const toggleMethod = (id: string) => {
-    setPaymentMethods((methods) =>
-      methods.map((method) =>
-        method.id === id ? { ...method, isActive: !method.isActive } : method,
-      ),
-    );
+  const toggleMethod = async (id: string) => {
+    const method = paymentMethods.find((m) => m.id === id);
+    if (!method) return;
+    await editEntity({ ...method, isActive: !method.isActive });
   };
 
-  const deleteMethod = (id: string) => {
-    setPaymentMethods((methods) =>
-      methods.filter((method) => method.id !== id),
-    );
+  const deleteMethod = async (id: string) => {
+    await deleteEntity(id);
     toast({
       title: "Success",
       description: "Payment method deleted",
     });
   };
 
+  console.log("paymentMethods", paymentMethods);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Payment Methods</h2>
-          <p className="text-slate-600">Manage available payment options</p>
+          <h2 className="text-2xl font-bold">Payment Methods</h2>
+          <p className="text-slate-400">Manage available payment options</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -216,13 +197,15 @@ const PaymentMethodsManager = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {isLoading && <p>Loading payment methods...</p>}
+        {error && <p className="text-red-500">{error.message}</p>}
         {paymentMethods.map((method) => (
           <Card key={method.id} className="hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   {getIcon(method.type)}
-                  <CardTitle className="text-lg">{method.name}</CardTitle>
+                  <CardTitle className="text-lg">{method.brand}</CardTitle>
                 </div>
                 <Badge variant={method.isActive ? "default" : "secondary"}>
                   {method.isActive ? "Active" : "Inactive"}
@@ -230,9 +213,19 @@ const PaymentMethodsManager = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-slate-600 mb-2">{method.details}</p>
-              <p className="text-sm text-slate-500 mb-4">
-                Last used: {new Date(method.lastUsed).toLocaleDateString()}
+              <p className=" mb-4">
+                Last Used:
+                <span className="text-slate-400 ml-1">
+                  {method.lastUsed
+                    ? new Date(method.lastUsed).toLocaleDateString()
+                    : "Never"}
+                </span>
+              </p>
+              <p className="font-mono mb-4">
+                Mask:{" "}
+                <span className="text-slate-400">
+                  {method.cardNumberMasked || "N/A"}
+                </span>
               </p>
               <div className="flex space-x-2">
                 <Button

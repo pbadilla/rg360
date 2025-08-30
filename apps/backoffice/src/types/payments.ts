@@ -63,3 +63,16 @@ export interface Refund {
   requestDate: string;
   processedDate?: string;
 }
+
+export interface Customer {
+  id: string;                        // e.g., "cust_001"
+  name: string;                      // "John Doe"
+  email: string;                     // "john.doe@example.com"
+  phone?: string;                    // optional phone number
+  totalSpent: number;                // total amount spent by the customer
+  transactionCount: number;          // number of transactions
+  lastTransaction?: string;          // ISO date string of the last transaction
+  status: "active" | "inactive" | "banned"; // customer account status
+  preferredPaymentMethod?: string;   // e.g., "Visa *4242"
+  joinDate: string;                  // ISO date string of joining date
+}

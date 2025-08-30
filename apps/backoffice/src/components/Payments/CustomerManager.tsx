@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useCustomersStore } from "@/store/useCustomersStore";
 
 interface Customer {
   id: string;
@@ -44,59 +45,21 @@ interface Customer {
 }
 
 const CustomerManager = () => {
-  const [customers] = useState<Customer[]>([
-    {
-      id: "cust_001",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "+1 (555) 123-4567",
-      totalSpent: 1299.97,
-      transactionCount: 8,
-      lastTransaction: "2024-06-17",
-      status: "active",
-      preferredPaymentMethod: "Visa *4242",
-      joinDate: "2024-01-15",
-    },
-    {
-      id: "cust_002",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      phone: "+1 (555) 987-6543",
-      totalSpent: 849.5,
-      transactionCount: 5,
-      lastTransaction: "2024-06-16",
-      status: "active",
-      preferredPaymentMethod: "PayPal",
-      joinDate: "2024-02-20",
-    },
-    {
-      id: "cust_003",
-      name: "Bob Johnson",
-      email: "bob.johnson@example.com",
-      totalSpent: 299.99,
-      transactionCount: 2,
-      lastTransaction: "2024-06-10",
-      status: "inactive",
-      preferredPaymentMethod: "Mastercard *8888",
-      joinDate: "2024-03-05",
-    },
-    {
-      id: "cust_004",
-      name: "Alice Brown",
-      email: "alice.brown@example.com",
-      phone: "+1 (555) 456-7890",
-      totalSpent: 2150.75,
-      transactionCount: 12,
-      lastTransaction: "2024-06-15",
-      status: "active",
-      preferredPaymentMethod: "Visa *1234",
-      joinDate: "2023-12-10",
-    },
-  ]);
+  const {
+    entities: customers,
+    addEntity,
+    editEntity,
+    deleteEntity,
+    isLoading,
+    isAdding,
+    isEditing,
+    isDeleting,
+    error,
+  } = useCustomersStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null,
+    null
   );
 
   const getStatusColor = (status: Customer["status"]) => {
@@ -123,7 +86,7 @@ const CustomerManager = () => {
   const filteredCustomers = customers.filter(
     (customer) =>
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase()),
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalCustomers = customers.length;
@@ -323,7 +286,7 @@ const CustomerManager = () => {
                                 </div>
                                 <Badge
                                   className={getStatusColor(
-                                    selectedCustomer.status,
+                                    selectedCustomer.status
                                   )}
                                 >
                                   {selectedCustomer.status}
@@ -379,7 +342,7 @@ const CustomerManager = () => {
                                 </span>
                                 <p className="text-sm text-slate-600">
                                   {new Date(
-                                    selectedCustomer.lastTransaction,
+                                    selectedCustomer.lastTransaction
                                   ).toLocaleDateString()}
                                 </p>
                               </div>

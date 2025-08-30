@@ -9,6 +9,7 @@ export interface TransactionDocument extends Document {
   paymentMethod: string;
   date: Date;
   description: string;
+  customerId: mongoose.Types.ObjectId;
 }
 const TransactionSchema = new Schema<TransactionDocument>({
     id: { type: String, required: true, unique: true },
@@ -22,11 +23,8 @@ const TransactionSchema = new Schema<TransactionDocument>({
   },
   paymentMethod: { type: String, required: true },
   date: { type: Date, required: true },
-  description: { type: String, required: true }
+  description: { type: String, required: true },
+  customerId: { type: Schema.Types.ObjectId, ref: "customers", required: true },
 }, { timestamps: true });
 
-
-
 export const TransactionModel = mongoose.model<TransactionDocument>('transactions', TransactionSchema);
-
-

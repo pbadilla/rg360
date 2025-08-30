@@ -22,7 +22,7 @@ const getAllRefunds = async (req: Request, res: Response) => {
     const sortOptions = { [sortField]: sortOrder };
 
     // 🚀 QUERY
-    const [payments, total] = await Promise.all([
+    const [refunds, total] = await Promise.all([
       RefundModel.find(filter)
         .sort(sortOptions)
         .skip(skip)
@@ -36,10 +36,10 @@ const getAllRefunds = async (req: Request, res: Response) => {
       limit,
       total,
       totalPages: Math.ceil(total / limit),
-      payments,
+      refunds,
     });
   } catch (error: any) {
-    console.error("Error fetching payments:", error);
+    console.error("Error fetching refunds:", error);
     return res.status(500).json({ message: error.message, error });
   }
 };

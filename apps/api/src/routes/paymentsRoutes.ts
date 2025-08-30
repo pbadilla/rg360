@@ -4,7 +4,14 @@ import express from 'express';
 //   createMerchantSignature,
 //   getEnvironment
 // } from 'redsys-easy';
-import { createPayment, getPaymentById, getAllPayments, getAllTransactions, getAllRefunds } from '@/controllers/payments';
+import { 
+  createPayment, 
+  getPaymentById, 
+  getAllPayments, 
+  getAllTransactions, 
+  getAllRefunds, 
+  getAllCustomers 
+} from '@/controllers/payments';
 import { authMiddleware } from '@/middleware/auth';
 
 const router = express.Router();
@@ -12,6 +19,7 @@ const router = express.Router();
 router.post('/', authMiddleware, createPayment);
 router.get('/transactions', getAllTransactions);
 router.get('/refunds', getAllRefunds);
+router.get('/customers', getAllCustomers);
 router.get('/', getAllPayments);
 router.get('/:id', authMiddleware, getPaymentById); // :id last
 

@@ -21,8 +21,8 @@ interface EntityStoreOptions<T extends { id: string }> {
     key: keyof T;
     direction: SortDirection;
   };
-  searchFn: (data: T[], term: string) => T[];
-  sortFn: (
+  searchFn?: (data: T[], term: string) => T[];
+  sortFn?: (
     data: T[],
     config: { key: keyof T; direction: SortDirection },
   ) => T[];

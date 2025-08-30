@@ -28,70 +28,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface Transaction {
-  id: string;
-  customer: string;
-  amount: number;
-  currency: string;
-  status: "completed" | "pending" | "failed" | "refunded";
-  paymentMethod: string;
-  date: string;
-  description: string;
-}
+import { Transaction } from "@/types/payments";
+import { useTransactionsStore } from "@/store/useTransactionsStore";
 
 const TransactionTracker = () => {
-  const [transactions] = useState<Transaction[]>([
-    {
-      id: "txn_001",
-      customer: "John Doe",
-      amount: 299.99,
-      currency: "USD",
-      status: "completed",
-      paymentMethod: "Visa *4242",
-      date: "2024-06-17",
-      description: "Monthly subscription",
-    },
-    {
-      id: "txn_002",
-      customer: "Jane Smith",
-      amount: 149.5,
-      currency: "USD",
-      status: "pending",
-      paymentMethod: "PayPal",
-      date: "2024-06-17",
-      description: "Product purchase",
-    },
-    {
-      id: "txn_003",
-      customer: "Bob Johnson",
-      amount: 89.99,
-      currency: "USD",
-      status: "failed",
-      paymentMethod: "Mastercard *8888",
-      date: "2024-06-16",
-      description: "Service upgrade",
-    },
-    {
-      id: "txn_004",
-      customer: "Alice Brown",
-      amount: 199.99,
-      currency: "USD",
-      status: "refunded",
-      paymentMethod: "Visa *1234",
-      date: "2024-06-16",
-      description: "Annual plan",
-    },
-    {
-      id: "txn_005",
-      customer: "Charlie Wilson",
-      amount: 49.99,
-      currency: "USD",
-      status: "completed",
-      paymentMethod: "Bank Transfer",
-      date: "2024-06-15",
-      description: "One-time purchase",
-    },
-  ]);
+  const {
+    entities: transactions,
+    addEntity,
+    editEntity,
+    deleteEntity,
+    isLoading,
+    isAdding,
+    isEditing,
+    isDeleting,
+    error,
+  } = useTransactionsStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -123,7 +74,7 @@ const TransactionTracker = () => {
 
   const totalAmount = filteredTransactions.reduce(
     (sum, txn) => sum + txn.amount,
-    0,
+    0
   );
 
   return (

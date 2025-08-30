@@ -4,14 +4,16 @@ import express from 'express';
 //   createMerchantSignature,
 //   getEnvironment
 // } from 'redsys-easy';
-import { createPayment, getPaymentById, getAllPayments } from '@/controllers/payments';
+import { createPayment, getPaymentById, getAllPayments, getAllTransactions, getAllRefunds } from '@/controllers/payments';
 import { authMiddleware } from '@/middleware/auth';
 
 const router = express.Router();
 
 router.post('/', authMiddleware, createPayment);
-router.get('/:id', authMiddleware, getPaymentById);
+router.get('/transactions', getAllTransactions);
+router.get('/refunds', getAllRefunds);
 router.get('/', getAllPayments);
+router.get('/:id', authMiddleware, getPaymentById); // :id last
 
 // router.post('/redsys', authMiddleware, (req, res) => {
 //   const { orderId, amount, userId } = req.body;

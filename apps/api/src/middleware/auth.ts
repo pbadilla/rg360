@@ -1,27 +1,31 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret'; // You should use a secure value in .env
+const JWT_SECRET = process.env.JWT_SECRET || "my-test-secret";
 
-// Extend the Request type to include `user`
-export interface AuthenticatedRequest extends Request {
-  user?: any;
-}
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers["authorization"];
 
-export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization token missing or invalid' });
+  // Test mode: allow a query param to bypass real token
+  if (String(req.query.test) === "true"){
+    (req as any).user = { id: "rg360", email: "rollergrind@gmail.com", role: "admin" };
+    return next();
   }
 
-  const token = authHeader.split(' ')[1];
+  if (!authHeader) {
+    return res.status(401).json({ message: "Authorization token missing or invalid" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Authorization token missing or invalid" });
+  }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    (req as any).user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message: "Authorization token missing or invalid" });
   }
 };

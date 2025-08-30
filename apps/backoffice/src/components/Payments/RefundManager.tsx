@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import { useState } from "react";
 
 import { AlertCircle, CheckCircle, Plus, RotateCcw } from "lucide-react";
@@ -39,55 +40,24 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { useToast } from "@/hooks/use-toast";
-
-interface Refund {
-  id: string;
-  transactionId: string;
-  customer: string;
-  originalAmount: number;
-  refundAmount: number;
-  reason: string;
-  status: "pending" | "approved" | "rejected" | "processed";
-  requestDate: string;
-  processedDate?: string;
-}
+import { Refund } from "@/types/payments";
+import { useRefundsStore } from "@/store/useRefundsStore";
 
 const RefundManager = () => {
   const { toast } = useToast();
-  const [refunds, setRefunds] = useState<Refund[]>([
-    {
-      id: "ref_001",
-      transactionId: "txn_001",
-      customer: "John Doe",
-      originalAmount: 299.99,
-      refundAmount: 299.99,
-      reason: "Product defect",
-      status: "approved",
-      requestDate: "2024-06-17",
-      processedDate: "2024-06-17",
-    },
-    {
-      id: "ref_002",
-      transactionId: "txn_002",
-      customer: "Jane Smith",
-      originalAmount: 149.5,
-      refundAmount: 75.0,
-      reason: "Partial refund request",
-      status: "pending",
-      requestDate: "2024-06-16",
-    },
-    {
-      id: "ref_003",
-      transactionId: "txn_003",
-      customer: "Bob Johnson",
-      originalAmount: 89.99,
-      refundAmount: 89.99,
-      reason: "Service not delivered",
-      status: "processed",
-      requestDate: "2024-06-15",
-      processedDate: "2024-06-16",
-    },
-  ]);
+  const {
+    entities: refunds,
+    addEntity,
+    editEntity,
+    deleteEntity,
+    isLoading,
+    isAdding,
+    isEditing,
+    isDeleting,
+    error,
+  } = useRefundsStore();
+
+  const [refundsData, setRefundsData] = useState<Refund[]>(refunds);
 
   const [newRefund, setNewRefund] = useState({
     transactionId: "",
@@ -140,7 +110,7 @@ const RefundManager = () => {
       requestDate: new Date().toISOString().split("T")[0],
     };
 
-    setRefunds([refund, ...refunds]);
+    setRefundsData([refund, ...refunds]);
     setNewRefund({
       transactionId: "",
       customer: "",
@@ -158,9 +128,9 @@ const RefundManager = () => {
 
   const updateRefundStatus = (
     refundId: string,
-    newStatus: Refund["status"],
+    newStatus: Refund["status"]
   ) => {
-    setRefunds((refunds) =>
+    setRefundsData((refunds) =>
       refunds.map((refund) => {
         if (refund.id === refundId) {
           const updates: Partial<Refund> = { status: newStatus };
@@ -170,7 +140,7 @@ const RefundManager = () => {
           return { ...refund, ...updates };
         }
         return refund;
-      }),
+      })
     );
 
     toast({

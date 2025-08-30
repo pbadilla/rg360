@@ -1,3 +1,5 @@
+import { inherits } from "util";
+
 export type Payment = {
   id: string; // from _id.$oid
   userId: string; // from userId.$oid
@@ -29,4 +31,35 @@ export const PAYMENT_METHOD_TYPES = [
   { label: "PayPal", value: "paypal" },
   { label: "Bank Transfer", value: "bank_transfer" },
   { label: "Cash on Delivery", value: "cod" },
-];
+] as const;
+
+export type PaymentMethodType = typeof PAYMENT_METHOD_TYPES[number]['value'];
+
+
+export interface Transaction {
+  id: string;
+  customer: string;
+  amount: number;
+  currency: string;
+  status: "completed" | "pending" | "failed" | "refunded";
+  paymentMethod: string;
+  date: string;
+  description: string;
+}
+
+export interface TransactionMethod extends Transaction {
+  // Override paymentMethod type
+  paymentMethod: PaymentMethodType;
+}
+
+export interface Refund {
+  id: string;
+  transactionId: string;
+  customer: string;
+  originalAmount: number;
+  refundAmount: number;
+  reason: string;
+  status: "pending" | "approved" | "rejected" | "processed";
+  requestDate: string;
+  processedDate?: string;
+}

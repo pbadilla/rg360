@@ -19,19 +19,8 @@ export const menuItems = [
     link: "/products",
     submenu: [
       { id: "categories", label: "Categories", link: "/products/categories" },
-    ],
-  },
-  {
-    id: "stock",
-    label: "Stocks",
-    icon: <FileBox size={20} />,
-    link: "/stocks",
-    submenu: [
-      {
-        id: "dashboardStocks",
-        label: "Dashboard",
-        link: "/stocks/dashboard",
-      },
+      { id: "stock", label: "Stocks", link: "/stocks" },
+      { id: "dashboardStocks", label: "Dashboard", link: "/stocks/dashboard" },
     ],
   },
   {

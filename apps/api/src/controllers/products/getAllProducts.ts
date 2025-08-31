@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
-import { ProductModel } from '@/models/product';
+import { Request, Response } from "express";
+import { ProductModel } from "@/models/product";
+import { SortOrder } from "mongoose";
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -12,24 +13,26 @@ const getAllProducts = async (req: Request, res: Response) => {
 
     // 🔎 FILTERS
     const filter: any = {};
-    if (req.query.category) {
-      filter.category = req.query.category;
-    }
-    if (req.query.stock) {
-      filter.stock = req.query.stock === 'true';
-    }
-    if (req.query.brand) {
-      filter.brand = req.query.brand;
-    }
+    if (req.query.category) filter.category = req.query.category;
+    if (req.query.stock) filter.stock = req.query.stock === "true";
+    if (req.query.brand) filter.brand = req.query.brand;
 
     // 📦 SORTING
-    const sortField = req.query.sort as string || 'createdAt';
-    const sortOrder = req.query.order === 'desc' ? -1 : 1;
-    const sortOptions = { [sortField]: sortOrder };
+    const sortField = (req.query.sort as string) || "createdAt";
+    const sortOrder: SortOrder = req.query.order === "desc" ? -1 : 1;
+    const sortOptions: { [key: string]: SortOrder } = {
+      [sortField]: sortOrder,
+    };
 
     // 🚀 QUERY
+    let query = ProductModel.find(filter).sort(sortOptions);
+
+    if (limit > 0) {
+      query = query.skip(skip).limit(limit);
+    }
+
     const [products, total] = await Promise.all([
-      ProductModel.find(filter).sort(sortOptions).skip(skip).limit(limit).lean(),
+      query.lean(),
       ProductModel.countDocuments(filter),
     ]);
 
@@ -37,10 +40,9 @@ const getAllProducts = async (req: Request, res: Response) => {
       page,
       limit,
       total,
-      totalPages: Math.ceil(total / limit),
-      products
+      totalPages: limit > 0 ? Math.ceil(total / limit) : 1,
+      products,
     });
-
   } catch (error: any) {
     console.error("Error fetching products:", error);
     return res.status(500).json({ message: error.message, error });

@@ -40,12 +40,22 @@ export const useProductStore = () => {
       };
     },
 		createFn: async (product) => {
-			return { ...product, id: Date.now().toString() };
+			const res = await api.post("/products", product);
+			return res.data.product; // return the created product from the backend
 		},
-		updateFn: async (product) => product,
-		deleteFn: async (id) => id,
-		importFn: async (data) => data,
-		defaultSort: { key: "name", direction: "asc" },
+   	updateFn: async (product) => {
+      const res = await api.put(`/products/${product.id}`, product);
+      return res.data.product;
+    },
+    deleteFn: async (id) => {
+      await api.delete(`/products/${id}`);
+      return id;
+    },
+    importFn: async (data) => {
+      const res = await api.post("/products/import", data);
+      return res.data.products;
+    },
+    defaultSort: { key: "name", direction: "asc" },
 		searchFn: searchProducts,
 		sortFn: sortProducts,
 	});

@@ -44,26 +44,22 @@ const startServer = async () => {
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
     logging.info(NAMESPACE, 'Connected to MongoDB.');
 
-    if (!mongoose.connection.db) {
+    const db = mongoose.connection.db;
+
+    if (!db) {
       logging.error(NAMESPACE, 'MongoDB database connection is undefined.');
       throw new Error('MongoDB database connection is undefined.');
     }
 
-    const collections = await mongoose.connection.db.listCollections().toArray();
+    const collections = await db.listCollections().toArray();
 
-    const summaries = await Promise.all(
-      collections.map(async (col) => {
-        if (!mongoose.connection.db) {
-          throw new Error('MongoDB database connection is undefined.');
-        }
-        const collection = mongoose.connection.db.collection(col.name);
-        const count = await collection.countDocuments();
-        return {
-          name: col.name,
-          count
-        };
+    const summaries = (await Promise.all(
+      collections.map(async ({ name }) => {
+        const collection = db.collection(name);
+        const count = await collection.estimatedDocumentCount();
+        return { name, count };
       })
-    );
+    )).sort((a, b) => a.name.localeCompare(b.name));
 
     logging.info(NAMESPACE, 'Collections Summary:', summaries);
 
@@ -86,7 +82,7 @@ const startServer = async () => {
     ];
 
     app.use(cors({
-      origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+      origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
         // Allow requests with no origin (like Postman or mobile apps)
         if (!origin) return callback(null, true);
 
@@ -105,8 +101,8 @@ const startServer = async () => {
     // ✅ Routes
     app.use('/abandonedCarts', abandonedCartsRoutes);
     app.use('/auth', authRoutes);
-    app.use('/categories', categoriesRoutes);
     app.use('/carriers', carrierRoutes);
+    app.use('/categories', categoriesRoutes);
     app.use('/login', authRoutes);
     app.use('/notifications', notificationsRoutes);
     app.use('/orders', ordersRoutes);

@@ -77,6 +77,7 @@ const startServer = async () => {
     const allowedOrigins = [
       process.env.SERVER_FRONTEND_URL_LOCAL || 'http://localhost:8080',
       process.env.SERVER_FRONTEND_URL_PROD || 'https://patinesbarcelona.com',
+      'https://backoffice.patinesbarcelona.com',
       process.env.SERVER_API_URL_LOCAL || 'http://localhost:3000',
       process.env.SERVER_API_URL_PROD || 'https://api.patinesbarcelona.com'
     ];

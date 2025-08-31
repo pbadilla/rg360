@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { importHTTPUniverskate } from 'src/scripts/universkate/downloadUniverskateCSV';
+import { importHTTPUniverskate } from '@/utils/csv/downloadUniverskateCSV';
 
 const router = Router();
 

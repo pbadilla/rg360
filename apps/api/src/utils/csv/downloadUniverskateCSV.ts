@@ -3,7 +3,7 @@ import fs from 'fs';
 import basicAuth from 'basic-auth-header';
 import { Request, Response } from 'express';
 import { removeFirstRow } from '@/utils/removeFirstRow';
-import { CsvRow } from '@/types/CSVProducts';
+import { CsvRow } from '@/types/products';
 import { processUniverskateGroup } from './processUniverskateGroup';
 
 const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void> => {

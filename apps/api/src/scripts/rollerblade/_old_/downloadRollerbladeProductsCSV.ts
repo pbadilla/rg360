@@ -3,8 +3,8 @@ import ftp from 'basic-ftp';
 
 import { Request, Response } from 'express';
 
-import { CsvRowRollerblade } from '@/types/CSVProducts';
-import { processRollerbladeGroup } from '../processRollerbladeGroup';
+import { CsvRowRollerblade } from '@/types/products';
+import { processRollerbladeGroup } from '../../../utils/csv/processRollerbladeGroup';
 
 const downloadRollerbladeProductsCSV = async (req: Request, res: Response): Promise<void> => {
   const path = './rollerbladeProducts.csv';

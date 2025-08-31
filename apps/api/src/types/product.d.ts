@@ -6,7 +6,7 @@ export interface Product {
   image: string;
   brand: string;
   parentReference?: string;
-  colors: string;
-  sizes: string;
+  colors: string[];
+  sizes: string[];
   createdAt: Date;
 }

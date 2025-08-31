@@ -1,6 +1,6 @@
 import { ProductModel } from '@/models/product';
 
-import { CsvRowRollerblade, Variation, ProductDoc } from '@/types/CSVProducts';
+import { CsvRowRollerblade, Variation, ProductDoc } from '@/types/products';
 
 export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise<void> {
 

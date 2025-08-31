@@ -1,4 +1,6 @@
-// Generalized parsed CSV row
+// Unified types for CSV, products, variations, and AI description
+
+// 1️⃣ Parsed CSV row
 export interface CsvRow {
   idCode?: string;
   Reference: string;
@@ -17,11 +19,11 @@ export interface CsvRow {
   ColorCodigo?: string;
 }
 
-// Alias per source (optional)
+// Aliases per source (optional)
 export type CsvRowRollerblade = CsvRow;
 export type CsvRowUniverskate = CsvRow;
 
-// Variation object inserted into Mongo
+// 2️⃣ Variation object inserted into Mongo
 export interface Variation {
   sku: string;
   ean: string;
@@ -32,21 +34,36 @@ export interface Variation {
   image?: string;
 }
 
-// Final Mongo document
-export interface ProductDoc {
+// 3️⃣ Base product type
+export interface BaseProduct {
   parentReference?: string;
   reference: string;
+  ean: string;
+  brand: string;
+  colors: string[];
+  sizes: string[];
+  price: number;
+  stock: number;
+  image?: string;
+}
+
+// 4️⃣ Full Mongo document
+export interface ProductDoc extends BaseProduct {
   ean13: string;
   name: string;
-  brand: string;
+  description: string;
   weight: number;
   status: 'active' | 'draft';
   category: {
     code: string;
     name: string;
   };
-  colors: string[];
-  sizes: string[];
   variations: Variation[];
   images?: string[];
 }
+
+// 5️⃣ Type used for AI description generation
+export type ProductForDescription = Pick<
+  BaseProduct,
+  'brand' | 'reference' | 'ean' | 'colors' | 'sizes' | 'price' | 'stock'
+>;

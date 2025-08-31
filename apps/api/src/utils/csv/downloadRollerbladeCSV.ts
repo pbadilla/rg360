@@ -2,7 +2,7 @@ import fs from 'fs';
 import ftp from 'basic-ftp';
 import { Request, Response } from 'express';
 
-import { CsvRowRollerblade } from '@/types/CSVProducts';
+import { CsvRowRollerblade } from '@/types/products';
 import { processRollerbladeGroup } from './processRollerbladeGroup';
 
 const PRODUCT_CSV = './rollerbladeProducts.csv';

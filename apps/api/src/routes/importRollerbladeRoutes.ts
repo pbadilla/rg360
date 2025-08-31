@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { downloadRollerbladeCSV } from 'src/scripts/rollerblade/downloadRollerbladeCSV';
+import { downloadRollerbladeCSV } from '@/utils/csv/downloadRollerbladeCSV';
 
 const router = Router();
 

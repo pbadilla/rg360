@@ -1,5 +1,5 @@
 import { ProductModel } from '@/models/product';
-import { CsvRowRollerblade, ProductDoc, Variation } from '@/types/CSVProducts';
+import { CsvRowRollerblade, ProductDoc, Variation } from '@/types/products';
 
 export async function processRollerbladeGroup(
   idCode: string,

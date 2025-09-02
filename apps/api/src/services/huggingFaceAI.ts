@@ -7,7 +7,7 @@ export async function generateDescription(product: ProductForDescription): Promi
 Write a compelling product description:
 - Brand: ${product.brand}
 - Reference: ${product.reference}
-- EAN: ${product.ean}
+- EAN: ${product.ean13}
 - Price: ${product.price}
 - Stock: ${product.stock}
 - Colors: ${product.colors.join(", ")}
@@ -21,7 +21,7 @@ Make it natural, persuasive, and ready for an online store.
     {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.HF_API_KEY}`,
+        "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY || process.env.HF_API_KEY || ''}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

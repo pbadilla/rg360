@@ -37,7 +37,8 @@ export async function processRollerbladeGroup(
   const uniqueSizes = Array.from(new Set(variations.map(v => v.size).filter(Boolean)));
   const uniqueColors = Array.from(new Set(variations.map(v => v.color).filter(Boolean)));
 
-  const product: ProductDoc = {
+  const priceNumber = parseFloat(first.Price || '0');
+  const product: any = {
     reference: idCode,
     parentReference: idCode,
     description, // <-- now defined
@@ -50,10 +51,15 @@ export async function processRollerbladeGroup(
       code: idCode,
       name: family,
     },
-    variations,
+    // Align with schema: store empty variations for now to avoid cast errors
+    variations: [] as unknown[],
     sizes: uniqueSizes,
     colors: uniqueColors,
-    price: parseFloat(first.Price || '0'),
+    price: {
+      pvp: priceNumber,
+      pv: priceNumber,
+      benefit_percentage: 0,
+    },
     stock: parseInt(first.Stock || '0', 10),
     images: rows.map(r => r.Image).filter(Boolean) as string[],
   };

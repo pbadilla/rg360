@@ -1,13 +1,13 @@
 import { ProductModel } from '@/models/product';
 import { extractColor, extractCSizes } from '@/utils/proces/parserUniverskate';
-import { CsvRow, Variation, ProductDoc, ProductForDescription } from '@/types/products';
+import { CsvRow, Variation, ProductForDescription } from '@/types/products';
 import { AIDescription } from '@/services/AIDescription';
 import { formatPriceForMongoDB } from '@/utils/prices';
 
 export async function processUniverskateGroup(
   skuRoot: string,
   rows: CsvRow[]
-): Promise<ProductDoc | null> {
+): Promise<any | null> {
   if (!rows.length) return null;
 
   const first = rows[0];
@@ -67,9 +67,10 @@ export async function processUniverskateGroup(
   }
 
   // ------------------------------
-  // Build full product document
+  // Build full product document (align with Mongoose schema)
   // ------------------------------
-  const productData: ProductDoc = {
+  const priceNumber = parseFloat(first.Price || '0');
+  const productData = {
     parentReference: skuRoot,
     reference: first.Reference,
     ean13: first.ean13,
@@ -81,9 +82,15 @@ export async function processUniverskateGroup(
     category: { code: skuRoot, name: skuRoot },
     colors,
     sizes,
-    price: parseFloat(first.Price || '0'),
+    price: {
+      pvp: priceNumber,
+      pv: priceNumber,
+      benefit_percentage: 0,
+    },
     stock: parseInt(first.Stock || '0', 10),
-    variations,
+    // The current Mongoose schema expects variations with nested size objects.
+    // Until sizes mapping is finalized, store an empty array to avoid cast errors.
+    variations: [] as unknown[],
     images: rows.map(r => r.Image).filter(Boolean) as string[],
   };
 

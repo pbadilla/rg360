@@ -61,7 +61,7 @@ export const ColorBadge = ({ color = "gray", selected = false, onClick }) => {
     <button
       onClick={onClick}
       className={clsx(
-        "w-6 h-6 rounded-full cursor-pointer border-2 transition-all duration-200 ease-in-out transform",
+        "w-4 h-4 rounded-full cursor-pointer border-1 transition-all duration-200 ease-in-out transform",
         selected ? "ring-2 ring-offset-2 ring-black scale-110" : "scale-100",
         colorMap[color.toLowerCase()] || "bg-gray-400",
       )}

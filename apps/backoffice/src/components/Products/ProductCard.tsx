@@ -77,6 +77,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     );
   }
 
+  console.log("product", product);
+
+  const firstImage =
+  Array.isArray(product.images) && product.images.length > 0
+    ? typeof product.images[0] === "string"
+      ? product.images[0]
+      : product.images[0]?.url
+    : null;
+
+  function getStockLabel(stock: number) {
+    if (stock === 0) return "Out of stock";
+    if (stock <= 3) return `Only ${stock} left!`;
+    return `${stock} left!`;
+  }
+
   return (
     <>
       <Card
@@ -98,8 +113,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
               )}
             />
             <img
-              src={product.images?.[0]?.url ?? "/placeholder.jpg"}
-              alt={product.category?.name ?? "Product"}
+              src={firstImage ?? "/placeholder.jpg"}
+              alt={product.name ?? "Product"}
               onLoad={() => setImageLoaded(true)}
               className={cn(
                 "object-cover w-full h-full transition-opacity duration-500",
@@ -154,12 +169,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* COLORS + VARIATIONS */}
         <CardContent className="pb-4 space-y-2">
-          {availableColors.length > 0 && (
-            <div className="flex items-center justify-between">
-              <ProductColors />
-              <OfferBadge type="limited">Only 3 left!</OfferBadge>
-            </div>
-          )}
+        <div className="flex items-center justify-between min-h-[20px]">
+          <div className="flex gap-2 flex-wrap">
+            {availableColors.length > 0 && <ProductColors />}
+          </div>
+          <OfferBadge type="limited">{getStockLabel(product.stock)}</OfferBadge>
+        </div>
 
           {product.description && (
             <p className="text-muted-foreground text-sm line-clamp-2">

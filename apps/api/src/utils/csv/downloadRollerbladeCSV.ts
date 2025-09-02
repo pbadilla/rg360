@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 
 import { CsvRowRollerblade } from '@/types/products';
 import { processRollerbladeGroup } from './processRollerbladeGroup';
+import { formatPriceForMongoDB } from '@/utils/prices';
 
 const PRODUCT_CSV = './rollerbladeProducts.csv';
 const STOCK_CSV = './rollerbladeStock.csv';
@@ -103,8 +104,9 @@ const downloadRollerbladeCSV = async (req: Request, res: Response): Promise<void
       const stock = stockMap.get(ean) ?? 0;
 
       return {
-        EAN: ean,
+        ean13: ean,
         Reference: raw['SKU'],
+        Description: raw['Descripcion larga'],
         idCode: raw['Art. Codigo'],
         Name: raw['Art. Nombre'],
         ColorNombre: raw['Color Nombre'],
@@ -115,7 +117,7 @@ const downloadRollerbladeCSV = async (req: Request, res: Response): Promise<void
         Brand: raw['Marca'],
         Family: raw['Linea'],
         Stock: stock.toString(),
-        Price: raw['PVPR'] ?? '0',
+        Price: formatPriceForMongoDB(raw['PVPR']) ?? '0',
         Weight: '0',
       };
     });

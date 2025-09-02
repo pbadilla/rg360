@@ -1,10 +1,10 @@
-// Unified types for CSV, products, variations, and AI description
 
 // 1️⃣ Parsed CSV row
 export interface CsvRow {
   idCode?: string;
   Reference: string;
-  EAN: string;
+  Description?: string;
+  ean13: string;
   Price?: string;
   Stock?: string;
   Name: string;
@@ -38,7 +38,7 @@ export interface Variation {
 export interface BaseProduct {
   parentReference?: string;
   reference: string;
-  ean: string;
+  ean13: string;
   brand: string;
   colors: string[];
   sizes: string[];
@@ -49,7 +49,6 @@ export interface BaseProduct {
 
 // 4️⃣ Full Mongo document
 export interface ProductDoc extends BaseProduct {
-  ean13: string;
   name: string;
   description: string;
   weight: number;
@@ -65,5 +64,5 @@ export interface ProductDoc extends BaseProduct {
 // 5️⃣ Type used for AI description generation
 export type ProductForDescription = Pick<
   BaseProduct,
-  'brand' | 'reference' | 'ean' | 'colors' | 'sizes' | 'price' | 'stock'
+  'brand' | 'reference' | 'ean13' | 'colors' | 'sizes' | 'price' | 'stock'
 >;

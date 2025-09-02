@@ -12,9 +12,10 @@ export async function processRollerbladeGroup(
   const brand = first.Brand;
   const family = first.Family || '';
   const weight = parseFloat(first.Weight || '0');
+  const description = first.Description || '';
 
   const variations: Variation[] = rows
-    .filter(row => row.EAN && row.Reference)
+    .filter(row => row.ean13 && row.Reference)
     .map(row => {
       const price = parseFloat(row.Price || '0');
       const stock = parseInt(row.Stock || '0', 10);
@@ -24,7 +25,7 @@ export async function processRollerbladeGroup(
 
       return {
         sku: row.Reference,
-        ean: row.EAN,
+        ean: row.ean13,
         price,
         stock,
         size,
@@ -39,7 +40,8 @@ export async function processRollerbladeGroup(
   const product: ProductDoc = {
     reference: idCode,
     parentReference: idCode,
-    ean13: first.EAN,
+    description, // <-- now defined
+    ean13: first.ean13,
     name: productName,
     brand,
     weight,
@@ -51,6 +53,9 @@ export async function processRollerbladeGroup(
     variations,
     sizes: uniqueSizes,
     colors: uniqueColors,
+    price: parseFloat(first.Price || '0'),
+    stock: parseInt(first.Stock || '0', 10),
+    images: rows.map(r => r.Image).filter(Boolean) as string[],
   };
 
   try {

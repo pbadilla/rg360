@@ -1,23 +1,29 @@
-// apps/api/src/scripts/universkate/processUniverskateGroup.ts
-
 import { ProductModel } from '@/models/product';
 import { extractColor, extractCSizes } from '@/utils/proces/parserUniverskate';
-import { CsvRow, Variation, ProductDoc } from '@/types/products';
-import { generateDescription } from '@/services/huggingFaceAI';
+import { CsvRow, Variation, ProductDoc, ProductForDescription } from '@/types/products';
+import { AIDescription } from '@/services/AIDescription';
+import { formatPriceForMongoDB } from '@/utils/prices';
 
-export async function processUniverskateGroup(skuRoot: string, rows: CsvRow[]) {
+export async function processUniverskateGroup(
+  skuRoot: string,
+  rows: CsvRow[]
+): Promise<ProductDoc | null> {
+  if (!rows.length) return null;
+
   const first = rows[0];
 
-  const name = first.Name?.split(/Black|Blue|Red|Orange/i)[0]?.trim() ?? '';
+  const name = first.Name?.split(/Black|Blue|Red|Orange/i)[0]?.trim() || '';
   const brand = first.Brand;
   const weight = parseFloat(first.Weight || '0');
 
+  // ------------------------------
+  // Build variations
+  // ------------------------------
   const variations: Variation[] = rows.map(row => {
     const sku = row.Reference;
-    const ean = row.EAN;
+    const ean = row.ean13;
     const stock = parseInt(row.Stock || '0', 10);
     const price = parseFloat(row.Price || '0');
-    // TODO: have default image
     const image = row.Image || '';
     const color = extractColor(sku) || '';
     const sizes = extractCSizes(sku) || [];
@@ -33,33 +39,40 @@ export async function processUniverskateGroup(skuRoot: string, rows: CsvRow[]) {
     };
   });
 
-  const colors = [...new Set(variations.map(v => v.color))];
-  const sizes = [...new Set(variations.map(v => v.size))];
-  let description = '';
+  const colors = Array.from(new Set(variations.map(v => v.color).filter(Boolean)));
+  const sizes = Array.from(new Set(variations.map(v => v.size).filter(Boolean)));
 
-  // If not available, generate it with AI
+  // ------------------------------
+  // Generate or use CSV description
+  // ------------------------------
+  let description = first.Description?.trim() || '';
+
   if (!description) {
+    const productForAI: ProductForDescription = {
+      brand,
+      reference: first.Reference,
+      ean13: first.ean13,
+      colors,
+      sizes,
+      price: parseFloat(first.Price || '0'),
+      stock: parseInt(first.Stock || '0', 10),
+    };
+
     try {
-      description = await generateDescription({
-        brand,
-        reference: first.Reference,
-        ean: first.EAN,
-        price: parseFloat(first.Price || '0'),
-        stock: parseInt(first.Stock || '0', 10),
-        colors,
-        sizes,
-      });
+      description = await AIDescription(productForAI); // ✅ Only the DTO
     } catch (err) {
-      console.error(`❌ Failed to generate description for ${skuRoot}:`, err);
-      description = ''; // fallback
+      console.error(`❌ Failed to generate AI description for ${skuRoot}:`, err);
+      description = `Premium ${brand} ${name} with excellent quality and design.`;
     }
   }
 
+  // ------------------------------
+  // Build full product document
+  // ------------------------------
   const productData: ProductDoc = {
     parentReference: skuRoot,
     reference: first.Reference,
-    ean: first.EAN,
-    ean13: first.EAN,
+    ean13: first.ean13,
     description,
     name,
     brand,
@@ -68,19 +81,22 @@ export async function processUniverskateGroup(skuRoot: string, rows: CsvRow[]) {
     category: { code: skuRoot, name: skuRoot },
     colors,
     sizes,
-    price: parseFloat(first.Price || '0'), // <-- add
-    stock: parseInt(first.Stock || '0', 10), // <-- add
+    price: parseFloat(first.Price || '0'),
+    stock: parseInt(first.Stock || '0', 10),
     variations,
+    images: rows.map(r => r.Image).filter(Boolean) as string[],
   };
 
+  // ------------------------------
+  // Upsert into MongoDB
+  // ------------------------------
   try {
-    // Saved it to mongoDB
     const doc = await ProductModel.findOneAndUpdate(
       { parentReference: skuRoot },
-      productData,
+      { $set: productData },
       { upsert: true, new: true }
     );
-    console.log(`Inserted grouped product ${skuRoot}`);
+    console.log(`Inserted/Updated grouped product ${skuRoot}`);
     return doc;
   } catch (err) {
     console.error(`Error upserting ${skuRoot}:`, err);

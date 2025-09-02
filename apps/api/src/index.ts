@@ -26,6 +26,7 @@ import usersRoutes from '@/routes/usersRoutes';
 import vendorsRoutes from '@/routes/vendorsRoutes';
 import wishlistRoutes from '@/routes/wishListRoutes';
 
+import importRoutes from '@/routes/importRoutes';
 import importUniverskateRoutes from '@/routes/importUniverskateRoutes';
 import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 
@@ -121,6 +122,7 @@ const startServer = async () => {
 
     app.use('/importUniverskate', importUniverskateRoutes);
     app.use('/importRollerblade', importRollerbladeRoutes);
+    app.use('/import', importRoutes);
 
     // ✅ Swagger API docs
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

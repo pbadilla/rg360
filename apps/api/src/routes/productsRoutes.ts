@@ -11,7 +11,6 @@ import {
   updateProductById
 } from '@/controllers/products';
 
-import { generateDescription } from '@/services/aiDescription';
 import { Product } from '@/types/product';
 
 import groupProductsByField from '@/controllers/products/groupProductsByField';
@@ -32,7 +31,6 @@ router.use((req, res, next) => {
   next();
 });
 
-/** Ruta para generar descripción con IA */
 router.post('/product', async (req: Request, res: Response) => {
   try {
     const product: Product = {
@@ -40,8 +38,7 @@ router.post('/product', async (req: Request, res: Response) => {
       createdAt: new Date(),
     };
 
-    const description = await generateDescription(product);
-    res.json({ ...product, description });
+    res.json({ ...product });
   } catch (error: any) {
     console.error('Error generating description:', error.message);
     res.status(500).json({ error: 'Failed to generate product description' });

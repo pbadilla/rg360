@@ -9,4 +9,5 @@ export interface Product {
   colors: string[];
   sizes: string[];
   createdAt: Date;
+  description?: string;
 }

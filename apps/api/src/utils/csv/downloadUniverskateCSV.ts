@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import { removeFirstRow } from '@/utils/removeFirstRow';
 import { CsvRow } from '@/types/products';
 import { processUniverskateGroup } from './processUniverskateGroup';
+import { formatPriceForMongoDB } from '@/utils/prices';
 
 const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void> => {
   const url = 'https://csvshops.universkate.com/UniverskateStock.csv';
@@ -41,8 +42,8 @@ const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void
 
           return {
             Reference: raw['PRODUCT REF'],
-            EAN: raw['EAN13 CODE'],
-            Price: raw['RETAIL PRICE'],
+            ean13: raw['EAN13 CODE'],
+            Price: formatPriceForMongoDB(raw['RETAIL PRICE']),
             Stock: raw['AVAILABLE STOCK'],
             Name: raw['PRODUCT DESCRIPTION'],
             Image: raw['PICTURES'],

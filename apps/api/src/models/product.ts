@@ -46,6 +46,7 @@ export interface ProductDocument extends Document {
   stock?: number;
   tags: Tag[];
   variations: Variation[];
+  colors?: Variation[];
   vendorId?: string;
   updateData: Date | string;
   createdAt: Date | string;

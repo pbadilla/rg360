@@ -77,8 +77,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     );
   }
 
-  console.log("product", product);
-
   const firstImage =
   Array.isArray(product.images) && product.images.length > 0
     ? typeof product.images[0] === "string"

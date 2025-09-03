@@ -1,8 +1,5 @@
-import { Link } from "react-router-dom";
-
 import InsideLayout from "@/components/layout/InsideLayout";
 import { StockTable } from "@/components/Tables/Stock";
-import { Button } from "@/components/ui/button";
 
 const Stocks = () => {
   return (

@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
 
+import StockProductDialog from "@/components/Stock/StockProductDialog";
+
 type Field<T> = {
   key: keyof T;
   label: string;
@@ -51,6 +53,7 @@ export function EditableTable<T extends Record<string, any>>({
     key: string;
     direction: "asc" | "desc";
   }>({ key: sortKeys[0].toString(), direction: "asc" });
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
   const visibleItems = useStaggeredAnimation(data.length);
 
@@ -113,6 +116,18 @@ export function EditableTable<T extends Record<string, any>>({
               className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
             />
             {isAdding ? "Adding..." : `Add ${entityName}`}
+          </Button>
+
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="group"
+            disabled={isAdding}
+          >
+            <PlusCircle
+              size={16}
+              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+            />
+            {isAdding ? "Adding..." : "Add Product by Image"}
           </Button>
         </div>
 
@@ -251,6 +266,18 @@ export function EditableTable<T extends Record<string, any>>({
           </table>
         </div>
       </div>
+      {/* Add/Edit Dialog */}
+      <StockProductDialog
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+        onSave={(product) => {
+          // You can call your PATCH /stocks/:id here
+          const { _id, ...productWithoutId } = product;
+          
+          setIsAddDialogOpen(false);
+        }}
+        isLoading={isAdding}
+      />
     </div>
   );
 }

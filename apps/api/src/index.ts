@@ -18,6 +18,7 @@ import paymentRoutes from '@/routes/paymentsRoutes';
 import posRoutes from '@/routes/posRoutes';
 import productRoutes from '@/routes/productsRoutes';
 import promotionsRoutes from '@/routes/promotionsRoutes';
+import recognizeRoutes from '@/routes/recognizeRoutes';
 import salesRoutes from '@/routes/salesRoutes';
 import shippingRoutes from '@/routes/shippingRoutes';
 import stockRoutes from '@/routes/stockRoutes';
@@ -32,6 +33,7 @@ import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
+
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -115,6 +117,7 @@ const startServer = async () => {
     app.use('/sales', salesRoutes);
     app.use('/shippings', shippingRoutes);
     app.use('/stock', stockRoutes);
+    app.use('/stock/recognize', recognizeRoutes)
     app.use('/tracking', trackingRoutes);
     app.use('/users', usersRoutes);
     app.use('/vendors', vendorsRoutes);

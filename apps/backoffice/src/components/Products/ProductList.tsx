@@ -60,8 +60,6 @@ const ProductList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
 
-  console.log("filteredProducts", filteredProducts);
-
   // Paginate filtered products
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
@@ -77,6 +75,7 @@ const ProductList: React.FC = () => {
     if (currentPage > totalPages) {
       setCurrentPage(totalPages || 1); // fallback to 1 if no products
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredProducts.length, totalPages]);
 
   if (loading) {
@@ -131,6 +130,17 @@ const ProductList: React.FC = () => {
                   className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
                 />
                 {isAdding ? "Adding..." : "Add Product"}
+              </Button>
+              <Button
+                onClick={() => setIsAddDialogOpen(true)}
+                className="group"
+                disabled={isAdding}
+              >
+                <PlusCircle
+                  size={16}
+                  className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
+                />
+                {isAdding ? "Adding..." : "Add Product by Image"}
               </Button>
             </div>
 

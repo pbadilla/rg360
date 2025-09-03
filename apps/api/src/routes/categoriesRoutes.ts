@@ -5,7 +5,8 @@ import {
   deleteAllCategories,
   getAllCategories,
   getCategoryById,
-  updateExistingCategoryById
+  updateExistingCategoryById,
+  syncCategoriesFromProducts
 } from '@/controllers/categories';
 
 const router = express.Router();
@@ -25,5 +26,10 @@ router.delete('/:category/:subcategory', deleteCategoryById);
 router.get('/:category', getCategoryById);
 router.patch('/:category', updateExistingCategoryById);
 router.delete('/:category', deleteCategoryById);
+
+router.post('/sync-categories', async (_req, res) => {
+  await syncCategoriesFromProducts();
+  res.status(200).json({ message: 'Categories synced successfully' });
+});
 
 export default router;

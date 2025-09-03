@@ -1,23 +1,28 @@
-import React, { useMemo, useState } from "react";
-
+/** biome-ignore-all lint/a11y/useButtonType: <explanation> */
+import React, { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
-
 import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
 
 import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
-
 import { useCategoryStore } from "@/store/useCategoryStore";
-
 import type { Category } from "@/types/category";
-
 import { ImageUpload } from "../csv/ImageUpload";
 import SortSelector from "../sorting/SortSelector";
-
 import { useStaggeredAnimation } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export function CategoryTable() {
   const {
@@ -37,6 +42,10 @@ export function CategoryTable() {
   const [editValues, setEditValues] = useState<Partial<Category>>({});
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const visibleItems = useStaggeredAnimation((categories || []).length);
 
   const filteredCategories = useMemo(() => {
@@ -44,19 +53,32 @@ export function CategoryTable() {
       "name",
       "description",
     ]);
-    // Only allow "name" or "description" as sort keys
     if (sortConfig.key === "name" || sortConfig.key === "description") {
       return sortEntities(
         searched,
         sortConfig as {
           key: "name" | "description";
           direction: typeof sortConfig.direction;
-        },
+        }
       );
     }
     return searched;
   }, [categories, searchTerm, sortConfig]);
 
+  // Reset page when search or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortConfig]);
+
+  // Paginated data
+  const paginatedCategories = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredCategories.slice(start, start + itemsPerPage);
+  }, [filteredCategories, currentPage]);
+
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+
+  // Handlers
   const handleEditClick = (category: Category) => {
     setEditingId(category.id);
     setEditValues({ ...category });
@@ -130,8 +152,8 @@ export function CategoryTable() {
 
   return (
     <div className="space-y-6">
+      {/* Controls */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
-        {/* Left side: Search */}
         <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
@@ -148,7 +170,6 @@ export function CategoryTable() {
           </Button>
         </div>
 
-        {/* Right side: Controls */}
         <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
@@ -166,6 +187,7 @@ export function CategoryTable() {
         </div>
       </div>
 
+      {/* Table */}
       <div className="relative overflow-hidden rounded-lg border bg-card">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -186,14 +208,14 @@ export function CategoryTable() {
               </tr>
             </thead>
             <tbody>
-              {filteredCategories.map((category, index) => (
+              {paginatedCategories.map((category, index) => (
                 <tr
                   key={category.id}
                   id={`category-${category.id}`}
                   className={cn(
                     "transition-all duration-300",
                     !visibleItems[index] && "opacity-0 translate-y-4",
-                    editingId === category.id && "bg-accent/5",
+                    editingId === category.id && "bg-accent/5"
                   )}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -265,7 +287,7 @@ export function CategoryTable() {
                   </td>
                 </tr>
               ))}
-              {filteredCategories.length === 0 && (
+              {paginatedCategories.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
@@ -278,6 +300,49 @@ export function CategoryTable() {
             </tbody>
           </table>
         </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Pagination className="mt-4 mb-4">
+            <PaginationPrevious
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+            />
+            <PaginationContent>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((page) => {
+                  // Always show first, last, current, and neighbors
+                  return (
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
+                  );
+                })
+                .map((page, idx, arr) => {
+                  // Insert ellipsis if gap between pages
+                  const prev = arr[idx - 1];
+                  const showEllipsis = prev && page - prev > 1;
+
+                  return (
+                    <React.Fragment key={page}>
+                      {showEllipsis && <PaginationEllipsis />}
+                      <PaginationItem>
+                        <PaginationLink
+                          isActive={currentPage === page}
+                          onClick={() => setCurrentPage(page)}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </React.Fragment>
+                  );
+                })}
+            </PaginationContent>
+            <PaginationNext
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+        )}
       </div>
     </div>
   );

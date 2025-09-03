@@ -5,6 +5,8 @@ import { Package, Upload } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useImportStore } from "@/store/useImportStore";
+import { useStockStore } from "@/store/useStockStore";
 
 interface Product {
   id: string;
@@ -88,6 +90,23 @@ export const ProductList = () => {
     }
   };
 
+  const { loading, importUniverskate, importRollerblade, importAll, importCSV } = useImportStore();
+  const { refetch } = useStockStore(); // refetch after import
+
+  const handleImport = async (type: "universkate" | "rollerblade" | "all" | "csv", csvData?: FormData) => {
+    try {
+      if (type === "universkate") await importUniverskate();
+      if (type === "rollerblade") await importRollerblade();
+      if (type === "all") await importAll();
+      if (type === "csv" && csvData) await importCSV(csvData);
+
+      await refetch(); // update product list
+    } catch (error) {
+      console.error(error);
+      alert("Import failed");
+    }
+  };
+  
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -95,9 +114,24 @@ export const ProductList = () => {
           <Package className="h-5 w-5 text-blue-600" />
           <h2 className="text-xl font-semibold">Product List</h2>
         </div>
-        <Button className="flex items-center gap-2">
+        <Button onClick={() => handleImport("csv")} disabled={loading}>
           <Upload className="h-4 w-4" />
-          Import Products
+          Import Products from CSV
+        </Button>
+
+        <Button onClick={() => handleImport("rollerblade")} disabled={loading}>
+          <Upload className="h-4 w-4" />
+          Import Rollerblade Products
+        </Button>
+
+        <Button onClick={() => handleImport("universkate")} disabled={loading}>
+          <Upload className="h-4 w-4" />
+          Import Universkate Products
+        </Button>
+
+        <Button onClick={() => handleImport("all")} disabled={loading}>
+          <Upload className="h-4 w-4" />
+          Import All Products
         </Button>
       </div>
 

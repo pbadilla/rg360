@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   function ProductColors() {
     const [selectedColor, setSelectedColor] = useState(
-      availableColors[0] ?? "",
+      availableColors[0] ?? ""
     );
 
     if (availableColors.length === 0) return null;
@@ -79,11 +79,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   }
 
   const firstImage =
-  Array.isArray(product.images) && product.images.length > 0
-    ? typeof product.images[0] === "string"
-      ? product.images[0]
-      : product.images[0]?.url
-    : null;
+    Array.isArray(product.images) && product.images.length > 0
+      ? typeof product.images[0] === "string"
+        ? product.images[0]
+        : product.images[0]?.url
+      : null;
 
   function getStockLabel(stock: number) {
     if (stock === 0) return "Out of stock";
@@ -96,7 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <Card
         className={cn(
           "overflow-hidden border card-transition cursor-pointer",
-          isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm",
+          isHovered ? "shadow-md translate-y-[-2px]" : "shadow-sm"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -124,7 +124,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* HEADER */}
         <CardHeader className="pb-3 space-y-1">
-          <CardTitle className="line-clamp-1" title={product.name}>{product.name}</CardTitle>
+          <CardTitle className="line-clamp-1" title={product.name}>
+            {product.name}
+          </CardTitle>
           <CardDescription className="text-sm space-y-1">
             <p>
               <strong>Brand:</strong> {product.brand}
@@ -150,20 +152,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </Badge>
             <Badge variant="outline">Stock: {product.stock}</Badge>
           </div>
-
         </CardHeader>
 
         {/* COLORS + VARIATIONS */}
         <CardContent className="pb-4 space-y-2">
-        <div className="flex items-center justify-between min-h-[20px]">
-          <div className="flex gap-2 flex-wrap">
-            {availableColors.length > 0 && <ProductColors />}
+          <div className="flex items-center justify-between min-h-[20px]">
+            <div className="flex gap-2 flex-wrap">
+              {availableColors.length > 0 && <ProductColors />}
+            </div>
+            <OfferBadge type="limited">
+              {getStockLabel(product.stock)}
+            </OfferBadge>
           </div>
-          <OfferBadge type="limited">{getStockLabel(product.stock)}</OfferBadge>
-        </div>
 
           {product.description && (
-            <p className="text-muted-foreground text-sm line-clamp-2">
+            <p className="text-muted-foreground text-sm line-clamp-4">
               {product.description}
             </p>
           )}

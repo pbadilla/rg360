@@ -10,24 +10,36 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-primary/70 focus-visible:ring-primary",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 disabled:bg-destructive/70 focus-visible:ring-destructive",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 focus-visible:ring-accent",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        success: "bg-success text-success-foreground hover:bg-success/90",
-        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
-        info: "bg-info text-info-foreground hover:bg-info/90",
-        error: "bg-error text-error-foreground hover:bg-error/90",
-        light: "bg-light text-light-foreground hover:bg-light/90",
-        dark: "bg-dark text-dark-foreground hover:bg-dark/90",
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-        tertiary: "bg-tertiary text-tertiary-foreground hover:bg-tertiary",
-        transparent: "bg-transparent text-foreground hover:bg-accent",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:bg-secondary/70 focus-visible:ring-secondary",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground disabled:hover:bg-transparent disabled:text-muted-foreground focus-visible:ring-accent",
+        link: "text-primary underline-offset-4 hover:underline disabled:text-muted-foreground focus-visible:ring-primary",
+        success:
+          "bg-success text-success-foreground hover:bg-success/90 disabled:bg-success/70 focus-visible:ring-success",
+        warning:
+          "bg-warning text-warning-foreground hover:bg-warning/90 disabled:bg-warning/70 focus-visible:ring-warning",
+        info: "bg-info text-info-foreground hover:bg-info/90 disabled:bg-info/70 focus-visible:ring-info",
+        error:
+          "bg-error text-error-foreground hover:bg-error/90 disabled:bg-error/70 focus-visible:ring-error",
+        light:
+          "bg-light text-light-foreground hover:bg-light/90 disabled:bg-light/70 focus-visible:ring-light",
+        dark: "bg-dark text-dark-foreground hover:bg-dark/90 disabled:bg-dark/70 focus-visible:ring-dark",
+        primary:
+          "bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-primary/70 focus-visible:ring-primary",
+        tertiary:
+          "bg-tertiary text-tertiary-foreground hover:bg-tertiary disabled:bg-tertiary/70 focus-visible:ring-tertiary",
+        transparent:
+          "bg-transparent text-foreground hover:bg-accent disabled:text-muted-foreground focus-visible:ring-accent",
+        disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
+        active:
+          "bg-purple-600 text-white hover:bg-purple-700 disabled:bg-purple-400 focus-visible:ring-purple-600",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -40,7 +52,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  },
+  }
 );
 
 export interface ButtonProps
@@ -59,7 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  },
+  }
 );
 Button.displayName = "Button";
 

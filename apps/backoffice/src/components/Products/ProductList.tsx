@@ -1,12 +1,5 @@
-import React, { useMemo, useState } from "react";
-
-import {
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  PlusCircle,
-  Search,
-} from "lucide-react";
+import React, { useMemo, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Plus, PlusCircle } from "lucide-react";
 
 import SearchInput from "@/components/SearchInput";
 import SortDropdown, {
@@ -15,13 +8,23 @@ import SortDropdown, {
 import { Button } from "@/components/ui/button";
 
 import { useProductStore } from "@/store/useProductStore";
-
 import { Product } from "@/types/product";
 
 import ProductCard from "./ProductCard";
 import ProductEditDialog from "./ProductEditDialog";
 import ProductTable from "./ProductTable";
 import ViewToggle from "../ViewToggle";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@/components/ui/pagination"; // Adjust import path
+import { getPaginationPages } from "@/utils/pagination";
 
 const ProductList: React.FC = () => {
   const {
@@ -45,10 +48,9 @@ const ProductList: React.FC = () => {
     { label: "Price", value: "price" },
     { label: "Category", value: "category" },
     { label: "Stock", value: "stock" },
-  ];
+  ] as const;
 
   type ProductSortKey = (typeof productSortOptions)[number]["value"];
-
   const [sortConfig, setSortConfig] = useState<SortConfig<ProductSortKey>>({
     key: "name",
     direction: "asc",
@@ -56,23 +58,26 @@ const ProductList: React.FC = () => {
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 12;
 
-  const pageSize = 10;
+  console.log("filteredProducts", filteredProducts);
 
-  // Paginate the already filtered products
+  // Paginate filtered products
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     return filteredProducts.slice(startIndex, startIndex + pageSize);
   }, [filteredProducts, currentPage, pageSize]);
 
-  const totalPages = Math.ceil(filteredProducts.length / pageSize);
-
-  // Reset to page 1 when search/filter changes
+  // Reset page when search or sort changes
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, sortConfig]);
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1); // fallback to 1 if no products
+    }
+  }, [filteredProducts.length, totalPages]);
 
   if (loading) {
     return (
@@ -95,6 +100,7 @@ const ProductList: React.FC = () => {
 
   return (
     <>
+      {/* Header: Search + Add + View + Sort */}
       <div className="py-6 px-4 sm:px-6 bg-primary/5 border-b">
         <div className="flex flex-col space-y-5">
           <div className="flex flex-col gap-2 mb-2">
@@ -102,12 +108,12 @@ const ProductList: React.FC = () => {
               Products
             </h1>
             <p className="text-muted-foreground animate-slide-down">
-              addProduct and manage products.
+              Add and manage products.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
-            {/* Left side: Search */}
+            {/* Search + Add */}
             <div className="flex items-center gap-2">
               <SearchInput
                 searchTerm={searchTerm}
@@ -128,7 +134,7 @@ const ProductList: React.FC = () => {
               </Button>
             </div>
 
-            {/* Right side: Controls */}
+            {/* View + Sort */}
             <div className="flex items-center gap-4 sm:ml-auto">
               <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
               <SortDropdown
@@ -142,6 +148,7 @@ const ProductList: React.FC = () => {
         </div>
       </div>
 
+      {/* Product grid/table */}
       <div className="w-full mx-auto px-4 sm:px-6 space-y-8 py-8">
         {filteredProducts.length === 0 ? (
           <div className="min-h-[300px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-muted/20">
@@ -170,50 +177,80 @@ const ProductList: React.FC = () => {
                   product={product}
                   onEdit={editProduct}
                   onDelete={deleteProduct}
-                  isDeleting={false} // Replace with appropriate logic if needed
+                  isDeleting={false}
                   isEditing={isEditing}
                 />
               </div>
             ))}
           </div>
         ) : (
-          <div className="animate-fade-in">
-            <ProductTable
-              products={paginatedProducts}
-              onEdit={editProduct}
-              onDelete={deleteProduct}
-              isDeleting={isDeleting}
-              isEditing={isEditing}
-            />
-          </div>
+          <ProductTable
+            products={paginatedProducts}
+            onEdit={editProduct}
+            onDelete={deleteProduct}
+            isDeleting={isDeleting}
+            isEditing={isEditing}
+          />
         )}
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4 mt-6">
-            <Button
-              variant="outline"
+          <Pagination className="mt-6">
+            <PaginationPrevious
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              <ChevronLeft className="h-5 w-5" /> Prev
-            </Button>
-            <span className="text-sm">
-              Page {currentPage} of {totalPages} ({filteredProducts.length}{" "}
-              total)
-            </span>
-            <Button
-              variant="outline"
+            />
+            {/* <PaginationContent>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((page) => {
+                  return (
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
+                  );
+                })
+                .map((page, idx, arr) => {
+                  const prev = arr[idx - 1];
+                  const showEllipsis = prev && page - prev > 1;
+                  return (
+                    <React.Fragment key={page}>
+                      {showEllipsis && <PaginationEllipsis />}
+                      <PaginationItem>
+                        <PaginationLink
+                          isActive={currentPage === page}
+                          onClick={() => setCurrentPage(page)}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </React.Fragment>
+                  );
+                })}
+            </PaginationContent> */}
+            <PaginationContent>
+              {getPaginationPages(currentPage, totalPages).map((page, idx) =>
+                page === "..." ? (
+                  <PaginationEllipsis key={idx} />
+                ) : (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      isActive={currentPage === page}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+            </PaginationContent>
+            <PaginationNext
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-            >
-              Next <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
+            />
+          </Pagination>
         )}
 
+        {/* Add Product Dialog */}
         <ProductEditDialog
           isOpen={isAddDialogOpen}
           onClose={() => setIsAddDialogOpen(false)}

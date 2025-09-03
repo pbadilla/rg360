@@ -15,22 +15,18 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
-
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const firstImage =
-  Array.isArray(product.images) && product.images.length > 0
-    ? typeof product.images[0] === "string"
-      ? product.images[0]
-      : product.images[0]?.url
-    : null;
+    Array.isArray(product.images) && product.images.length > 0
+      ? typeof product.images[0] === "string"
+        ? product.images[0]
+        : product.images[0]?.url
+      : null;
 
-
-  console.log("product", product);
   return (
     <Card className="p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0">
-      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center overflow-hidden">
-
+      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px]">
         {product.images?.length ? (
           <ProductImageCarousel product={product} />
         ) : (
@@ -39,16 +35,22 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       </div>
 
       <div className="space-y-2">
-        <h3 className="font-semibold text-sm h-13 overflow-hidden line-clamp-2">{product?.name}</h3>
-        <p className="text-lg font-bold text-primary">
-          ${product.price?.pvp ?? "N/A"}
-        </p>
-        <p className="text-xs text-muted-foreground">Stock: {product?.stock}</p>
+        <h3 className="font-semibold text-sm h-13 overflow-hidden line-clamp-2 min-h-[40px]">
+          {product?.name}
+        </h3>
+        <div className="flex items-center justify-between">
+          <p className="text-lg font-bold text-primary">
+            ${product.price?.pvp ?? "N/A"}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Stock: {product?.stock}
+          </p>
+        </div>
 
         <Button
           onClick={() => onAddToCart(product)}
           className="w-full"
-          variant="success"
+          variant={product?.stock === 0 ? "disabled" : "active"}
           size="sm"
           disabled={product?.stock === 0}
         >

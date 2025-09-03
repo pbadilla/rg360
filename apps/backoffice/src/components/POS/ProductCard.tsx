@@ -2,8 +2,10 @@ import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 
 import type { Product } from "@/types/product";
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -23,20 +25,14 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       : product.images[0]?.url
     : null;
 
+
+  console.log("product", product);
   return (
     <Card className="p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0">
       <div className="aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center overflow-hidden">
-        {product.images?.length ? (
-           <img
-            src={firstImage ?? "/placeholder.jpg"}
-              alt={product.name ?? "Product"}
-              onLoad={() => setImageLoaded(true)}
-              className={cn(
-              "object-cover w-full h-full transition-opacity duration-500 object-cover",
-              imageLoaded ? "opacity-100" : "opacity-0",
-              )}
-            />
 
+        {product.images?.length ? (
+          <ProductImageCarousel product={product} />
         ) : (
           <div className="text-4xl">IMAGE</div>
         )}

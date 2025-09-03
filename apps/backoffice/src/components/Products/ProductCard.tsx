@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { ColorBadge } from "@/components/ui/color-badge";
 import { OfferBadge } from "@/components/ui/offer-badge";
+import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 
 import type { Product } from "@/types/product";
 
@@ -103,23 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       >
         {/* IMAGE + QR + CATEGORY */}
         <div className="relative">
-          <AspectRatio ratio={4 / 3} className="bg-muted">
-            <div
-              className={cn(
-                "absolute inset-0 bg-gradient-to-t from-muted/20 to-muted/5 transition-opacity duration-300",
-                imageLoaded ? "opacity-0" : "opacity-100",
-              )}
-            />
-            <img
-              src={firstImage ?? "/placeholder.jpg"}
-              alt={product.name ?? "Product"}
-              onLoad={() => setImageLoaded(true)}
-              className={cn(
-                "object-cover w-full h-full transition-opacity duration-500",
-                imageLoaded ? "opacity-100" : "opacity-0",
-              )}
-            />
-          </AspectRatio>
+          <ProductImageCarousel product={product} />
 
           <Badge className="absolute top-3 right-3 bg-background/70 backdrop-blur-sm text-foreground">
             {product.category?.name}
@@ -139,7 +124,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* HEADER */}
         <CardHeader className="pb-3 space-y-1">
-          <CardTitle className="line-clamp-1">{product.name}</CardTitle>
+          <CardTitle className="line-clamp-1" title={product.name}>{product.name}</CardTitle>
           <CardDescription className="text-sm space-y-1">
             <p>
               <strong>Brand:</strong> {product.brand}
@@ -153,16 +138,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </CardDescription>
 
           <div className="flex flex-wrap justify-between items-center gap-2 pt-2">
-            <span className="font-medium text-lg text-foreground">
+            {/* Price with background */}
+            <span className="bg-primary text-white font-semibold text-lg px-3 py-1 rounded-lg shadow-sm">
               {typeof product?.price?.pvp === "number"
                 ? formatPrice(product.price.pvp, "es-ES", "EUR")
                 : "No price"}
             </span>
+
             <Badge variant="outline">
               Sizes: {product.sizes?.join(", ") || "N/A"}
             </Badge>
             <Badge variant="outline">Stock: {product.stock}</Badge>
           </div>
+
         </CardHeader>
 
         {/* COLORS + VARIATIONS */}

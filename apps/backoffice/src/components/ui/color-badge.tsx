@@ -3,7 +3,6 @@ import React from "react";
 import clsx from "clsx";
 
 export const ColorBadge = ({ color = "gray", selected = false, onClick }) => {
-  console.log("ColorBadge rendered with color:", color, "selected:", selected);
 
   const colorMap = {
     // Spanish

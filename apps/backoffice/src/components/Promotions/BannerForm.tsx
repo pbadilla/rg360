@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 
-import type { BannerPromotion } from "@/pages/Index";
+import type { BannerPromotion } from "@/pages/Promotions/ScheduledPromotion";
 
 import { cn } from "@/lib/utils";
 

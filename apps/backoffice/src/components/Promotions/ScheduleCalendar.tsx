@@ -1,7 +1,10 @@
-import { Badge } from "@/components/ui/badge";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // for click events
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-import type { BannerPromotion } from "@/pages/Index";
+import type { BannerPromotion } from "@/pages/Promotions/ScheduledPromotion";
 
 interface ScheduleCalendarProps {
   promotions: BannerPromotion[];
@@ -9,189 +12,93 @@ interface ScheduleCalendarProps {
 
 export const ScheduleCalendar = ({ promotions }: ScheduleCalendarProps) => {
   const today = new Date();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
 
-  // Get days in current month
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+  // Map promotions to FullCalendar events using Tailwind classes
+  const events = promotions.map((promo) => ({
+    id: promo.id,
+    title: promo.title,
+    start: promo.startDate,
+    end: promo.endDate,
+    classNames: promo.isActive
+      ? ["bg-green-500 text-white dark:bg-green-700"]
+      : new Date() < promo.startDate
+      ? ["bg-blue-500 text-white dark:bg-blue-700"]
+      : ["bg-gray-500 text-white dark:bg-gray-600"],
+    extendedProps: {
+      status: promo.isActive
+        ? "Active"
+        : new Date() < promo.startDate
+        ? "Scheduled"
+        : "Expired",
+    },
+  }));
 
-  // Generate calendar days
-  const calendarDays = [];
-
-  // Empty cells for days before month starts
-  for (let i = 0; i < firstDayOfMonth; i++) {
-    calendarDays.push(null);
-  }
-
-  // Days of the month
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(day);
-  }
-
-  // Get promotions for a specific date
-  const getPromotionsForDate = (day: number) => {
-    const date = new Date(currentYear, currentMonth, day);
-    return promotions.filter((promotion) => {
-      const startDate = new Date(
-        promotion.startDate.getFullYear(),
-        promotion.startDate.getMonth(),
-        promotion.startDate.getDate(),
-      );
-      const endDate = new Date(
-        promotion.endDate.getFullYear(),
-        promotion.endDate.getMonth(),
-        promotion.endDate.getDate(),
-      );
-      return date >= startDate && date <= endDate;
-    });
-  };
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
     <div className="space-y-6">
       {/* Calendar */}
       <Card className="dark:bg-gray-800 dark:border-gray-700">
-        <CardHeader>
+        <CardHeader className="min-h-[40px]">
           <CardTitle className="text-center dark:text-white">
-            {monthNames[currentMonth]} {currentYear}
+            Promotion Calendar
           </CardTitle>
         </CardHeader>
+
         <CardContent>
-          <div className="grid grid-cols-7 gap-1 mb-4">
-            {dayNames.map((day) => (
-              <div
-                key={day}
-                className="p-2 text-center font-medium text-gray-500 dark:text-gray-400 text-sm"
-              >
-                {day}
-              </div>
-            ))}
+          {/* Legend above the calendar */}
+          <div className="flex flex-wrap gap-4 mb-4 justify-center">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-green-500 dark:bg-green-700 rounded"></div>
+              <span className="text-sm dark:text-white">Active Promotion</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-blue-500 dark:bg-blue-700 rounded"></div>
+              <span className="text-sm dark:text-white">Scheduled Promotion</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-gray-500 dark:bg-gray-600 rounded"></div>
+              <span className="text-sm dark:text-white">Expired Promotion</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-7 gap-1">
-            {calendarDays.map((day, index) => {
-              if (day === null) {
-                return <div key={index} className="h-24"></div>;
-              }
-
-              const dayPromotions = getPromotionsForDate(day);
-              const isToday =
-                day === today.getDate() &&
-                currentMonth === today.getMonth() &&
-                currentYear === today.getFullYear();
-
+          {/* FullCalendar component */}
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            eventContent={(arg) => {
+              const status = arg.event.extendedProps.status;
+              const statusColor =
+                status === "Active"
+                  ? "text-green-800 dark:text-green-400"
+                  : status === "Scheduled"
+                  ? "text-blue-800 dark:text-blue-400"
+                  : "text-gray-800 dark:text-gray-300";
               return (
-                <div
-                  key={day}
-                  className={`h-24 p-1 border rounded-lg transition-colors ${
-                    isToday
-                      ? "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700"
-                      : "border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
-                >
-                  <div
-                    className={`text-sm font-medium mb-1 ${
-                      isToday
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-gray-900 dark:text-white"
-                    }`}
-                  >
-                    {day}
-                  </div>
-                  <div className="space-y-1">
-                    {dayPromotions.slice(0, 2).map((promotion, idx) => {
-                      const statusColor = promotion.isActive
-                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                        : new Date() < promotion.startDate
-                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-                          : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
-                      return (
-                        <div
-                          key={idx}
-                          className={`text-xs p-1 rounded truncate ${statusColor}`}
-                          title={promotion.title}
-                        >
-                          {promotion.title}
-                        </div>
-                      );
-                    })}
-                    {dayPromotions.length > 2 && (
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        +{dayPromotions.length - 2} more
-                      </div>
-                    )}
-                  </div>
+                <div className={`text-xs truncate ${statusColor}`} title={arg.event.title}>
+                  {arg.event.title}
                 </div>
               );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Legend */}
-      <Card className="dark:bg-gray-800 dark:border-gray-700">
-        <CardHeader>
-          <CardTitle className="text-lg dark:text-white">Legend</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 rounded"></div>
-              <span className="text-sm dark:text-gray-300">
-                Active Promotion
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-blue-100 dark:bg-blue-900/30 rounded"></div>
-              <span className="text-sm dark:text-gray-300">
-                Scheduled Promotion
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-gray-100 dark:bg-gray-700 rounded"></div>
-              <span className="text-sm dark:text-gray-300">
-                Expired Promotion
-              </span>
-            </div>
-          </div>
+            }}
+            height={500}
+          />
         </CardContent>
       </Card>
 
       {/* Upcoming Promotions */}
       <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardHeader>
-          <CardTitle className="text-lg dark:text-white">
-            Upcoming This Month
-          </CardTitle>
+          <CardTitle className="text-lg dark:text-white">Upcoming This Month</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {promotions
-              .filter((p) => {
-                const startDate = p.startDate;
-                return (
-                  startDate.getMonth() === currentMonth &&
-                  startDate.getFullYear() === currentYear &&
-                  startDate >= today
-                );
-              })
+              .filter(
+                (p) =>
+                  p.startDate.getMonth() === today.getMonth() &&
+                  p.startDate.getFullYear() === today.getFullYear() &&
+                  p.startDate >= today
+              )
               .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
               .map((promotion) => (
                 <div
@@ -199,28 +106,21 @@ export const ScheduleCalendar = ({ promotions }: ScheduleCalendarProps) => {
                   className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                 >
                   <div>
-                    <h4 className="font-medium dark:text-white">
-                      {promotion.title}
-                    </h4>
+                    <h4 className="font-medium dark:text-white">{promotion.title}</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Starts {promotion.startDate.toLocaleDateString()} at{" "}
-                      {promotion.startDate.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {promotion.startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>
                   <Badge variant="secondary">Scheduled</Badge>
                 </div>
               ))}
-            {promotions.filter((p) => {
-              const startDate = p.startDate;
-              return (
-                startDate.getMonth() === currentMonth &&
-                startDate.getFullYear() === currentYear &&
-                startDate >= today
-              );
-            }).length === 0 && (
+            {promotions.filter(
+              (p) =>
+                p.startDate.getMonth() === today.getMonth() &&
+                p.startDate.getFullYear() === today.getFullYear() &&
+                p.startDate >= today
+            ).length === 0 && (
               <p className="text-gray-500 dark:text-gray-400 text-center py-4">
                 No upcoming promotions this month
               </p>

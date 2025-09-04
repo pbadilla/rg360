@@ -4,7 +4,7 @@ import { ExternalLink, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import type { BannerPromotion } from "@/pages/Index";
+import type { BannerPromotion } from "@/pages/Promotions/ScheduledPromotion";
 
 interface ActiveBannerProps {
   promotion: BannerPromotion;

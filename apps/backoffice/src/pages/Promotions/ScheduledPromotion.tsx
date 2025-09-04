@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { usePromotionStore } from "@/store/usePromotionStore";
 
 export interface BannerPromotion {
   id: string;
@@ -30,6 +31,8 @@ export interface BannerPromotion {
 }
 
 const ScheduledPromotion = () => {
+  const { entities: promotionsScheduled } = usePromotionStore();
+
   const [promotions, setPromotions] = useState<BannerPromotion[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingPromotion, setEditingPromotion] =
@@ -37,6 +40,26 @@ const ScheduledPromotion = () => {
   const [previewPromotion, setPreviewPromotion] =
     useState<BannerPromotion | null>(null);
   const [activeView, setActiveView] = useState<"list" | "calendar">("list");
+
+  // Map store data to BannerPromotion type
+  useEffect(() => {
+    if (!promotionsScheduled || promotionsScheduled.length === 0) return;
+
+    const mapped = promotionsScheduled.map((promo) => ({
+      id: promo._id,
+      title: promo.title,
+      description: promo.description,
+      backgroundColor: promo.backgroundColor,
+      textColor: promo.textColor,
+      startDate: new Date(promo.schedule.start),
+      endDate: new Date(promo.schedule.end),
+      isActive: false, // will be computed in the next effect
+      ctaText: promo.cta?.text,
+      ctaLink: promo.cta?.link,
+    }));
+
+    setPromotions(mapped);
+  }, [promotionsScheduled]);
 
   // Check for active promotions
   useEffect(() => {
@@ -46,7 +69,7 @@ const ScheduledPromotion = () => {
         prev.map((promo) => ({
           ...promo,
           isActive: now >= promo.startDate && now <= promo.endDate,
-        })),
+        }))
       );
     };
 
@@ -57,15 +80,15 @@ const ScheduledPromotion = () => {
   }, []);
 
   const handleSavePromotion = (
-    promotion: Omit<BannerPromotion, "id" | "isActive">,
+    promotion: Omit<BannerPromotion, "id" | "isActive">
   ) => {
     if (editingPromotion) {
       setPromotions((prev) =>
         prev.map((p) =>
           p.id === editingPromotion.id
             ? { ...promotion, id: editingPromotion.id, isActive: false }
-            : p,
-        ),
+            : p
+        )
       );
       setEditingPromotion(null);
     } else {

@@ -210,33 +210,6 @@ const ProductList: React.FC = () => {
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
             />
-            {/* <PaginationContent>
-              {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter((page) => {
-                  return (
-                    page === 1 ||
-                    page === totalPages ||
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  );
-                })
-                .map((page, idx, arr) => {
-                  const prev = arr[idx - 1];
-                  const showEllipsis = prev && page - prev > 1;
-                  return (
-                    <React.Fragment key={page}>
-                      {showEllipsis && <PaginationEllipsis />}
-                      <PaginationItem>
-                        <PaginationLink
-                          isActive={currentPage === page}
-                          onClick={() => setCurrentPage(page)}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    </React.Fragment>
-                  );
-                })}
-            </PaginationContent> */}
             <PaginationContent>
               {getPaginationPages(currentPage, totalPages).map((page, idx) =>
                 page === "..." ? (

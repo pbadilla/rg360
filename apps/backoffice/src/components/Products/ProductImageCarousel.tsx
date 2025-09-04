@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -5,8 +6,41 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-
 import { cn } from "@/lib/utils";
+
+const CarouselImageItem = ({ src, alt }) => {
+  const [isFallback, setIsFallback] = useState(!src);
+
+  return (
+    <div
+      className={cn(
+        "relative w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center",
+        isFallback
+          ? "bg-gray-200 border-2 border-dashed border-gray-400"
+          : "bg-muted"
+      )}
+    >
+      <img
+        src={src || "/noImage_logo.jpeg"}
+        alt={alt}
+        onError={(e) => {
+          e.currentTarget.src = "/noImage_logo.jpeg";
+          setIsFallback(true);
+        }}
+        className={cn(
+          "w-full h-full object-cover transition-transform duration-500 transform hover:scale-105",
+          isFallback && "opacity-70 grayscale"
+        )}
+      />
+
+      {isFallback && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-sm font-semibold">
+          No Image Available
+        </div>
+      )}
+    </div>
+  );
+};
 
 const ProductImageCarousel = ({ product }) => {
   const images =
@@ -14,23 +48,18 @@ const ProductImageCarousel = ({ product }) => {
       ? product.images.map((img) =>
           typeof img === "string" ? img : img?.url
         )
-      : ["/placeholder.jpg"];
+      : [null]; // null so CarouselImageItem triggers fallback
 
   return (
-    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-muted">
-      <Carousel className="w-full h-full">
-        <CarouselContent>
+    <div className="relative w-full max-w-[600px] mx-auto rounded-lg overflow-hidden bg-muted">
+      <Carousel className="w-full">
+        <CarouselContent className="flex gap-4">
           {images.map((img, i) => (
-            <CarouselItem key={i}>
-              <div className="aspect-square bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                <img
-                  src={img || "/placeholder.jpg"}
-                  alt={product.name ?? "Product"}
-                  className={cn(
-                    "w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  )}
-                />
-              </div>
+            <CarouselItem
+              key={i}
+              className="flex-shrink-0 w-full sm:w-[300px] md:w-[400px] lg:w-[450px]"
+            >
+              <CarouselImageItem src={img} alt={product.name ?? "Product"} />
             </CarouselItem>
           ))}
         </CarouselContent>

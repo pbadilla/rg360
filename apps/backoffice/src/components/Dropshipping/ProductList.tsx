@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
-import { Package, Upload } from "lucide-react";
+import { Package, Upload, Download } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+
 import { useImportStore } from "@/store/useImportStore";
 import { useStockStore } from "@/store/useStockStore";
 
@@ -120,17 +121,17 @@ export const ProductList = () => {
         </Button>
 
         <Button onClick={() => handleImport("rollerblade")} disabled={loading}>
-          <Upload className="h-4 w-4" />
+          <Download className="h-4 w-4" />
           Import Rollerblade Products
         </Button>
 
         <Button onClick={() => handleImport("universkate")} disabled={loading}>
-          <Upload className="h-4 w-4" />
+          <Download className="h-4 w-4" />
           Import Universkate Products
         </Button>
 
         <Button onClick={() => handleImport("all")} disabled={loading}>
-          <Upload className="h-4 w-4" />
+          <Download className="h-4 w-4" />
           Import All Products
         </Button>
       </div>

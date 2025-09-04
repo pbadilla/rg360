@@ -18,6 +18,8 @@ interface ProductCardProps {
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  console.log("product", product);
+
   const firstImage =
     Array.isArray(product.images) && product.images.length > 0
       ? typeof product.images[0] === "string"
@@ -42,11 +44,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       )}
 
       <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px]">
-        {product.images?.length ? (
           <ProductImageCarousel product={product} />
-        ) : (
-          <div className="text-4xl">IMAGE</div>
-        )}
       </div>
 
       <div className="space-y-2">

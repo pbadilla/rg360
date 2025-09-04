@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
+// Individual carousel image item
 const CarouselImageItem = ({ src, alt }) => {
   const [isFallback, setIsFallback] = useState(!src);
 
@@ -42,13 +43,15 @@ const CarouselImageItem = ({ src, alt }) => {
   );
 };
 
+// Main Product Image Carousel
 const ProductImageCarousel = ({ product }) => {
+  // Handle comma-separated URLs and flatten into a single array
   const images =
     product.images?.length > 0
-      ? product.images.map((img) =>
-          typeof img === "string" ? img : img?.url
+      ? product.images.flatMap((img) =>
+          typeof img === "string" ? img.split(",") : [img?.url]
         )
-      : [null]; // null so CarouselImageItem triggers fallback
+      : [null]; // fallback triggers CarouselImageItem
 
   return (
     <div className="relative w-full max-w-[600px] mx-auto rounded-lg overflow-hidden bg-muted">
@@ -64,6 +67,7 @@ const ProductImageCarousel = ({ product }) => {
           ))}
         </CarouselContent>
 
+        {/* Carousel navigation */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
           <CarouselPrevious />
           <CarouselNext />

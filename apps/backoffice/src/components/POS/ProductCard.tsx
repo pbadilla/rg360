@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  disabled?: boolean;
 }
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
@@ -24,8 +25,22 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         : product.images[0]?.url
       : null;
 
+  const isOutOfStock = product?.stock === 0;
+
   return (
-    <Card className="p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0">
+    <Card
+      className={cn(
+        "p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0 relative",
+        isOutOfStock && "opacity-50 pointer-events-none"
+      )}
+    >
+      {/* Out of Stock Badge */}
+      {isOutOfStock && (
+        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-10">
+          Out of Stock
+        </div>
+      )}
+
       <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px]">
         {product.images?.length ? (
           <ProductImageCarousel product={product} />
@@ -50,9 +65,9 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         <Button
           onClick={() => onAddToCart(product)}
           className="w-full"
-          variant={product?.stock === 0 ? "disabled" : "active"}
+          variant={isOutOfStock ? "disabled" : "active"}
           size="sm"
-          disabled={product?.stock === 0}
+          disabled={isOutOfStock}
         >
           <Plus className="h-4 w-4" />
           Add to Cart

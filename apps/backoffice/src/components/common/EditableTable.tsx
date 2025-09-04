@@ -1,13 +1,20 @@
 import React, { useMemo, useState } from "react";
-
 import { toast } from "sonner";
-
 import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
 
 import { ImageUpload } from "@/components/csv/ImageUpload";
 import SearchInput from "@/components/SearchInput";
 import SortSelector from "@/components/sorting/SortSelector";
 import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import { useStaggeredAnimation } from "@/lib/animations";
 import { cn } from "@/lib/utils";
@@ -32,6 +39,7 @@ interface EditableTableProps<T> {
   onEdit: (updated: T) => void;
   onDelete: (id: string) => void;
   getId: (item: T) => string;
+  pageSize?: number;
 }
 
 export function EditableTable<T extends Record<string, any>>({
@@ -44,6 +52,7 @@ export function EditableTable<T extends Record<string, any>>({
   onEdit,
   onDelete,
   getId,
+  pageSize = 10,
 }: EditableTableProps<T>) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Partial<T>>({});
@@ -55,12 +64,24 @@ export function EditableTable<T extends Record<string, any>>({
   }>({ key: sortKeys[0].toString(), direction: "asc" });
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+
   const visibleItems = useStaggeredAnimation(data.length);
 
+  // filter + sort
   const filteredItems = useMemo(() => {
     const searched = searchEntities(data, searchTerm, searchKeys);
     return sortEntities(searched, sortConfig);
   }, [data, searchTerm, sortConfig]);
+
+  // calculate pagination
+  const totalPages = Math.ceil(filteredItems.length / pageSize);
+
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredItems.slice(start, start + pageSize);
+  }, [filteredItems, currentPage, pageSize]);
 
   const handleInputChange = (key: keyof T, value: any) => {
     setEditValues((prev) => ({ ...prev, [key]: value }));
@@ -93,28 +114,26 @@ export function EditableTable<T extends Record<string, any>>({
       setEditValues((prev) => ({ ...prev, [key]: value }));
     } else {
       const item = data.find((i) => getId(i) === id);
-      onEdit({ ...item, [key]: value } as T);
+      if (item) {
+        onEdit({ ...item, [key]: value } as T);
+      }
     }
   };
 
-  console.log("data", data);
-
   return (
     <div className="space-y-6">
+      {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
-        {/* Left side: Search */}
+        {/* Search + Add buttons */}
         <div className="flex items-center gap-2">
           <SearchInput
             searchTerm={searchTerm}
             onSearch={setSearchTerm}
             placeholder={`Search ${entityName.toLowerCase()}...`}
-            className="w-[500px] sm:w-[500px] lg:w-[500px]"
+            className="w-[500px]"
           />
           <Button onClick={onAdd} className="group">
-            <PlusCircle
-              size={16}
-              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
-            />
+            <PlusCircle size={16} className="h-5 w-5 mr-2" />
             {isAdding ? "Adding..." : `Add ${entityName}`}
           </Button>
 
@@ -123,15 +142,12 @@ export function EditableTable<T extends Record<string, any>>({
             className="group"
             disabled={isAdding}
           >
-            <PlusCircle
-              size={16}
-              className="h-5 w-5 mr-2 transition-transform group-hover:scale-110"
-            />
+            <PlusCircle size={16} className="h-5 w-5 mr-2" />
             {isAdding ? "Adding..." : "Add Product by Image"}
           </Button>
         </div>
 
-        {/* Right side: Controls */}
+        {/* Sort selector */}
         <div className="flex items-center gap-4 sm:ml-auto">
           <SortSelector
             sortConfig={sortConfig}
@@ -149,6 +165,7 @@ export function EditableTable<T extends Record<string, any>>({
         </div>
       </div>
 
+      {/* Table */}
       <div className="relative overflow-hidden rounded-lg border bg-card">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -168,7 +185,7 @@ export function EditableTable<T extends Record<string, any>>({
               </tr>
             </thead>
             <tbody>
-              {filteredItems.map((item, index) => {
+              {paginatedItems.map((item, index) => {
                 const id = getId(item);
                 return (
                   <tr
@@ -252,7 +269,7 @@ export function EditableTable<T extends Record<string, any>>({
                   </tr>
                 );
               })}
-              {filteredItems.length === 0 && (
+              {paginatedItems.length === 0 && (
                 <tr>
                   <td
                     colSpan={fields.length + 1}
@@ -266,14 +283,56 @@ export function EditableTable<T extends Record<string, any>>({
           </table>
         </div>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Pagination className="mt-4 mb-4">
+          <PaginationPrevious
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+          />
+          <PaginationContent>
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(
+                (page) =>
+                  page === 1 ||
+                  page === totalPages ||
+                  (page >= currentPage - 1 && page <= currentPage + 1),
+              )
+              .map((page, idx, arr) => {
+                const prev = arr[idx - 1];
+                const showEllipsis = prev && page - prev > 1;
+
+                return (
+                  <React.Fragment key={page}>
+                    {showEllipsis && <PaginationEllipsis />}
+                    <PaginationItem>
+                      <PaginationLink
+                        isActive={currentPage === page}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  </React.Fragment>
+                );
+              })}
+          </PaginationContent>
+          <PaginationNext
+            onClick={() =>
+              setCurrentPage((p) => Math.min(p + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
+      )}
+
       {/* Add/Edit Dialog */}
       <StockProductDialog
         isOpen={isAddDialogOpen}
         onClose={() => setIsAddDialogOpen(false)}
         onSave={(product) => {
-          // You can call your PATCH /stocks/:id here
           const { _id, ...productWithoutId } = product;
-          
           setIsAddDialogOpen(false);
         }}
         isLoading={isAdding}

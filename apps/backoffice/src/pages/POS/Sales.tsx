@@ -1,12 +1,10 @@
-import { useRef, useState } from "react";
-
+import { useRef, useState, useMemo } from "react";
 import { Search } from "lucide-react";
 
 import InsideLayout from "@/components/layout/InsideLayout";
 import Cart from "@/components/POS/Cart";
 import ProductCard from "@/components/POS/ProductCard";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -23,8 +21,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useToast } from "@/hooks/use-toast";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
+import { useToast } from "@/hooks/use-toast";
 import { useProductStore } from "@/store/useProductStore";
 
 import type { CartItem, Product } from "@/types/product";
@@ -37,19 +44,10 @@ const Sales = () => {
     loading,
     error,
     searchTerm,
-    viewMode,
     setSearchTerm,
-    // setViewMode,
-    // deleteProduct,
-    // editProduct,
-    // addProduct,
-    // isDeleting,
-    // isEditing,
-    // isAdding,
   } = useProductStore();
 
   const [cart, setCart] = useState<CartItem[]>([]);
-  // const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedSeller, setSelectedSeller] = useState<string>("");
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -66,15 +64,36 @@ const Sales = () => {
   const { toast } = useToast();
 
   const categories = ["all", "food", "beverage", "electronics"];
-  const TAX_RATE = 0.21; // 21%
+  const TAX_RATE = 0.21;
 
-  const filteredProducts = filteredProductsStore.filter((product) => {
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all";
-    return matchesSearch && matchesCategory;
-  });
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  // Filtered products: stocks > 0 first
+  const filteredProducts = useMemo(() => {
+    return filteredProductsStore
+      .filter((product) => {
+        const matchesSearch = product.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const matchesCategory =
+          selectedCategory === "all" || product.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      })
+      .sort((a, b) => {
+        // Put products with stock > 0 first
+        if (a.stock > 0 && b.stock <= 0) return -1;
+        if (a.stock <= 0 && b.stock > 0) return 1;
+        return 0; // keep relative order otherwise
+      });
+  }, [filteredProductsStore, searchTerm, selectedCategory]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const addToCart = (product: Product) => {
     const existingItem = cart.find((item) => item.id === product.id);
@@ -223,30 +242,86 @@ const Sales = () => {
         </div>
 
         {/* Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-6">
-          <div>
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onAddToCart={addToCart}
-                />
-              ))}
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 h-[calc(100vh-150px)]">
+          {/* Products with pagination */}
+          <div className="flex flex-col h-full overflow-hidden">
+            <div className="flex-1 overflow-y-auto pr-2">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                {paginatedProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onAddToCart={addToCart}
+                    disabled={product.stock <= 0}
+                  />
+                ))}
+              </div>
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-4 flex justify-center">
+                <Pagination>
+                  <PaginationContent className="flex items-center gap-2">
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                        disabled={currentPage === 1}
+                      />
+                    </PaginationItem>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter(
+                        (page) =>
+                          page === 1 ||
+                          page === totalPages ||
+                          (page >= currentPage - 1 && page <= currentPage + 1)
+                      )
+                      .map((page, idx, arr) => {
+                        const prev = arr[idx - 1];
+                        const showEllipsis = prev && page - prev > 1;
+
+                        return (
+                          <span key={page} className="flex items-center">
+                            {showEllipsis && <PaginationEllipsis />}
+                            <PaginationItem>
+                              <PaginationLink
+                                isActive={currentPage === page}
+                                onClick={() => setCurrentPage(page)}
+                              >
+                                {page}
+                              </PaginationLink>
+                            </PaginationItem>
+                          </span>
+                        );
+                      })}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
 
-          <div>
-            <Cart
-              items={cart.map((item) => ({
-                ...item,
-                price: item.price.pvp,
-              }))}
-              onUpdateQuantity={updateQuantity}
-              onRemoveItem={removeItem}
-              onCheckout={handleCheckout}
-              selectedSeller={selectedSeller}
-            />
+          {/* Cart sticky */}
+          <div className="h-full">
+            <div className="sticky top-4">
+              <Cart
+                items={cart.map((item) => ({
+                  ...item,
+                  price: item.price.pvp,
+                }))}
+                onUpdateQuantity={updateQuantity}
+                onRemoveItem={removeItem}
+                onCheckout={handleCheckout}
+                selectedSeller={selectedSeller}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -288,7 +363,9 @@ const Sales = () => {
             </div>
             <div>
               Tax (21%):{" "}
-              <span className="right">${checkoutDetails?.tax.toFixed(2)}</span>
+              <span className="right">
+                ${checkoutDetails?.tax.toFixed(2)}
+              </span>
             </div>
             <div className="line"></div>
             <div className="total">

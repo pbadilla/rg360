@@ -1,5 +1,5 @@
 import InsideLayout from "@/components/layout/InsideLayout";
-import { StockTable } from "@/components/Tables/Stock";
+import { StockTable } from "@/components/Stock/Stock";
 
 const Stocks = () => {
   return (

@@ -35,6 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useProductStore } from "@/store/useProductStore";
 
 import type { CartItem, Product } from "@/types/product";
+import { sortByStock } from "@/utils/sort";
 
 const sellers = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"];
 
@@ -78,15 +79,11 @@ const Sales = () => {
           .toLowerCase()
           .includes(searchTerm.toLowerCase());
         const matchesCategory =
-          selectedCategory === "all" || product.category === selectedCategory;
+          selectedCategory === "all" ||
+          String(product.category) === String(selectedCategory);
         return matchesSearch && matchesCategory;
       })
-      .sort((a, b) => {
-        // Put products with stock > 0 first
-        if (a.stock > 0 && b.stock <= 0) return -1;
-        if (a.stock <= 0 && b.stock > 0) return 1;
-        return 0; // keep relative order otherwise
-      });
+      .sort(sortByStock);
   }, [filteredProductsStore, searchTerm, selectedCategory]);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -196,6 +193,19 @@ const Sales = () => {
     printWindow.print();
   };
 
+  const handleReservation = (product: Product) => {
+    console.log("Reservation requested for:", product);
+  
+    // Example: send to backend
+    fetch("/api/reserve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId: product.id }),
+    })
+      .then(() => alert(`Reservation request sent for ${product.name}`))
+      .catch((err) => console.error("Error reserving product:", err));
+  };
+
   return (
     <InsideLayout
       title="POS"
@@ -252,7 +262,10 @@ const Sales = () => {
                     key={product.id}
                     product={product}
                     onAddToCart={addToCart}
+                    onReserve={handleReservation} 
                     disabled={product.stock <= 0}
+                    hasAddButton={true}
+                    allowReservation={true}
                   />
                 ))}
               </div>

@@ -12,11 +12,13 @@ import { cn } from "@/lib/utils";
 interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  onReserve?: (product: Product) => void;
   disabled?: boolean;
   hasAddButton?: boolean;
+  allowReservation?: boolean;
 }
 
-const ProductCard = ({ product, onAddToCart, hasAddButton }: ProductCardProps) => {
+const ProductCard = ({ product, onAddToCart, onReserve, hasAddButton, allowReservation }: ProductCardProps) => {
   const isOutOfStock = product?.stock === 0;
 
   console.log("product", product);
@@ -52,16 +54,39 @@ const ProductCard = ({ product, onAddToCart, hasAddButton }: ProductCardProps) =
           </p>
         </div>
 
-        {hasAddButton && <Button
-          onClick={() => onAddToCart(product)}
-          className="w-full"
-          variant={isOutOfStock ? "disabled" : "active"}
-          size="sm"
-          disabled={isOutOfStock}
-        >
-          <Plus className="h-4 w-4" />
-          Add to Cart
-        </Button>}
+        {hasAddButton && (
+          <Button
+            onClick={() =>
+              isOutOfStock
+                ? allowReservation && onReserve?.(product) // 👈 use parent callback
+                : onAddToCart(product)
+            }
+            className="w-full"
+            variant={
+              isOutOfStock
+                ? allowReservation
+                  ? "reserve" // 👈 make a new variant
+                  : "disabled"
+                : "active"
+            }
+            size="sm"
+            disabled={isOutOfStock && !allowReservation}
+          >
+            {isOutOfStock && allowReservation ? (
+              <>
+                <PlusCircle className="h-4 w-4" />
+                Reserve / Notify Me
+              </>
+            ) : (
+              <>
+                <Plus className="h-4 w-4" />
+                Add to Cart
+              </>
+            )}
+          </Button>
+        )}
+
+
       </div>
     </Card>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, BadgeDollarSign } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -63,12 +63,12 @@ const Cart = ({
           items.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between p-3 bg-background rounded-lg"
+              className="flex items-center justify-between py-3 bg-background rounded-lg"
             >
               <div className="flex-1">
                 <h4 className="font-medium text-sm">{item.name}</h4>
                 <p className="text-sm text-muted-foreground">
-                  ${item.price.toFixed(2)} each
+                  {item.price.toFixed(2)}€ each
                 </p>
               </div>
 
@@ -116,11 +116,11 @@ const Cart = ({
           <div className="space-y-2 mb-6">
             <div className="flex justify-between text-sm">
               <span>Subtotal:</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>{subtotal.toFixed(2)}€</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Tax (21%):</span>
-              <span>${tax.toFixed(2)}</span>
+              <span>{tax.toFixed(2)}€</span>
             </div>
 
             {/* Discount percentage input */}
@@ -142,24 +142,24 @@ const Cart = ({
             {discountPercent > 0 && (
               <div className="flex justify-between text-sm text-green-600">
                 <span>Discount Amount:</span>
-                <span>- ${discountAmount.toFixed(2)}</span>
+                <span>- {discountAmount.toFixed(2)}€</span>
               </div>
             )}
 
             <Separator />
             <div className="flex justify-between font-bold text-lg">
               <span>Total:</span>
-              <span className="text-primary">${total.toFixed(2)}</span>
+              <span className="text-primary">{total.toFixed(2)}€</span>
             </div>
           </div>
 
           <Button
             onClick={onCheckout}
-            className="w-full"
-            variant="success"
+            className="w-full group"
+            variant="primary"
             size="lg"
           >
-            Process Payment
+            <BadgeDollarSign className="w-4 h-4" /> Process Payment
           </Button>
         </>
       )}

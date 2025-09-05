@@ -250,6 +250,7 @@ const POSProducts: React.FC = () => {
                       : 0,
                 }}
                 onAddToCart={() => {}}
+                hasAddButton={false}
               />
             ))}
           </div>

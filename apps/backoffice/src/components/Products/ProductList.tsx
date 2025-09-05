@@ -51,9 +51,10 @@ const ProductList: React.FC = () => {
   ] as const;
 
   type ProductSortKey = (typeof productSortOptions)[number]["value"];
+
   const [sortConfig, setSortConfig] = useState<SortConfig<ProductSortKey>>({
-    key: "name",
-    direction: "asc",
+    key: "stock",
+    direction: "desc",
   });
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -65,9 +66,25 @@ const ProductList: React.FC = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const paginatedProducts = useMemo(() => {
+    const sorted = [...filteredProducts].sort((a, b) => {
+      const { key, direction } = sortConfig;
+
+      let aValue = a[key];
+      let bValue = b[key];
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
     const startIndex = (currentPage - 1) * pageSize;
-    return filteredProducts.slice(startIndex, startIndex + pageSize);
-  }, [filteredProducts, currentPage, pageSize]);
+    return sorted.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, sortConfig, currentPage, pageSize]);
 
   // Reset page when search or sort changes
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>

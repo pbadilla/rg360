@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   Carousel,
   CarouselContent,
@@ -6,6 +7,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+
 import { cn } from "@/lib/utils";
 
 // Individual carousel image item

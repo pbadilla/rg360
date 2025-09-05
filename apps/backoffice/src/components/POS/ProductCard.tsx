@@ -13,26 +13,18 @@ interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
   disabled?: boolean;
+  hasAddButton?: boolean;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+const ProductCard = ({ product, onAddToCart, hasAddButton }: ProductCardProps) => {
+  const isOutOfStock = product?.stock === 0;
 
   console.log("product", product);
-
-  const firstImage =
-    Array.isArray(product.images) && product.images.length > 0
-      ? typeof product.images[0] === "string"
-        ? product.images[0]
-        : product.images[0]?.url
-      : null;
-
-  const isOutOfStock = product?.stock === 0;
 
   return (
     <Card
       className={cn(
-        "p-4 hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0 relative",
+        "hover:shadow-lg transition-all cursor-pointer bg-gradient-card border-0 relative",
         isOutOfStock && "opacity-50 pointer-events-none"
       )}
     >
@@ -60,7 +52,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           </p>
         </div>
 
-        <Button
+        {hasAddButton && <Button
           onClick={() => onAddToCart(product)}
           className="w-full"
           variant={isOutOfStock ? "disabled" : "active"}
@@ -69,7 +61,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         >
           <Plus className="h-4 w-4" />
           Add to Cart
-        </Button>
+        </Button>}
       </div>
     </Card>
   );

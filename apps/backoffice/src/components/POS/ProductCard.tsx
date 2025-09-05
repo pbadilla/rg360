@@ -43,7 +43,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         </div>
       )}
 
-      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px]">
+      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px] w-full">
           <ProductImageCarousel product={product} />
       </div>
 

@@ -75,9 +75,11 @@ const App = () => (
               {/* Products Routes */}
               <Route path="/products/*" element={<ProductsListWrapper />} />
               <Route path="/products/categories" element={<Categories />} />
+              <Route path="/stocks/dashboard" element={<Dashboard />} />
+              <Route path="/pos/products" element={<Products />} />
 
               {/* Inventory/Stocks Routes */}
-              <Route path="/stocks/dashboard" element={<Dashboard />} />
+
               <Route path="/stocks" element={<Stocks />} />
               <Route path="/stocks/products" element={<ProductsPage />} />
               <Route path="/stocks/new" element={<NewProduct />} />
@@ -115,7 +117,6 @@ const App = () => (
               />
               {/* POS Routes */}
               <Route path="/pos/" element={<Sales />} />
-              <Route path="/pos/products" element={<Products />} />
               <Route path="/pos/stats" element={<Stats />} />
               <Route path="/pos/sellers" element={<Sellers />} />
 

@@ -20,7 +20,11 @@ export const menuItems = [
     submenu: [
       { id: "categories", label: "Categories", link: "/products/categories" },
       { id: "stock", label: "Stocks", link: "/stocks" },
-      { id: "dashboardStocks", label: "Dashboard", link: "/stocks/dashboard" },
+      {
+        id: "posProduts",
+        label: "Dashboard",
+        link: "/pos/products",
+      },
     ],
   },
   {
@@ -29,11 +33,6 @@ export const menuItems = [
     icon: <BadgeDollarSign size={20} />,
     link: "/pos",
     submenu: [
-      {
-        id: "posProduts",
-        label: "Products",
-        link: "/pos/products",
-      },
       {
         id: "posStats",
         label: "Stats",

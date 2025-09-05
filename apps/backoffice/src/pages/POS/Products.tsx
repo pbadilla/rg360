@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 
 import { ChevronLeft, ChevronRight, Package, Plus } from "lucide-react";
 
@@ -14,9 +14,20 @@ import SortDropdown, {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import ViewToggle from "@/components/ViewToggle";
 
 import { useProductStore } from "@/store/useProductStore";
+
+import ProductsImportCSVDialog from "@/components/Products/ProductsImportCSVDialog";
 
 const POSProducts: React.FC = () => {
   const {
@@ -45,25 +56,40 @@ const POSProducts: React.FC = () => {
   type ProductSortKey = (typeof productSortOptions)[number]["value"];
 
   const [sortConfig, setSortConfig] = useState<SortConfig<ProductSortKey>>({
-    key: "name",
-    direction: "asc",
+    key: "stock",   // 👈 default to stock
+    direction: "desc",
   });
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isAddProductsDialogOpen, setIsAddProductsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  // Pagination
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // Sorted & paginated products
   const paginatedProducts = useMemo(() => {
+    const sorted = [...filteredProducts].sort((a, b) => {
+      const { key, direction } = sortConfig;
+
+      let aValue = a[key];
+      let bValue = b[key];
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
     const startIndex = (currentPage - 1) * pageSize;
-    return filteredProducts.slice(startIndex, startIndex + pageSize);
-  }, [filteredProducts, currentPage, pageSize]);
+    return sorted.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, sortConfig, currentPage, pageSize]);
 
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
   // Reset to first page when filters or sorting changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, sortConfig]);
@@ -112,29 +138,59 @@ const POSProducts: React.FC = () => {
 
   return (
     <InsideLayout
-      title="POS Product Management"
-      subTitle="Point Of Sale - Manage your sales and inventory efficiently."
+      title="Product Dashboard"
+      subTitle="Manage products: import, stats and other stuff."
     >
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <Button
-            onClick={() => setIsAddDialogOpen(true)}
-            className="group"
-            disabled={isAdding}
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            {isAdding ? "Adding..." : "Add Product"}
-          </Button>
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+            {/* Left side: Search */}
+            <div className="flex items-center gap-2">
+              <SearchInput
+                searchTerm={searchTerm}
+                onSearch={setSearchTerm}
+                placeholder="Search products..."
+                className="w-full max-w-xs"
+              />
+              <Button
+                onClick={() => setIsAddDialogOpen(true)}
+                className="group"
+                disabled={isAdding}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {isAdding ? "Adding..." : "Add Product"}
+              </Button>
+              <Button
+                onClick={() => setIsAddProductsDialogOpen(true)}
+                className="group"
+                disabled={isAdding}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {isAdding ? "Adding..." : "Add Products"}
+              </Button>
+            </div>
+            {/* Right side: Controls */}
+            <div className="flex items-center gap-4 sm:ml-auto">
+              <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
+              <SortDropdown
+                sortConfig={sortConfig}
+                onSortChange={setSortConfig}
+                sortOptions={productSortOptions}
+                label="Sort products by:"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4 bg-gradient-primary text-white">
+          <Card className="p-4 bg-gray-500 text-white">
             <p className="text-sm opacity-90">Total Products</p>
             <p className="text-2xl font-bold">{filteredProducts.length}</p>
           </Card>
-          <Card className="p-4 bg-gradient-success text-white">
+          <Card className="p-4 bg-green-500 text-white">
             <p className="text-sm opacity-90">In Stock</p>
             <p className="text-2xl font-bold">
               {filteredProducts.filter((p) => p.stock > 0).length}
@@ -155,25 +211,6 @@ const POSProducts: React.FC = () => {
               {filteredProducts.filter((p) => p.stock === 0).length}
             </p>
           </Card>
-        </div>
-
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <SearchInput
-            searchTerm={searchTerm}
-            onSearch={setSearchTerm}
-            placeholder="Search products..."
-            className="w-full max-w-xs"
-          />
-          <div className="flex items-center gap-4">
-            <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
-            <SortDropdown
-              sortConfig={sortConfig}
-              onSortChange={setSortConfig}
-              sortOptions={productSortOptions}
-              label="Sort products by:"
-            />
-          </div>
         </div>
 
         {/* Product List */}
@@ -203,7 +240,6 @@ const POSProducts: React.FC = () => {
                 key={product.id}
                 product={{
                   ...product,
-                  // category: String(product.category),
                   price:
                     typeof product.price === "object" && product.price !== null
                       ? typeof (product.price as any).amount === "number"
@@ -213,7 +249,7 @@ const POSProducts: React.FC = () => {
                       ? product.price
                       : 0,
                 }}
-                onAddToCart={() => {}} // TODO: implement cart logic if needed
+                onAddToCart={() => {}}
               />
             ))}
           </div>
@@ -241,34 +277,60 @@ const POSProducts: React.FC = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4 mt-6">
-            <Button
-              variant="outline"
+          <Pagination className="mt-6 mb-6">
+            <PaginationPrevious
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              <ChevronLeft className="h-5 w-5" /> Prev
-            </Button>
-            <span className="text-sm">
-              Page {currentPage} of {totalPages} ({filteredProducts.length}{" "}
-              total)
-            </span>
-            <Button
-              variant="outline"
+            />
+            <PaginationContent>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(
+                  (page) =>
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1),
+                )
+                .map((page, idx, arr) => {
+                  const prev = arr[idx - 1];
+                  const showEllipsis = prev && page - prev > 1;
+
+                  return (
+                    <Fragment key={page}>
+                      {showEllipsis && <PaginationEllipsis />}
+                      <PaginationItem>
+                        <PaginationLink
+                          isActive={currentPage === page}
+                          onClick={() => setCurrentPage(page)}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </Fragment>
+                  );
+                })}
+            </PaginationContent>
+            <PaginationNext
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-            >
-              Next <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
+            />
+          </Pagination>
         )}
 
         {/* Add/Edit Dialog */}
         <ProductEditDialog
           isOpen={isAddDialogOpen}
           onClose={() => setIsAddDialogOpen(false)}
+          onSave={(product) => {
+            const { id, ...productWithoutId } = product;
+            addProduct(productWithoutId);
+            setIsAddDialogOpen(false);
+          }}
+          isLoading={isAdding}
+        />
+
+        <ProductsImportCSVDialog
+          isOpen={isAddProductsDialogOpen}
+          onClose={() => setIsAddProductsDialogOpen(false)}
           onSave={(product) => {
             const { id, ...productWithoutId } = product;
             addProduct(productWithoutId);

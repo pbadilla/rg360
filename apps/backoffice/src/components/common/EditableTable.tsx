@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
+import { Edit2, PlusCircle, Save, Trash2, AlertCircle } from "lucide-react";
 
 import { ImageUpload } from "@/components/csv/ImageUpload";
 import SearchInput from "@/components/SearchInput";
@@ -196,7 +196,16 @@ export function EditableTable<T extends Record<string, any>>({
                       editingId === id && "bg-accent/5",
                     )}
                   >
-                    {fields.map((field) => (
+                  {fields.map((field) => {
+                    const value =
+                      editingId === id
+                        ? editValues[field.key]
+                        : item[field.key];
+
+                    const safeValue =
+                      value === undefined || value === null ? "" : String(value);
+
+                    return (
                       <td
                         key={String(field.key)}
                         className="px-6 py-4"
@@ -205,11 +214,7 @@ export function EditableTable<T extends Record<string, any>>({
                       >
                         {field.type === "image" ? (
                           <ImageUpload
-                            currentImage={
-                              editingId === id
-                                ? (editValues[field.key] as string)
-                                : item[field.key]
-                            }
+                            currentImage={safeValue}
                             onImageChange={(img) =>
                               handleImageChange(field.key, id, img)
                             }
@@ -217,30 +222,43 @@ export function EditableTable<T extends Record<string, any>>({
                         ) : editingId === id ? (
                           field.type === "textarea" ? (
                             <textarea
-                              value={(editValues[field.key] as string) || ""}
+                              value={safeValue}
                               onChange={(e) =>
                                 handleInputChange(field.key, e.target.value)
                               }
+                              aria-label={field.label}
+                              placeholder={field.label}
                               className="w-full bg-background border-b border-border p-2 rounded-md"
                               rows={2}
                             />
                           ) : (
                             <input
                               type="text"
-                              value={(editValues[field.key] as string) || ""}
+                              value={safeValue}
                               onChange={(e) =>
                                 handleInputChange(field.key, e.target.value)
                               }
+                              aria-label={field.label}
+                              placeholder={field.label}
                               className="w-full bg-background border-b border-border p-2 rounded-md"
                             />
                           )
                         ) : (
-                          <div className="max-w-md line-clamp-2">
-                            {String(item[field.key])}
-                          </div>
+                            <div className="max-w-md line-clamp-2">
+                              {safeValue ? (
+                                safeValue
+                              ) : (
+                                <span className="inline-flex items-center rounded-full bg-muted px-3 py-0.5 text-xs font-medium text-muted-foreground">
+                                  <AlertCircle className="h-3 w-3 mr-1" />
+                                  No value
+                                </span>
+                              )}
+                            </div>  
                         )}
                       </td>
-                    ))}
+                    );
+                  })}
+
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end space-x-2">
                         {editingId === id ? (

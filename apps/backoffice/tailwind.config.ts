@@ -111,6 +111,16 @@ export default {
         "61": "15rem",
         "62": "15.5rem", // Define ml-62 equivalent to 62px (if using rem: 62/4 = 15.5rem)
       },
+      backgroundImage: {
+        carbon: `
+          linear-gradient(rgb(51 65 85 / 0.7), rgb(51 65 85 / 0.7)),
+          repeating-linear-gradient(45deg, #444 0 10px, #555 10px 20px),
+          repeating-linear-gradient(-45deg, #444 0 10px, #555 10px 20px),
+          linear-gradient(90deg, rgba(255,255,255,0.06), rgba(0,0,0,0.12))`
+      },
+      backgroundSize: {
+        carbon: '20px 20px',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -83,7 +83,7 @@ const Sellers = () => {
   const filteredSellers = sellers.filter(
     (seller) =>
       seller.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      seller.email.toLowerCase().includes(searchTerm.toLowerCase()),
+      seller.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const activeSellers = sellers.filter((s) => s.status === "active");
@@ -109,6 +109,15 @@ const Sellers = () => {
   return (
     <InsideLayout title="POS Product Management" subTitle="Seller Management.">
       <div className="space-y-6">
+        <div className="relative mb-6">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Search sellers..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
         <div className="flex items-center justify-between">
           <Button variant="default">
             <Plus className="h-4 w-4" />
@@ -118,7 +127,7 @@ const Sellers = () => {
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-6 bg-gradient-primary text-white">
+          <Card className="p-6 bg-gray-400 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-90">Total Sellers</p>
@@ -128,7 +137,7 @@ const Sellers = () => {
             </div>
           </Card>
 
-          <Card className="p-6 bg-gradient-success text-white">
+          <Card className="p-6 bg-gray-400 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-90">Active Sellers</p>
@@ -162,23 +171,13 @@ const Sellers = () => {
         </div>
 
         {/* Search */}
-        <Card className="p-6 bg-gradient-card border-0 shadow-md">
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search sellers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
+        <Card className="p-0 bg-gradient-card border-0 shadow-md">
           {/* Sellers Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSellers.map((seller) => (
               <Card
                 key={seller.id}
-                className="p-6 hover:shadow-lg transition-shadow"
+                className="p-6 hover:shadow-lg transition-shadow text-white bg-slate-700"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">

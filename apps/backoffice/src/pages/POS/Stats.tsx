@@ -58,7 +58,7 @@ const Stats = () => {
       <div className="space-y-6">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-6 bg-gradient-primary text-white">
+          <Card className="p-6 bg-gray-500 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-90">Total Revenue</p>
@@ -71,7 +71,7 @@ const Stats = () => {
             </div>
           </Card>
 
-          <Card className="p-6 bg-gradient-success text-white">
+          <Card className="p-6 bg-gray-500 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-90">Total Orders</p>

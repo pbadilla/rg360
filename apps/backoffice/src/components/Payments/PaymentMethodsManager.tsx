@@ -40,6 +40,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { usePaymentMethodStore } from "@/store/usePaymentMethodStore";
 import { PaymentMethod } from "@/types/payments";
+import { BankCard } from "@/components/ui/bankcard";
 
 const PaymentMethodsManager = () => {
   const {
@@ -200,53 +201,45 @@ const PaymentMethodsManager = () => {
         {isLoading && <p>Loading payment methods...</p>}
         {error && <p className="text-red-500">{error.message}</p>}
         {paymentMethods.map((method) => (
-          <Card key={method.id} className="hover:shadow-md transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  {getIcon(method.type)}
-                  <CardTitle className="text-lg">{method.brand}</CardTitle>
-                </div>
-                <Badge variant={method.isActive ? "default" : "secondary"}>
-                  {method.isActive ? "Active" : "Inactive"}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className=" mb-4">
-                Last Used:
-                <span className="text-slate-400 ml-1">
-                  {method.lastUsed
-                    ? new Date(method.lastUsed).toLocaleDateString()
-                    : "Never"}
-                </span>
-              </p>
-              <p className="font-mono mb-4">
-                Mask:{" "}
-                <span className="text-slate-400">
-                  {method.cardNumberMasked || "N/A"}
-                </span>
-              </p>
-              <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => toggleMethod(method.id)}
-                  className="flex-1"
-                >
-                  {method.isActive ? "Deactivate" : "Activate"}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => deleteMethod(method.id)}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <div
+            key={method.id}
+            className="hover:shadow-md transition-shadow flex flex-col items-center space-y-4"
+          >
+            {/* Bank card centered */}
+            <BankCard
+              cardNumber={method.cardNumberMasked || "N/A"}
+              cardHolder="uno"
+              expiry={
+                method.lastUsed
+                  ? new Date(method.lastUsed).toLocaleDateString()
+                  : "Never"
+              }
+              status={method.status}
+              brand={method.brand}
+              variant="default"
+              className="mx-auto"
+            />
+
+            {/* Action section below */}
+            <div className="flex w-full max-w-sm space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => toggleMethod(method.id)}
+                className="flex-1"
+              >
+                {method.isActive ? "Deactivate" : "Activate"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => deleteMethod(method.id)}
+                className="text-red-600 hover:text-red-700"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         ))}
       </div>
     </div>

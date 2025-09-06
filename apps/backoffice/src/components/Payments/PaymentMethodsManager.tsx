@@ -67,8 +67,8 @@ const PaymentMethodsManager = () => {
         return <Building className="h-5 w-5" />;
       case "bank_transfer":
         return <Building className="h-5 w-5" />;
-      // case "mobile_payment":
-      //   return <Smartphone className="h-5 w-5" />;
+      case "mobile_payment":
+        return <Smartphone className="h-5 w-5" />;
     }
   };
 
@@ -122,15 +122,9 @@ const PaymentMethodsManager = () => {
     });
   };
 
-  console.log("paymentMethods", paymentMethods);
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold">Payment Methods</h2>
-          <p className="text-slate-400">Manage available payment options</p>
-        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700">

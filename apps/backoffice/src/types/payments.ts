@@ -21,7 +21,7 @@ export interface PaymentMethod {
   lastUsed?: string;
   status?: "active" | "inactive" | string;  // optional
   userId?: string;     // optional
-  type: "card" | "paypal" | "bank_transfer" | "cod";
+  type: "card" | "paypal" | "bank_transfer" | "cod" | "mobile_payment";
   provider?: string;
   isActive: boolean;
 }

@@ -57,13 +57,7 @@ const ShippingManager = () => {
 
           <TabsContent value="methods" className="mt-6">
             <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Shipping Methods</CardTitle>
-                <CardDescription className="text-slate-400">
-                  Manage your available shipping options and carriers
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="mt-4">
                 {isLoadingShipping ? (
                   <div className="text-slate-400">Loading...</div>
                 ) : (
@@ -80,13 +74,7 @@ const ShippingManager = () => {
 
           <TabsContent value="tracking" className="mt-6">
             <Card className="bg-slate-800 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Package Tracking</CardTitle>
-                <CardDescription className="text-slate-400">
-                  Monitor and manage package shipments and deliveries
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="mt-4">
                 <CarrierList
                   carrierEntries={carriers} // replace with store data later
                   setCarrierEntries={() => {}}

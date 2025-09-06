@@ -157,10 +157,6 @@ const RefundManager = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-800">Refund Manager</h2>
-          <p className="text-slate-600">Process and track refund requests</p>
-        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button className="bg-orange-600 hover:bg-orange-700">
@@ -170,7 +166,6 @@ const RefundManager = () => {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Process Refund</DialogTitle>
               <DialogDescription>Create a new refund request</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
@@ -249,41 +244,41 @@ const RefundManager = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="bg-gray-500 text-white">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <AlertCircle className="h-8 w-8 text-yellow-600 mr-3" />
+              <RotateCcw className="h-8 w-8 text-white mr-3" />
               <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  {pendingRefunds}
-                </div>
-                <p className="text-sm text-slate-600">Pending Refunds</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <CheckCircle className="h-8 w-8 text-green-600 mr-3" />
-              <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  {refunds.filter((r) => r.status === "processed").length}
-                </div>
-                <p className="text-sm text-slate-600">Processed</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <RotateCcw className="h-8 w-8 text-blue-600 mr-3" />
-              <div>
-                <div className="text-2xl font-bold text-slate-900">
+                <div className="text-2xl font-bold text-white ">
                   ${totalRefunded.toFixed(2)}
                 </div>
-                <p className="text-sm text-slate-600">Total Refunded</p>
+                <p className="text-sm text-white">Total Refunded</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-green-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <CheckCircle className="h-8 w-8 text-white  mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white ">
+                  {refunds.filter((r) => r.status === "processed").length}
+                </div>
+                <p className="text-sm text-white">Processed</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-yellow-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <AlertCircle className="h-8 w-8 text-white mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white">
+                  {pendingRefunds}
+                </div>
+                <p className="text-sm text-white">Pending Refunds</p>
               </div>
             </div>
           </CardContent>

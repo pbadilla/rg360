@@ -80,14 +80,6 @@ const TransactionTracker = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-800">
-            Transaction Tracker
-          </h2>
-          <p className="text-slate-600">
-            Monitor and manage all payment transactions
-          </p>
-        </div>
         <Button className="bg-green-600 hover:bg-green-700">
           <Download className="h-4 w-4 mr-2" />
           Export
@@ -96,42 +88,40 @@ const TransactionTracker = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="bg-gray-500 text-white">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-slate-900">
-              ${totalAmount.toFixed(2)}
-            </div>
-            <p className="text-sm text-slate-600">Total Amount</p>
+            <div className="text-2xl font-bold">${totalAmount.toFixed(2)}</div>
+            <p className="text-sm text-white">Total Amount</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-green-600 text-white">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold">
               {
                 filteredTransactions.filter((t) => t.status === "completed")
                   .length
               }
             </div>
-            <p className="text-sm text-slate-600">Completed</p>
+            <p className="text-sm text-white">Completed</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-yellow-600 text-white">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-yellow-600">
+            <div className="text-2xl font-bold">
               {
                 filteredTransactions.filter((t) => t.status === "pending")
                   .length
               }
             </div>
-            <p className="text-sm text-slate-600">Pending</p>
+            <p className="text-sm text-white">Pending</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-red-600 text-white">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold">
               {filteredTransactions.filter((t) => t.status === "failed").length}
             </div>
-            <p className="text-sm text-slate-600">Failed</p>
+            <p className="text-sm text-white">Failed</p>
           </CardContent>
         </Card>
       </div>

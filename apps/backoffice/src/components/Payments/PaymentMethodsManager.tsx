@@ -223,12 +223,12 @@ const PaymentMethodsManager = () => {
             {/* Action section below */}
             <div className="flex w-full max-w-sm space-x-2">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => toggleMethod(method.id)}
                 className="flex-1"
               >
-                {method.isActive ? "Deactivate" : "Activate"}
+                {method.status === "active" ? "Deactivate" : "Activate"}
               </Button>
               <Button
                 variant="outline"

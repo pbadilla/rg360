@@ -26,10 +26,24 @@ const BankCard = React.forwardRef<HTMLDivElement, BankCardProps>(
     },
     ref
   ) => {
-    const bgClass =
-      variant === "gradient"
-        ? "bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
-        : "bg-gradient-to-r from-blue-500 to-blue-800";
+    const bgClass = React.useMemo(() => {
+      if (variant === "gradient") {
+        return "bg-gradient-to-r from-green-300 via-blue-500 to-purple-600";
+      }
+
+      switch (brand?.toLowerCase()) {
+        case "amex":
+          return "bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 text-white";
+        case "visa":
+          return "bg-gradient-to-r from-blue-500 via-blue-600 to-blue-800 text-white";
+        case "mastercard":
+          return "bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white";
+        default:
+          return "bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white";
+      }
+    }, [variant, brand]);
+
+    const opacityClass = status === "active" ? "opacity-100" : "opacity-60";
 
     return (
       <div
@@ -37,6 +51,7 @@ const BankCard = React.forwardRef<HTMLDivElement, BankCardProps>(
         className={cn(
           "relative w-72 h-44 sm:h-56 sm:w-96 rounded-2xl shadow-2xl p-6 text-white overflow-hidden transition-transform sm:hover:scale-110",
           bgClass,
+          opacityClass,
           className
         )}
         {...props}

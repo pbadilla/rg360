@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Download, Eye, Filter, Search } from "lucide-react";
+import { Download, Eye, Filter, Search, AlertCircle, CheckCircle, CirclePlus, BadgeDollarSign } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,59 +80,8 @@ const TransactionTracker = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <Button className="bg-green-600 hover:bg-green-700">
-          <Download className="h-4 w-4 mr-2" />
-          Export
-        </Button>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-gray-500 text-white">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold">${totalAmount.toFixed(2)}</div>
-            <p className="text-sm text-white">Total Amount</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-green-600 text-white">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold">
-              {
-                filteredTransactions.filter((t) => t.status === "completed")
-                  .length
-              }
-            </div>
-            <p className="text-sm text-white">Completed</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-yellow-600 text-white">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold">
-              {
-                filteredTransactions.filter((t) => t.status === "pending")
-                  .length
-              }
-            </div>
-            <p className="text-sm text-white">Pending</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-red-600 text-white">
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold">
-              {filteredTransactions.filter((t) => t.status === "failed").length}
-            </div>
-            <p className="text-sm text-white">Failed</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Filters</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row gap-4">
+              {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -156,9 +105,67 @@ const TransactionTracker = () => {
                 <SelectItem value="refunded">Refunded</SelectItem>
               </SelectContent>
             </Select>
+            <Button className="bg-green-600 hover:bg-green-700">
+              <Download className="h-4 w-4 mr-2" />
+              Export
+            </Button>
           </div>
-        </CardContent>
-      </Card>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="bg-gray-500">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <BadgeDollarSign className="h-8 w-8 text-white mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white">{totalAmount.toFixed(2)} €</div>
+                <p className="text-sm text-white">Total Amount</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-green-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <CheckCircle className="h-8 w-8 text-white mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white">
+                  {filteredTransactions.filter((t) => t.status === "completed").length}
+                </div>
+                <p className="text-sm text-white">Completed</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-yellow-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <AlertCircle className="h-8 w-8 text-white mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white">
+                  { filteredTransactions.filter((t) => t.status === "pending").length }
+                </div>
+                <p className="text-sm text-white">Pending</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-red-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <CirclePlus className="h-8 w-8 text-white mr-3 rotate-45" />
+              <div>
+                <div className="text-2xl font-bold text-white">
+                  {filteredTransactions.filter((t) => t.status === "failed").length}
+                </div>
+                <p className="text-sm text-white">Failed</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Transactions Table */}
       <Card>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { CreditCard, DollarSign, Eye, Mail, Phone, Search } from "lucide-react";
+import { PersonStanding, CreditCard, BadgeDollarSign, Eye, Mail, Phone, Search } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarInitials } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -96,95 +96,75 @@ const CustomerManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-800">
-            Customer Manager
-          </h2>
-          <p className="text-slate-600">
-            Manage customer payment profiles and history
-          </p>
-        </div>
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <Input
+          placeholder="Search customers by name or email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
+        <Card className="bg-gray-500 text-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <PersonStanding className="h-8 w-8 text-white mr-3" />
               <div>
-                <div className="text-2xl font-bold text-slate-900">
+                <div className="text-2xl font-bold text-white ">
                   {totalCustomers}
                 </div>
-                <p className="text-sm text-slate-600">Total Customers</p>
-              </div>
-              <div className="p-3 rounded-lg bg-blue-100">
-                <CreditCard className="h-6 w-6 text-blue-600" />
+                <p className="text-sm text-white">Total Customers</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+
+        <Card className="bg-green-600">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-green-600">
-                  {activeCustomers}
+              <div className="flex items-center">
+                <PersonStanding className="h-8 w-8 text-white mr-3" />
+                <div>
+                  <div className="text-2xl font-bold text-white ">
+                    {activeCustomers}
+                  </div>
+                  <p className="text-sm text-white">Active Customers</p>
                 </div>
-                <p className="text-sm text-slate-600">Active Customers</p>
               </div>
-              <div className="p-3 rounded-lg bg-green-100">
-                <Badge className="h-6 w-6 text-green-600" />
+            </CardContent>
+        </Card>
+
+        <Card className="bg-yellow-600">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <BadgeDollarSign className="h-8 w-8 text-white mr-3" />
+              <div>
+                <div className="text-2xl font-bold text-white ">
+                  {totalRevenue.toFixed(2)}€
+                </div>
+                <p className="text-sm text-white">Total Revenue</p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-yellow-600">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <BadgeDollarSign className="h-8 w-8 text-white mr-3" />
               <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  ${totalRevenue.toFixed(2)}
+                <div className="text-2xl font-bold text-white ">
+                {avgSpending.toFixed(2)}€
                 </div>
-                <p className="text-sm text-slate-600">Total Revenue</p>
-              </div>
-              <div className="p-3 rounded-lg bg-purple-100">
-                <DollarSign className="h-6 w-6 text-purple-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  ${avgSpending.toFixed(2)}
-                </div>
-                <p className="text-sm text-slate-600">Avg. Spending</p>
-              </div>
-              <div className="p-3 rounded-lg bg-orange-100">
-                <DollarSign className="h-6 w-6 text-orange-600" />
+                <p className="text-sm text-white">Avg. Spending</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Search */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Search customers by name or email..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Customers Table */}
       <Card>

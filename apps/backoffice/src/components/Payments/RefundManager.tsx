@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import { useState } from "react";
 
-import { AlertCircle, CheckCircle, Plus, RotateCcw } from "lucide-react";
+import { AlertCircle, CheckCircle, Plus, BadgeDollarSign } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -247,10 +247,10 @@ const RefundManager = () => {
         <Card className="bg-gray-500 text-white">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <RotateCcw className="h-8 w-8 text-white mr-3" />
+              <BadgeDollarSign className="h-8 w-8 text-white mr-3" />
               <div>
                 <div className="text-2xl font-bold text-white ">
-                  ${totalRefunded.toFixed(2)}
+                  {totalRefunded.toFixed(2)} €
                 </div>
                 <p className="text-sm text-white">Total Refunded</p>
               </div>

@@ -93,31 +93,33 @@ const PaymentStats = () => {
             className="hover:shadow-md transition-shadow bg-gray-500"
           >
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-white">{stat.title}</p>
-                  <p className="text-3xl font-bold text-white">{stat.value}</p>
-                  <div className="flex items-center mt-2">
-                    <div
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        stat.trend === "up"
-                          ? "bg-green-100 text-green-600"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
-                      {stat.trend === "up" ? (
-                        <TrendingUp className="h-4 w-4 mr-1" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4 mr-1" />
-                      )}
-                      {stat.change}
-                    </div>
-                  </div>
+
+
+            <div className="flex items-center">
+              <stat.icon className={`h-8 w-8 ${stat.color}`} />
+              <div>
+                <div className="text-2xl font-bold text-white">
+                  {stat.value}
                 </div>
-                <div className={`p-3 rounded-lg bg-slate-100`}>
-                  <stat.icon className={`h-6 w-6 ${stat.color}`} />
-                </div>
+                <p className="text-sm text-white">{stat.title}</p>
               </div>
+              <div className="flex items-center mt-2">
+                  <div
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      stat.trend === "up"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {stat.trend === "up" ? (
+                      <TrendingUp className="h-4 w-4 mr-1" />
+                    ) : (
+                      <TrendingDown className="h-4 w-4 mr-1" />
+                    )}
+                    {stat.change}
+                  </div>
+              </div>
+            </div>
             </CardContent>
           </Card>
         ))}

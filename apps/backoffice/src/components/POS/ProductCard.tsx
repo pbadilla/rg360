@@ -1,13 +1,16 @@
+import { useState } from "react";
+
 import { Plus, PlusCircle } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 
 import type { Product } from "@/types/product";
 
-import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { QRCodeSVG } from "qrcode.react";
 
 interface ProductCardProps {
   product: Product;
@@ -37,21 +40,30 @@ const ProductCard = ({ product, onAddToCart, onReserve, hasAddButton, allowReser
         </div>
       )}
 
-      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px] w-full">
+      <div className="aspect-square bg-muted rounded-lg mb-3 flex items-start justify-center overflow-hidden max-h-[255px] w-full relative">
           <ProductImageCarousel product={product} />
+          <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm p-1 rounded">
+            <QRCodeSVG
+              value={product.id}
+              size={30}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              level="M"
+              includeMargin={false}
+            />
+          </div>
       </div>
 
       <div className="space-y-2">
         <h3 className="font-semibold text-sm h-13 overflow-hidden line-clamp-2 min-h-[40px]">
           {product?.name}
         </h3>
+
         <div className="flex items-center justify-between">
-          <p className="text-lg font-bold text-primary">
+          <span className="bg-primary text-white font-semibold text-lg px-3 py-1 rounded-lg shadow-sm">
             ${product.price?.pvp ?? "N/A"}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Stock: {product?.stock}
-          </p>
+          </span>
+          <Badge variant="outline">Stock: {product?.stock} </Badge>
         </div>
 
         {hasAddButton && (
@@ -85,8 +97,6 @@ const ProductCard = ({ product, onAddToCart, onReserve, hasAddButton, allowReser
             )}
           </Button>
         )}
-
-
       </div>
     </Card>
   );

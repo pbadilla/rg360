@@ -7,6 +7,7 @@ import { Pen, Trash2 } from "lucide-react";
 
 import { ProductVariations } from "@/components/Products/ProductVariations";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -110,7 +111,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {product.category?.name}
           </Badge>
 
-          <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
+          <div className="absolute top-12 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
             <QRCodeSVG
               value={product.id}
               size={48}

@@ -17,7 +17,7 @@ const CarouselImageItem = ({ src, alt }) => {
   return (
     <div
       className={cn(
-        "relative w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center",
+        "relative w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center bg-white ",
         isFallback
           ? "bg-gray-200 border-2 border-dashed border-gray-400"
           : "bg-muted"

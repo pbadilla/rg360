@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Package, Upload, Download } from "lucide-react";
 
@@ -20,51 +20,112 @@ interface Product {
   supplier: string;
 }
 
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    name: "Wireless Bluetooth Headphones",
-    sku: "WBH-001",
-    price: 79.99,
-    stock: 156,
-    status: "imported",
-    lastUpdated: "2024-06-17 10:30:00",
-    supplier: "TechSupplier Co.",
-  },
-  {
-    id: "2",
-    name: "Smart Fitness Tracker",
-    sku: "SFT-002",
-    price: 129.99,
-    stock: 89,
-    status: "imported",
-    lastUpdated: "2024-06-17 09:45:00",
-    supplier: "HealthTech Ltd.",
-  },
-  {
-    id: "3",
-    name: "Portable Phone Charger",
-    sku: "PPC-003",
-    price: 24.99,
-    stock: 0,
-    status: "pending",
-    lastUpdated: "2024-06-17 08:15:00",
-    supplier: "PowerGear Inc.",
-  },
-  {
-    id: "4",
-    name: "LED Desk Lamp",
-    sku: "LDL-004",
-    price: 45.99,
-    stock: 23,
-    status: "error",
-    lastUpdated: "2024-06-17 07:20:00",
-    supplier: "LightCorp",
-  },
-];
+// const mockProducts: Product[] = [
+//   {
+//     id: "1",
+//     name: "Wireless Bluetooth Headphones",
+//     sku: "WBH-001",
+//     price: 79.99,
+//     stock: 156,
+//     status: "imported",
+//     lastUpdated: "2024-06-17 10:30:00",
+//     supplier: "TechSupplier Co.",
+//   },
+//   {
+//     id: "2",
+//     name: "Smart Fitness Tracker",
+//     sku: "SFT-002",
+//     price: 129.99,
+//     stock: 89,
+//     status: "imported",
+//     lastUpdated: "2024-06-17 09:45:00",
+//     supplier: "HealthTech Ltd.",
+//   },
+//   {
+//     id: "3",
+//     name: "Portable Phone Charger",
+//     sku: "PPC-003",
+//     price: 24.99,
+//     stock: 0,
+//     status: "pending",
+//     lastUpdated: "2024-06-17 08:15:00",
+//     supplier: "PowerGear Inc.",
+//   },
+//   {
+//     id: "4",
+//     name: "LED Desk Lamp",
+//     sku: "LDL-004",
+//     price: 45.99,
+//     stock: 23,
+//     status: "error",
+//     lastUpdated: "2024-06-17 07:20:00",
+//     supplier: "LightCorp",
+//   },
+// ];
 
 export const ProductList = () => {
-  const [products] = useState<Product[]>(mockProducts);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+
+  // Get data from stores instead of mock data
+  const {
+    loading,
+    importUniverskate,
+    importRollerblade,
+    importAll,
+    importCSV,
+    lastImportResult,
+    importHistory,
+  } = useImportStore();
+
+  const {
+    products: stockProducts,
+    loading: stockLoading,
+    refetch,
+    fetchProducts,
+  } = useStockStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  const products: Product[] =
+    stockProducts?.map((product) => ({
+      id: product.id || product._id || Math.random().toString(),
+      name: product.name || product.title || "Unknown Product",
+      sku: product.sku || product.code || "N/A",
+      price: product.price || 0,
+      stock: product.stock || product.quantity || 0,
+      status: determineProductStatus(product),
+      lastUpdated:
+        product.updatedAt || product.lastModified || new Date().toISOString(),
+      supplier: product.supplier || product.source || "Unknown",
+    })) || [];
+
+  function determineProductStatus(
+    product: any
+  ): "imported" | "pending" | "error" {
+    // Check if this product was in the last import
+    if (
+      lastImportResult?.success &&
+      lastImportResult?.products?.some((p: any) => p.sku === product.sku)
+    ) {
+      return "imported";
+    }
+
+    // Check import history for this product
+    const productHistory = importHistory?.find((history: any) =>
+      history.products?.some((p: any) => p.sku === product.sku)
+    );
+
+    if (productHistory) {
+      return productHistory.success ? "imported" : "error";
+    }
+
+    // Default logic
+    if (product.stock > 0) return "imported";
+    if (product.error || product.hasError) return "error";
+    return "pending";
+  }
 
   const getStatusBadge = (status: Product["status"]) => {
     switch (status) {
@@ -91,23 +152,66 @@ export const ProductList = () => {
     }
   };
 
-  const { loading, importUniverskate, importRollerblade, importAll, importCSV } = useImportStore();
-  const { refetch } = useStockStore(); // refetch after import
-
-  const handleImport = async (type: "universkate" | "rollerblade" | "all" | "csv", csvData?: FormData) => {
+  const handleImport = async (
+    type: "universkate" | "rollerblade" | "all" | "csv",
+    csvData?: FormData
+  ) => {
     try {
-      if (type === "universkate") await importUniverskate();
-      if (type === "rollerblade") await importRollerblade();
-      if (type === "all") await importAll();
-      if (type === "csv" && csvData) await importCSV(csvData);
+      let result;
 
-      await refetch(); // update product list
+      if (type === "universkate") {
+        result = await importUniverskate();
+      } else if (type === "rollerblade") {
+        result = await importRollerblade();
+      } else if (type === "all") {
+        result = await importAll();
+      } else if (type === "csv" && csvData) {
+        result = await importCSV(csvData);
+      }
+
+      // Show success/error message
+      if (result?.success) {
+        alert(`Import successful! Imported ${result.count || 0} products.`);
+      } else {
+        alert(`Import failed: ${result?.error || "Unknown error"}`);
+      }
+
+      // Refresh the product list
+      await refetch();
     } catch (error) {
-      console.error(error);
-      alert("Import failed");
+      console.error("Import error:", error);
+      alert(
+        `Import failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   };
-  
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type === "text/csv") {
+      setCsvFile(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      handleImport("csv", formData);
+    } else {
+      alert("Please select a valid CSV file");
+    }
+  };
+
+  const handleRefresh = async () => {
+    await refetch();
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleString();
+    } catch {
+      return dateString;
+    }
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -180,7 +284,9 @@ export const ProductList = () => {
                 </td>
                 <td className="py-3 px-4">
                   <span
-                    className={`${product.stock > 0 ? "text-green-600" : "text-red-600"} font-medium`}
+                    className={`${
+                      product.stock > 0 ? "text-green-600" : "text-red-600"
+                    } font-medium`}
                   >
                     {product.stock}
                   </span>

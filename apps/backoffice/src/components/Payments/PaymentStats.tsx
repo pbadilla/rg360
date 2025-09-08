@@ -15,7 +15,7 @@ import {
 
 import {
   CreditCard,
-  DollarSign,
+  BadgeDollarSign,
   RefreshCw,
   TrendingDown,
   TrendingUp,
@@ -54,7 +54,7 @@ const PaymentStats = () => {
       value: "$127,450",
       change: "+12.5%",
       trend: "up",
-      icon: DollarSign,
+      icon: BadgeDollarSign,
       color: "text-green-600",
     },
     {

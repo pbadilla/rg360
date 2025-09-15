@@ -1,10 +1,13 @@
 import React, { useMemo, useState } from "react";
+
 import { toast } from "sonner";
+
 import { Edit2, PlusCircle, Save, Trash2, AlertCircle } from "lucide-react";
 
 import { ImageUpload } from "@/components/csv/ImageUpload";
 import SearchInput from "@/components/SearchInput";
 import SortSelector from "@/components/sorting/SortSelector";
+import StockProductDialog from "@/components/Stock/StockProductDialog";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -21,7 +24,6 @@ import { cn } from "@/lib/utils";
 import { searchEntities } from "@/utils/searchEntities";
 import { sortEntities } from "@/utils/sortEntities";
 
-import StockProductDialog from "@/components/Stock/StockProductDialog";
 
 type Field<T> = {
   key: keyof T;

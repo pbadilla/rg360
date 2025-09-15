@@ -1,8 +1,9 @@
 import { useEntityStore } from "@/store/useEntityStore";
 
+import type { ShippingMethod } from "@/types/shippingMethod";
+
 import api from "@/config/axiosConfig";
 
-import type { ShippingMethod } from "@/types/shippingMethod";
 
 export const useShippingMethodStore = () =>
   useEntityStore<ShippingMethod>({

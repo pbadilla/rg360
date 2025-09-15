@@ -1,5 +1,7 @@
 import { useEntityStore } from "@/store/useEntityStore";
+
 import type { Customer } from "@/types/payments";
+
 import api from "@/config/axiosConfig";
 import { searchEntity, sortEntity } from "@/utils/genericUtils";
 

@@ -12,8 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCarriersStore } from "@/store/useCarriersStore";
 import { useShippingMethodStore } from "@/store/useShippingMethodStore";
 
-import ShippingMethodsList from "./ShippingMethodsList";
 import CarrierList from "./CarrierList";
+import ShippingMethodsList from "./ShippingMethodsList";
 
 const ShippingManager = () => {
   const {

@@ -1,8 +1,9 @@
-import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // for click events
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import FullCalendar from "@fullcalendar/react";
+
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import type { BannerPromotion } from "@/pages/Promotions/ScheduledPromotion";
 

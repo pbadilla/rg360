@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { BankCard } from "@/components/ui/bankcard";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -38,9 +39,10 @@ import {
 } from "@/components/ui/select";
 
 import { useToast } from "@/hooks/use-toast";
+
 import { usePaymentMethodStore } from "@/store/usePaymentMethodStore";
+
 import { PaymentMethod } from "@/types/payments";
-import { BankCard } from "@/components/ui/bankcard";
 
 const PaymentMethodsManager = () => {
   const {

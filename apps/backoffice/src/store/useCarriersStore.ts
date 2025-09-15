@@ -1,8 +1,9 @@
 import { useEntityStore } from "@/store/useEntityStore";
 
+import type { Carrier} from "@/types/carriers";
+
 import api from "@/config/axiosConfig";
 
-import type { Carrier} from "@/types/carriers";
 
 export const useCarriersStore = () =>
   useEntityStore<Carrier>({
@@ -12,7 +13,7 @@ export const useCarriersStore = () =>
 
       console.log("res", res);
 
-      let rawCarriers = res.data?.carriers ?? [];
+      const rawCarriers = res.data?.carriers ?? [];
 
       let carriers: Carrier[] = [];
       if (Array.isArray(rawCarriers) && rawCarriers.length > 0) {

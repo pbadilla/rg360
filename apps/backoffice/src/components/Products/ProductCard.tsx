@@ -5,9 +5,9 @@ import { QRCodeSVG } from "qrcode.react";
 
 import { Pen, Trash2 } from "lucide-react";
 
+import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 import { ProductVariations } from "@/components/Products/ProductVariations";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/card";
 import { ColorBadge } from "@/components/ui/color-badge";
 import { OfferBadge } from "@/components/ui/offer-badge";
-import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 
 import type { Product } from "@/types/product";
 

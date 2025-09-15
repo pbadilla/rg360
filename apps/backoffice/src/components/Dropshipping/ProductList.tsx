@@ -78,28 +78,38 @@ export const ProductList = () => {
   } = useImportStore();
 
   const {
-    products: stockProducts,
-    loading: stockLoading,
-    refetch,
-    fetchProducts,
+    entities: stockProducts,
+    isLoading: stockLoading,
+    setPage,
+    page,
+    pageSize,
+    total,
+    error,
+    refetch
   } = useStockStore();
 
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
-
   const products: Product[] =
-    stockProducts?.map((product) => ({
-      id: product.id || product._id || Math.random().toString(),
-      name: product.name || product.title || "Unknown Product",
-      sku: product.sku || product.code || "N/A",
-      price: product.price || 0,
-      stock: product.stock || product.quantity || 0,
-      status: determineProductStatus(product),
-      lastUpdated:
-        product.updatedAt || product.lastModified || new Date().toISOString(),
-      supplier: product.supplier || product.source || "Unknown",
-    })) || [];
+  stockProducts?.map((product: any) => ({
+    id: product.id ?? Math.random().toString(),
+    name:
+      typeof product.name === "string"
+        ? product.name
+        : product.name?.en || product.name?.default || "Unknown Product",
+    sku: product.sku ?? "N/A",
+    price:
+      typeof product.price === "number"
+        ? product.price
+        : product.price?.pvp ?? 0, // pick a numeric field
+    stock:
+      typeof product.stock === "number"
+        ? product.stock
+        : product.stock?.quantity ?? 0, // pick a numeric field
+    status: determineProductStatus(product),
+    lastUpdated:
+      product.updatedAt || product.lastModified || new Date().toISOString(),
+    supplier: product.supplier || product.source || "Unknown",
+  })) || [];
+
 
   function determineProductStatus(
     product: any
@@ -212,6 +222,8 @@ export const ProductList = () => {
     }
   };
 
+  console.log("products", products);
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -244,25 +256,25 @@ export const ProductList = () => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200">
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Product
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 SKU
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Price
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Stock
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Status
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Supplier
               </th>
-              <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <th className="text-left py-3 px-4 font-medium text-gray-200">
                 Last Updated
               </th>
             </tr>
@@ -271,16 +283,16 @@ export const ProductList = () => {
             {products.map((product) => (
               <tr
                 key={product.id}
-                className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                className="border-b border-gray-100 text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <td className="py-3 px-4">
-                  <div className="font-medium text-gray-900">
+                  <div className="font-medium text-gray-500">
                     {product.name}
                   </div>
                 </td>
-                <td className="py-3 px-4 text-gray-600">{product.sku}</td>
-                <td className="py-3 px-4 text-gray-900 font-medium">
-                  ${product.price}
+                <td className="py-3 px-4 text-gray-500">{product.id}</td>
+                <td className="py-3 px-4 text-gray-500 font-medium">
+                  {product.price} €
                 </td>
                 <td className="py-3 px-4">
                   <span
@@ -292,7 +304,7 @@ export const ProductList = () => {
                   </span>
                 </td>
                 <td className="py-3 px-4">{getStatusBadge(product.status)}</td>
-                <td className="py-3 px-4 text-gray-600">{product.supplier}</td>
+                <td className="py-3 px-4 text-gray-500">{product.supplier}</td>
                 <td className="py-3 px-4 text-gray-500 text-sm">
                   {product.lastUpdated}
                 </td>

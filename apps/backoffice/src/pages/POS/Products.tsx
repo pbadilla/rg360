@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Package, Plus } from "lucide-react";
 import InsideLayout from "@/components/layout/InsideLayout";
 import ProductCard from "@/components/POS/ProductCard";
 import ProductEditDialog from "@/components/Products/ProductEditDialog";
+import ProductsImportCSVDialog from "@/components/Products/ProductsImportCSVDialog";
 import ProductTable from "@/components/Products/ProductTable";
 import SearchInput from "@/components/SearchInput";
 import SortDropdown, {
@@ -27,7 +28,6 @@ import ViewToggle from "@/components/ViewToggle";
 
 import { useProductStore } from "@/store/useProductStore";
 
-import ProductsImportCSVDialog from "@/components/Products/ProductsImportCSVDialog";
 
 const POSProducts: React.FC = () => {
   const {

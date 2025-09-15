@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import api from "@/config/axiosConfig";
+
 import type { Product } from "@/types/product";
+
 import { useEntityStore } from "./useEntityStore";
+
+import api from "@/config/axiosConfig";
 
 // Custom search function for products
 const searchProducts = (products: Product[], term: string) => {

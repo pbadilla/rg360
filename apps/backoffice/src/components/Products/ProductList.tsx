@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+
 import { ChevronLeft, ChevronRight, Plus, PlusCircle } from "lucide-react";
 
 import SearchInput from "@/components/SearchInput";
@@ -6,15 +7,6 @@ import SortDropdown, {
   type SortConfig,
 } from "@/components/sorting/SortSelector";
 import { Button } from "@/components/ui/button";
-
-import { useProductStore } from "@/store/useProductStore";
-import { Product } from "@/types/product";
-
-import ProductCard from "./ProductCard";
-import ProductEditDialog from "./ProductEditDialog";
-import ProductTable from "./ProductTable";
-import ViewToggle from "../ViewToggle";
-
 import {
   Pagination,
   PaginationContent,
@@ -24,6 +16,16 @@ import {
   PaginationNext,
   PaginationEllipsis,
 } from "@/components/ui/pagination"; // Adjust import path
+
+import { useProductStore } from "@/store/useProductStore";
+
+import { Product } from "@/types/product";
+
+import ProductCard from "./ProductCard";
+import ProductEditDialog from "./ProductEditDialog";
+import ProductTable from "./ProductTable";
+import ViewToggle from "../ViewToggle";
+
 import { getPaginationPages } from "@/utils/pagination";
 
 const ProductList: React.FC = () => {
@@ -230,9 +232,9 @@ const ProductList: React.FC = () => {
             <PaginationContent>
               {getPaginationPages(currentPage, totalPages).map((page, idx) =>
                 page === "..." ? (
-                  <PaginationEllipsis key={idx} />
+                  <PaginationEllipsis key={`ellipsis-${idx}`} />
                 ) : (
-                  <PaginationItem key={page}>
+                  <PaginationItem key={`page-${page}-${idx}`}>
                     <PaginationLink
                       isActive={currentPage === page}
                       onClick={() => setCurrentPage(page)}

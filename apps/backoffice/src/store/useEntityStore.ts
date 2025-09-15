@@ -52,7 +52,7 @@ export const useEntityStore = <T extends { id: string }>(
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: [queryKey, page, pageSize],
     queryFn: () => fetchFn({ page, pageSize }),
     staleTime: 5 * 60 * 1000,
@@ -68,6 +68,7 @@ export const useEntityStore = <T extends { id: string }>(
   const filteredEntities = useMemo(() => {
     const searched = searchFn(entities, searchTerm);
     return sortFn(searched, sortConfig);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entities, searchTerm, sortConfig]);
 
   const deleteMutation = useMutation({
@@ -155,5 +156,6 @@ export const useEntityStore = <T extends { id: string }>(
     isEditing: updateMutation.isPending,
     isAdding: createMutation.isPending,
     isImporting: importMutation.isPending,
+    refetch
   };
 };

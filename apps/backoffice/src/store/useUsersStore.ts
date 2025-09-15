@@ -1,6 +1,7 @@
+import { useEntityStore } from "@/store/useEntityStore";
+
 import type { User } from "@/types/users";
 
-import { useEntityStore } from "@/store/useEntityStore";
 
 import api from "@/config/axiosConfig";
 // import { searchUsers, sortUsers } from "@/utils/userUtils";

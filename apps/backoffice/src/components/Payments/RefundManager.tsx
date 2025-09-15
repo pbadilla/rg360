@@ -40,8 +40,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { useToast } from "@/hooks/use-toast";
-import { Refund } from "@/types/payments";
+
 import { useRefundsStore } from "@/store/useRefundsStore";
+
+import { Refund } from "@/types/payments";
 
 const RefundManager = () => {
   const { toast } = useToast();

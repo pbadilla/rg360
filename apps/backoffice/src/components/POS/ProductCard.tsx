@@ -1,16 +1,17 @@
 import { useState } from "react";
 
+import { QRCodeSVG } from "qrcode.react";
+
 import { Plus, PlusCircle } from "lucide-react";
 
+import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import ProductImageCarousel from "@/components/Products/ProductImageCarousel";
 
 import type { Product } from "@/types/product";
 
 import { cn } from "@/lib/utils";
-import { QRCodeSVG } from "qrcode.react";
 
 interface ProductCardProps {
   product: Product;

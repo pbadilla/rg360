@@ -1,19 +1,12 @@
 /** biome-ignore-all lint/a11y/useButtonType: <explanation> */
 import React, { useMemo, useState, useEffect } from "react";
+
 import { toast } from "sonner";
+
 import { Edit2, PlusCircle, Save, Trash2 } from "lucide-react";
 
 import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
-import { useCategoryStore } from "@/store/useCategoryStore";
-import type { Category } from "@/types/category";
-import { ImageUpload } from "../csv/ImageUpload";
-import SortSelector from "../sorting/SortSelector";
-import { useStaggeredAnimation } from "@/lib/animations";
-import { cn } from "@/lib/utils";
-import { searchEntities } from "@/utils/searchEntities";
-import { sortEntities } from "@/utils/sortEntities";
-
 import {
   Pagination,
   PaginationContent,
@@ -23,6 +16,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+
+import { useCategoryStore } from "@/store/useCategoryStore";
+
+import type { Category } from "@/types/category";
+
+import { ImageUpload } from "../csv/ImageUpload";
+import SortSelector from "../sorting/SortSelector";
+
+import { useStaggeredAnimation } from "@/lib/animations";
+import { cn } from "@/lib/utils";
+import { searchEntities } from "@/utils/searchEntities";
+import { sortEntities } from "@/utils/sortEntities";
+
 
 export function CategoryTable() {
   const {

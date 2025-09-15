@@ -1,4 +1,5 @@
 import { useRef, useState, useMemo } from "react";
+
 import { Search } from "lucide-react";
 
 import InsideLayout from "@/components/layout/InsideLayout";
@@ -14,14 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -30,11 +23,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 import { useToast } from "@/hooks/use-toast";
+
 import { useProductStore } from "@/store/useProductStore";
 
 import type { CartItem, Product } from "@/types/product";
+
 import { sortByStock } from "@/utils/sort";
 
 const sellers = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"];

@@ -1,5 +1,4 @@
 import InsideLayout from "@/components/layout/InsideLayout";
-
 import { PromotionTable } from "@/components/Promotions/PromotionTable";
 
 const ActivePromotion = () => {

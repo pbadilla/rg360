@@ -28,8 +28,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Transaction } from "@/types/payments";
 import { useTransactionsStore } from "@/store/useTransactionsStore";
+
+import { Transaction } from "@/types/payments";
 
 const TransactionTracker = () => {
   const {

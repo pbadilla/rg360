@@ -1,7 +1,8 @@
 import { useEntityStore } from "@/store/useEntityStore";
-import type { PaymentMethod } from "@/types/payments";
-import api from "@/config/axiosConfig";
 
+import type { PaymentMethod } from "@/types/payments";
+
+import api from "@/config/axiosConfig";
 import { searchPaymentMethod, sortPaymentMethod } from "@/utils/paymentsUtils";
 
 export const usePaymentMethodStore = () =>

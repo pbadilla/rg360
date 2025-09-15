@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { number } from "framer-motion";
 
+import { CSVImport } from "@/components/csv/csv-import";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CSVImport } from "@/components/csv/csv-import";
 
 import { Category } from "@/types/category";
 import type { Product } from "@/types/product";

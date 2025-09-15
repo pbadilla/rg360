@@ -47,26 +47,54 @@ const ProductTable: React.FC<ProductTableProps> = ({
           {products.map((product) => (
             <TableRow key={product.id}>
               <TableCell>
-                <div className="h-12 w-12 rounded overflow-hidden bg-muted">
+                <div className="h-12 w-12 rounded overflow-hidden bg-white">
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={
+                      Array.isArray(product.images) && product.images.length > 0
+                        ? typeof product.images[0] === "string"
+                          ? product.images[0]
+                          : product.images[0]?.url || ""
+                        : ""
+                    }
+                    alt={
+                      typeof product.name === "string"
+                        ? product.name
+                        : (product.name && "en" in product.name) ||
+                          (product.name && "default" in product.name) ||
+                          "Unknown"
+                    }
                     className="h-full w-full object-cover"
                   />
                 </div>
               </TableCell>
               <TableCell className="font-medium">
                 <div>
-                  <div className="font-medium">{product.name}</div>
+                <div className="font-medium">
+                  {typeof product.name === "string"
+                    ? product.name
+                    : "Unknown"}
+                </div>
                   <div className="text-sm text-muted-foreground line-clamp-1">
                     {product.description}
                   </div>
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant="outline">{product.category}</Badge>
+                <Badge variant="outline">
+                  {typeof product.category === "string"
+                    ? product.category
+                    : (product.category && "name" in product.category)
+                      ? product.category.name
+                      : "Unknown"}
+                </Badge>
               </TableCell>
-              <TableCell>{formatPrice(product.price)}</TableCell>
+              <TableCell>
+                {typeof product.price === "number"
+                  ? formatPrice(product.price)
+                  : typeof product.price === "object" && product.price !== null && "amount" in product.price && typeof (product.price as { amount?: unknown }).amount === "number"
+                    ? formatPrice((product.price as { amount: number }).amount)
+                    : "N/A"}
+              </TableCell>
               <TableCell>
                 <Badge variant={product.stock > 10 ? "outline" : "destructive"}>
                   {product.stock}

@@ -17,10 +17,10 @@ const CarouselImageItem = ({ src, alt }) => {
   return (
     <div
       className={cn(
-        "relative w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center bg-white ",
+        "relative w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center bg-white",
         isFallback
           ? "bg-gray-200 border-2 border-dashed border-gray-400"
-          : "bg-muted"
+          : "bg-white"
       )}
     >
       <img
@@ -56,7 +56,7 @@ const ProductImageCarousel = ({ product }) => {
       : [null]; // fallback triggers CarouselImageItem
 
   return (
-    <div className="relative w-full max-w-[600px] mx-auto rounded-lg overflow-hidden bg-muted">
+    <div className="relative w-full max-w-[600px] mx-auto rounded-lg overflow-hidden">
       <Carousel className="w-full">
         <CarouselContent className="flex gap-4">
           {images.map((img, i) => (

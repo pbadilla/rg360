@@ -114,7 +114,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className="absolute top-12 right-3 bg-white/80 backdrop-blur-sm p-1 rounded">
             <QRCodeSVG
               value={product.id}
-              size={48}
+              size={80}
               bgColor="#ffffff"
               fgColor="#000000"
               level="M"

@@ -45,7 +45,7 @@ const ProductCard = ({ product, onAddToCart, onReserve, hasAddButton, allowReser
           <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm p-1 rounded">
             <QRCodeSVG
               value={product.id}
-              size={30}
+              size={70}
               bgColor="#ffffff"
               fgColor="#000000"
               level="M"
@@ -61,7 +61,7 @@ const ProductCard = ({ product, onAddToCart, onReserve, hasAddButton, allowReser
 
         <div className="flex items-center justify-between">
           <span className="bg-primary text-white font-semibold text-lg px-3 py-1 rounded-lg shadow-sm">
-            ${product.price?.pvp ?? "N/A"}
+            {product.price?.pvp ?? "N/A"} €
           </span>
           <Badge variant="outline">Stock: {product?.stock} </Badge>
         </div>

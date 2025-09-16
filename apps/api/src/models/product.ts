@@ -106,8 +106,7 @@ const VariationSchema = new Schema(
   { _id: false }
 );
 
-// Esquema principal
-
+// Esquema principal mongoDB
 export const ProductSchema = new Schema({
   brand: { type: String },
   category: { type: CategorySchema, required: false },

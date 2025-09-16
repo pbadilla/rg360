@@ -6,7 +6,7 @@ export interface CsvRow {
   Description?: string;
   ean13: string;
   Price?: string;
-  Stock?: string;
+  Stock?: string | number;
   Name: string;
   Image?: string;
   Brand: string;
@@ -66,3 +66,20 @@ export type ProductForDescription = Pick<
   BaseProduct,
   'brand' | 'reference' | 'ean13' | 'colors' | 'sizes' | 'price' | 'stock'
 >;
+
+
+// 6️⃣ Grouped product before enrichment/DB
+export interface GroupedProduct {
+  skuRoot: string;        // the family or prefix (e.g. "ABR")
+  reference: string;      // first reference in the group
+  ean13: string;
+  name: string;           // base name without color/size
+  brand: string;
+  category?: string | undefined;     // CSV category or mapped category
+  colors: string[];
+  sizes: string[];
+  price: number;
+  stock: number;
+  variations: Variation[];
+  images: string[];
+}

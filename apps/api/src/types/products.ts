@@ -1,3 +1,8 @@
+interface Price {
+  pvp: number;
+  pv: number;
+  benefit_percentage: number;
+}
 
 // 1️⃣ Parsed CSV row
 export interface CsvRow {
@@ -5,7 +10,7 @@ export interface CsvRow {
   Reference: string;
   Description?: string;
   ean13: string;
-  Price?: string;
+  Price?: Price;
   Stock?: string | number;
   Name: string;
   Image?: string;
@@ -30,7 +35,7 @@ export interface Variation {
   size: string;
   color: string;
   stock: number;
-  price: number;
+  price?: Price;
   image?: string;
 }
 
@@ -42,7 +47,7 @@ export interface BaseProduct {
   brand: string;
   colors: string[];
   sizes: string[];
-  price: number;
+  price: Price;
   stock: number;
   image?: string;
 }
@@ -78,7 +83,7 @@ export interface GroupedProduct {
   category?: string | undefined;     // CSV category or mapped category
   colors: string[];
   sizes: string[];
-  price: number;
+  price: Price;
   stock: number;
   variations: Variation[];
   images: string[];

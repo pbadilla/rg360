@@ -29,6 +29,7 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
         const headers = lines[0].split(';').map(h => h.trim().replace(/\r/g, ''));
         const dataRows = lines.slice(1);
 
+
         const csvRows: CsvRow[] = dataRows.map(line => {
           const values = line.split(';');
           const raw: any = {};
@@ -36,10 +37,16 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
             raw[key] = values[index]?.trim() || '';
           });
 
+          const retailPrice = formatPriceForMongoDB(raw['RETAIL PRICE'])
+
           return {
             Reference: raw['PRODUCT REF'],
             ean13: raw['EAN13 CODE'],
-            Price: formatPriceForMongoDB(raw['RETAIL PRICE']),
+            Price: {
+              pvp: retailPrice,
+              pv: retailPrice,
+              benefit_percentage: 0,
+            },
             Stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
             Name: raw['PRODUCT DESCRIPTION'],
             Image: raw['PICTURES'],

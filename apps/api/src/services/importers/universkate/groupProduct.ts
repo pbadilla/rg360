@@ -22,8 +22,12 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
       ean: row.ean13,
       size: extractCSizes(row.Reference)?.[0] || '',
       color: extractColor(row.Reference) || '',
-      stock: parseInt(String(row.Stock || '0'), 10),
-      price: parseFloat(row.Price || '0'), // number for GroupedProduct
+      stock: parseInt(String(row.Stock ?? 0), 10),
+      price: {
+        pvp: Number(row.Price?.pvp ?? 0),
+        pv: Number(row.Price?.pv ?? 0),
+        benefit_percentage: Number(row.Price?.benefit_percentage ?? 0),
+      },
       image: row.Image || DEFAULT_IMAGE,
     }));
 
@@ -40,9 +44,13 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
       sizes,
       variations,
       images: items.map(r => r.Image || DEFAULT_IMAGE),
-      price: parseFloat(first.Price || '0'), // number
-      stock: parseInt(String(first.Stock || '0'), 10),
-      category: undefined, // optional, will be enriched later
+      price: {
+        pvp: Number(first.Price?.pvp ?? 0),
+        pv: Number(first.Price?.pv ?? 0),
+        benefit_percentage: Number(first.Price?.benefit_percentage ?? 0),
+      },       // main price for grouped product
+      stock: parseInt(String(first.Stock ?? 0), 10),
+      category: undefined, // will be enriched later
     };
   });
 }

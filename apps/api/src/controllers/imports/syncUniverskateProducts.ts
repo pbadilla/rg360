@@ -14,7 +14,10 @@ export async function syncUniverskateProducts(req: Request, res: Response) {
     const { newProducts, updatedProducts, unchangedProducts } = await compareWithDB(grouped);
 
     // only enrich new + updated
-    const enriched = await enrichProducts([...newProducts, ...updatedProducts]);
+    const enriched = await enrichProducts([
+      ...(newProducts as any[]),
+      ...(updatedProducts as any[])
+    ]);
 
     // save back to DB
     await saveProducts(enriched);

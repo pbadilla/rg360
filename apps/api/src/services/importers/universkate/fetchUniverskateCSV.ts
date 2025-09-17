@@ -38,13 +38,14 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
           });
 
           const retailPrice = formatPriceForMongoDB(raw['RETAIL PRICE'])
+          const purchasePrice = formatPriceForMongoDB(raw['PURCHASE PRICE'])
 
           return {
             Reference: raw['PRODUCT REF'],
             ean13: raw['EAN13 CODE'],
             Price: {
               pvp: retailPrice,
-              pv: retailPrice,
+              pv: purchasePrice,
               benefit_percentage: 0,
             },
             Stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),

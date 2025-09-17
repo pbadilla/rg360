@@ -21,14 +21,14 @@ const cohere = cohereKey ? new CohereClient({ token: cohereKey }) : null;
 
 // Models
 const hfModels = [
-  process.env.HF_MODEL || "mistralai/Mistral-7B-Instruct-v0.2",
-  "tiiuae/falcon-7b-instruct",
-  "openassistant/openassistant-7b",
+  process.env.HF_MODEL || "HuggingFaceH4/zephyr-7b-beta",
+  "mistralai/Mixtral-8x7B-Instruct-v0.1",
 ];
 
 const openaiModels = [
   process.env.OPENAI_MODEL || "gpt-4o-mini",
-  "gpt-4",
+  "gpt-4o",
+  "gpt-4.1-mini",
   "gpt-3.5-turbo",
 ];
 
@@ -155,7 +155,9 @@ async function tryAI21(product: ProductForDescription): Promise<string> {
       body: JSON.stringify({ prompt: createPrompt(product), maxTokens: 200 }),
     });
     const data = await res.json();
-    const text = data.completions?.[0]?.data?.text?.trim();
+    const text = data?.completions?.[0]?.data?.text 
+          || data?.completions?.[0]?.text 
+          || "";
     if (!text) throw new Error("No text");
     return text;
   });
@@ -169,7 +171,10 @@ async function tryOpenAI(product: ProductForDescription): Promise<string> {
       return await safeRun(`OpenAI(${model})`, async () => {
         const res = await openai.chat.completions.create({
           model,
-          messages: [{ role: "user", content: createPrompt(product) }],
+          messages: [
+            { role: "system", content: "You are a product description generator for an e-commerce store." },
+            { role: "user", content: createPrompt(product) },
+          ],
           temperature: 0.7,
           max_tokens: 200,
         });
@@ -179,11 +184,12 @@ async function tryOpenAI(product: ProductForDescription): Promise<string> {
         return text;
       });
     } catch {
-      continue; // try next model
+      continue;
     }
   }
   throw new Error("All OpenAI models failed");
 }
+
 
 // Main function with short-circuiting
 export async function AIDescription(product: ProductForDescription): Promise<string> {

@@ -76,7 +76,8 @@ export type ProductForDescription = Pick<
 // 6️⃣ Grouped product before enrichment/DB
 export interface GroupedProduct {
   skuRoot: string;        // the family or prefix (e.g. "ABR")
-  reference: string;      // first reference in the group
+  reference: string;
+  description?: string;
   ean13: string;
   name: string;           // base name without color/size
   brand: string;

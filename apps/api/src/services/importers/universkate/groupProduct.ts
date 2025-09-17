@@ -48,9 +48,9 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
         pvp: Number(first.Price?.pvp ?? 0),
         pv: Number(first.Price?.pv ?? 0),
         benefit_percentage: Number(first.Price?.benefit_percentage ?? 0),
-      },       // main price for grouped product
+      },
       stock: parseInt(String(first.Stock ?? 0), 10),
-      category: undefined, // will be enriched later
+      category: undefined,
     };
   });
 }

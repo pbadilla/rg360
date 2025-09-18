@@ -1,4 +1,4 @@
-interface Price {
+export interface Price {
   pvp: number;
   pv: number;
   benefit_percentage: number;

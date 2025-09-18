@@ -1556,7 +1556,6 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
         "variations"
@@ -10832,7 +10831,6 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
         "variations"
@@ -11154,7 +11152,6 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
         "variations"

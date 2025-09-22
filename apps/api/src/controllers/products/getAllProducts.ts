@@ -34,14 +34,40 @@ const getAllProducts = async (req: Request, res: Response) => {
       .limit(limit)
       .lean();
 
+  // Step 1: group
+  const productsByBrand = products.reduce((acc: any, product) => {
+    const brand = product.brand || "Unknown";
+
+    if (!acc[brand]) {
+      acc[brand] = { count: 0, products: [] };
+    }
+
+    acc[brand].products.push(product);
+    acc[brand].count++;
+
+    return acc;
+  }, {});
+
+  // Step 2: turn into array & sort
+  const sortedBrands = Object.entries(productsByBrand)
+    .map(([brand, data]) => {
+      const typedData = data as { count: number; products: any[] };
+      return {
+        brand,
+        count: typedData.count,
+        products: typedData.products,
+      };
+    })
+    .sort((a, b) => b.count - a.count);
+
     return res.status(200).json({
       page,
       limit,
       total,
       totalPages: limit > 0 ? Math.ceil(total / limit) : 1,
-      products,
+      brands: sortedBrands,
     });
-  } catch (error: any) {
+  } catch (error: any) {  
     console.error("Error fetching products:", error);
     return res.status(500).json({ message: error.message, error });
   }

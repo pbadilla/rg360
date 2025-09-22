@@ -7,21 +7,21 @@ export interface Price {
 // 1️⃣ Parsed CSV row
 export interface CsvRow {
   idCode?: string;
-  Reference: string;
-  Description?: string;
+  reference: string;
+  description?: string;
   ean13: string;
-  Price?: Price;
-  Stock?: string | number;
-  Name: string;
-  Image?: string;
-  Brand: string;
-  Family: string;
-  Weight?: string;
-  Color?: string;
-  Size?: string;
-  ColorNombre?: string;
-  ColorBase?: string;
-  ColorCodigo?: string;
+  price?: Price;
+  stock?: string | number;
+  name: string;
+  image?: string;
+  brand: string;
+  family: string;
+  weight?: string;
+  color?: string;
+  size?: string;
+  colorNombre?: string;
+  colorBase?: string;
+  colorCodigo?: string;
 }
 
 // Aliases per source (optional)

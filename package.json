@@ -2,7 +2,7 @@
   "name": "rollergrind360-ecommerce-platform",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@10.17.0",
   "license": "MIT",
   "description": "RollerGrind360 E-commerce Platform",
   "author": "pachibadilla@gmail.com",
@@ -22,15 +22,15 @@
     "preview": "concurrently -k -n api,front,backoffice \"pnpm preview:api\" \"pnpm preview:front\" \"pnpm preview:backoffice\""
   },
   "dependencies": {
-    "concurrently": "^9.1.2",
+    "concurrently": "^9.2.1",
     "rollergrind360-ecommerce-api": "workspace:*",
     "rollergrind360-ecommerce-backoffice": "workspace:*",
     "rollergrind360-ecommerce-frontend": "workspace:*"
   },
   "devDependencies": {
-    "open": "^10.1.2",
+    "open": "^10.2.0",
     "pnpm": "^8.15.4",
-    "wait-on": "^8.0.3"
+    "wait-on": "^9.0.1"
   },
   "workspaces": {
     "packages": [

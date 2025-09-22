@@ -7,11 +7,26 @@ import { useEntityStore } from "./useEntityStore";
 import api from "@/config/axiosConfig";
 
 // Custom search function for products
-const searchProducts = (products: Product[], term: string) => {
-  if (!term) return products;
-  return products.filter((p) =>
-    p.name.toLowerCase().includes(term.toLowerCase())
-  );
+const searchProducts = (
+  products: Product[],
+  term: string,
+  brands: string[] // new param
+) => {
+  return products.filter((p) => {
+    const name =
+      typeof (p as Product & { Name?: string }).name === "string"
+        ? (p as Product & { Name?: string }).name
+        : typeof (p as Product & { Name?: string }).Name === "string"
+        ? (p as Product & { Name?: string }).Name!
+        : "";
+
+    const brand = (p as Product & { Brand?: string }).brand ?? (p as Product & { Brand?: string }).Brand ?? "";
+
+    const matchesTerm = !term || name.toLowerCase().includes(term.toLowerCase());
+    const matchesBrand = brands.length === 0 || brands.includes(brand);
+
+    return matchesTerm && matchesBrand;
+  });
 };
 
 // Custom sort function for products
@@ -33,9 +48,11 @@ export const useProductStore = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
 
   const store = useEntityStore<Product>({
-    queryKey: ["products", currentPage, pageSize],
+    queryKey: `products-${currentPage}-${pageSize}`,
     fetchFn: async () => {
       const res = await api.get("/products", {
         params: { page: currentPage, pageSize },
@@ -65,7 +82,7 @@ export const useProductStore = () => {
       return res.data.products;
     },
     defaultSort: { key: "name", direction: "asc" },
-    searchFn: searchProducts,
+    searchFn: (products, term) => searchProducts(products, term, selectedBrands),
     sortFn: sortProducts,
   });
 
@@ -73,13 +90,22 @@ export const useProductStore = () => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
     store.refetch?.();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, store]);
+
+  const brandsList = Array.from(
+    new Set(
+      store.entities.map((p) => (p.brand ?? (typeof p === "object" && "Brand" in p ? (p as { Brand?: string }).Brand : undefined)) || "")
+    )
+  ).filter((b): b is string => Boolean(b)).sort();
 
   return {
     // data
     products: store.entities,
     filteredProducts: store.filteredEntities,
     totalProducts,
+    brandsList,
+    selectedBrands,
+    setSelectedBrands,
     currentPage,
     pageSize,
     totalPages: Math.ceil(totalProducts / pageSize),

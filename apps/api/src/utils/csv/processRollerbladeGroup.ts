@@ -1,7 +1,7 @@
 import { getOrGenerateDescriptionAI } from '@/utils/csv/getOrGenerateDescriptionAI';
 
 import { ProductModel } from '@/models/product';
-import { CsvRowRollerblade, Variation, ProductForDescription } from '@/types/products';
+import { CsvRowRollerblade, Variation, ProductForDescription, Price } from '@/types/products';
 
 export async function processRollerbladeGroup(
   idCode: string,
@@ -24,7 +24,7 @@ export async function processRollerbladeGroup(
     ean13: first.ean13,
     colors: [], // optional: extract colors if needed
     sizes: [],  // optional: extract sizes if needed
-    price: parseFloat(first.Price || '0'),
+    price: first.Price?.pvp || 0,
     stock: parseInt(String(first.Stock || '0'), 10),
   };
 
@@ -36,7 +36,8 @@ export async function processRollerbladeGroup(
   const variations: Variation[] = rows
     .filter(row => row.ean13 && row.Reference)
     .map(row => {
-      const price = parseFloat(row.Price || '0');
+      const priceValue = row.Price?.pvp || 0;
+      const price: Price = { pvp: priceValue, pv: priceValue, benefit_percentage: 0 };
       const stock = parseInt(String(row.Stock || '0'), 10);
       const size = typeof row.Size === 'string' ? row.Size.trim() : '';
       const color = (row.ColorNombre || row.ColorBase || row.ColorCodigo || '').trim();
@@ -48,7 +49,7 @@ export async function processRollerbladeGroup(
   const uniqueSizes = Array.from(new Set(variations.map(v => v.size).filter(Boolean)));
   const uniqueColors = Array.from(new Set(variations.map(v => v.color).filter(Boolean)));
 
-  const priceNumber = parseFloat(first.Price || '0');
+  const priceValue = first.Price?.pvp || 0;
 
   const product: any = {
     reference: idCode,
@@ -63,7 +64,7 @@ export async function processRollerbladeGroup(
     variations: [] as unknown[],
     sizes: uniqueSizes,
     colors: uniqueColors,
-    price: { pvp: priceNumber, pv: priceNumber, benefit_percentage: 0 },
+    price: { pvp: priceValue, pv: priceValue, benefit_percentage: 0 },
     stock: parseInt(String(first.Stock || '0'), 10),
     images: rows.map(r => r.Image).filter(Boolean) as string[],
   };

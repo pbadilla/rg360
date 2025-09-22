@@ -26,29 +26,36 @@ export function parseRollerbladeProducts(productFilePath: string, stockMap: Map<
     const firstImage = imageKeys.map(k => raw[k]).find(url => url?.startsWith('http'));
 
     // ✅ Convert PVPR into your Price object
-    const pvpr = formatPriceForMongoDB(raw['PVPR']) ?? 0;
+    const rawPvpr = raw['PVPR'];
+    let pvpr = formatPriceForMongoDB(rawPvpr);
+    
+    if (isNaN(pvpr)) {
+      console.warn(`⚠️ Invalid PVPR value "${rawPvpr}" for product ${raw['Art. Codigo']}`);
+      pvpr = 0;
+    }
+    
     const price: Price = {
       pvp: pvpr,
-      pv: pvpr,                 // or 0 if you don’t have wholesale
-      benefit_percentage: 0,    // or calculate if you know margin
+      pv: pvpr,
+      benefit_percentage: 0,
     };
 
     return {
       ean13: ean,
-      Reference: raw['SKU'],
-      Description: raw['Descripcion larga'],
+      reference: raw['SKU'],
+      description: raw['Descripcion larga'],
       idCode: raw['Art. Codigo'],
-      Name: raw['Art. Nombre'],
-      ColorNombre: raw['Color Nombre'],
-      ColorBase: raw['Color Base'],
-      ColorCodigo: raw['Color Codigo'],
-      Size: raw['Talla'],
-      Image: firstImage || '',
-      Brand: raw['Marca'],
-      Family: raw['Linea'],
-      Stock: stock,
-      Price: price,   // ✅ now matches interface
-      Weight: '0',
+      name: raw['Art. Nombre'],
+      colorNombre: raw['Color Nombre'],
+      colorBase: raw['Color Base'],
+      colorCodigo: raw['Color Codigo'],
+      size: raw['Talla'],
+      image: firstImage || '',
+      brand: raw['Marca'],
+      family: raw['Linea'],
+      stock: stock,
+      price: price,   // ✅ now matches interface
+      weight: '0',
     };
   }).filter(Boolean) as CsvRowRollerblade[];
 }

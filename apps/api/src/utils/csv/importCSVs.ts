@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { downloadRollerbladeCSV } from '@/utils/csv/downloadRollerbladeCSV';
 import { downloadUniverskateCSV } from '@/utils/csv/downloadUniverskateCSV';
+import { syncUniverskateProducts } from '@/controllers/imports/syncUniverskateProducts';
+import { syncRollerbladeProducts } from '@/controllers/imports/syncRollerbladeProducts';
 
 /**
  * Unified endpoint that downloads and processes both CSV sources
@@ -30,12 +32,14 @@ const importCSVs = async (req: Request, res: Response): Promise<void> => {
     const [rollerbladeResult, universkateResult] = await Promise.allSettled([
       (async () => {
         const mockRes = createMockResponse();
-        await downloadRollerbladeCSV(req, mockRes as any);
+        await syncUniverskateProducts(req, mockRes as any);
+        // await downloadRollerbladeCSV(req, mockRes as any);
         return mockRes.getResult();
       })(),
       (async () => {
         const mockRes = createMockResponse();
-        await downloadUniverskateCSV(req, mockRes as any);
+        await syncRollerbladeProducts(req, mockRes as any);
+        // await downloadUniverskateCSV(req, mockRes as any);
         return mockRes.getResult();
       })()
     ]);

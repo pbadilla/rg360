@@ -14,16 +14,23 @@ export async function syncRollerbladeProducts(req: Request, res: Response) {
     const grouped = groupRollerbladeProducts(productRows);
 
     const results = [];
+    const savedProducts: any[] = []; // <-- collect products here
+
     for (const [idCode, rows] of Object.entries(grouped)) {
       const result = await processRollerbladeGroup(idCode, rows);
       results.push({ idCode, ...result });
+    
+      if (result.success && result.product) {
+        savedProducts.push(result.product);
+      }
     }
-
+    
     res.json({
       message: 'Rollerblade sync finished',
       totalGroups: results.length,
       successGroups: results.filter(r => r.success).length,
       failedGroups: results.filter(r => !r.success).map(r => r.idCode),
+      savedProducts, // <-- include products
     });
   } catch (err: any) {
     console.error("❌ Sync failed:", err);

@@ -6,6 +6,7 @@ import { compareWithDB } from '@/services/importers/universkate/compareWithDB';
 import { saveProducts } from '@/services/importers/universkate/saveProducts';
 import { GroupedProduct, ProductForDescription, Price } from '@/types/products';
 import { getOrGenerateDescriptionAI } from '@/utils/csv/getOrGenerateDescriptionAI';
+import { transporter } from '@/utils/mailer';
 
 const CONCURRENCY_LIMIT = 5; // adjust based on your API limits
 const limit = pLimit(CONCURRENCY_LIMIT);
@@ -61,12 +62,39 @@ export async function syncUniverskateProducts(req: Request, res: Response) {
     // 6️⃣ Save enriched products back to DB
     await saveProducts(toEnrich);
 
-    // 7️⃣ Return summary
-    res.json({
-      message: "Universkate sync finished",
+    // 7️⃣ Send email notification
+    const summary = {
       new: newProducts.length,
       updated: updatedProducts.length,
       unchanged: unchangedProducts.length,
+    };
+
+    // Build a readable change list
+    const changesReport = `
+    New products:
+    ${newProducts.map(p => `- ${p.reference}`).join("\n")}
+
+    Updated products:
+    ${updatedProducts.map(
+      p => `- ${p.reference}: stock ${p.oldStock} → ${p.newStock}, price ${p.oldPrice} → ${p.newPrice}`
+    ).join("\n")}
+    `;
+
+    await transporter.sendMail({
+      from: '"Import Universkate Products" <no-reply@rollergrind360.com>',
+      to: "ventas@rollergrind360.com",
+      subject: "Universkate Import Finished ✅",
+      text: `Sync finished.
+      New: ${summary.new}, Updated: ${summary.updated}, Unchanged: ${summary.unchanged}
+      
+      Details:
+      ${changesReport}`,
+    });
+
+    // 8️⃣ Return summary
+    res.json({
+      message: "Universkate sync finished",
+      ...summary,
     });
   } catch (err) {
     console.error("❌ Sync failed:", err);

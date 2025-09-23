@@ -16,6 +16,10 @@ type DiffSummary = {
   hasDescriptionInDB: boolean;
   hasCategoryInDB: boolean;
   diffs: string[];
+  oldStock?: number;
+  newStock?: number;
+  oldPrice?: number;
+  newPrice?: number;
 };
 
 export async function compareWithDB(grouped: GroupedProduct[], saveToFile = true) {

@@ -153,7 +153,12 @@ const ProductList: React.FC = () => {
             </div>
             <div className="flex items-center gap-4 sm:ml-auto">
               <ViewToggle viewMode={viewMode} onViewChange={setViewMode} />
-              <SortDropdown sortConfig={sortConfig} onSortChange={setSortConfig} sortOptions={productSortOptions} label="Sort products by:" />
+              <SortDropdown
+                sortConfig={sortConfig}
+                onSortChange={setSortConfig}
+                sortOptions={[...productSortOptions]}
+                label="Sort products by:"
+              />
             </div>
           </div>
         </div>
@@ -182,13 +187,34 @@ const ProductList: React.FC = () => {
         {/* Pagination */}
         {totalPages > 1 && (
           <Pagination className="mt-6">
-            <PaginationPrevious onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1} />
+            <PaginationPrevious
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              aria-disabled={currentPage === 1}
+              tabIndex={currentPage === 1 ? -1 : 0}
+              className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+            />
             <PaginationContent>
               {getPaginationPages(currentPage, totalPages).map((page, idx) =>
-                page === "..." ? <PaginationEllipsis key={`ellipsis-${idx}`} /> : <PaginationItem key={`page-${page}-${idx}`}><PaginationLink isActive={currentPage === page} onClick={() => setCurrentPage(page)}>{page}</PaginationLink></PaginationItem>
+                page === "..." ? (
+                  <PaginationEllipsis key={`ellipsis-${idx}`} />
+                ) : (
+                  <PaginationItem key={`page-${page}-${idx}`}>
+                    <PaginationLink
+                      isActive={currentPage === page}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
               )}
             </PaginationContent>
-            <PaginationNext onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} />
+            <PaginationNext
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              aria-disabled={currentPage === totalPages}
+              tabIndex={currentPage === totalPages ? -1 : 0}
+              className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+            />
           </Pagination>
         )}
 

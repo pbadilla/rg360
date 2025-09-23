@@ -65,6 +65,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       limit,
       total,
       totalPages: limit > 0 ? Math.ceil(total / limit) : 1,
+      products,
       brands: sortedBrands,
     });
   } catch (error: any) {  

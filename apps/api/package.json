@@ -37,6 +37,7 @@
     "nodemailer": "^7.0.3",
     "openai": "^4.92.1",
     "qrcode": "^1.5.4",
+    "redis": "^5.8.2",
     "redsys-easy": "^5.2.11",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

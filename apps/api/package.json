@@ -10,7 +10,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc --project tsconfig.json",
     "build:api": "tsc --project tsconfig.json",
-    "postbuild:api": "tsc-alias",
+    "postbuild:api": "tsc-alias --replacements '\".ts\" -> \".js\"'",
     "start": "node build/index.js",
     "preview:api": "pnpm run build:api && pnpm run postbuild:api && pnpm run start",
     "classify-products": "node --loader ts-node/esm -r tsconfig-paths/register src/scripts/classifyAndUpdateUSProducts.ts"

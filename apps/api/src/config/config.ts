@@ -10,14 +10,11 @@ if (!user || !password || !uriBase) {
   throw new Error("Missing MongoDB env configuration.");
 }
 
-// MongoDB connection string for Atlas
 const MONGO_URL = uriBase.replace('<username>', user).replace('<password>', password);
 
-// Determine hostname: Render needs 0.0.0.0, local can use localhost
-const SERVER_HOSTNAME = process.env.RENDER ? '0.0.0.0' : (process.env.SERVER_HOSTNAME || 'localhost');
-const SERVER_PORT = process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : 3000;
+const SERVER_HOSTNAME = process.env.RENDER ? '0.0.0.0' : 'localhost';
+const SERVER_PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-// Configuration object
 const config = {
   mongo: {
     url: MONGO_URL,

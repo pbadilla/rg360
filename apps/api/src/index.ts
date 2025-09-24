@@ -138,12 +138,12 @@ const startServer = async () => {
     // ✅ Start the server
     const httpServer = http.createServer(app);
     // ✅ Respect Render/Docker environments
-    const PORT = process.env.PORT ? parseInt(process.env.PORT) : config.server.port;
-    const HOST = process.env.RENDER ? "0.0.0.0" : (config.server.hostname || "localhost");
+    const PORT = config.server.port;
+    const HOST = config.server.hostname;
 
     httpServer.listen(PORT, HOST, () => {
       logging.info(NAMESPACE, `Server running at http://${HOST}:${PORT}/`);
-    })
+    });
   } catch (error) {
     logging.error(NAMESPACE, 'Unable to connect to MongoDB');
     if (error instanceof Error) {

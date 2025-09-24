@@ -57,6 +57,18 @@ export async function processRollerbladeGroup(
     images: rows.map(r => r.image).filter(Boolean),
   };
 
+  // --- 🔒 Defensive fix for Mongoose embedded price ---
+  if (typeof product.price === 'number') {
+    product.price = { pvp: product.price, pv: product.price, benefit_percentage: 0 };
+  }
+
+  product.variations = product.variations.map((v: any) => ({
+    ...v,
+    price: typeof v.price === 'number'
+      ? { pvp: v.price, pv: v.price, benefit_percentage: 0 }
+      : v.price,
+  }));
+
   try {
     await ProductModel.updateOne({ reference: idCode }, { $set: product }, { upsert: true });
     console.log(`Upserted grouped product ${idCode} with ${variations.length} variations`);

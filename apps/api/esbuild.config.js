@@ -2,13 +2,13 @@ import { build } from 'esbuild';
 import { builtinModules } from 'node:module';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
-const { dependencies, devDependencies } = require('./package.json');
+const pkg = require('./package.json');
 
 const externals = [
-  ...Object.keys(dependencies || {}),
-  ...Object.keys(devDependencies || {}),
-  ...builtinModules,                  // e.g. fs, path
-  ...builtinModules.map(m => `node:${m}`), // e.g. node:fs
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.devDependencies || {}),
+  ...builtinModules,
+  ...builtinModules.map(m => `node:${m}`)
 ];
 
 await build({
@@ -20,5 +20,6 @@ await build({
   outfile: 'build/index.js',
   sourcemap: true,
   tsconfig: 'tsconfig.json',
-  external: externals,
+  external: externals, 
+  logLevel: 'info'
 });

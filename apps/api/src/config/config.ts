@@ -12,7 +12,7 @@ if (!user || !password || !uriBase) {
 
 const MONGO_URL = uriBase.replace('<username>', user).replace('<password>', password);
 
-const SERVER_HOSTNAME = process.env.RENDER ? '0.0.0.0' : 'localhost';
+const SERVER_HOSTNAME = process.env.RENDER ? process.env.SERVER_API_URL_PROD : 'localhost';
 const SERVER_PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const config = {

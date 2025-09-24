@@ -9,7 +9,8 @@ const externals = [
   ...Object.keys(pkg.devDependencies || {}),
   ...builtinModules,
   ...builtinModules.map(m => `node:${m}`),
-  'node-fetch' // force keep it external
+  'node-fetch',
+  'combined-stream'
 ];
 
 

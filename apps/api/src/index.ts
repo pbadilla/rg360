@@ -142,7 +142,7 @@ const startServer = async () => {
     const HOST = config.server.hostname;
 
     httpServer.listen(PORT, HOST, () => {
-      logging.info(NAMESPACE, `Server running at http://${HOST}:${PORT}/`);
+      logging.info(NAMESPACE, `Server running at ${HOST}:${PORT}/`);
     });
   } catch (error) {
     logging.error(NAMESPACE, 'Unable to connect to MongoDB');

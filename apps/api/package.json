@@ -8,11 +8,9 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc --project tsconfig.json",
-    "build:api": "tsc --project tsconfig.json",
-    "postbuild:api": "tsc-alias",
+    "build:api": "node esbuild.config.js",
     "start": "node build/index.js",
-    "preview:api": "pnpm run build:api && pnpm run postbuild:api && pnpm run start",
+    "preview:api": "pnpm run build:api && pnpm run start",
     "classify-products": "node --loader ts-node/esm -r tsconfig-paths/register src/scripts/classifyAndUpdateUSProducts.ts"
   },
   "keywords": [],
@@ -58,6 +56,7 @@
     "@types/swagger-ui-express": "^4.1.8",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "esbuild": "^0.25.10",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",

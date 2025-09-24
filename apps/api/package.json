@@ -33,6 +33,7 @@
     "mongoose": "^8.15.1",
     "multer": "^2.0.2",
     "nock": "^14.0.4",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.3",
     "openai": "^4.92.1",
     "qrcode": "^1.5.4",

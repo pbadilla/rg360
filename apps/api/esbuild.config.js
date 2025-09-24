@@ -8,8 +8,10 @@ const externals = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.devDependencies || {}),
   ...builtinModules,
-  ...builtinModules.map(m => `node:${m}`)
+  ...builtinModules.map(m => `node:${m}`),
+  'node-fetch' // force keep it external
 ];
+
 
 await build({
   entryPoints: ['src/index.ts'],

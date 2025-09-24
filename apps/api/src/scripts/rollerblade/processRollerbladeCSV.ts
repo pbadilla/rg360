@@ -1,14 +1,23 @@
 import { ProductModel } from '@/models/product';
 
-import { CsvRowRollerblade, Variation, ProductDoc } from '@/types/products';
+import { CsvRow, Variation, ProductDoc, Price, CsvRowRollerblade } from '@/types/products';
 
 export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise<void> {
 
   const sku = row.Reference;
   const productReference = row.idCode;
   const ean = row.EAN;
-  const stock = parseInt(row.Stock || '0', 10);
-  const price = parseFloat(row.Price || '0');
+  const stockValue = typeof row.Stock === 'string' ? row.Stock : String(row.Stock || '0');
+  const stock = parseInt(stockValue, 10);
+  
+  let priceValue = 0;
+  if (row.Price) {
+    if (typeof row.Price === 'object') {
+      priceValue = row.Price.pvp || 0;
+    } else {
+      priceValue = parseFloat(String(row.Price));
+    }
+  }
   const image = row.Image || '';
   const brand = row.Brand;
   const name = row.Name;
@@ -17,10 +26,16 @@ export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise
   const sizes = row?.Size;
   const family = row.Family || '';
 
-  if (!ean || isNaN(price) || isNaN(stock)) {
-    console.warn(`Skipping ${productReference}: invalid data (price, stock or EAN)`);
+  if (!ean || !sku || !brand || !name || isNaN(priceValue) || isNaN(stock)) {
+    console.warn(`Skipping ${productReference}: invalid data (price, stock, EAN, or required fields)`);
     return;
   }
+
+  const priceObject: Price = {
+    pvp: priceValue,
+    pv: priceValue * 0.8,
+    benefit_percentage: 20
+  };
 
   const variation: Variation = {
     sku,
@@ -28,7 +43,7 @@ export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise
     size: Array.isArray(sizes) ? sizes[0] || '' : (typeof sizes === 'string' ? sizes : ''),
     color,
     stock,
-    price,
+    price: priceObject,
     image,
   };
 
@@ -38,6 +53,12 @@ export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise
     ean13: ean,
     name,
     brand,
+    colors: color ? [color] : [],
+    sizes: Array.isArray(sizes) ? sizes : (typeof sizes === 'string' && sizes ? [sizes] : []),
+    price: priceObject,
+    stock,
+    image,
+    description: `${brand} ${name}`,
     weight,
     status: 'active',
     category: {
@@ -45,8 +66,6 @@ export async function processRollerbladeProduct(row: CsvRowRollerblade): Promise
       name: family
     },
     variations: [variation],
-    colors: color ? [color] : [],
-    sizes: Array.isArray(sizes) ? sizes : (typeof sizes === 'string' && sizes ? [sizes] : []),
   };
 
   try {

@@ -41,8 +41,22 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
           const purchasePrice = formatPriceForMongoDB(raw['PURCHASE PRICE'])
 
           return {
-            Reference: raw['PRODUCT REF'],
+            reference: raw['PRODUCT REF'],
             ean13: raw['EAN13 CODE'],
+            name: raw['PRODUCT DESCRIPTION'],
+            brand: raw['BRAND'],
+            family: raw['MOTHER REF'],
+            price: {
+              pvp: retailPrice,
+              pv: purchasePrice,
+              benefit_percentage: 0,
+            },
+            stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
+            image: raw['PICTURES'],
+            weight: '0',
+            // Uppercase aliases for backward compatibility
+            Reference: raw['PRODUCT REF'],
+            EAN: raw['EAN13 CODE'],
             Price: {
               pvp: retailPrice,
               pv: purchasePrice,

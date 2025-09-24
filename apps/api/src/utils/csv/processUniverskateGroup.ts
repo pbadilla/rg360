@@ -11,18 +11,33 @@ export async function processUniverskateGroup(
   if (!rows.length) return null;
 
   const first = rows[0];
-  const name = first.Name?.split(/Black|Blue|Red|Orange/i)[0]?.trim() || '';
-  const brand = first.Brand;
-  const weight = parseFloat(first.Weight || '0');
+  const name = (first.Name || first.name)?.split(/Black|Blue|Red|Orange/i)[0]?.trim() || '';
+  const brand = first.Brand || first.brand || '';
+  const weight = parseFloat((first.Weight || first.weight) || '0');
 
   const variations: Variation[] = rows.map(row => {
-    const sku = row.Reference;
+    const sku = row.Reference || row.reference || '';
     const ean = row.ean13;
-    const stock = parseInt(String(row.Stock || '0'), 10);
-    const price = parseFloat(String(row.Price || '0'));
-    const image = row.Image || '';
-    const color = extractColor(sku) || '';
-    const sizes = extractCSizes(sku) || [];
+    const stock = parseInt(String(row.Stock || row.stock || '0'), 10);
+    
+    let priceValue = 0;
+    if (row.Price) {
+      if (typeof row.Price === 'object') {
+        priceValue = row.Price.pvp || 0;
+      } else {
+        priceValue = parseFloat(String(row.Price));
+      }
+    } else if (row.price) {
+      if (typeof row.price === 'object') {
+        priceValue = row.price.pvp || 0;
+      } else {
+        priceValue = parseFloat(String(row.price));
+      }
+    }
+    
+    const image = row.Image || row.image || '';
+    const color = extractColor(sku || '') || '';
+    const sizes = extractCSizes(sku || '') || [];
 
     return {
       sku,
@@ -30,7 +45,11 @@ export async function processUniverskateGroup(
       size: sizes[0] || '',
       color,
       stock,
-      price,
+      price: {
+        pvp: priceValue,
+        pv: priceValue * 0.8,
+        benefit_percentage: 20
+      },
       image,
     };
   });

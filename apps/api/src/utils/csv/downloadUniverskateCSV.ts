@@ -42,8 +42,18 @@ const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void
           });
 
           return {
-            Reference: raw['PRODUCT REF'],
+            reference: raw['PRODUCT REF'],
             ean13: raw['EAN13 CODE'],
+            name: raw['PRODUCT DESCRIPTION'],
+            brand: raw['BRAND'],
+            family: raw['MOTHER REF'],
+            price: formatPriceForMongoDB(raw['RETAIL PRICE']),
+            stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
+            image: raw['PICTURES'],
+            weight: '0',
+            // Uppercase aliases for backward compatibility
+            Reference: raw['PRODUCT REF'],
+            EAN: raw['EAN13 CODE'],
             Price: formatPriceForMongoDB(raw['RETAIL PRICE']),
             Stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
             Name: raw['PRODUCT DESCRIPTION'],
@@ -51,15 +61,16 @@ const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void
             Brand: raw['BRAND'],
             Categories: raw['CATEGORIES'],
             Family: raw['MOTHER REF'],
-            Weight: '0', // fallback
+            Weight: '0',
           };
         });
 
         // 🔹 Group by Family
         const grouped: Record<string, CsvRow[]> = {};
         for (const row of csvRows) {
-          if (!grouped[row.Family]) grouped[row.Family] = [];
-          grouped[row.Family].push(row);
+          const family = row.Family || row.family || 'unknown';
+          if (!grouped[family]) grouped[family] = [];
+          grouped[family].push(row);
         }
 
         const results = [];
@@ -69,8 +80,8 @@ const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void
         }
 
         // ✅ Now compare with MongoDB
-        const references = csvRows.map(r => r.Reference);
-        const names = csvRows.map(r => r.Name);
+        const references = csvRows.map(r => r.Reference || r.reference || '');
+        const names = csvRows.map(r => r.Name || r.name || '');
 
         // Add pattern extraction with names included:
         const extractPatterns = (references: string[], names: string[]) => {

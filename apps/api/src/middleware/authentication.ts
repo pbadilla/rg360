@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 interface DecodedToken {
   id: string;
   email: string;
+  role: string;
 }
 
 declare module 'express-serve-static-core' {

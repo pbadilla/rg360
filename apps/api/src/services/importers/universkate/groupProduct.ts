@@ -9,8 +9,9 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
 
   // Group rows by Family / prefix
   for (const row of rows) {
-    if (!grouped[row.Family]) grouped[row.Family] = [];
-    grouped[row.Family].push(row);
+    const family = row.Family || row.family || 'unknown';
+    if (!grouped[family]) grouped[family] = [];
+    grouped[family].push(row);
   }
 
   // Map each group to GroupedProduct
@@ -18,17 +19,17 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
     const first = items[0];
 
     const variations: Variation[] = items.map(row => ({
-      sku: row.Reference,
+      sku: row.Reference || row.reference || '',
       ean: row.ean13,
-      size: extractCSizes(row.Reference)?.[0] || '',
-      color: extractColor(row.Reference) || '',
-      stock: parseInt(String(row.Stock ?? 0), 10),
+      size: extractCSizes(row.Reference || row.reference || '')?.[0] || '',
+      color: extractColor(row.Reference || row.reference || '') || '',
+      stock: parseInt(String(row.Stock || row.stock || 0), 10),
       price: {
         pvp: Number(row.Price?.pvp ?? 0),
         pv: Number(row.Price?.pv ?? 0),
         benefit_percentage: Number(row.Price?.benefit_percentage ?? 0),
       },
-      image: row.Image || DEFAULT_IMAGE,
+      image: row.Image || row.image || DEFAULT_IMAGE,
     }));
 
     const colors = Array.from(new Set(variations.map(v => v.color).filter(Boolean)));
@@ -36,20 +37,20 @@ export function groupByPrefix(rows: CsvRow[]): GroupedProduct[] {
 
     return {
       skuRoot,
-      reference: first.Reference,
+      reference: first.Reference || first.reference || '',
       ean13: first.ean13,
-      name: getBaseName(first.Name, colors, sizes),
-      brand: first.Brand,
+      name: getBaseName(first.Name || first.name || '', colors, sizes),
+      brand: first.Brand || first.brand || '',
       colors,
       sizes,
       variations,
-      images: items.map(r => r.Image || DEFAULT_IMAGE),
+      images: items.map(r => r.Image || r.image || DEFAULT_IMAGE),
       price: {
         pvp: Number(first.Price?.pvp ?? 0),
         pv: Number(first.Price?.pv ?? 0),
         benefit_percentage: Number(first.Price?.benefit_percentage ?? 0),
       },
-      stock: parseInt(String(first.Stock ?? 0), 10),
+      stock: parseInt(String(first.Stock || first.stock || 0), 10),
       category: undefined,
     };
   });

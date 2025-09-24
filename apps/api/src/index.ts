@@ -34,49 +34,39 @@ import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 
-
 const NAMESPACE = 'Server';
 const app = express();
-
 dotenv.config();
 
-/** ✅ Connect to MongoDB using Mongoose */
 const startServer = async () => {
   try {
-    // ✅ Connect to MongoDB
+    // MongoDB connection
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
     logging.info(NAMESPACE, 'Connected to MongoDB.');
 
-    const db = mongoose.connection.db;
-
-    if (!db) {
-      logging.error(NAMESPACE, 'MongoDB database connection is undefined.');
-      throw new Error('MongoDB database connection is undefined.');
-    }
-
-    const collections = await db.listCollections().toArray();
-
-    const summaries = (await Promise.all(
+    // Collections summary
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    const summaries = await Promise.all(
       collections.map(async ({ name }) => {
-        const collection = db.collection(name);
-        const count = await collection.estimatedDocumentCount();
+        const count = await mongoose.connection.db.collection(name).estimatedDocumentCount();
         return { name, count };
       })
-    )).sort((a, b) => a.name.localeCompare(b.name));
-
+    );
     logging.info(NAMESPACE, 'Collections Summary:', summaries);
 
-    // ✅ Middleware setup
+    // Middleware
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
 
-    // ✅ Logging requests
+    // Logging (skip HEAD/OPTIONS)
     app.use((req, res, next) => {
-      logging.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`, NAMESPACE);
+      if (req.method !== 'HEAD' && req.method !== 'OPTIONS') {
+        logging.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`, NAMESPACE);
+      }
       next();
     });
 
-    // ✅ CORS setup with 'cors' package
+    // CORS
     const allowedOrigins = [
       process.env.SERVER_FRONTEND_URL_LOCAL || 'http://localhost:8080',
       process.env.SERVER_FRONTEND_URL_PROD || 'https://patinesbarcelona.com',
@@ -84,18 +74,11 @@ const startServer = async () => {
       process.env.SERVER_API_URL_LOCAL || 'http://localhost:3000',
       process.env.SERVER_API_URL_PROD || 'https://api.patinesbarcelona.com'
     ];
-
     app.use(cors({
-      origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        // Allow requests with no origin (like Postman or mobile apps)
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          logging.warn(NAMESPACE, `Blocked CORS request from origin: ${origin}`);
-          callback(new Error('Not allowed by CORS'));
-        }
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+        logging.warn(NAMESPACE, `Blocked CORS request from origin: ${origin}`);
+        callback(null, false); // just deny, don't throw
       },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -130,29 +113,38 @@ const startServer = async () => {
     // ✅ Swagger API docs
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-    // ✅ Only ONE 404 handler
-    app.use((_req, res) => {
-      res.status(404).json({ message: 'Not found' });
-    });
+   // Swagger docs
+   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-    // ✅ Start the server
-    const httpServer = http.createServer(app);
-    // ✅ Respect Render/Docker environments
-    const PORT = config.server.port;
-    const HOST = config.server.hostname;
+   // 404 handler
+   app.use((_req, res) => res.status(404).json({ message: 'Not found' }));
 
-    httpServer.listen(PORT, HOST, () => {
-      logging.info(NAMESPACE, `Server running at ${HOST}:${PORT}/`);
-    });
-  } catch (error) {
-    logging.error(NAMESPACE, 'Unable to connect to MongoDB');
-    if (error instanceof Error) {
-      logging.error(NAMESPACE, error.message);
-    } else {
-      logging.error(NAMESPACE, 'An unknown error occurred');
-    }
-    process.exit(1);
-  }
+   // Global error handler (prevents crashes)
+   app.use((err: any, _req: any, res: any, _next: any) => {
+     logging.error(NAMESPACE, 'Unhandled error:', err);
+     res.status(500).json({ error: 'Internal Server Error' });
+   });
+
+   // Start server
+   const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+   const HOST = '0.0.0.0'; // always bind all interfaces in Render
+
+   http.createServer(app).listen(PORT, HOST, () => {
+     logging.info(NAMESPACE, `Server running at ${HOST}:${PORT}/`);
+   });
+
+   // Handle unhandled rejections globally
+   process.on('unhandledRejection', (reason) => {
+     logging.error(NAMESPACE, 'Unhandled Rejection at:', reason);
+   });
+   process.on('uncaughtException', (err) => {
+     logging.error(NAMESPACE, 'Uncaught Exception:', err);
+   });
+
+ } catch (error) {
+   logging.error(NAMESPACE, 'Failed to start server:', error instanceof Error ? error.message : error);
+   process.exit(1);
+ }
 };
 
 startServer();

@@ -25,7 +25,7 @@ export function processProduct(csvRow: CsvRow): ProductDoc {
       color: csvRow.color || '',
       stock: typeof csvRow.stock === 'string' ? parseInt(csvRow.stock) : csvRow.stock || 0,
       price: csvRow.price || { pvp: 0, pv: 0, benefit_percentage: 0 },
-      image: csvRow.image
+      image: csvRow.image || ''
     }],
     colors: csvRow.color ? [csvRow.color] : [],
     sizes: csvRow.size ? [csvRow.size] : [],

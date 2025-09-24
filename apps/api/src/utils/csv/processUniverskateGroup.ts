@@ -2,7 +2,7 @@ import { getOrGenerateDescriptionAI } from '@/utils/csv/getOrGenerateDescription
 import { ProductModel } from '@/models/product';
 import { extractColor, extractCSizes } from '@/utils/proces/parserUniverskate';
 import { CsvRow, Variation, ProductForDescription } from '@/types/products';
-import { formatPriceForMongoDB } from '@/utils/prices';
+
 
 export async function processUniverskateGroup(
   skuRoot: string,
@@ -62,20 +62,33 @@ export async function processUniverskateGroup(
   // ------------------------------
   const productForAI: ProductForDescription = {
     brand,
-    reference: first.Reference,
-    ean13: first.ean13,
+    reference: first.Reference ?? '',
+    ean13: first.ean13 ?? '',
     colors,
     sizes,
-    price: parseFloat(first.Price || '0'),
-    stock: parseInt(String(first.Stock || '0'), 10),
+    price: typeof first.Price === 'object'
+      ? {
+          pvp: Number(first.Price.pvp ?? 0),
+          pv: Number(first.Price.pv ?? 0),
+          benefit_percentage: Number(first.Price.benefit_percentage ?? 0),
+        }
+      : { pvp: Number(first.Price ?? 0), pv: Number(first.Price ?? 0), benefit_percentage: 0 },
+    stock: Number(first.Stock ?? 0),
   };
 
-  const description = await getOrGenerateDescriptionAI(first.Reference, first.Description, productForAI);
+  const description = await getOrGenerateDescriptionAI(
+    first.Reference ?? '',
+    first.Description ?? '',
+    productForAI
+  );
 
   // ------------------------------
   // Build product document
   // ------------------------------
-  const priceNumber = parseFloat(first.Price || '0');
+  const priceNumber =
+    typeof first.Price === 'object'
+      ? Number(first.Price.pvp ?? 0)
+      : Number(first.Price ?? 0);
   const productData = {
     parentReference: skuRoot,
     reference: first.Reference,

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { downloadRollerbladeCSV } from '@/utils/csv/downloadRollerbladeCSV';
-import { downloadUniverskateCSV } from '@/utils/csv/downloadUniverskateCSV';
+
 import { syncUniverskateProducts } from '@/controllers/imports/syncUniverskateProducts';
 import { syncRollerbladeProducts } from '@/controllers/imports/syncRollerbladeProducts';
 

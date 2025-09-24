@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "node build/index.js",
+    "start": "node -r tsconfig-paths/register build/index.js",
     "build": "tsc --project tsconfig.json",
     "build:api": "tsc --project tsconfig.json",
     "postbuild:api": "tsc-alias",

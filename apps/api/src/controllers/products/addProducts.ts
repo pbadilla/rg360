@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { ProductModel } from '@/models/product';
+import { ProductModel, ProductDocument } from '@/models/product';
 
 const addProduct = (req: Request, res: Response, _next: NextFunction) => {
     const {
@@ -23,8 +23,8 @@ const addProduct = (req: Request, res: Response, _next: NextFunction) => {
     });
 
     return product.save()
-        .then((result) => res.status(201).json({ product: result }))
-        .catch((error) => res.status(500).json({ message: error.message, error }));
+        .then((result: ProductDocument) => res.status(201).json({ product: result }))
+        .catch((error: Error) => res.status(500).json({ message: error.message, error }));
 };
 
 export default addProduct;

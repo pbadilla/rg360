@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { ProductModel } from '@/models/product';
+import { ProductModel, ProductDocument } from '@/models/product';
 
 const getProductById = async (req: Request, res: Response, _next: NextFunction) => {
     try {
         const { productId } = req.params;
         console.log(`Fetching product by ID: ${productId}`);
 
-        const product = await ProductModel.findById(productId).lean();
+        const product = await ProductModel.findById(productId).lean() as ProductDocument | null;
 
         if (!product) {
             console.log('Product not found.');

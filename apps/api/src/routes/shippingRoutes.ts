@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import { 
   addShipping,
   deleteShipping,
@@ -11,15 +11,15 @@ import {
 
 const router = express.Router();
 
-router.delete('/', deleteShipping);
+router.delete('/', deleteShipping as RequestHandler);
 
 router.get('/:shippingId', getShippingById);
 router.get('/', getAllShippings);
 router.get('/user/:userId', getShippingByUserId);
 
-router.post('/updateShipping', saveOrUpdateShipping);
-router.post('/addShipping', addShipping);
+router.post('/updateShipping', saveOrUpdateShipping as RequestHandler);
+router.post('/addShipping', addShipping as RequestHandler);
 
-router.patch('/:shippingId', updateShippingById);
+router.patch('/:shippingId', updateShippingById as RequestHandler);
 
 export default router;

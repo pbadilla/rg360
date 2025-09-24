@@ -1,22 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
-import { PromotionsModel } from '@/models/promotions';
+import { PromotionsModel, PromotionsDocument } from '@/models/tracking';
 
-const getPromotionsById = async (req: Request, res: Response, _next: NextFunction) => {
+const getTrackingById = async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const { promotionsId } = req.params;
-        console.log(`Fetching promotions by ID: ${promotionsId}`);
+        const { trackingId } = req.params;
+        console.log(`Fetching tracking by ID: ${trackingId}`);
 
-        const promotions = await PromotionsModel.findById(promotionsId).lean();
+        const tracking = await PromotionsModel.findById(trackingId).lean() as PromotionsDocument | null;
 
-        if (!promotions) {
-            console.log('Promotions not found.');
-            return res.status(404).json({ message: 'Promotions not found.' });
+        if (!tracking) {
+            console.log('Tracking not found.');
+            return res.status(404).json({ message: 'Tracking not found.' });
         }
 
-        console.log('Promotions found:', promotions.name || promotions._id);
-        return res.status(200).json({ promotions });
+        console.log('Tracking found:', tracking.title || tracking._id);
+        return res.status(200).json({ tracking });
     } catch (error: any) {
-        console.error('Error fetching promotions by ID:', error);
+        console.error('Error fetching tracking by ID:', error);
         return res.status(500).json({
             message: error.message,
             error
@@ -24,4 +24,4 @@ const getPromotionsById = async (req: Request, res: Response, _next: NextFunctio
     }
 };
 
-export default getPromotionsById;
+export default getTrackingById;

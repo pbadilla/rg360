@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { SortOrder } from 'mongoose';
 import { PaymentMethodModel } from "@/models/payments/payments";
 
 const getAllPayments = async (req: Request, res: Response) => {
@@ -18,8 +19,8 @@ const getAllPayments = async (req: Request, res: Response) => {
 
     // 📦 SORTING
     const sortField = (req.query.sort as string) || "createdAt";
-    const sortOrder = req.query.order === "desc" ? -1 : 1;
-    const sortOptions = { [sortField]: sortOrder };
+    const sortOrder: SortOrder = req.query.order === "desc" ? -1 : 1;
+    const sortOptions: Record<string, SortOrder> = { [sortField]: sortOrder };
 
     // 🚀 QUERY
     const [payments, total] = await Promise.all([

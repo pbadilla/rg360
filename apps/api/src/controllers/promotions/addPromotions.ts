@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { PromotionsModel } from '@/models/promotions';
+import { PromotionsModel, PromotionsDocument } from '@/models/promotions';
 
 const addPromotions = (req: Request, res: Response, _next: NextFunction) => {
     const {
@@ -23,8 +23,8 @@ const addPromotions = (req: Request, res: Response, _next: NextFunction) => {
     });
 
     return promotions.save()
-        .then((result) => res.status(201).json({ promotions: result }))
-        .catch((error) => res.status(500).json({ message: error.message, error }));
+        .then((result: PromotionsDocument) => res.status(201).json({ promotions: result }))
+        .catch((error: Error) => res.status(500).json({ message: error.message, error }));
 };
 
 export default addPromotions;

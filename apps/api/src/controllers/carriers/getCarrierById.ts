@@ -1,22 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
-import { PromotionsModel } from '@/models/promotions';
+import { CarrierModel, CarrierDocument } from '@/models/carriers';
 
-const getPromotionsById = async (req: Request, res: Response, _next: NextFunction) => {
+const getCarrierById = async (req: Request, res: Response, _next: NextFunction) => {
     try {
-        const { promotionsId } = req.params;
-        console.log(`Fetching promotions by ID: ${promotionsId}`);
+        const { carrierId } = req.params;
+        console.log(`Fetching carrier by ID: ${carrierId}`);
 
-        const promotions = await PromotionsModel.findById(promotionsId).lean();
+        const carrier = await CarrierModel.findById(carrierId).lean() as CarrierDocument | null;
 
-        if (!promotions) {
-            console.log('Promotions not found.');
-            return res.status(404).json({ message: 'Promotions not found.' });
+        if (!carrier) {
+            console.log('Carrier not found.');
+            return res.status(404).json({ message: 'Carrier not found.' });
         }
 
-        console.log('Promotions found:', promotions.name || promotions._id);
-        return res.status(200).json({ promotions });
+        console.log('Carrier found:', carrier.name || carrier._id);
+        return res.status(200).json({ carrier });
     } catch (error: any) {
-        console.error('Error fetching promotions by ID:', error);
+        console.error('Error fetching carrier by ID:', error);
         return res.status(500).json({
             message: error.message,
             error
@@ -24,4 +24,4 @@ const getPromotionsById = async (req: Request, res: Response, _next: NextFunctio
     }
 };
 
-export default getPromotionsById;
+export default getCarrierById;

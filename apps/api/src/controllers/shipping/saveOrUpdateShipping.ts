@@ -5,7 +5,12 @@ import { AuthenticatedRequest } from '@/middleware/auth';
 const saveOrUpdateShipping = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { address, phone } = req.body;
-    const userId = req.user._id;
+    
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    
+    const userId = req.user.id;
 
     const updated = await ShippingModel.findOneAndUpdate(
       { userId },

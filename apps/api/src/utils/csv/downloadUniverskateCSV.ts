@@ -205,4 +205,4 @@ const downloadUniverskateCSV = async (req: Request, res: Response): Promise<void
   }
 };
 
-export { downloadUniverskateCSV };
+export { downloadUniverskateCSV, downloadUniverskateCSV as importHTTPUniverskate };

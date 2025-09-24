@@ -4,7 +4,10 @@ import { AuthenticatedRequest } from '@/middleware/auth';
 
 const deleteShipping = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const userId = req.user._id;
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    const userId = req.user.id;
     await ShippingModel.deleteOne({ userId });
     res.status(200).json({ message: 'Shipping info deleted' });
   } catch (err: any) {

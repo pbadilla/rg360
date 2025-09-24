@@ -22,6 +22,23 @@ export interface CsvRow {
   colorNombre?: string;
   colorBase?: string;
   colorCodigo?: string;
+  
+  // Uppercase aliases for backward compatibility
+  Reference?: string;
+  Description?: string;
+  EAN?: string;
+  Price?: Price;
+  Stock?: string | number;
+  Name?: string;
+  Image?: string;
+  Brand?: string;
+  Family?: string;
+  Weight?: string;
+  Color?: string;
+  Size?: string;
+  ColorNombre?: string;
+  ColorBase?: string;
+  ColorCodigo?: string;
 }
 
 // Aliases per source (optional)

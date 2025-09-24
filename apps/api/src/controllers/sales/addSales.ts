@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { PromotionsModel } from '@/models/promotions';
+import { PromotionsModel, PromotionsDocument } from '@/models/sales';
 
-const addPromotions = (req: Request, res: Response, _next: NextFunction) => {
+const addSales = (req: Request, res: Response, _next: NextFunction) => {
     const {
         SKU, brand, category, description, ean13, images, name,
         price, rating, reference, status, stock, tags, variations, vendorId
@@ -14,17 +14,18 @@ const addPromotions = (req: Request, res: Response, _next: NextFunction) => {
         });
     }
 
-    const promotions = new PromotionsModel({
+    const sales = new PromotionsModel({
         _id: new mongoose.Types.ObjectId(),
-        SKU, brand, category, description, ean13, images, name,
-        price, rating, reference, status, stock, tags, variations, vendorId,
-        UpdateData: new Date(),
-        createdAt: new Date()
+        title: name,
+        description,
+        status,
+        createdAt: new Date(),
+        updatedAt: new Date()
     });
 
-    return promotions.save()
-        .then((result) => res.status(201).json({ promotions: result }))
-        .catch((error) => res.status(500).json({ message: error.message, error }));
+    return sales.save()
+        .then((result: PromotionsDocument) => res.status(201).json({ promotions: result }))
+        .catch((error: Error) => res.status(500).json({ message: error.message, error }));
 };
 
-export default addPromotions;
+export default addSales;

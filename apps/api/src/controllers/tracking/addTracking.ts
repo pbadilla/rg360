@@ -1,30 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { PromotionsModel } from '@/models/promotions';
+import { PromotionsModel, PromotionsDocument } from '@/models/tracking';
 
-const addPromotions = (req: Request, res: Response, _next: NextFunction) => {
-    const {
-        SKU, brand, category, description, ean13, images, name,
-        price, rating, reference, status, stock, tags, variations, vendorId
-    } = req.body;
+const addTracking = (req: Request, res: Response, _next: NextFunction) => {
+    const { title, description, status } = req.body;
 
-    if (!ean13 || !name || !reference || !status || !rating) {
+    if (!title || !status) {
         return res.status(400).json({
-            message: "Fields 'ean13', 'name', 'reference', 'status', and 'rating' are required."
+            message: "Fields 'title' and 'status' are required."
         });
     }
 
-    const promotions = new PromotionsModel({
+    const tracking = new PromotionsModel({
         _id: new mongoose.Types.ObjectId(),
-        SKU, brand, category, description, ean13, images, name,
-        price, rating, reference, status, stock, tags, variations, vendorId,
-        UpdateData: new Date(),
-        createdAt: new Date()
+        title,
+        description,
+        status,
+        createdAt: new Date(),
+        updatedAt: new Date()
     });
 
-    return promotions.save()
-        .then((result) => res.status(201).json({ promotions: result }))
-        .catch((error) => res.status(500).json({ message: error.message, error }));
+    return tracking.save()
+        .then((result: PromotionsDocument) => res.status(201).json({ promotions: result }))
+        .catch((error: Error) => res.status(500).json({ message: error.message, error }));
 };
 
-export default addPromotions;
+export default addTracking;

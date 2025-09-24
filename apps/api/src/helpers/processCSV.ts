@@ -9,8 +9,9 @@ async function processCsvSource<T extends CsvRow>(
   for (const row of rows) {
     const key = row[groupByKey];
     if (!key) continue;
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(row);
+    const keyStr = String(key);
+    if (!grouped[keyStr]) grouped[keyStr] = [];
+    grouped[keyStr].push(row);
   }
 
   const results = [];

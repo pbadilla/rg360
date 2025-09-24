@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { SortOrder } from 'mongoose';
 import { RefundModel } from "@/models/payments/refund";
 
 const getAllRefunds = async (req: Request, res: Response) => {
@@ -18,8 +19,8 @@ const getAllRefunds = async (req: Request, res: Response) => {
 
     // 📦 SORTING
     const sortField = (req.query.sort as string) || "createdAt";
-    const sortOrder = req.query.order === "desc" ? -1 : 1;
-    const sortOptions = { [sortField]: sortOrder };
+    const sortOrder: SortOrder = req.query.order === "desc" ? -1 : 1;
+    const sortOptions: Record<string, SortOrder> = { [sortField]: sortOrder };
 
     // 🚀 QUERY
     const [refunds, total] = await Promise.all([

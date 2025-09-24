@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { SortOrder } from 'mongoose';
 
 import { CarrierModel } from '@/models/carriers';
 
@@ -25,8 +26,8 @@ const getAllCarriers = async (req: Request, res: Response) => {
 
     // 📦 SORTING
     const sortField = req.query.sort as string || 'createdAt';
-    const sortOrder = req.query.order === 'desc' ? -1 : 1;
-    const sortOptions = { [sortField]: sortOrder };
+    const sortOrder: SortOrder = req.query.order === 'desc' ? -1 : 1;
+    const sortOptions: Record<string, SortOrder> = { [sortField]: sortOrder };
 
     // 🚀 QUERY
     const [carriers, total] = await Promise.all([

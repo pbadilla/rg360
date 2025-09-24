@@ -1,17 +1,17 @@
 import { build } from 'esbuild';
+import { builtinModules } from 'node:module';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
-const { dependencies } = require('./package.json');
+const { dependencies, devDependencies } = require('./package.json');
 
-import { builtinModules } from 'node:module';
-
-const external = [
-  ...Object.keys(dependencies || {}), // all npm deps
-  ...builtinModules,                  // Node built-ins like fs, path, events
-  ...builtinModules.map(m => `node:${m}`), // Node’s "node:" prefix variants
+const externals = [
+  ...Object.keys(dependencies || {}),
+  ...Object.keys(devDependencies || {}),
+  ...builtinModules,                  // e.g. fs, path
+  ...builtinModules.map(m => `node:${m}`), // e.g. node:fs
 ];
 
-build({
+await build({
   entryPoints: ['src/index.ts'],
   bundle: true,
   platform: 'node',
@@ -20,5 +20,5 @@ build({
   outfile: 'build/index.js',
   sourcemap: true,
   tsconfig: 'tsconfig.json',
-  external, // mark deps and core modules external
-}).catch(() => process.exit(1));
+  external: externals,
+});

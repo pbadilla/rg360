@@ -1,28 +1,23 @@
-import { build } from 'esbuild';
-import { builtinModules } from 'node:module';
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const pkg = require('./package.json');
+import esbuild from "esbuild";
+import pkg from "./package.json" assert { type: "json" };
+import { builtinModules } from "module";
 
 const externals = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.devDependencies || {}),
   ...builtinModules,
   ...builtinModules.map(m => `node:${m}`),
-  'node-fetch',
-  'combined-stream'
+  "form-data",
+  "combined-stream"
 ];
 
-
-await build({
-  entryPoints: ['src/index.ts'],
+esbuild.build({
+  entryPoints: ["src/index.ts"],
   bundle: true,
-  platform: 'node',
-  format: 'esm',
-  target: 'node22',
-  outfile: 'build/index.js',
+  platform: "node",
+  target: "node22",
+  format: "esm",
+  outfile: "build/index.js",
   sourcemap: true,
-  tsconfig: 'tsconfig.json',
-  external: externals, 
-  logLevel: 'info'
+  external: externals,
 });

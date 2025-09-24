@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node build/index.js",
-    "build": "tsup",
+    "build": "tsc --project tsconfig.json",
     "build:api": "tsc --project tsconfig.json",
     "postbuild:api": "tsc-alias",
     "preview:api": "pnpm run build:api && pnpm run postbuild:api && pnpm run start",

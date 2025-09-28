@@ -5,6 +5,7 @@ import basicAuth from 'basic-auth-header';
 import { removeFirstRow } from '@/utils/removeFirstRow';
 import { CsvRow } from '@/types/products';
 import { formatPriceForMongoDB } from '@/utils/prices';
+import { getCategoriesFromMotherRef, getCategoryFromMotherRef } from '@/utils/csv/univerSkateMapping';
 
 export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
   const url = 'https://csvshops.universkate.com/UniverskateStock.csv';
@@ -40,6 +41,16 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
           const retailPrice = formatPriceForMongoDB(raw['RETAIL PRICE'])
           const purchasePrice = formatPriceForMongoDB(raw['PURCHASE PRICE'])
 
+          const category = getCategoryFromMotherRef(raw["MOTHER REF"]);
+          const categories = getCategoriesFromMotherRef(raw["MOTHER REF"]);
+
+          const images = Array.from(new Set(
+            (raw['PICTURES'] as string)
+              .split(';')         // or ',' if CSV uses commas
+              .map((url: string) => url.trim())
+              .filter((url: string) => url.length > 0)
+          ));
+          
           return {
             reference: raw['PRODUCT REF'],
             ean13: raw['EAN13 CODE'],
@@ -52,7 +63,7 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
               benefit_percentage: 0,
             },
             stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
-            image: raw['PICTURES'],
+            image: images,
             weight: '0',
             // Uppercase aliases for backward compatibility
             Reference: raw['PRODUCT REF'],
@@ -64,9 +75,9 @@ export async function fetchUniverskateCSV(): Promise<CsvRow[]> {
             },
             Stock: parseInt(raw['AVAILABLE STOCK'] || '0', 10),
             Name: raw['PRODUCT DESCRIPTION'],
-            Image: raw['PICTURES'],
+            Image: images,
             Brand: raw['BRAND'],
-            Categories: raw['CATEGORIES'],
+            Categories: category || categories,
             Family: raw['MOTHER REF'],
             Weight: '0',
           };

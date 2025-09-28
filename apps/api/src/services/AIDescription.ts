@@ -30,17 +30,19 @@ const openaiModels = [
   "gpt-3.5-turbo",
 ];
 
-// Helper: create prompt
+// Helper: create merged prompt
 function createPrompt(product: ProductForDescription) {
   const brand = product.brand ?? "Unknown";
-  const reference = product.reference;
+  const reference = product.reference ?? "N/A";
   const colors = Array.isArray(product.colors) ? product.colors.join(", ") : "N/A";
   const sizes = Array.isArray(product.sizes) ? product.sizes.join(", ") : "N/A";
   const price = typeof product.price === "number" ? product.price : "N/A";
   const stock = typeof product.stock === "number" ? product.stock : "N/A";
 
   return `
-Write a compelling product description using the following details:
+You are an expert e-commerce product data analyst and copywriter.
+
+Given the following product details:
 - Brand: ${brand}
 - Reference: ${reference}
 - EAN: ${product.ean13}
@@ -49,7 +51,19 @@ Write a compelling product description using the following details:
 - Colors: ${colors}
 - Sizes: ${sizes}
 
-Make it natural, persuasive, and ready for an e-commerce product page.
+Tasks:
+1. Generate a concise and attractive product name.
+2. Write a compelling, natural, and persuasive product description (80-120 words) for an e-commerce page.
+3. Extract and enrich key attributes (color, size, material, brand, style, unique features).
+4. Suggest relevant product categories for an online shop.
+
+Return the result as a JSON object with the fields:
+{
+  "name": "...",
+  "description": "...",
+  "attributes": { ... },
+  "categories": ["...", "..."]
+}
 `;
 }
 
@@ -68,8 +82,30 @@ async function safeRun<T>(name: string, fn: () => Promise<T>): Promise<T> {
   }
 }
 
+// JSON parser helper
+function parseJSONSafe(text: string, fallback: ProductForDescription) {
+  try {
+    const parsed = JSON.parse(text);
+    // Ensure fields exist
+    return {
+      name: parsed.name || fallback.reference || "Unknown Product",
+      description: parsed.description || `Premium ${fallback.brand ?? "Unknown"} ${fallback.reference}`,
+      attributes: parsed.attributes || { brand: fallback.brand, colors: fallback.colors, sizes: fallback.sizes },
+      categories: parsed.categories || [],
+    };
+  } catch {
+    // fallback to minimal structure
+    return {
+      name: fallback.reference || "Unknown Product",
+      description: text,
+      attributes: { brand: fallback.brand, colors: fallback.colors, sizes: fallback.sizes },
+      categories: [],
+    };
+  }
+}
+
 // Provider functions
-async function tryOpenAI(product: ProductForDescription): Promise<string> {
+async function tryOpenAI(product: ProductForDescription): Promise<any> {
   if (!openai || (provider !== "auto" && provider !== "openai")) throw new Error("Skipped");
   for (const model of openaiModels) {
     try {
@@ -81,11 +117,11 @@ async function tryOpenAI(product: ProductForDescription): Promise<string> {
             { role: "user", content: createPrompt(product) },
           ],
           temperature: 0.7,
-          max_tokens: 200,
+          max_tokens: 300,
         });
         const text = res.choices?.[0]?.message?.content?.trim();
         if (!text) throw new Error("No text");
-        return text;
+        return parseJSONSafe(text, product);
       });
     } catch {
       continue;
@@ -94,7 +130,7 @@ async function tryOpenAI(product: ProductForDescription): Promise<string> {
   throw new Error("All OpenAI models failed");
 }
 
-async function tryHuggingFace(product: ProductForDescription): Promise<string> {
+async function tryHuggingFace(product: ProductForDescription): Promise<any> {
   if (!hfKey || (provider !== "auto" && provider !== "hf")) throw new Error("Skipped");
   for (const hfModel of hfModels) {
     try {
@@ -104,15 +140,15 @@ async function tryHuggingFace(product: ProductForDescription): Promise<string> {
           headers: { Authorization: `Bearer ${hfKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
             inputs: createPrompt(product),
-            parameters: { max_new_tokens: 200, temperature: 0.7 },
+            parameters: { max_new_tokens: 300, temperature: 0.7 },
             options: { wait_for_model: true, use_cache: true },
           }),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        const text = Array.isArray(data) ? data[0]?.generated_text : data.generated_text;
+        const text = Array.isArray(data as any) ? (data as any)[0]?.generated_text : (data as any).generated_text;
         if (!text) throw new Error("No text");
-        return text.trim();
+        return parseJSONSafe(text, product);
       });
     } catch {
       continue;
@@ -121,32 +157,38 @@ async function tryHuggingFace(product: ProductForDescription): Promise<string> {
   throw new Error("All HuggingFace models failed");
 }
 
-async function tryCohere(product: ProductForDescription): Promise<string> {
+async function tryCohere(product: ProductForDescription): Promise<any> {
   if (!cohere || (provider !== "auto" && provider !== "cohere")) throw new Error("Skipped");
   return safeRun("Cohere", async () => {
-    const res = await cohere.chat({ model: "command", message: createPrompt(product), temperature: 0.7, maxTokens: 200 });
+    const res = await cohere.chat({
+      model: "command",
+      message: createPrompt(product),
+      temperature: 0.7,
+      maxTokens: 300,
+    });
     const text = (res as any)?.text?.trim();
     if (!text) throw new Error("No text");
-    return text;
+    return parseJSONSafe(text, product);
   });
 }
 
-async function tryAI21(product: ProductForDescription): Promise<string> {
+async function tryAI21(product: ProductForDescription): Promise<any> {
   if (!ai21Key || (provider !== "auto" && provider !== "ai21")) throw new Error("Skipped");
   return safeRun("AI21", async () => {
     const res = await fetch("https://api.ai21.com/studio/v1/j2-large/complete", {
       method: "POST",
       headers: { Authorization: `Bearer ${ai21Key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: createPrompt(product), maxTokens: 200 }),
+      body: JSON.stringify({ prompt: createPrompt(product), maxTokens: 300 }),
     });
     const data = await res.json();
-    const text = data?.completions?.[0]?.data?.text || data?.completions?.[0]?.text || "";
+    const completions = Array.isArray((data as any)?.completions) ? (data as any).completions : [];
+    const text = completions[0]?.data?.text || completions[0]?.text || "";
     if (!text) throw new Error("No text");
-    return text;
+    return parseJSONSafe(text, product);
   });
 }
 
-async function tryDeepAI(product: ProductForDescription): Promise<string> {
+async function tryDeepAI(product: ProductForDescription): Promise<any> {
   if (!deepAiKey || (provider !== "auto" && provider !== "deepai")) throw new Error("Skipped");
   return safeRun("DeepAI", async () => {
     const res = await fetch("https://api.deepai.org/api/text-generator", {
@@ -154,14 +196,14 @@ async function tryDeepAI(product: ProductForDescription): Promise<string> {
       headers: { "Api-Key": deepAiKey, "Content-Type": "application/json" },
       body: JSON.stringify({ text: createPrompt(product) }),
     });
-    const data = await res.json();
+    const data = (await res.json()) as { output?: string };
     if (!data.output) throw new Error("No text");
-    return data.output.trim();
+    return parseJSONSafe(data.output.trim(), product);
   });
 }
 
 // Main AI description function
-export async function AIDescription(product: ProductForDescription): Promise<string> {
+export async function AIDescription(product: ProductForDescription): Promise<any> {
   errorLog = []; // reset per call
   const providers = [tryOpenAI, tryCohere, tryHuggingFace, tryAI21, tryDeepAI];
 
@@ -176,5 +218,10 @@ export async function AIDescription(product: ProductForDescription): Promise<str
   }
 
   console.warn("❌ All providers failed:\n" + errorLog.join("\n"));
-  return `Premium ${product.brand ?? "Unknown"} ${product.reference} with excellent quality and design. (Fallback text)`;
+  return {
+    name: product.reference ?? "Unknown Product",
+    description: `Premium ${product.brand ?? "Unknown"} ${product.reference} with excellent quality and design. (Fallback text)`,
+    attributes: { brand: product.brand, colors: product.colors, sizes: product.sizes },
+    categories: [],
+  };
 }

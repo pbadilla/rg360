@@ -13,7 +13,7 @@ export interface CsvRow {
   price?: Price;
   stock?: string | number;
   name: string;
-  image?: string;
+  image?: string | string[];
   brand: string;
   family: string;
   weight?: string;
@@ -30,9 +30,10 @@ export interface CsvRow {
   Price?: Price;
   Stock?: string | number;
   Name?: string;
-  Image?: string;
+  Image?: string | string[];
   Brand?: string;
   Family?: string;
+  Categories?: string | string[];
   Weight?: string;
   Color?: string;
   Size?: string;

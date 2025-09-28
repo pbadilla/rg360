@@ -1,0 +1,620 @@
+{
+    "ABR": [
+        {
+            "name": "ABRASIVE PAD SLIDER HIGH MODEL",
+            "category": "recambios"
+        }
+    ],
+    "AGR": [
+        {
+            "name": "SEBA - BACKSIDE PLATE L",
+            "category": "recambios"
+        }
+    ],
+    "ALN": [
+        {
+            "name": "SEBA - ALLEN KEY BIG 3/16 Red",
+            "category": "recambios"
+        }
+    ],
+    "AXL": [
+        {
+            "name": "SEBA - AXE POUR X SERIES (MALE + FEMALE) X1 Silver",
+            "category": "recambios"
+        }
+    ],
+    "BRK": [
+        {
+            "name": "SEBA - AXE FREIN POUR PLATINES GT X1 + 2VIS Black",
+            "category": "recambios"
+        }
+    ],
+    "BUK": [
+        {
+            "name": "SEBA - DOUBLE STRAP E3 - BLACK - PAIR",
+            "category": "recambios"
+        }
+    ],
+    "CKIT": [
+        {
+            "name": "SEBA CJ CUSTOM KIT",
+            "category": "recambios"
+        }
+    ],
+    "CON": [
+        {
+            "name": "SLALOM CONES PACK x20 Black",
+            "category": "accesorios"
+        }
+    ],
+    "CONDD": [
+        {
+            "name": "SLALOM CONES PACK x20 - DUAL DENSITY Black",
+            "category": "accesorios"
+        }
+    ],
+    "CUF": [
+        {
+            "name": "CUFF BUTTON SET X4 Black",
+            "category": "recambios"
+        }
+    ],
+    "FOLIN": [
+        {
+            "name": "FORYOS - CJ LINERS - BLACK",
+            "category": "accesorios"
+        }
+    ],
+    "FRLAC": [
+        {
+            "name": "FR - LACES - 230mm Black",
+            "category": "recambios"
+        }
+    ],
+    "FRLACM": [
+        {
+            "name": "FR - LACES BLACK - METALLIC TIPS 210mm",
+            "category": "accesorios"
+        }
+    ],
+    "FRABR": [
+        {
+            "name": "FR - SLIDERS - PAIR Black",
+            "category": "recambios"
+        }
+    ],
+    "FRAXL": [
+        {
+            "name": "FR - R2R 2 PIECE ROCKERABLE AXLE x1 Silver",
+            "category": "recambios"
+        }
+    ],
+    "FRBRG": [
+        {
+            "name": "ROULEMENTS FR - TWINCAM x16 ILQ-5",
+            "category": "rodamientos"
+        }
+    ],
+    "FRBUK": [
+        {
+            "name": "FR - METAL TOP BUCKLES (MALE + FEMALE) PAIR 180mm",
+            "category": "recambios"
+        }
+    ],
+    "FRCKIT": [
+        {
+            "name": "FR - CUSTOM KIT 2021",
+            "category": "recambios"
+        }
+    ],
+    "FRCON": [
+        {
+            "name": "FR - CONES PACK - x20 Black",
+            "category": "accesorios"
+        }
+    ],
+    "FRCUF": [
+        {
+            "name": "FR - CUFF BUTTON SET x4 Black",
+            "category": "recambios"
+        }
+    ],
+    "FRDST": [
+        {
+            "name": "FR - DOUBLE STRAP (Old version) L Black",
+            "category": "recambios"
+        }
+    ],
+    "FRFM": [
+        {
+            "name": "FR - FRAMES 325 - 260mm Black",
+            "category": "accesorios"
+        }
+    ],
+    "FRKH": [
+        {
+            "name": "FR - KEY HOLDER - FR LOGO -  Black",
+            "category": "accesorios"
+        }
+    ],
+    "FRLAD": [
+        {
+            "name": "FR - LADDER STRAP FOR DOUBLE STRAP X1 Black 120mm",
+            "category": "recambios"
+        }
+    ],
+    "FRLIN": [
+        {
+            "name": "FR - PREMIUM INSOLES",
+            "category": "recambios"
+        }
+    ],
+    "FRLYC": [
+        {
+            "name": "FR - LYCRA DOWNHILL XL Black",
+            "category": "accesorios"
+        }
+    ],
+    "FRPWST": [
+        {
+            "name": "FR - W POWERSTRAP + LOOP + SCREWS - PAIR S",
+            "category": "recambios"
+        }
+    ],
+    "FRSK": [
+        {
+            "name": "FR - FR J - BLACK",
+            "category": "junior"
+        }
+    ],
+    "FRSO": [
+        {
+            "name": "FR - NANO SPORT SOCKS",
+            "category": "calcetines"
+        }
+    ],
+    "FRSTRP": [
+        {
+            "name": "FR - LADDER STRAP FOR CARBON CUFF x1 210mm",
+            "category": "recambios"
+        }
+    ],
+    "FRWC": [
+        {
+            "name": "FR - WHEEL COVER PAIR Black",
+            "category": "recambios"
+        }
+    ],
+    "FRWL": [
+        {
+            "name": "FR - DOWNTOWN WHEEL 85A - PACK OF 4 Black 76mm",
+            "category": "ruedas"
+        }
+    ],
+    "FRWLPAK": [
+        {
+            "name": "FR - PACK - FREESTYLE FRAMES -URBAN SPEED / SI WHITE WHEELS - ILQ9 90/72 - 237mm",
+            "category": "accesorios"
+        }
+    ],
+    "FRWR": [
+        {
+            "name": "FR - THE REC LONGSLEEVE L Black",
+            "category": "accesorios"
+        }
+    ],
+    "GY": [
+        {
+            "name": "GYRO CRAZY BALL X1 85A Orange 72mm",
+            "category": "ruedas"
+        }
+    ],
+    "GYWL": [
+        {
+            "name": "GYRO - CRAZY BALL WHEEL - 85A X1 72mm White Blue",
+            "category": "ruedas"
+        }
+    ],
+    "INS": [
+        {
+            "name": "SEBA PREMIUM INSOLE GRIS/ROUGE",
+            "category": "recambios"
+        }
+    ],
+    "LIN": [
+        {
+            "name": "SEBA FOOTBED INSOLE",
+            "category": "recambios"
+        }
+    ],
+    "LUWL": [
+        {
+            "name": "LUMINOUS - LED WHEELS - 70x51mm/85A - PACK OF 4 Blue Glow 70x51mm",
+            "category": "ruedas"
+        }
+    ],
+    "MPCWL": [
+        {
+            "name": "MPC - BLACK MAGIC WHEELS - X Firm x 1 100mm",
+            "category": "patines-rollerblade"
+        }
+    ],
+    "OYFM": [
+        {
+            "name": "OYSI - INLINE SKATING CHASSIS - 281MM Black",
+            "category": "guias"
+        }
+    ],
+    "PRO": [
+        {
+            "name": "SEBA PROTECTIVE PACK x2 (glove & Knee Zip) L",
+            "category": "protecciones"
+        }
+    ],
+    "SABR": [
+        {
+            "name": "SEBA - CJ & SX SHOCK ABSORBER L",
+            "category": "recambios"
+        }
+    ],
+    "SBG": [
+        {
+            "name": "SEBA BACKPACK LARGE Black",
+            "category": "mochilas"
+        }
+    ],
+    "SCRW": [
+        {
+            "name": "SEBA - VIS ABRASIVE PAD FR MALE Black",
+            "category": "recambios"
+        }
+    ],
+    "SFM": [
+        {
+            "name": "SEBA FRAME MARATHON BLACK 100mm",
+            "category": "guias"
+        }
+    ],
+    "SH": [
+        {
+            "name": "SEBA - HOOK L Black",
+            "category": "recambios"
+        }
+    ],
+    "SIC": [
+        {
+            "name": "SEBA ICE FREESTYLE BLADE ONLY - BLACK S",
+            "category": "guias"
+        }
+    ],
+    "SON": [
+        {
+            "name": "SONIC - BEARINGS - ABEC 9 - x16 x16",
+            "category": "accesorios"
+        }
+    ],
+    "SPA": [
+        {
+            "name": "SEBA - SPACER ROCKER POUR PLATINE CJ X16 ROND",
+            "category": "recambios"
+        }
+    ],
+    "SSH": [
+        {
+            "name": "SEBA POCKET SHOES BLACK S Black",
+            "category": "accesorios"
+        }
+    ],
+    "SSK": [
+        {
+            "name": "SEBA GT J BLACK",
+            "category": "patines"
+        }
+    ],
+    "SSPL": [
+        {
+            "name": "SEBA STREET SOUL PLATE L Black",
+            "category": "recambios"
+        }
+    ],
+    "SSSB": [
+        {
+            "name": "SPORT SOCKS NOIR",
+            "category": "calcetines"
+        }
+    ],
+    "STS": [
+        {
+            "name": "SEBA - SPORT TEE SHIRT WOMEN L Black",
+            "category": "camisetas"
+        }
+    ],
+    "THAC": [
+        {
+            "name": "THEM - 908 LINERS - BLACK L",
+            "category": "accesorios"
+        }
+    ],
+    "TSM": [
+        {
+            "name": "SEBA - MEN TEE SHIRT - GREY/PINK L",
+            "category": "camisetas"
+        }
+    ],
+    "TSW": [
+        {
+            "name": "SEBA - WOMEN TEE SHIRT - GREY/PINK M",
+            "category": "camisetas"
+        }
+    ],
+    "WHR": [
+        {
+            "name": "SEBA - RONDELLE POUR VIS DE PLATINE X1 FR2/FRX/FRJ",
+            "category": "recambios"
+        }
+    ],
+    "FRBRK": [
+        {
+            "name": "FR- EZX BRAKE SET Blue",
+            "category": "accesorios"
+        }
+    ],
+    "FRSCRW": [
+        {
+            "name": "FR - SPIN - CUFF SCREW SET - x4 PACK",
+            "category": "recambios"
+        }
+    ],
+    "FDSTBL": [
+        {
+            "name": "SEBA - FEMALE POUR DOUBLE STRAP White",
+            "category": "accesorios"
+        }
+    ],
+    "FRWSH": [
+        {
+            "name": "FR - WASHER FOR CUFF SCREW IGOR & DARIA - x1 Black",
+            "category": "accesorios"
+        }
+    ],
+    "PR": [
+        {
+            "name": "PLASTIC RING FOR CJ STRAP BLACK Black",
+            "category": "accesorios"
+        }
+    ],
+    "FRSKB": [
+        {
+            "name": "FR - FR1 INTUITION - BOOT ONLY - BLACK",
+            "category": "freeskate"
+        }
+    ],
+    "FLFM": [
+        {
+            "name": "FLAT - AP FRAMES - 267mm Black",
+            "category": "guias"
+        }
+    ],
+    "21FRSK": [
+        {
+            "name": "FR - SL - 80 - BLACK",
+            "category": "accesorios"
+        }
+    ],
+    "21FRSKB": [
+        {
+            "name": "FR - SL BOOT ONLY - BLACK - 2021",
+            "category": "accesorios"
+        }
+    ],
+    "20SSK": [
+        {
+            "name": "SEBA - E3 80 PREMIUM - BLACK",
+            "category": "freeskate"
+        }
+    ],
+    "22SSK": [
+        {
+            "name": "SEBA - HIGH LIGHT 80 - BLACK",
+            "category": "slalom"
+        }
+    ],
+    "21SSK": [
+        {
+            "name": "SEBA - TRIX PRO - BLACK",
+            "category": "patines"
+        }
+    ],
+    "son": [
+        {
+            "name": "SONIC - BEARINGS - SPEED - x16 x16",
+            "category": "accesorios"
+        }
+    ],
+    "INT": [
+        {
+            "name": "INTUITION - SKATE PREMIUM LINERS",
+            "category": "botines-"
+        }
+    ],
+    "FRSPL": [
+        {
+            "name": "FR - UFR SOUL PLATES - WHITE White SHELL SIZE 2 -",
+            "category": "recambios"
+        }
+    ],
+    "THSK": [
+        {
+            "name": "THEM - 909 - SUMMER 21 - BLACK-GREY - FULL SKATE XS",
+            "category": "patines"
+        }
+    ],
+    "LUSK": [
+        {
+            "name": "LUMINOUS - RAY - CLEAR 36 4 Wheels Clear White Flat",
+            "category": "freeskate"
+        }
+    ],
+    "LUWR": [
+        {
+            "name": "LUMINOUS - CLASSIC GLOW TSHIRT - WOMAN - BLACK S",
+            "category": "camisetas"
+        }
+    ],
+    "LUWB": [
+        {
+            "name": "LUMINOUS - WRIST BAND White Glow 180mm",
+            "category": "accesorios"
+        }
+    ],
+    "WIFM": [
+        {
+            "name": "WIZARD - PR - SILVER 308mm 5 Wheels",
+            "category": "componentes-y-recamb"
+        }
+    ],
+    "LUSC": [
+        {
+            "name": "LUMINOUS - 50 - FOLDABLE LED SCOOTER Black",
+            "category": "accesorios"
+        }
+    ],
+    "22FRSK": [
+        {
+            "name": "FR - FR1 80 - BLACK 34 4 Wheels Black Flat",
+            "category": "freeskate"
+        }
+    ],
+    "FRSPA": [
+        {
+            "name": "FR - ALUMINIUM SPACER - x1 10.00mm",
+            "category": "accesorios"
+        }
+    ],
+    "SBKP": [
+        {
+            "name": "JUNIOR STRAP BUCKLE PAD WHITE X4 White",
+            "category": "accesorios"
+        }
+    ],
+    "SWL": [
+        {
+            "name": "SEBA E3 BLACK WHEEL 80/82A BLACK HUB Black 80mm",
+            "category": "accesorios"
+        }
+    ],
+    "LUSCRW": [
+        {
+            "name": "LUMINOUS - RAY BOOT MOUNTING SCREW - x1 Black",
+            "category": "accesorios"
+        }
+    ],
+    "LUSLD": [
+        {
+            "name": "LUMINOUS - SLIDERS - RAY - WHITE GLOW White",
+            "category": "accesorios"
+        }
+    ],
+    "LUSTRP": [
+        {
+            "name": "LUMINOUS - RAY LADDER STRAP FOR MIDDLE STRAP - WHITE GLOW 200mm",
+            "category": "recambios"
+        }
+    ],
+    "23SSK": [
+        {
+            "name": "SEBA - E3 80 PREMIUM - BLUEBERRY 36 4 Wheels BLUEBERRY Rockerable",
+            "category": "freeskate"
+        }
+    ],
+    "22FRSKB": [
+        {
+            "name": "FR - UFR STREET - AP - INTUITION - BOOT - BLACK - 2023 35-36 Black",
+            "category": "freeskate"
+        }
+    ],
+    "ALND": [
+        {
+            "name": "DOUBLE FUNCTION ALLEN KEY 4mm Black 4mm",
+            "category": "accesorios"
+        }
+    ],
+    "23FRSK": [
+        {
+            "name": "FR - SPIN - BLACK - NEW 2023 MODEL 35 4 Wheels Black Rockerable",
+            "category": "slalom"
+        }
+    ],
+    "LUAXL": [
+        {
+            "name": "LUMINOUS - AXLE FOR RAY FRAME - 35mm - BLACK Black",
+            "category": "accesorios"
+        }
+    ],
+    "LUBUK": [
+        {
+            "name": "LUMINOUS - RAY RATCHET BUCKLE - BLACK Black",
+            "category": "accesorios"
+        }
+    ],
+    "OYAXL": [
+        {
+            "name": "OYSI - AXLE HARDWARE SET - BLACK Black",
+            "category": "guias"
+        }
+    ],
+    "FRTO": [
+        {
+            "name": "FR - BEARING PRESS AND PULLER Blue",
+            "category": "accesorios"
+        }
+    ],
+    "FRBG": [
+        {
+            "name": "FR - SKATES BACKPACK 25L - BLACK Black 25L",
+            "category": "mochilas"
+        }
+    ],
+    "EOBRK": [
+        {
+            "name": "EO - UNIVERSAL ADD ON BRAKE - UNIT ONE SIZE",
+            "category": "accesorios"
+        }
+    ],
+    "EOFM": [
+        {
+            "name": "EO - CARBON FRAMES - 3X125 - 195/165 - CARBON 11.8",
+            "category": "accesorios"
+        }
+    ],
+    "EOLYC": [
+        {
+            "name": "EO - SKINSUIT TEAM- WHITE 4XS",
+            "category": "accesorios"
+        }
+    ],
+    "EOLAC": [
+        {
+            "name": "EO - WAXED LACES - 160cm - PAIR Black",
+            "category": "accesorios"
+        }
+    ],
+    "LUFM": [
+        {
+            "name": "NYFI ROLLER SKATE FRAMES - BLACK Black 239mm",
+            "category": "accesorios"
+        }
+    ],
+    "WIWL": [
+        {
+            "name": "WIZARD - ADVANCED - WHEELS 85A 100/76mm",
+            "category": "patines-rollerblade"
+        }
+    ],
+    "EOWL": [
+        {
+            "name": "EO - WHEELS - GHOST /85A - NATURAL x1 85A 84mm",
+            "category": "accesorios"
+        }
+    ]
+}

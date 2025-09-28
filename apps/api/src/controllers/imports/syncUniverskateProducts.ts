@@ -19,6 +19,8 @@ export async function syncUniverskateProducts(req: Request, res: Response) {
     // 2️⃣ Group by family/prefix
     const grouped = groupByPrefix(rows);
 
+    console.log("grouped", grouped);
+
     // 3️⃣ Compare with DB
     const { newProducts, updatedProducts, unchangedProducts } = await compareWithDB(grouped);
 
@@ -32,53 +34,60 @@ export async function syncUniverskateProducts(req: Request, res: Response) {
         .filter((p): p is GroupedProduct => Boolean(p)),
     ];
 
-    // 5️⃣ Generate AI descriptions in parallel with concurrency control
-    await Promise.all(
-      toEnrich.map(product =>
-        limit(async () => {
-          const productForAI: ProductForDescription = {
-            reference: product.reference,
-            brand: product.brand,
-            colors: product.colors,
-            sizes: product.sizes,
-            ean13: product.ean13,
-            price: {
-              pvp: product.price?.pvp ?? 0,
-              pv: product.price?.pv ?? 0,
-              benefit_percentage: product.price?.benefit_percentage ?? 0,
-            },
-            stock: product.stock ?? 0,
-          };
+  // 5️⃣ Generate AI descriptions in parallel with concurrency control
+  await Promise.all(
+    toEnrich.map(product =>
+      limit(async () => {
+        // Skip AI if product already has a description
+        const diffSummary = [...newProducts, ...updatedProducts].find(d => d.reference === product.reference);
+        if (diffSummary?.hasDescriptionInDB) {
+          // already has DB or JSON description
+          return;
+        }
 
-          product.description = await getOrGenerateDescriptionAI(
-            product.reference,
-            product.description,
-            productForAI
-          );
-        })
-      )
-    );
+        const productForAI: ProductForDescription = {
+          reference: product.reference,
+          brand: product.brand,
+          colors: product.colors,
+          sizes: product.sizes,
+          ean13: product.ean13,
+          price: {
+            pvp: product.price?.pvp ?? 0,
+            pv: product.price?.pv ?? 0,
+            benefit_percentage: product.price?.benefit_percentage ?? 0,
+          },
+              stock: product.stock ?? 0,
+            };
 
-    // 6️⃣ Save enriched products back to DB
-    await saveProducts(toEnrich);
+            product.description = await getOrGenerateDescriptionAI(
+              product.reference,
+              product.description,
+              productForAI
+            );
+          })
+        )
+      );
 
-    // 7️⃣ Send email notification
-    const summary = {
-      new: newProducts.length,
-      updated: updatedProducts.length,
-      unchanged: unchangedProducts.length,
-    };
+      // 6️⃣ Save enriched products back to DB
+      await saveProducts(toEnrich);
 
-    // Build a readable change list
-    const changesReport = `
-    New products:
-    ${newProducts.map(p => `- ${p.reference}`).join("\n")}
+      // 7️⃣ Send email notification
+      const summary = {
+        new: newProducts.length,
+        updated: updatedProducts.length,
+        unchanged: unchangedProducts.length,
+      };
 
-    Updated products:
-    ${updatedProducts.map(
-      p => `- ${p.reference}: stock ${p.oldStock} → ${p.newStock}, price ${p.oldPrice} → ${p.newPrice}`
-    ).join("\n")}
-    `;
+      // Build a readable change list
+      const changesReport = `
+      New products:
+      ${newProducts.map(p => `- ${p.reference}`).join("\n")}
+
+      Updated products:
+      ${updatedProducts.map(
+        p => `- ${p.reference}: stock ${p.oldStock} → ${p.newStock}, price ${p.oldPrice} → ${p.newPrice}`
+      ).join("\n")}
+      `;
 
     await transporter.sendMail({
       from: '"Import Universkate Products" <no-reply@rollergrind360.com>',

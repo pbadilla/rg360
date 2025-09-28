@@ -4,6 +4,7 @@ import { GroupedProduct } from '@/types/products';
 import isEqual from 'lodash/isEqual';
 import fs from 'fs';
 import path from 'path';
+import descriptionsMap from '@/utils/json/categories.json';
 
 type DiffSummary = {
   reference: string;
@@ -34,20 +35,26 @@ export async function compareWithDB(grouped: GroupedProduct[], saveToFile = true
   const unchangedProducts: DiffSummary[] = [];
 
   for (const product of grouped) {
+    
     const dbProduct = dbMap.get(product.reference);
+    const descriptionFromJSON = '';
+
+    // Assign description if DB doesn’t already have one
+    if (!dbProduct?.description && descriptionFromJSON) {
+    product.description = descriptionFromJSON;
+    }
 
     // Case: New product (not in DB)
     if (!dbProduct) {
       newProducts.push({
         reference: product.reference,
         descriptionInCSV: product.description ?? '',
-        categoryInCSV: product.category ?? '',
         variationSummary: {
           sizes: product.sizes || [],
           colors: product.colors || [],
         },
-        hasDescriptionInDB: false,
-        hasCategoryInDB: false,
+        hasDescriptionInDB: Boolean(product.description), // will be true if JSON provided it
+        hasCategoryInDB: Boolean(product.category),
         diffs: ['newProduct'],
       });
       continue;
@@ -74,7 +81,7 @@ export async function compareWithDB(grouped: GroupedProduct[], saveToFile = true
         sizes: product.sizes || [],
         colors: product.colors || [],
       },
-      hasDescriptionInDB: Boolean(dbProduct.description),
+      hasDescriptionInDB: Boolean(dbProduct.description || descriptionFromJSON),
       hasCategoryInDB: Boolean(dbProduct.category),
       diffs,
     };

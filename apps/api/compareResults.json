@@ -1,5 +1,51 @@
 {
-  "newProducts": [],
+  "newProducts": [
+    {
+      "reference": "MAWL-HO-80-M",
+      "descriptionInCSV": "",
+      "variationSummary": {
+        "sizes": [
+          "8"
+        ],
+        "colors": []
+      },
+      "hasDescriptionInDB": false,
+      "hasCategoryInDB": false,
+      "diffs": [
+        "newProduct"
+      ]
+    },
+    {
+      "reference": "MAWL-HO-84-M",
+      "descriptionInCSV": "",
+      "variationSummary": {
+        "sizes": [
+          "M"
+        ],
+        "colors": []
+      },
+      "hasDescriptionInDB": false,
+      "hasCategoryInDB": false,
+      "diffs": [
+        "newProduct"
+      ]
+    },
+    {
+      "reference": "MAWL-HO-90-M",
+      "descriptionInCSV": "",
+      "variationSummary": {
+        "sizes": [
+          "M"
+        ],
+        "colors": []
+      },
+      "hasDescriptionInDB": false,
+      "hasCategoryInDB": false,
+      "diffs": [
+        "newProduct"
+      ]
+    }
+  ],
   "updatedProducts": [
     {
       "reference": "ABR-SH-BK-2-4",
@@ -24,6 +70,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -40,7 +87,6 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
         "variations"
@@ -79,6 +125,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -98,6 +145,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -117,6 +165,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -136,6 +185,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -154,6 +204,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -171,8 +222,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -195,6 +248,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -213,6 +267,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -231,6 +286,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -293,6 +349,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -321,6 +378,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -343,6 +401,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -372,6 +431,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -398,6 +458,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -422,8 +483,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -459,6 +522,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -486,6 +550,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -507,6 +572,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -534,6 +600,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -559,6 +626,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -629,6 +697,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -647,6 +716,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -685,6 +755,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -761,6 +832,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -790,6 +862,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -806,6 +879,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -844,6 +918,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -862,6 +937,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -880,6 +956,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -984,6 +1061,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1000,8 +1078,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1020,6 +1100,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1038,6 +1119,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1057,6 +1139,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1098,6 +1181,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1114,8 +1198,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1135,6 +1221,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1151,8 +1238,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1172,6 +1261,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1190,6 +1280,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1209,6 +1300,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1228,6 +1320,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1248,6 +1341,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1268,6 +1362,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1288,6 +1383,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1308,6 +1404,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1327,8 +1424,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1350,6 +1449,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1371,6 +1471,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1396,6 +1497,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1412,6 +1514,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1428,6 +1531,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1462,8 +1566,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1482,6 +1588,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1502,6 +1609,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1538,6 +1646,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1556,8 +1665,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1577,6 +1688,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1613,6 +1725,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1651,6 +1764,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1667,8 +1781,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1696,6 +1812,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1720,6 +1837,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1743,6 +1861,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1759,8 +1878,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1780,6 +1901,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1799,6 +1921,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1817,6 +1940,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1852,8 +1976,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1870,6 +1996,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -1890,6 +2017,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1906,8 +2034,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1924,8 +2054,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1948,6 +2080,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1969,6 +2102,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -1990,6 +2124,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2011,6 +2146,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2032,6 +2168,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2051,8 +2188,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2074,6 +2213,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2095,6 +2235,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2114,8 +2255,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2137,6 +2280,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2158,6 +2302,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2181,6 +2326,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2218,6 +2364,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2235,8 +2382,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2257,8 +2406,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2279,6 +2430,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2293,6 +2445,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2313,6 +2466,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2334,6 +2488,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2357,6 +2512,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2379,6 +2535,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2395,6 +2552,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2427,6 +2585,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2445,6 +2604,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2461,6 +2621,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2491,6 +2652,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2507,6 +2669,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2534,6 +2697,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2548,6 +2712,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2564,6 +2729,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2585,6 +2751,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2601,6 +2768,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -2619,6 +2787,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2640,6 +2809,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2670,6 +2840,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2686,6 +2857,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2709,6 +2881,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2734,6 +2907,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2750,6 +2924,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2769,6 +2944,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2861,6 +3037,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2880,6 +3057,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2896,8 +3074,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2935,6 +3115,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2953,6 +3134,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2975,6 +3157,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -2994,6 +3177,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3013,6 +3197,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3088,6 +3273,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3109,6 +3295,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3125,6 +3312,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3144,6 +3332,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3162,6 +3351,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3178,8 +3368,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3201,6 +3393,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3223,6 +3416,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3260,6 +3454,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3281,6 +3476,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3302,6 +3498,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3323,6 +3520,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3344,6 +3542,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3360,6 +3559,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -3376,6 +3576,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -3490,6 +3691,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3506,8 +3708,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3529,6 +3733,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3548,6 +3753,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3602,6 +3808,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3634,6 +3841,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -3659,6 +3867,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3757,6 +3966,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -3795,6 +4005,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -3998,6 +4209,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -4084,6 +4296,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4150,6 +4363,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -4189,8 +4403,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4223,6 +4439,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4287,6 +4504,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -4537,6 +4755,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -4559,6 +4778,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4630,8 +4850,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4651,8 +4873,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4672,6 +4896,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4693,6 +4918,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4714,6 +4940,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4735,6 +4962,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4756,6 +4984,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4777,6 +5006,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4798,6 +5028,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4819,6 +5050,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4840,6 +5072,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4861,6 +5094,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4882,6 +5116,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4900,6 +5135,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4919,6 +5155,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4938,6 +5175,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4958,6 +5196,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -4979,6 +5218,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5000,6 +5240,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5021,6 +5262,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5042,6 +5284,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5063,6 +5306,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5084,6 +5328,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5105,6 +5350,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5126,6 +5372,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5147,6 +5394,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5174,6 +5422,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5195,6 +5444,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5216,6 +5466,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5255,6 +5506,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5276,6 +5528,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5297,6 +5550,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5315,6 +5569,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5331,6 +5586,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5345,6 +5601,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -5401,6 +5658,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -5424,6 +5682,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5445,6 +5704,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5464,6 +5724,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5480,8 +5741,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5503,6 +5766,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5524,6 +5788,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5558,6 +5823,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5596,6 +5862,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5616,6 +5883,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5637,6 +5905,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5658,6 +5927,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5679,6 +5949,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5700,8 +5971,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5728,6 +6001,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5770,6 +6044,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5795,6 +6070,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5839,6 +6115,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5909,6 +6186,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5928,6 +6206,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5949,6 +6228,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5968,6 +6248,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -5989,6 +6270,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6005,6 +6287,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6041,8 +6324,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6066,6 +6351,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6087,6 +6373,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6115,6 +6402,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6131,6 +6419,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6167,6 +6456,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6187,6 +6477,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6208,6 +6499,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6227,6 +6519,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6248,6 +6541,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6269,6 +6563,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6290,6 +6585,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6311,6 +6607,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6327,6 +6624,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6350,6 +6648,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6387,6 +6686,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6412,6 +6712,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6438,6 +6739,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6463,6 +6765,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6486,6 +6789,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6510,6 +6814,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6551,8 +6856,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6585,8 +6892,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6603,6 +6912,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -6627,6 +6937,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6645,6 +6956,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6680,6 +6992,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6696,6 +7009,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6732,6 +7046,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6821,6 +7136,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6857,6 +7173,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6878,6 +7195,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6899,6 +7217,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6916,8 +7235,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6937,6 +7258,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6958,6 +7280,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -6990,6 +7313,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7012,6 +7336,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7048,6 +7373,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7068,6 +7394,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7089,6 +7416,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7112,6 +7440,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7135,6 +7464,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7158,6 +7488,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7192,6 +7523,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7226,6 +7558,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7244,6 +7577,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7285,6 +7619,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7306,6 +7641,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7496,6 +7832,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7517,6 +7854,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7538,6 +7876,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7559,6 +7898,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7580,6 +7920,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7601,6 +7942,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7654,6 +7996,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7713,6 +8056,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7747,6 +8091,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7797,6 +8142,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7851,6 +8197,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7893,6 +8240,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7909,6 +8257,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7941,6 +8290,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -7962,8 +8312,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -7985,6 +8337,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8030,6 +8383,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8044,6 +8398,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -8064,6 +8419,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8085,6 +8441,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8103,6 +8460,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8124,6 +8482,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8145,6 +8504,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8161,8 +8521,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8179,8 +8541,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8197,8 +8561,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8215,8 +8581,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8231,8 +8599,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8302,6 +8672,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8320,6 +8691,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8336,8 +8708,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8360,6 +8734,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8394,6 +8769,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8412,6 +8788,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8430,6 +8807,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8448,6 +8826,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8464,6 +8843,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8482,6 +8862,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8502,6 +8883,7 @@
         "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8527,6 +8909,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8551,6 +8934,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8575,6 +8959,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8596,6 +8981,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8617,6 +9003,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8638,6 +9025,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8675,6 +9063,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8694,6 +9083,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8713,6 +9103,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8734,6 +9125,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8750,6 +9142,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -8766,6 +9159,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -8828,6 +9222,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8849,6 +9244,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8868,6 +9264,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8887,6 +9284,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8908,6 +9306,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8927,6 +9326,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8948,6 +9348,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8969,6 +9370,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -8989,6 +9391,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9009,6 +9412,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9083,6 +9487,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9104,6 +9509,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9122,6 +9528,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9138,8 +9545,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9156,8 +9565,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9177,6 +9588,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9198,6 +9610,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9214,6 +9627,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9253,6 +9667,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9272,6 +9687,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9293,6 +9709,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9327,6 +9744,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -9348,6 +9766,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9369,6 +9788,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9408,6 +9828,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9501,6 +9922,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9522,6 +9944,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9536,6 +9959,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -9576,6 +10000,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9600,6 +10025,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9624,6 +10050,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9640,6 +10067,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9659,24 +10087,7 @@
       "diffs": [
         "description",
         "category",
-        "variations"
-      ]
-    },
-    {
-      "reference": "FRSCRW-EO-13-SV",
-      "descriptionInCSV": "",
-      "categoryInCSV": "",
-      "variationSummary": {
-        "sizes": [
-          "4"
-        ],
-        "colors": []
-      },
-      "hasDescriptionInDB": true,
-      "hasCategoryInDB": true,
-      "diffs": [
-        "description",
-        "category",
+        "images",
         "variations"
       ]
     },
@@ -9693,6 +10104,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9711,6 +10123,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9729,6 +10142,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9748,6 +10162,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9785,6 +10200,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9840,6 +10256,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9859,6 +10276,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9893,6 +10311,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -9970,6 +10389,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -9991,6 +10411,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10025,6 +10446,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -10048,6 +10470,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10069,6 +10492,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10141,6 +10565,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -10164,8 +10589,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10185,8 +10612,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10206,8 +10635,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10228,6 +10659,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10248,6 +10680,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10268,6 +10701,7 @@
         "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10285,8 +10719,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10308,6 +10744,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10349,6 +10786,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10368,8 +10806,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10389,8 +10829,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10410,8 +10852,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10433,6 +10877,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10454,6 +10899,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10474,6 +10920,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10492,6 +10939,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10532,6 +10980,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10571,6 +11020,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10595,6 +11045,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10614,8 +11065,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10635,6 +11088,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10654,6 +11108,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10675,6 +11130,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10694,8 +11150,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10717,6 +11175,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10738,6 +11197,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10758,6 +11218,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10774,8 +11235,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10797,6 +11260,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10831,6 +11295,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -10852,8 +11317,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10875,6 +11342,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10894,6 +11362,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10913,8 +11382,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10936,6 +11407,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10957,6 +11429,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -10978,6 +11451,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11021,6 +11495,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11049,6 +11524,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11074,8 +11550,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11097,9 +11575,9 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11116,8 +11594,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "price",
         "variations"
       ]
     },
@@ -11134,6 +11614,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -11152,6 +11633,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -11170,6 +11652,7 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
         "variations"
@@ -11225,6 +11708,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11246,6 +11730,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11265,6 +11750,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11286,6 +11772,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11302,7 +11789,6 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
-        "stock",
         "description",
         "category",
         "variations"
@@ -11413,6 +11899,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11450,6 +11937,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11473,6 +11961,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11492,6 +11981,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11513,6 +12003,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11532,8 +12023,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11555,6 +12048,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11574,8 +12068,10 @@
       "hasDescriptionInDB": true,
       "hasCategoryInDB": true,
       "diffs": [
+        "stock",
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11597,6 +12093,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },
@@ -11617,6 +12114,7 @@
       "diffs": [
         "description",
         "category",
+        "images",
         "variations"
       ]
     },

@@ -6,3 +6,5 @@ export { default as deleteProductById } from './deleteProductById';
 export { default as deleteAllProducts } from './deleteAllProducts';
 export { default as updateProductById } from './updateProductById';
 export { default as groupProductsByField } from './groupProductsByField';
+export { default as resetProductField } from './resetProductField';
+export { default as resetFieldForAllProducts } from './resetFieldsForAllproducts';

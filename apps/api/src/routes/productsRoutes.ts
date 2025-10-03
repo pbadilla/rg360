@@ -8,7 +8,9 @@ import {
   getProductById,
   deleteAllProducts,
   deleteProductById,
-  updateProductById
+  updateProductById, 
+  resetProductField,
+  resetFieldForAllProducts
 } from '@/controllers/products';
 
 import { Product } from '@/types/product';
@@ -51,10 +53,18 @@ router.post('/product', async (req: Request, res: Response) => {
 router.get('/', getAllProducts);
 router.get('/grouped', getAllProductsGrouped);
 router.get('/group-by/:field', groupProductsByField);
+
 router.post('/', addProduct);
 router.patch('/:id', updateProductById);
 router.get('/:productId', getProductById);
+
+// DELETE
 router.delete('/:productId', deleteProductById);
 router.delete('/', deleteAllProducts);
+// :productId/field/:fieldName
+router.delete('/:productId/field/:fieldName', resetProductField);
+
+// PATCH /reset/:fieldName
+router.patch('/reset/:fieldName', resetFieldForAllProducts);
 
 export default router;

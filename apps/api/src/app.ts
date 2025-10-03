@@ -30,6 +30,7 @@ import wishlistRoutes from '@/routes/wishListRoutes';
 import importRoutes from '@/routes/importRoutes';
 import importUniverskateRoutes from '@/routes/importUniverskateRoutes';
 import importRollerbladeRoutes from '@/routes/importRollerbladeRoutes';
+import enrichUniverskateImportRoutes from '@/routes/enrichUniverskateImportRoutes';
 
 
 const app = express();
@@ -41,8 +42,10 @@ app.use(requestLogger);
 app.use(corsMiddleware);
 app.use(performanceLogger);
 
-// ✅ Routes
+// Ensure OPTIONS preflight requests are handled globally
+app.options(/.*/, corsMiddleware);
 
+// ✅ Routes
 app.use('/abandonedCarts', abandonedCartsRoutes);
 app.use('/auth', authRoutes);
 app.use('/carriers', carrierRoutes);
@@ -66,6 +69,8 @@ app.use('/wishlist', wishlistRoutes);
 app.use('/importUniverskate', importUniverskateRoutes);
 app.use('/importRollerblade', importRollerbladeRoutes);
 app.use('/import', importRoutes);
+
+app.use('/enrichUniverskateImport', enrichUniverskateImportRoutes)
 
 // ✅ Swagger API docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

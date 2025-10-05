@@ -70,7 +70,7 @@ app.use('/importUniverskate', importUniverskateRoutes);
 app.use('/importRollerblade', importRollerbladeRoutes);
 app.use('/import', importRoutes);
 
-app.use('/enrichUniverskateImport', enrichUniverskateImportRoutes)
+app.use('/enrichProducts', enrichUniverskateImportRoutes)
 
 // ✅ Swagger API docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

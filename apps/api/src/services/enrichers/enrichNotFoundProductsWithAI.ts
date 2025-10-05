@@ -31,7 +31,7 @@ export async function enrichNotFoundProductsWithAI() {
 
   for (const batch of batches) {
     await Promise.all(
-      batch.map(async (product) => {
+      batch.map(async (product: any) => {
         try {
           let aiData;
           let attempts = 0;

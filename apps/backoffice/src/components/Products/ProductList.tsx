@@ -24,6 +24,7 @@ import { Product } from "@/types/product";
 import ProductCard from "./ProductCard";
 import ProductEditDialog from "./ProductEditDialog";
 import ProductTable from "./ProductTable";
+import BrandPills from "../common/BrandPills";
 import { BrandFilterDropdown } from "../ui/BrandFilterDropdown";
 import ViewToggle from "../ViewToggle";
 
@@ -161,6 +162,11 @@ const ProductList: React.FC = () => {
               />
             </div>
           </div>
+                                    {/* Pills below filter bar */}
+                                    <BrandPills 
+              selectedBrands={selectedBrands} 
+              onRemove={toggleBrand} 
+            />
         </div>
       </div>
 

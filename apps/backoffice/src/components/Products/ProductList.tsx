@@ -48,6 +48,9 @@ const ProductList: React.FC = () => {
     brandsList,
     selectedBrands,
     setSelectedBrands,
+    missingDescriptions,
+    showMissingDescriptions,
+    setShowMissingDescriptions,
   } = useProductStore();
 
   const productSortOptions = [
@@ -138,7 +141,14 @@ const ProductList: React.FC = () => {
       {/* Header: Search + Add + View + Sort */}
       <div className="py-6 px-4 sm:px-6 bg-primary/5 border-b">
         <div className="flex flex-col space-y-5">
-          <h1 className="text-3xl font-semibold tracking-tight animate-slide-down">Products</h1>
+        <h1 className="text-3xl font-semibold tracking-tight animate-slide-down flex items-center gap-2">
+          Products
+          {missingDescriptions > 0 && (
+            <span className="px-2 py-0.5 text-sm bg-red-100 text-red-700 rounded-full">
+              {missingDescriptions} problems with descriptions
+            </span>
+          )}
+        </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
             <div className="flex items-center gap-2">
               <SearchInput searchTerm={searchTerm} onSearch={setSearchTerm} placeholder="Search products..." className="w-[500px]" />
@@ -158,16 +168,31 @@ const ProductList: React.FC = () => {
                 sortConfig={sortConfig}
                 onSortChange={setSortConfig}
                 sortOptions={[...productSortOptions]}
-                label="Sort products by:"
+                label="Sort by:"
               />
             </div>
           </div>
-                                    {/* Pills below filter bar */}
-                                    <BrandPills 
+          {/* Pills below filter bar */}
+          <BrandPills 
               selectedBrands={selectedBrands} 
               onRemove={toggleBrand} 
             />
         </div>
+      </div>
+
+      <div className="flex gap-2 border-b pb-2">
+        <Button
+          variant={!showMissingDescriptions ? "default" : "ghost"}
+          onClick={() => setShowMissingDescriptions(false)}
+        >
+          All Products
+        </Button>
+        <Button
+          variant={showMissingDescriptions ? "default" : "ghost"}
+          onClick={() => setShowMissingDescriptions(true)}
+        >
+          Missing Descriptions ({missingDescriptions})
+        </Button>
       </div>
 
       {/* Product grid/table */}

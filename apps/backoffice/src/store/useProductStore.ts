@@ -48,6 +48,8 @@ export const useProductStore = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [missingDescriptions, setMissingDescriptions] = useState(0);
+  const [showMissingDescriptions, setShowMissingDescriptions] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
 
@@ -55,13 +57,20 @@ export const useProductStore = () => {
     queryKey: `products-${currentPage}-${pageSize}`,
     fetchFn: async () => {
       const res = await api.get("/products", {
-        params: { page: currentPage, pageSize },
+        params: { 
+          page: currentPage, 
+          pageSize,
+          missingDescription: showMissingDescriptions ? true : undefined,
+        },
       });
 
       const products = res.data.products ?? [];
       const total = res.data.total ?? products.length;
 
       setTotalProducts(total);
+
+      // 👇 capture the backend’s missing count if available
+      setMissingDescriptions(res.data.missingDescriptions ?? 0);
 
       return { data: products, total };
     },
@@ -135,5 +144,10 @@ export const useProductStore = () => {
     isEditing: store.isEditing,
     isDeleting: store.isDeleting,
     isImporting: store.isImporting,
+  
+    // Descriptions
+    missingDescriptions,
+    showMissingDescriptions,
+    setShowMissingDescriptions,
   };
 };
